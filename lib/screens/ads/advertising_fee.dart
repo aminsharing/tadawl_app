@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/adv_fee_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -31,10 +31,11 @@ class AdvertisingFee extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AdsProvider>(builder: (context, advFee, child) {
+    Provider.of<AdvFeeProvider>(context, listen: false).initStateSelected();
+    return Consumer<AdvFeeProvider>(builder: (context, advFee, child) {
 
+      print("AdvertisingFee -> AdvFeeProvider");
 
-      //advFee.initStateSelected();
       var mediaQuery = MediaQuery.of(context);
 
       return WillPopScope(

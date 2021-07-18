@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/provider/test/mutual_provider.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
 class AdInfoWidget extends StatelessWidget {
   AdInfoWidget({Key key, this.adsPage, this.mutualProv}) : super(key: key);
 
-  final AdsProvider adsPage;
+  final AdPageProvider adsPage;
   final MutualProvider mutualProv;
 
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
-    var _phone = Provider.of<UserProvider>(context, listen: false).phone;
+    var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
     var provider = Provider.of<LocaleProvider>(context, listen: false);
     var _lang = provider.locale.toString();
 

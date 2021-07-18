@@ -3,10 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/mainWidgets/image_chat.dart';
 import 'package:tadawl_app/mainWidgets/voice_player.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
 class MessType{
   static String TEXT = 'text';
@@ -35,16 +34,15 @@ class Discussion extends StatelessWidget {
     Provider.of<MsgProvider>(context, listen: false).initScrollDown();
     return Consumer<MsgProvider>(builder: (context, mainChat, child) {
 
-
+      print("Discussion -> MsgProvider");
 
 
       var mediaQuery = MediaQuery.of(context);
       var phone_user;
       // ignore: omit_local_variable_types
       Map data = {};
-      Provider.of<UserProvider>(context, listen: false).getSession();
-      var _phone = Provider
-          .of<UserProvider>(context, listen: false)
+      Provider.of<UserMutualProvider>(context, listen: false).getSession();
+      var _phone = Provider.of<UserMutualProvider>(context, listen: false)
           .phone;
       data = ModalRoute
           .of(context)
@@ -311,9 +309,9 @@ class Discussion extends StatelessWidget {
                                       SizedBox(),
                                       mainChat.recordLengthSec < 10 ?
                                       mainChat.recordLengthMin < 10 ?
-                                      Text("0${mainChat.recordLengthMin}:0${mainChat.recordLengthSec}") :
-                                      Text("${mainChat.recordLengthMin}:0${mainChat.recordLengthSec}") :
-                                      Text("0${mainChat.recordLengthMin}:${mainChat.recordLengthSec}"),
+                                      Text('0${mainChat.recordLengthMin}:0${mainChat.recordLengthSec}') :
+                                      Text('${mainChat.recordLengthMin}:0${mainChat.recordLengthSec}') :
+                                      Text('0${mainChat.recordLengthMin}:${mainChat.recordLengthSec}'),
                                       SizedBox(),
                                       SizedBox(),
                                       Row(

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/screens/ads/main_page.dart';
 import 'package:http/http.dart' as http;
@@ -159,7 +160,9 @@ class GeneralProvider extends ChangeNotifier {
           msg: 'تم إرسال النموذج بنجاح، سيتم التواصل معك بأقرب فرصة.',
           toastLength: Toast.LENGTH_SHORT);
       Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
-      await Navigator.push(
+      Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
+      Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
+      await Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => MainPage()),
       );

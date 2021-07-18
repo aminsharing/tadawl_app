@@ -6,7 +6,6 @@ class CacheMarkerModel extends ChangeNotifier {
   Cache chache = SimpleCache<String, String>(
       storage: InMemoryStorage<String, String>(200));
   void updateCache(BuildContext context, String id_ads) {
-    print("CacheMarkerModel: $context");
     chache.set(id_ads, id_ads);
     notifyListeners();
   }

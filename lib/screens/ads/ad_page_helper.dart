@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
 // import 'package:tadawl_app/models/AdsModel.dart';
-// import 'package:tadawl_app/provider/ads_provider.dart';
+//
 // import 'package:tadawl_app/screens/ads/ad_page.dart';
 //
 // class AdPageHelper extends StatelessWidget {

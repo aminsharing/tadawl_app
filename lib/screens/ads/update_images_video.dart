@@ -5,8 +5,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pinch_zoom_image_last/pinch_zoom_image_last.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
-import 'package:tadawl_app/provider/test/mutual_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/update_img_vid_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -19,8 +20,10 @@ class UpdateImgVed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AdsProvider>(builder: (context, updateImgVed, child) {
+    return Consumer<UpdateImgVedProvider>(builder: (context, updateImgVed, child) {
 
+
+      print("UpdateImgVed -> UpdateImgVedProvider");
 
       var mediaQuery = MediaQuery.of(context);
       // ignore: omit_local_variable_types
@@ -28,7 +31,7 @@ class UpdateImgVed extends StatelessWidget {
       data = ModalRoute.of(context).settings.arguments;
       var _id_description = data['id_description'];
       //updateImgVed.randomPosition(200);
-      updateImgVed.getImagesAdsPageInfo(context, _id_description);
+      Provider.of<AdPageProvider>(context, listen: false).getImagesAdsPageInfo(context, _id_description);
 
       return Scaffold(
         appBar: AppBar(
@@ -72,7 +75,7 @@ class UpdateImgVed extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              if (updateImgVed.image.isNotEmpty)
+              if (Provider.of<AdPageProvider>(context, listen: false).image.isNotEmpty)
                 Column(
                   children: [
                     Padding(
@@ -96,7 +99,7 @@ class UpdateImgVed extends StatelessWidget {
                               width: mediaQuery.size.width,
                               height: mediaQuery.size.height * 0.3,
                               child: PageView.builder(
-                                itemCount: updateImgVed.image.length,
+                                itemCount: Provider.of<AdPageProvider>(context, listen: false).image.length,
                                 itemBuilder: (context, position) {
                                   return Stack(
                                     children: [
@@ -105,14 +108,14 @@ class UpdateImgVed extends StatelessWidget {
                                           Navigator.pushNamed(
                                               context, '/main/open_images',
                                               arguments: {
-                                                'id_description': updateImgVed
+                                                'id_description': Provider.of<AdPageProvider>(context, listen: false)
                                                     .image[position]
                                                     .idDescription,
                                               });
                                         },
                                         child: PinchZoomImage(
                                           image: CachedNetworkImage(
-                                            imageUrl: 'https://tadawl.com.sa/API/assets/images/ads/${updateImgVed.image[position].ads_image}',
+                                            imageUrl: 'https://tadawl.com.sa/API/assets/images/ads/${Provider.of<AdPageProvider>(context, listen: false).image[position].ads_image}',
                                             width: mediaQuery.size.width,
                                             height:
                                                 mediaQuery.size.height * 0.3,
@@ -180,7 +183,7 @@ class UpdateImgVed extends StatelessWidget {
                                         ),
                                       );
                                     },
-                                    itemCount: updateImgVed.image.length,
+                                    itemCount: Provider.of<AdPageProvider>(context, listen: false).image.length,
                                   )),
                             ),
                           ),
@@ -476,12 +479,12 @@ class UpdateImgVed extends StatelessWidget {
                     ),
                   ),
                 )
-              else if(updateImgVed.videoControllerAdsPage != null)
+              else if(Provider.of<AdPageProvider>(context, listen: false).videoControllerAdsPage != null)
                 SizedBox(
                   width: mediaQuery.size.width,
                   height: 400,
                   child: AspectRatio(
-                    aspectRatio: updateImgVed
+                    aspectRatio: Provider.of<AdPageProvider>(context, listen: false)
                         .videoControllerAdsPage
                         .value
                         .aspectRatio,
@@ -491,15 +494,15 @@ class UpdateImgVed extends StatelessWidget {
                           children: <Widget>[
                             Expanded(
                               child: Center(
-                                child: updateImgVed.chewieControllerAdsPage !=
+                                child: Provider.of<AdPageProvider>(context, listen: false).chewieControllerAdsPage !=
                                     null &&
-                                    updateImgVed
+                                    Provider.of<AdPageProvider>(context, listen: false)
                                         .chewieControllerAdsPage
                                         .videoPlayerController
                                         .value
                                         .initialized
                                     ? Chewie(
-                                  controller: updateImgVed
+                                  controller: Provider.of<AdPageProvider>(context, listen: false)
                                       .chewieControllerAdsPage,
                                 )
                                     : Container(),

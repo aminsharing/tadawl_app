@@ -5,13 +5,15 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
-import 'package:tadawl_app/provider/test/mutual_provider.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
+import 'package:tadawl_app/provider/user_provider/favourite_provider.dart';
+import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/change_pass.dart';
 import 'package:tadawl_app/screens/account/change_phone.dart';
 import 'package:tadawl_app/screens/account/login.dart';
@@ -79,8 +81,11 @@ class MyAccount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(builder: (context, avatar, child) {
+    return Consumer2<MyAccountProvider, UserMutualProvider>(builder: (context, avatar, userMutual, child) {
 
+
+      print("MyAccount -> MyAccountProvider");
+      print("MyAccount -> UserMutualProvider");
 
       var mediaQuery = MediaQuery.of(context);
       var provider = Provider.of<LocaleProvider>(context, listen: false);
@@ -94,15 +99,15 @@ class MyAccount extends StatelessWidget {
       void sendEstimate() async {
         Future.delayed(Duration(milliseconds: 0), () {
           Api().sendEstimateFunc(
-              context, avatar.phone, avatar.userPhone, avatar.rating, avatar.commentRating);
+              context, userMutual.phone, userMutual.userPhone, userMutual.rating, userMutual.commentRating);
         });
 
-        avatar.getAvatarList(context, avatar.userPhone ?? avatar.phone);
-        avatar.getUserAdsList(context, avatar.userPhone ?? avatar.phone);
-        avatar.getEstimatesInfo(context, avatar.userPhone ?? avatar.phone);
-        avatar.getSumEstimatesInfo(context, avatar.userPhone ?? avatar.phone);
-        avatar.checkOfficeInfo(context, avatar.userPhone ?? avatar.phone);
-        avatar.setUserPhone(avatar.userPhone ?? avatar.phone);
+        userMutual.getAvatarList(context, userMutual.userPhone ?? userMutual.phone);
+        userMutual.getUserAdsList(context, userMutual.userPhone ?? userMutual.phone);
+        userMutual.getEstimatesInfo(context, userMutual.userPhone ?? userMutual.phone);
+        userMutual.getSumEstimatesInfo(context, userMutual.userPhone ?? userMutual.phone);
+        userMutual.checkOfficeInfo(context, userMutual.userPhone ?? userMutual.phone);
+        userMutual.setUserPhone(userMutual.userPhone ?? userMutual.phone);
 
         Future.delayed(Duration(seconds: 0), () {
           Navigator.push(context,
@@ -129,8 +134,8 @@ class MyAccount extends StatelessWidget {
           ),
           submitButton: AppLocalizations.of(context).send,
           onSubmitted: (response) {
-            avatar.setRating(response.rating.toString());
-            avatar.setCommentRating(response.comment.toString());
+            userMutual.setRating(response.rating.toString());
+            userMutual.setCommentRating(response.comment.toString());
             sendEstimate();
           },
         );
@@ -142,25 +147,25 @@ class MyAccount extends StatelessWidget {
       }
 
       void _callNumber() async {
-        if (avatar.estimates.isNotEmpty) {
-          for (var i = 0; i < avatar.countEstimates(); i++) {
-            if (avatar.estimates[i].phone_user == avatar.phone &&
-                avatar.estimates[i].phone_user_estimated == avatar.userPhone) {
-              avatar.setCalled();
+        if (userMutual.estimates.isNotEmpty) {
+          for (var i = 0; i < userMutual.countEstimates(); i++) {
+            if (userMutual.estimates[i].phone_user == userMutual.phone &&
+                userMutual.estimates[i].phone_user_estimated == userMutual.userPhone) {
+              userMutual.setCalled();
             }
           }
-          if (avatar.called == 1) {
+          if (userMutual.called == 1) {
           } else {
             _showRatingDialog();
           }
         } else {
           _showRatingDialog();
         }
-        if (avatar.userPhone == avatar.phone) {
-          var number = '+${avatar.phone}';
+        if (userMutual.userPhone == userMutual.phone) {
+          var number = '+${userMutual.phone}';
           await FlutterPhoneDirectCaller.callNumber(number);
         } else {
-          var number = '+${avatar.userPhone}';
+          var number = '+${userMutual.userPhone}';
           await FlutterPhoneDirectCaller.callNumber(number);
         }
       }
@@ -173,7 +178,7 @@ class MyAccount extends StatelessWidget {
 
       Future<void> choiceAction(String choice) async {
         if (choice == 'تحديث معلوماتي' || choice == 'Update My Info') {
-          avatar.setInitMembershipType();
+          userMutual.setInitMembershipType();
           await Navigator.push(context,
             MaterialPageRoute(builder: (context) => UpdateMyInformation()),
           );
@@ -186,7 +191,7 @@ class MyAccount extends StatelessWidget {
             MaterialPageRoute(builder: (context) => ChangePhone()),
           );
         } else {
-          await avatar.logout();
+          await userMutual.logout();
           await Fluttertoast.showToast(
               msg: 'تم تسجيل الخروج',
               toastLength: Toast.LENGTH_SHORT,
@@ -196,6 +201,8 @@ class MyAccount extends StatelessWidget {
               textColor: Colors.white,
               fontSize: 15.0);
           Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
+          Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
+          Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
           await Navigator.push(context,
             MaterialPageRoute(builder: (context) => MainPage()),
           );
@@ -203,30 +210,31 @@ class MyAccount extends StatelessWidget {
       }
 
 
-      if (avatar.userPhone == avatar.phone) {
-        avatar.getUsersList(context, avatar.phone);
-        avatar.getUserAdsList(context, avatar.phone);
+      if (userMutual.userPhone == userMutual.phone) {
+        userMutual.getUsersList(context, userMutual.phone);
+        userMutual.getUserAdsList(context, userMutual.phone);
         //avatar.getEstimatesInfo(context, avatar.phone);
         //avatar.getSumEstimatesInfo(context, avatar.phone);
-        //avatar.checkOfficeInfo(context, avatar.phone);
+        //userMutual.checkOfficeInfo(context, avatar.phone);
       }
       else {
-        avatar.getAvatarList(context, avatar.userPhone);
-        avatar.getUserAdsList(context, avatar.userPhone);
-        //avatar.getEstimatesInfo(context, avatar.userPhone);
-        //avatar.getSumEstimatesInfo(context, avatar.userPhone);
-        //avatar.checkOfficeInfo(context, avatar.userPhone);
+        userMutual.getAvatarList(context, userMutual.userPhone);
+        userMutual.getUserAdsList(context, userMutual.userPhone);
+        //avatar.getEstimatesInfo(context, userMutual.userPhone);
+        //avatar.getSumEstimatesInfo(context, userMutual.userPhone);
+        //userMutual.checkOfficeInfo(context, userMutual.userPhone);
       }
 
-      if (avatar.avatars.isEmpty && avatar.userPhone != avatar.phone) {
-        avatar.setUserPhone(avatar.userPhone);
+      if (userMutual.avatars.isEmpty && userMutual.userPhone != userMutual.phone) {
+        userMutual.setUserPhone(userMutual.userPhone);
         return Center(
             child: AnimatedSplashScreen(
               duration: 300,
               splash: Center(child: CircularProgressIndicator()),
               nextScreen: MyAccount(),
         ));
-      } else {
+      }
+      else {
         return WillPopScope(
           onWillPop: () async{
             avatar.clearExpendedListCount();
@@ -262,7 +270,7 @@ class MyAccount extends StatelessWidget {
               actions: [
                 Column(
                   children: [
-                    if (avatar.userPhone == avatar.phone)
+                    if (userMutual.userPhone == userMutual.phone)
                       Padding(
                         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                         child: PopupMenuButton<String>(
@@ -698,7 +706,7 @@ class MyAccount extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        if (avatar.userPhone == avatar.phone)
+                        if (userMutual.userPhone == userMutual.phone)
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
@@ -710,7 +718,7 @@ class MyAccount extends StatelessWidget {
                                     Column(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        avatar.users.first.image == '' || avatar.users.first.image == null
+                                        userMutual.users.first.image == '' || userMutual.users.first.image == null
                                       ? Container(
                                                 width: 150.0,
                                                 height: 150.0,
@@ -730,18 +738,18 @@ class MyAccount extends StatelessWidget {
                                                   shape: BoxShape.rectangle,
                                                   image: DecorationImage(
                                                       image: CachedNetworkImageProvider(
-                                                          'https://tadawl.com.sa/API/assets/images/avatar/${avatar.users.first.image}'),
+                                                          'https://tadawl.com.sa/API/assets/images/avatar/${userMutual.users.first.image}'),
                                                       fit: BoxFit.contain),
                                                 ),
                                               ),
-                                        if (avatar.estimates.isNotEmpty)
+                                        if (userMutual.estimates.isNotEmpty)
                                           TextButton(
                                             onPressed: () {
                                               Navigator.pushNamed(
                                                   context, '/main/estimate_user',
                                                   arguments: {
-                                                    'phone': avatar.userPhone ??
-                                                        avatar.phone,
+                                                    'phone': userMutual.userPhone ??
+                                                        userMutual.phone,
                                                   });
                                             },
                                             child: Row(
@@ -753,7 +761,7 @@ class MyAccount extends StatelessWidget {
                                                       const EdgeInsets.fromLTRB(
                                                           0, 0, 15, 0),
                                                   child: Text(
-                                                    '(${avatar.countEstimates()})',
+                                                    '(${userMutual.countEstimates()})',
                                                     style: CustomTextStyle(
 
                                                       fontSize: 10,
@@ -763,17 +771,17 @@ class MyAccount extends StatelessWidget {
                                                     textAlign: TextAlign.center,
                                                   ),
                                                 ),
-                                                if (avatar.sumEstimates.isNotEmpty)
+                                                if (userMutual.sumEstimates.isNotEmpty)
                                                   Padding(
                                                     padding:
                                                         const EdgeInsets.fromLTRB(
                                                             0, 0, 0, 0),
                                                     child: RatingBar(
-                                                      rating: (double.parse(avatar
+                                                      rating: (double.parse(userMutual
                                                                   .sumEstimates
                                                                   .first
                                                                   .sum_estimates) /
-                                                              avatar
+                                                          userMutual
                                                                   .countEstimates())
                                                           .toDouble(),
                                                       icon: Icon(
@@ -818,8 +826,8 @@ class MyAccount extends StatelessWidget {
                                               Navigator.pushNamed(
                                                   context, '/main/estimate_user',
                                                   arguments: {
-                                                    'phone': avatar.userPhone ??
-                                                        avatar.phone,
+                                                    'phone': userMutual.userPhone ??
+                                                        userMutual.phone,
                                                   });
                                             },
                                             child: Row(
@@ -873,7 +881,7 @@ class MyAccount extends StatelessWidget {
                                           padding: const EdgeInsets.fromLTRB(
                                               15, 0, 15, 0),
                                           child: Text(
-                                            avatar.users.first.username ??
+                                            userMutual.users.first.username ??
                                                 'UserName',
                                             style: CustomTextStyle(
 
@@ -906,7 +914,7 @@ class MyAccount extends StatelessWidget {
                                                   15, 0, 15, 0),
                                               child: Text(
                                                 DateFormat('yyyy-MM-dd').format(
-                                                    DateTime.parse(avatar.users
+                                                    DateTime.parse(userMutual.users
                                                         .first.timeRegistered)),
                                                 style: CustomTextStyle(
 
@@ -936,7 +944,7 @@ class MyAccount extends StatelessWidget {
                                                 textAlign: TextAlign.center,
                                               ),
                                             ),
-                                            if (avatar.phone != null)
+                                            if (userMutual.phone != null)
                                               Padding(
                                                   padding:
                                                       const EdgeInsets.fromLTRB(
@@ -956,7 +964,7 @@ class MyAccount extends StatelessWidget {
                                                       const EdgeInsets.fromLTRB(
                                                           15, 0, 0, 0),
                                                   child: Text(
-                                                    Jiffy(DateTime.parse(avatar
+                                                    Jiffy(DateTime.parse(userMutual
                                                                     .users
                                                                     .first
                                                                     .lastActive ??
@@ -974,7 +982,7 @@ class MyAccount extends StatelessWidget {
                                                   )),
                                           ],
                                         ),
-                                        if (avatar.userPhone != avatar.phone)
+                                        if (userMutual.userPhone != userMutual.phone)
                                           Padding(
                                             padding: const EdgeInsets.fromLTRB(
                                                 0, 30, 0, 30),
@@ -1025,8 +1033,8 @@ class MyAccount extends StatelessWidget {
                                     Column(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        avatar.avatars.isNotEmpty
-                                            ? avatar.avatars.first.image == null || avatar.avatars.first.image == ''
+                                        userMutual.avatars.isNotEmpty
+                                            ? userMutual.avatars.first.image == null || userMutual.avatars.first.image == ''
                                                 ? Container(
                                                     width: 150.0,
                                                     height: 150.0,
@@ -1046,7 +1054,7 @@ class MyAccount extends StatelessWidget {
                                                       shape: BoxShape.circle,
                                                       image: DecorationImage(
                                                           image: CachedNetworkImageProvider(
-                                                              'https://tadawl.com.sa/API/assets/images/avatar/${avatar.avatars.first.image}'),
+                                                              'https://tadawl.com.sa/API/assets/images/avatar/${userMutual.avatars.first.image}'),
                                                           fit: BoxFit.contain),
                                                     ),
                                                   )
@@ -1062,14 +1070,14 @@ class MyAccount extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),
-                                        if (avatar.estimates.isNotEmpty)
+                                        if (userMutual.estimates.isNotEmpty)
                                           TextButton(
                                             onPressed: () {
                                               Navigator.pushNamed(
                                                   context, '/main/estimate_user',
                                                   arguments: {
-                                                    'phone': avatar.userPhone ??
-                                                        avatar.phone,
+                                                    'phone': userMutual.userPhone ??
+                                                        userMutual.phone,
                                                   });
                                             },
                                             child: Row(
@@ -1081,7 +1089,7 @@ class MyAccount extends StatelessWidget {
                                                       const EdgeInsets.fromLTRB(
                                                           0, 0, 15, 0),
                                                   child: Text(
-                                                    '(${avatar.countEstimates()})',
+                                                    '(${userMutual.countEstimates()})',
                                                     style: CustomTextStyle(
 
                                                       fontSize: 10,
@@ -1091,18 +1099,18 @@ class MyAccount extends StatelessWidget {
                                                     textAlign: TextAlign.center,
                                                   ),
                                                 ),
-                                                if (avatar
+                                                if (userMutual
                                                     .sumEstimates.isNotEmpty)
                                                   Padding(
                                                     padding:
                                                         const EdgeInsets.fromLTRB(
                                                             0, 0, 0, 0),
                                                     child: RatingBar(
-                                                      rating: (double.parse(avatar
+                                                      rating: (double.parse(userMutual
                                                                   .sumEstimates
                                                                   .first
                                                                   .sum_estimates) /
-                                                              avatar
+                                                          userMutual
                                                                   .countEstimates())
                                                           .toDouble(),
                                                       icon: Icon(
@@ -1147,8 +1155,8 @@ class MyAccount extends StatelessWidget {
                                               Navigator.pushNamed(
                                                   context, '/main/estimate_user',
                                                   arguments: {
-                                                    'phone': avatar.userPhone ??
-                                                        avatar.phone,
+                                                    'phone': userMutual.userPhone ??
+                                                        userMutual.phone,
                                                   });
                                             },
                                             child: Row(
@@ -1202,7 +1210,7 @@ class MyAccount extends StatelessWidget {
                                           padding: const EdgeInsets.fromLTRB(
                                               15, 0, 15, 0),
                                           child: Text(
-                                            avatar.avatars.first.username ??
+                                            userMutual.avatars.first.username ??
                                                 'UserName',
                                             style: CustomTextStyle(
 
@@ -1235,7 +1243,7 @@ class MyAccount extends StatelessWidget {
                                                   15, 0, 15, 0),
                                               child: Text(
                                                 DateFormat('yyyy-MM-dd').format(
-                                                    DateTime.parse(avatar.avatars
+                                                    DateTime.parse(userMutual.avatars
                                                         .first.timeRegistered)),
                                                 style: CustomTextStyle(
 
@@ -1265,7 +1273,7 @@ class MyAccount extends StatelessWidget {
                                                 textAlign: TextAlign.center,
                                               ),
                                             ),
-                                            if (avatar.phone != null)
+                                            if (userMutual.phone != null)
                                               Padding(
                                                   padding:
                                                       const EdgeInsets.fromLTRB(
@@ -1287,7 +1295,7 @@ class MyAccount extends StatelessWidget {
                                                       const EdgeInsets.fromLTRB(
                                                           15, 0, 0, 0),
                                                   child: Text(
-                                                    Jiffy(DateTime.parse(avatar
+                                                    Jiffy(DateTime.parse(userMutual
                                                                     .avatars
                                                                     .first
                                                                     .lastActive ??
@@ -1305,7 +1313,7 @@ class MyAccount extends StatelessWidget {
                                                   )),
                                           ],
                                         ),
-                                        if (avatar.userPhone != avatar.phone)
+                                        if (userMutual.userPhone != userMutual.phone)
                                           Padding(
                                             padding: const EdgeInsets.fromLTRB(
                                                 0, 30, 0, 30),
@@ -1349,32 +1357,32 @@ class MyAccount extends StatelessWidget {
                   ),
                   SizedBox(
                     width: mediaQuery.size.width,
-                    height: avatar.userPhone != avatar.phone ? 200 : 100,
+                    height: userMutual.userPhone != userMutual.phone ? 200 : 100,
                     child: SingleChildScrollView(
                       physics: NeverScrollableScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          if (avatar.userPhone != avatar.phone)
-                            for (var i = 0; i < avatar.countAvatars(); i++)
+                          if (userMutual.userPhone != userMutual.phone)
+                            for (var i = 0; i < userMutual.countAvatars(); i++)
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  if (avatar.userPhone != avatar.phone)
+                                  if (userMutual.userPhone != userMutual.phone)
                                     Padding(
                                       padding:
                                           const EdgeInsets.fromLTRB(0, 30, 0, 30),
                                       child: TextButton(
                                         onPressed: () {
-                                          if(avatar.phone == null){
+                                          if(userMutual.phone == null){
                                             Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
                                           }else{
-                                            Provider.of<MsgProvider>(context, listen: false).setRecAvatarUserName(avatar.avatars.first.username);
+                                            Provider.of<MsgProvider>(context, listen: false).setRecAvatarUserName(userMutual.avatars.first.username);
                                             Navigator.pushNamed(
                                                 context, '/main/discussion_main',
                                                 arguments: {
-                                                  'phone_user': avatar.userPhone,
+                                                  'phone_user': userMutual.userPhone,
                                                 });
                                           }
                                         },
@@ -1442,7 +1450,7 @@ class MyAccount extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
                                         Text(
-                                          avatar.avatars[i].about ?? '',
+                                          userMutual.avatars[i].about ?? '',
                                           style: CustomTextStyle(
 
                                             fontSize: 13,
@@ -1456,21 +1464,21 @@ class MyAccount extends StatelessWidget {
                                 ],
                               )
                           else
-                            for (var i = 0; i < avatar.countUsers(); i++)
+                            for (var i = 0; i < userMutual.countUsers(); i++)
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  if (avatar.userPhone != avatar.phone)
+                                  if (userMutual.userPhone != userMutual.phone)
                                     Padding(
                                       padding:
                                           const EdgeInsets.fromLTRB(0, 30, 0, 30),
                                       child: TextButton(
                                         onPressed: () {
-                                          Provider.of<MsgProvider>(context, listen: false).setRecAvatarUserName(avatar.users.first.username);
+                                          Provider.of<MsgProvider>(context, listen: false).setRecAvatarUserName(userMutual.users.first.username);
                                           Navigator.pushNamed(
                                               context, '/main/discussion_main',
                                               arguments: {
-                                                'phone_user': avatar.userPhone,
+                                                'phone_user': userMutual.userPhone,
                                               });
                                         },
                                         child: Container(
@@ -1538,7 +1546,7 @@ class MyAccount extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
                                         Text(
-                                          avatar.users[i].about ?? '',
+                                          userMutual.users[i].about ?? '',
                                           style: CustomTextStyle(
 
                                             fontSize: 13,
@@ -1555,10 +1563,10 @@ class MyAccount extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (avatar.offices.isNotEmpty)
+                  if (userMutual.offices.isNotEmpty)
                     Column(
                       children: [
-                        if (avatar.offices.first.state == '1')
+                        if (userMutual.offices.first.state == '1')
                           Container(
                             width: mediaQuery.size.width * 0.5,
                             height: 50.0,
@@ -1591,7 +1599,7 @@ class MyAccount extends StatelessWidget {
                               ],
                             ),
                           )
-                        else if (avatar.offices.first.state == '0')
+                        else if (userMutual.offices.first.state == '0')
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                             child: Text(
@@ -1621,7 +1629,7 @@ class MyAccount extends StatelessWidget {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        if (avatar.userPhone == avatar.phone)
+                        if (userMutual.userPhone == userMutual.phone)
                           TextButton(
                             onPressed: () {
                               Navigator.push(
@@ -1655,7 +1663,7 @@ class MyAccount extends StatelessWidget {
                           ),
                       ],
                     ),
-                  if (avatar.userPhone == avatar.phone)
+                  if (userMutual.userPhone == userMutual.phone)
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                       child: Container(
@@ -1709,7 +1717,7 @@ class MyAccount extends StatelessWidget {
                         ),
                       ),
                     ),
-                  if ((avatar.userPhone == avatar.phone) && (avatar.selectedNav == 1))
+                  if ((userMutual.userPhone == userMutual.phone) && (avatar.selectedNav == 1))
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -1723,24 +1731,24 @@ class MyAccount extends StatelessWidget {
                         ),
                       ],
                     ),
-                  if ((avatar.userPhone == avatar.phone) && (avatar.selectedNav == 0))
+                  if ((userMutual.userPhone == userMutual.phone) && (avatar.selectedNav == 0))
                     Column(
                       children: [
-                        if (avatar.userAds.isNotEmpty)
+                        if (userMutual.userAds.isNotEmpty)
                           Container(
-                            height: avatar.countUserAds() == avatar.expendedListCount ? avatar.expendedListCount * ((mediaQuery.size.height*.2)+15) : (avatar.expendedListCount * (mediaQuery.size.height*.2)) - 40,
+                            height: userMutual.countUserAds() == avatar.expendedListCount ? avatar.expendedListCount * ((mediaQuery.size.height*.2)+15) : (avatar.expendedListCount * (mediaQuery.size.height*.2)) - 40,
                             child: ListView.builder(
-                              itemCount: avatar.countUserAds() > avatar.expendedListCount-1 ? avatar.expendedListCount : avatar.countUserAds(),
+                              itemCount: userMutual.countUserAds() > avatar.expendedListCount-1 ? avatar.expendedListCount : userMutual.countUserAds(),
                                 physics: NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, i){
-                                  if(i != avatar.countUserAds() -1){
+                                  if(i != userMutual.countUserAds() -1){
                                     if(i == avatar.expendedListCount-1){
                                       return GestureDetector(
                                         onTap: (){
-                                          if(avatar.countUserAds() < avatar.expendedListCount){
+                                          if(userMutual.countUserAds() < avatar.expendedListCount){
                                             avatar.setExpendedListCount(avatar.expendedListCount+5);
                                           }else{
-                                            avatar.setExpendedListCount(avatar.countUserAds());
+                                            avatar.setExpendedListCount(userMutual.countUserAds());
                                           }
                                         },
                                         child: Padding(
@@ -1755,8 +1763,8 @@ class MyAccount extends StatelessWidget {
                                     onPressed: () {
                                       Provider.of<MutualProvider>(context, listen: false)
                                           .getAllAdsPageInfo(
-                                          context, avatar.userAds[i].idDescription);
-                                      Provider.of<MutualProvider>(context, listen: false).getSimilarAdsList(context, avatar.userAds[i].idCategory, avatar.userAds[i].idDescription);
+                                          context, userMutual.userAds[i].idDescription);
+                                      Provider.of<MutualProvider>(context, listen: false).getSimilarAdsList(context, userMutual.userAds[i].idCategory, userMutual.userAds[i].idDescription);
 
 
                                       Future.delayed(Duration(seconds: 0), () {
@@ -1802,7 +1810,7 @@ class MyAccount extends StatelessWidget {
                                                   fit: BoxFit.cover,
                                                   image: CachedNetworkImageProvider(
                                                       'https://tadawl.com.sa/API/assets/images/ads/' +
-                                                          avatar.userAds[i]
+                                                          userMutual.userAds[i]
                                                               .ads_image ??
                                                           ''),
                                                 ),
@@ -1833,7 +1841,7 @@ class MyAccount extends StatelessWidget {
                                             mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                             children: [
-                                              if (avatar.userAds[i].idSpecial == '1')
+                                              if (userMutual.userAds[i].idSpecial == '1')
                                                 Padding(
                                                   padding: const EdgeInsets.fromLTRB(
                                                       10, 5, 10, 5),
@@ -1847,20 +1855,20 @@ class MyAccount extends StatelessWidget {
                                                 padding: const EdgeInsets.fromLTRB(
                                                     10, 5, 10, 5),
                                                 child: (
-                                                    Provider.of<AdsProvider>(context, listen: false).busy == true && Provider.of<AdsProvider>(context, listen: false).number == i)
+                                                    Provider.of<MutualProvider>(context, listen: false).busy == true && Provider.of<MutualProvider>(context, listen: false).number == i)
                                                     ?
                                                 CircularProgressIndicator()
                                                     :
-                                                DateTime.now().difference(DateTime.parse(avatar.userAds[i].timeUpdated)).inMinutes - 180 > 60
+                                                DateTime.now().difference(DateTime.parse(userMutual.userAds[i].timeUpdated)).inMinutes - 180 > 60
                                                     ?
                                                 TextButton(
                                                   onPressed: () {
-                                                    Provider.of<AdsProvider>(context, listen: false).setNumber(i);
-                                                    avatar.update();
-                                                    Provider.of<AdsProvider>(context, listen: false).updateAds(context, avatar.userAds[i].idDescription).then((value) {
+                                                    Provider.of<MutualProvider>(context, listen: false).setNumber(i);
+                                                    Provider.of<FavouriteProvider>(context, listen: false).update();
+                                                    Provider.of<MutualProvider>(context, listen: false).updateAds(context, userMutual.userAds[i].idDescription).then((value) {
                                                       if(value){
-                                                        avatar.getUserAdsList(context,avatar.phone);
-                                                        avatar.update();
+                                                        userMutual.getUserAdsList(context,userMutual.phone);
+                                                        Provider.of<FavouriteProvider>(context, listen: false).update();
                                                       }
                                                     });
                                                   },
@@ -1900,7 +1908,7 @@ class MyAccount extends StatelessWidget {
                                                   onPressed: (){
                                                     Fluttertoast.showToast(
                                                         msg:
-                                                        'ستتمكن من التحديث بعد ${24-(DateTime.now().difference(DateTime.parse(avatar.userAds[i].timeUpdated)).inMinutes - 180)} دقيقة',
+                                                        'ستتمكن من التحديث بعد ${24-(DateTime.now().difference(DateTime.parse(userMutual.userAds[i].timeUpdated)).inMinutes - 180)} دقيقة',
                                                         toastLength: Toast.LENGTH_SHORT,
                                                         gravity: ToastGravity.BOTTOM,
                                                         timeInSecForIosWeb: 1,
@@ -1937,7 +1945,7 @@ class MyAccount extends StatelessWidget {
                                                       ),
                                                 ),
                                               ),
-                                              if (avatar.userAds[i].video.isNotEmpty)
+                                              if (userMutual.userAds[i].video.isNotEmpty)
                                                 Padding(
                                                   padding: const EdgeInsets.fromLTRB(
                                                       15, 5, 15, 5),
@@ -1964,7 +1972,7 @@ class MyAccount extends StatelessWidget {
                                                       const EdgeInsets.fromLTRB(
                                                           5, 0, 5, 0),
                                                       child: Text(
-                                                        avatar.userAds[i].title,
+                                                        userMutual.userAds[i].title,
                                                         style: CustomTextStyle(
 
                                                           fontSize: 13,
@@ -1985,7 +1993,7 @@ class MyAccount extends StatelessWidget {
                                                       const EdgeInsets.fromLTRB(
                                                           0, 0, 0, 0),
                                                       child: Text(
-                                                        avatar.userAds[i].price,
+                                                        userMutual.userAds[i].price,
                                                         style: CustomTextStyle(
 
                                                           fontSize: 15,
@@ -2022,7 +2030,7 @@ class MyAccount extends StatelessWidget {
                                                       const EdgeInsets.fromLTRB(
                                                           5, 0, 15, 0),
                                                       child: Text(
-                                                        avatar.userAds[i].space,
+                                                        userMutual.userAds[i].space,
                                                         style: CustomTextStyle(
 
                                                           fontSize: 15,
@@ -2056,13 +2064,13 @@ class MyAccount extends StatelessWidget {
                                                     mainAxisAlignment:
                                                     MainAxisAlignment.end,
                                                     children: [
-                                                      if (avatar.userAds[i].ads_city !=
+                                                      if (userMutual.userAds[i].ads_city !=
                                                           null ||
-                                                          avatar.userAds[i]
+                                                          userMutual.userAds[i]
                                                               .ads_neighborhood !=
                                                               null)
                                                         Text(
-                                                          '${avatar.userAds[i].ads_city} - ${avatar.userAds[i].ads_neighborhood}',
+                                                          '${userMutual.userAds[i].ads_city} - ${userMutual.userAds[i].ads_neighborhood}',
                                                           style: CustomTextStyle(
 
                                                             fontSize: 8,
@@ -2088,7 +2096,7 @@ class MyAccount extends StatelessWidget {
                           Container(),
                       ],
                     ),
-                  if (avatar.userPhone != avatar.phone)
+                  if (userMutual.userPhone != userMutual.phone)
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                       child: Container(
@@ -2116,24 +2124,24 @@ class MyAccount extends StatelessWidget {
                         ),
                       ),
                     ),
-                  if (avatar.userPhone != avatar.phone)
+                  if (userMutual.userPhone != userMutual.phone)
                     Column(
                       children: [
-                        if (avatar.userAds.isNotEmpty)
+                        if (userMutual.userAds.isNotEmpty)
                           Container(
-                            height: avatar.countUserAds() > 3 ? avatar.countUserAds() == avatar.expendedListCount ? avatar.expendedListCount * 165.0 : (avatar.expendedListCount * 150.0) - 50 : avatar.countUserAds() * 165.0,
+                            height: userMutual.countUserAds() > 3 ? userMutual.countUserAds() == avatar.expendedListCount ? avatar.expendedListCount * 165.0 : (avatar.expendedListCount * 150.0) - 50 : userMutual.countUserAds() * 165.0,
                             child: ListView.builder(
-                              itemCount: avatar.countUserAds() > avatar.expendedListCount-1 ? avatar.expendedListCount : avatar.countUserAds(),
+                              itemCount: userMutual.countUserAds() > avatar.expendedListCount-1 ? avatar.expendedListCount : userMutual.countUserAds(),
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, i){
-                                if(i != avatar.countUserAds() -1){
+                                if(i != userMutual.countUserAds() -1){
                                   if(i == avatar.expendedListCount-1){
                                     return GestureDetector(
                                       onTap: (){
-                                        if(avatar.countUserAds() < avatar.expendedListCount){
+                                        if(userMutual.countUserAds() < avatar.expendedListCount){
                                           avatar.setExpendedListCount(avatar.expendedListCount+5);
                                         }else{
-                                          avatar.setExpendedListCount(avatar.countUserAds());
+                                          avatar.setExpendedListCount(userMutual.countUserAds());
                                         }
                                       },
                                       child: Padding(
@@ -2148,8 +2156,8 @@ class MyAccount extends StatelessWidget {
                                   onPressed: () {
                                     Provider.of<MutualProvider>(context, listen: false)
                                         .getAllAdsPageInfo(
-                                        context, avatar.userAds[i].idDescription);
-                                    Provider.of<MutualProvider>(context, listen: false).getSimilarAdsList(context, avatar.userAds[i].idCategory, avatar.userAds[i].idDescription);
+                                        context, userMutual.userAds[i].idDescription);
+                                    Provider.of<MutualProvider>(context, listen: false).getSimilarAdsList(context, userMutual.userAds[i].idCategory, userMutual.userAds[i].idDescription);
 
                                     Future.delayed(Duration(seconds: 0), () {
                                       Navigator.push(
@@ -2194,7 +2202,7 @@ class MyAccount extends StatelessWidget {
                                                 fit: BoxFit.cover,
                                                 image: CachedNetworkImageProvider(
                                                     'https://tadawl.com.sa/API/assets/images/ads/' +
-                                                        avatar.userAds[i]
+                                                        userMutual.userAds[i]
                                                             .ads_image ??
                                                         ''),
                                               ),
@@ -2231,7 +2239,7 @@ class MyAccount extends StatelessWidget {
                                                 mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                                 children: [
-                                                  if (avatar.userAds[i].idSpecial ==
+                                                  if (userMutual.userAds[i].idSpecial ==
                                                       '1')
                                                     Padding(
                                                       padding:
@@ -2244,7 +2252,7 @@ class MyAccount extends StatelessWidget {
                                                       ),
                                                     ),
                                                   Text(
-                                                    avatar.userAds[i].title,
+                                                    userMutual.userAds[i].title,
                                                     style: CustomTextStyle(
 
                                                       fontSize: 20,
@@ -2258,7 +2266,7 @@ class MyAccount extends StatelessWidget {
                                                 MainAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    avatar.userAds[i].price,
+                                                    userMutual.userAds[i].price,
                                                     style: CustomTextStyle(
 
                                                       fontSize: 15,
@@ -2287,7 +2295,7 @@ class MyAccount extends StatelessWidget {
                                                 MainAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    avatar.userAds[i].space,
+                                                    userMutual.userAds[i].space,
                                                     style: CustomTextStyle(
 
                                                       fontSize: 15,
@@ -2317,7 +2325,7 @@ class MyAccount extends StatelessWidget {
                                                   mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                                   children: [
-                                                    if (avatar
+                                                    if (userMutual
                                                         .userAds[i].video.isNotEmpty)
                                                       Padding(
                                                         padding:
@@ -2329,13 +2337,13 @@ class MyAccount extends StatelessWidget {
                                                           size: 30,
                                                         ),
                                                       ),
-                                                    if (avatar.userAds[i].ads_city !=
+                                                    if (userMutual.userAds[i].ads_city !=
                                                         null ||
-                                                        avatar.userAds[i]
+                                                        userMutual.userAds[i]
                                                             .ads_neighborhood !=
                                                             null)
                                                       Text(
-                                                        '${avatar.userAds[i].ads_city} - ${avatar.userAds[i].ads_neighborhood}',
+                                                        '${userMutual.userAds[i].ads_city} - ${userMutual.userAds[i].ads_neighborhood}',
                                                         style: CustomTextStyle(
 
                                                           fontSize: 8,

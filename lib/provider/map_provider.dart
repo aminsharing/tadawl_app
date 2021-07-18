@@ -34,9 +34,9 @@ class MapProvider extends ChangeNotifier{
 
     if(_permissionGranted == PermissionStatus.granted){
       // _initialCameraPosition = null;
+
       if(_serviceEnabled){
         await _location.getLocation().then((LocationData location) async{
-          print("_initialCameraPosition 1 $_initialCameraPosition");
           _initialCameraPosition = LatLng(location.latitude, location.longitude);
           _zoom = 17;
           var addresses = await Geocoder.google(
@@ -52,17 +52,18 @@ class MapProvider extends ChangeNotifier{
           notifyListeners();
         });
       }
-      else if (_serviceEnabled == null || !_serviceEnabled) {
+      else {
         _initialCameraPosition = cities.first.position;
         _zoom = cities.first.zoom;
-        // notifyListeners();
+        notifyListeners();
       }
     }
     else if(_permissionGranted == PermissionStatus.denied){
-      print("_initialCameraPosition 2 $_initialCameraPosition");
       _initialCameraPosition = cities.first.position;
       _zoom = cities.first.zoom;
-      // notifyListeners();
+      Future.delayed(Duration(seconds: 1), (){
+        notifyListeners();
+      });
     }
     if(_permissionGranted == PermissionStatus.deniedForever){
       _initialCameraPosition = cities.first.position;

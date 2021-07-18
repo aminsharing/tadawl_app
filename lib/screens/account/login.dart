@@ -7,12 +7,14 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
+import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/user_provider/change_phone_provider.dart';
+import 'package:tadawl_app/provider/user_provider/login_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/new_account.dart';
 import 'package:tadawl_app/screens/account/restoration_pass.dart';
 import 'package:tadawl_app/screens/account/verifyAccount.dart';
-import 'package:tadawl_app/screens/ads/main_page.dart';
 import 'package:tadawl_app/screens/general/home.dart';
 
 String phone;
@@ -49,8 +51,10 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     final translate = AppLocalizations.of(context);
     
-    return Consumer<UserProvider>(builder: (context, login, child) {
-      
+    return Consumer<LoginProvider>(builder: (context, login, child) {
+
+      print("Login -> LoginProvider");
+
 
       Widget _buildPhoneNumber() {
         return TextFormField(
@@ -83,7 +87,7 @@ class Login extends StatelessWidget {
       Widget _buildPassword() {
         return TextFormField(
           decoration: InputDecoration(labelText: translate.pass),
-          obscureText: !Provider.of<UserProvider>(context, listen: false).passwordVisible,
+          obscureText: !login.passwordVisible,
           style: CustomTextStyle(
 
             fontSize: 15,
@@ -234,10 +238,9 @@ class Login extends StatelessWidget {
                                   builder: (context) => NewAcount()),
                             );
                           } else if (data == 'successful') {
-                            Provider.of<UserProvider>(context, listen: false)
+                            Provider.of<ChangePhoneProvider>(context, listen: false)
                                 .saveSession(phone);
-                            await Provider.of<UserProvider>(
-                                context, listen: false).getSession();
+                            await Provider.of<UserMutualProvider>(context, listen: false).getSession();
 
                             await Fluttertoast.showToast(
                                 msg: 'تم تسجيل الدخول بنجاح',
@@ -248,14 +251,15 @@ class Login extends StatelessWidget {
                                 textColor: Colors.white,
                                 fontSize: 15.0);
                             Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
-
+                            Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
+                            Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
                             await Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => Home()),
                             );
                           } else if (data == 'not verified') {
-                            Provider.of<UserProvider>(context, listen: false)
+                            Provider.of<ChangePhoneProvider>(context, listen: false)
                                 .saveSession(phone);
                             await Fluttertoast.showToast(
                                 msg: 'لم يتم تفعيل الحساب بعد',

@@ -12,13 +12,12 @@ import 'package:tadawl_app/mainWidgets/main_page/slider_widget.dart';
 import 'package:tadawl_app/mainWidgets/search_drawer.dart';
 import 'package:tadawl_app/mainWidgets/bottom_navigation_bar.dart';
 import 'package:tadawl_app/mainWidgets/custom_drawer.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
-
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/map_provider.dart';
 //import 'package:tadawl_app/provider/user_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
 
 class MainPage extends StatelessWidget {
   MainPage({Key key}) : super(key: key);
@@ -28,7 +27,9 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Provider.of<MapProvider>(context, listen: false).getLocPer();
-    return Consumer<AdsProvider>(builder: (context, mainPage, child) {
+    return Consumer<MainPageProvider>(builder: (context, mainPage, child) {
+
+      print("MainPage -> MainPageProvider");
 
 
       Future<bool> _onBackPressed() {
@@ -97,11 +98,11 @@ class MainPage extends StatelessWidget {
 
       if(mainPage.inItMainPageDone == 0) {
         mainPage.setIdCategorySearch('0');
-        mainPage
+        Provider.of<MenuProvider>(context,listen: false)
         .setFilterSearchDrawer(1);
-        mainPage
+        Provider.of<MenuProvider>(context,listen: false)
         .setMenuMainFilterAds(2);
-        mainPage
+        Provider.of<MenuProvider>(context,listen: false)
         .getAdsInfo(
           context,
           mainPage.idCategorySearch,

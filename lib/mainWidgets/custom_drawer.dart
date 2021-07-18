@@ -4,15 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/special_offers_provider.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/l10n/l10n.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/favourite.dart';
 import 'package:tadawl_app/screens/account/login.dart';
 import 'package:tadawl_app/screens/account/my_account.dart';
 import 'package:tadawl_app/screens/account/my_ads.dart';
 import 'package:tadawl_app/screens/account/requests.dart';
-import 'package:tadawl_app/screens/ads/add_ads.dart';
+import 'package:tadawl_app/screens/ads/add_ad.dart';
 import 'package:tadawl_app/screens/ads/advertising_fee.dart';
 import 'package:tadawl_app/screens/ads/exclusive_marketing.dart';
 import 'package:tadawl_app/screens/ads/special_offers.dart';
@@ -22,7 +23,6 @@ import 'package:tadawl_app/screens/general/contact.dart';
 import 'package:tadawl_app/screens/general/coupon_request.dart';
 import 'package:tadawl_app/screens/general/home.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
 import 'package:tadawl_app/screens/account/discussion_list.dart';
 import 'package:tadawl_app/screens/account/real_estate_offices.dart';
 import 'package:tadawl_app/screens/general/hotels.dart';
@@ -40,10 +40,12 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(builder: (context, customDrawer, child) {
+    return Consumer<UserMutualProvider>(builder: (context, customDrawer, child) {
 
-      customDrawer.getSession();
-      var _phone = customDrawer.phone;
+      print("CustomDrawer -> UserMutualProvider");
+
+      Provider.of<UserMutualProvider>(context, listen: false).getSession();
+      var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
       if(customDrawer.users.isEmpty){
         customDrawer.getUsersList(context, _phone);
       }
@@ -236,14 +238,18 @@ class CustomDrawer extends StatelessWidget {
                               :
                           TextButton(
                                   onPressed: () {
-                                    customDrawer.setWaitState(true);
-                                    customDrawer.getAvatarList(context, _phone);
-                                    customDrawer.getUserAdsList(context, _phone);
-                                    customDrawer.getEstimatesInfo(context, _phone);
-                                    customDrawer.getSumEstimatesInfo(context, _phone);
-                                    customDrawer.checkOfficeInfo(context, _phone);
+                                    var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
 
-                                    customDrawer.setUserPhone(_phone);
+                                    customDrawer.setWaitState(true);
+                                    userMutual.getAvatarList(context, _phone);
+                                    userMutual.getUserAdsList(context, _phone);
+                                    userMutual
+                                    .getEstimatesInfo(context, _phone);
+                                    userMutual
+                                        .getSumEstimatesInfo(context, _phone);
+                                    userMutual.checkOfficeInfo(context, _phone);
+
+                                    userMutual.setUserPhone(_phone);
 
                                     Future.delayed(Duration(seconds: 1), () {
                                       Navigator.push(
@@ -358,7 +364,7 @@ class CustomDrawer extends StatelessWidget {
                           ),
                           TextButton(
                             onPressed: () {
-                              customDrawer.getUserAdsList(context, customDrawer.phone);
+                              Provider.of<UserMutualProvider>(context, listen: false).getUserAdsList(context, Provider.of<UserMutualProvider>(context, listen: false).phone);
                               Navigator.push(
                                 context,
                                 // MaterialPageRoute(builder: (context) => MyAds()),
@@ -688,7 +694,7 @@ class CustomDrawer extends StatelessWidget {
                         children: [
                           TextButton(
                             onPressed: () {
-                              Provider.of<AdsProvider>(context, listen: false).getAdsSpecialList(context);
+                              Provider.of<SpecialOffersProvider>(context, listen: false).getAdsSpecialList(context);
                               Navigator.push(
                                 context,
                                 // MaterialPageRoute(builder: (context) => SpecialOffers()),

@@ -9,9 +9,11 @@ import 'package:tadawl_app/models/BFModel.dart';
 import 'package:tadawl_app/models/QFModel.dart';
 import 'package:tadawl_app/models/UserModel.dart';
 import 'package:tadawl_app/models/views_series.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/user_provider/favourite_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/screens/ads/ad_page.dart';
 
 class MutualProvider extends ChangeNotifier{
   final List<AdsModel> _AdsPage = [];
@@ -39,8 +41,40 @@ class MutualProvider extends ChangeNotifier{
   double randdLeft = 50;
   String _idDescription;
   int _expendedListCount = 4;
+  int _number;
+  bool _busy = false;
 
 
+  Future<bool> updateAds(BuildContext context, String id_ads) async {
+    return Future.delayed(Duration(milliseconds: 0), () {
+      return Api().updateAdsFunc(context, id_ads).then((value) {
+        _busy = false;
+        return true;
+      });
+    });
+  }
+
+  void setNumber(int i) {
+    _number = i;
+    _busy = true;
+    notifyListeners();
+  }
+
+  void sendEstimate(BuildContext context, String phone, String phoneEstimated, String rating, String comment, String idDescription) async {
+    Future.delayed(Duration(milliseconds: 0), () {
+      Api()
+          .sendEstimateFunc(context, phone, phoneEstimated, rating, comment);
+    });
+    Provider.of<MutualProvider>(context, listen: false)
+        .getAllAdsPageSendEs(context, idDescription);
+
+    Future.delayed(Duration(seconds: 0), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => AdPage()),
+      );
+    });
+  }
 
   void getAdsPageList(BuildContext context, String idDescription) {
     Future.delayed(Duration(milliseconds: 0), () {
@@ -52,10 +86,10 @@ class MutualProvider extends ChangeNotifier{
         });
         _qrData = 'https://store.tadawl.com.sa/${_AdsPage.first.idDescription}/ads';
         if(_AdsPage.first.video.isNotEmpty) {
-          Provider.of<AdsProvider>(context, listen: false).
+          Provider.of<AdPageProvider>(context, listen: false).
           setVideoAdsPage(_AdsPage.first.video);
         }
-        // notifyListeners();
+        notifyListeners();
       });
     });
   }
@@ -70,6 +104,7 @@ class MutualProvider extends ChangeNotifier{
         _adsPageImagesData.forEach((element) {
           _AdsPageImages.add(AdsModel.adsPageImages(element));
         });
+        notifyListeners();
       });
     });
   }
@@ -99,9 +134,9 @@ class MutualProvider extends ChangeNotifier{
         _adsUserData.forEach((element) {
           _AdsUser.add(UserModel.adsUser(element));
         });
-        Provider.of<UserProvider>(context, listen: false).getEstimatesInfo(context, _AdsUser.first.phone);
-        Provider.of<UserProvider>(context, listen: false).getSumEstimatesInfo(context, _AdsUser.first.phone);
-        Provider.of<UserProvider>(context, listen: false).update();
+        Provider.of<UserMutualProvider>(context, listen: false).getEstimatesInfo(context, _AdsUser.first.phone);
+        Provider.of<UserMutualProvider>(context, listen: false).getSumEstimatesInfo(context, _AdsUser.first.phone);
+        Provider.of<FavouriteProvider>(context, listen: false).update();
       });
     });
   }
@@ -114,6 +149,7 @@ class MutualProvider extends ChangeNotifier{
         _adsVRData.forEach((element) {
           _AdsVR.add(AdsModel.adsVR(element));
         });
+        notifyListeners();
       });
     });
   }
@@ -128,6 +164,7 @@ class MutualProvider extends ChangeNotifier{
         _adsBFData.forEach((element) {
           _AdsBF.add(BFModel.fromJson(element));
         });
+        notifyListeners();
       });
     });
   }
@@ -142,6 +179,7 @@ class MutualProvider extends ChangeNotifier{
         _adsQFData.forEach((element) {
           _AdsQF.add(QFModel.fromJson(element));
         });
+        notifyListeners();
       });
     });
   }
@@ -155,7 +193,7 @@ class MutualProvider extends ChangeNotifier{
           _AdsNavigation.add(AdsModel.adsNavigation(element));
         });
         // TODO ADDED
-        // notifyListeners();
+        notifyListeners();
       });
     });
   }
@@ -174,6 +212,7 @@ class MutualProvider extends ChangeNotifier{
             barColor: charts.ColorUtil.fromDartColor(Color(0xff00cccc)),
           ));
         });
+        notifyListeners();
       });
     });
   }
@@ -267,4 +306,7 @@ class MutualProvider extends ChangeNotifier{
   List<ViewsSeriesModel> get adsViews => _AdsViews;
   int get expendedListCount => _expendedListCount;
   String get idDescription => _idDescription;
+  bool get busy => _busy;
+  int get number => _number;
+
 }

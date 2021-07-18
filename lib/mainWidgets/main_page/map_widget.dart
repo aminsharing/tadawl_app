@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/map_provider.dart';
-import 'package:tadawl_app/provider/test/mutual_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/screens/general/regions.dart';
@@ -14,7 +14,7 @@ import 'package:tadawl_app/screens/general/regions.dart';
 class MapWidget extends StatelessWidget {
   MapWidget({Key key, this.mainPage}) : super(key: key);
 
-  final AdsProvider mainPage;
+  final MainPageProvider mainPage;
 
   void _onMapCreated(GoogleMapController controller) {
     controller.setMapStyle(Utils.mapStyle);
@@ -47,20 +47,20 @@ class MapWidget extends StatelessWidget {
                   // print("move.distance ${move.size}");
                   mainPage.setMoveState(true);
                 },
-                onPointerUp: (move){
-                  if(mainPage.isMove){
-                    if(mainPage.showDiaogSearchDrawer){
-                      mainPage.setShowDiogFalse();
-                    }
-                    mainPage
-                        .getAdsList(
-                        context, mainPage.idCategorySearch, null, null, null, null, null, null, null, null, null, null,
-                        null, null, null, null, null, null, null, null, null, null, null, null,
-                        null, null, null, null, null, null, null, null, null, null, null, null,
-                        null, null);
-                    mainPage.setMoveState(false);
-                  }
-                },
+                // onPointerUp: (move){
+                //   if(mainPage.isMove){
+                //     if(mainPage.showDiaogSearchDrawer){
+                //       mainPage.setShowDiogFalse();
+                //     }
+                //     mainPage
+                //         .getAdsList(
+                //         context, mainPage.idCategorySearch, null, null, null, null, null, null, null, null, null, null,
+                //         null, null, null, null, null, null, null, null, null, null, null, null,
+                //         null, null, null, null, null, null, null, null, null, null, null, null,
+                //         null, null);
+                //     mainPage.setMoveState(false);
+                //   }
+                // },
                 child:
                 mapProv.initialCameraPosition == null
                     ?

@@ -11,6 +11,8 @@ class RealEstateMap extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<OfficeMarkerProvider>(builder: (context, realEstate, child) {
 
+      print("RealEstateMap -> OfficeMarkerProvider");
+
       void _onMapCreated(GoogleMapController controller) {
         controller.setMapStyle(Utils.mapStyle);
       }

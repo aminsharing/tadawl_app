@@ -12,11 +12,11 @@ import 'package:tadawl_app/mainWidgets/Gist.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/OfficeModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/my_account.dart';
 
 class OfficeMarkerProvider extends ChangeNotifier{
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   var _markers = <Marker>[];
   final List<OfficeModel> _officesList = [];
@@ -70,7 +70,7 @@ class OfficeMarkerProvider extends ChangeNotifier{
             position: LatLng(double.parse(office.office_lat),
                 double.parse(office.office_lng)),
             onTap: () {
-              var user = Provider.of<UserProvider>(context, listen: false);
+              var user = Provider.of<UserMutualProvider>(context, listen: false);
               user.getAvatarList(context, office.phone_user);
               user.getUserAdsList(context, office.phone_user);
               user.getEstimatesInfo(context, office.phone_user);

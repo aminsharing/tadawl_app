@@ -10,7 +10,7 @@ import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:tadawl_app/provider/office_marker_provider.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/login.dart';
 import 'package:tadawl_app/screens/account/offices_Vr.dart';
 
@@ -21,9 +21,8 @@ class RealEstateOffices extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<UserProvider>(context, listen: false).getSession();
-    var _phone = Provider
-        .of<UserProvider>(context, listen: false)
+    Provider.of<UserMutualProvider>(context, listen: false).getSession();
+    var _phone = Provider.of<UserMutualProvider>(context, listen: false)
         .phone;
 
     Future<bool> _onBackPressed() {

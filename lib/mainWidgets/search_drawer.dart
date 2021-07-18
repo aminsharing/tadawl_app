@@ -6,11 +6,10 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
-
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
 import 'package:tadawl_app/screens/ads/main_page.dart';
 import 'package:tadawl_app/screens/ads/search_ads.dart';
 
@@ -27,7 +26,11 @@ class _SearchDrawerState extends State<SearchDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AdsProvider>(builder: (context, searchDrawer, child) {
+    return Consumer<MainPageProvider>(builder: (context, searchDrawer, child) {
+
+      print("SearchDrawer -> MainPageProvider");
+
+
       Padding _buildCommercialHousing() {
         return Padding(
           padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
@@ -2498,9 +2501,9 @@ class _SearchDrawerState extends State<SearchDrawer> {
                       : TextButton(
                           onPressed: () {
                             _searchDrawerKey.currentState.save();
-                            searchDrawer
+                            Provider.of<MenuProvider>(context, listen: false)
                             .setFilterSearchDrawer(4);
-                            searchDrawer
+                            Provider.of<MenuProvider>(context, listen: false)
                             .getAdsInfo(
                               context,
                               searchDrawer.idCategorySearch,
@@ -2579,7 +2582,7 @@ class _SearchDrawerState extends State<SearchDrawer> {
                                     searchDrawer.ads.isNotEmpty
                                         ? Center(
                                             child: Text(
-                                              ' ${AppLocalizations.of(context).search}  ${searchDrawer.countMenuAds()}  ${AppLocalizations.of(context).advertisement}  ',
+                                              ' ${AppLocalizations.of(context).search}  ${Provider.of<MenuProvider>(context, listen: false).countMenuAds()}  ${AppLocalizations.of(context).advertisement}  ',
                                               style: CustomTextStyle(
 
                                                 fontSize: 12,
@@ -2628,9 +2631,9 @@ class _SearchDrawerState extends State<SearchDrawer> {
                         onToggle: (val) {
                           searchDrawer.setIsTwoWeekSearchDrawer(val);
                           if (searchDrawer.isTwoWeeksAgoSearchDrawer == true) {
-                            searchDrawer
+                            Provider.of<MenuProvider>(context, listen: false)
                             .setFilterSearchDrawer(2);
-                            searchDrawer
+                            Provider.of<MenuProvider>(context, listen: false)
                             .getAdsInfo(
                               context,
                               searchDrawer.idCategorySearch,
@@ -2683,9 +2686,9 @@ class _SearchDrawerState extends State<SearchDrawer> {
                           } else if (searchDrawer.isTwoWeeksAgoSearchDrawer ==
                               false) {
 
-                            searchDrawer
+                            Provider.of<MenuProvider>(context, listen: false)
                                 .setFilterSearchDrawer(null);
-                            searchDrawer
+                            Provider.of<MenuProvider>(context, listen: false)
                             .getAdsInfo(
                               context,
                               searchDrawer.idCategorySearch,

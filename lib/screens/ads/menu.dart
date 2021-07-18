@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/bottom_navigation_bar.dart';
@@ -7,14 +6,12 @@ import 'package:tadawl_app/mainWidgets/custom_drawer.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-
 import 'package:tadawl_app/mainWidgets/search_drawer.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
-import 'package:tadawl_app/provider/test/mutual_provider.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 import 'package:tadawl_app/screens/ads/main_page.dart';
 
@@ -26,9 +23,10 @@ class Menu extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    Provider.of<AdsProvider>(context, listen: false).setScrollListener();
-    return Consumer<AdsProvider>(builder: (context, menu, child) {
+    Provider.of<MenuProvider>(context, listen: false).setScrollListener();
+    return Consumer<MenuProvider>(builder: (context, menu, child) {
 
+      print("Menu -> MenuProvider");
 
       var mediaQuery = MediaQuery.of(context);
 
@@ -38,8 +36,10 @@ class Menu extends StatelessWidget {
 
 
       Future<bool> _onBackPressed() async{
+        Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
+        Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
         Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
-        await Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
+        await Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainPage()));
         return true;
       }
 
@@ -208,7 +208,7 @@ class Menu extends StatelessWidget {
                   physics: AlwaysScrollableScrollPhysics(),
                   controller: menu.menuController,
                   // itemCount: menu.countMenuAds(),
-                  itemCount: menu.expendedMenuListCount,
+                  itemCount: menu.countMenuAds() > 20 ? menu.expendedMenuListCount : menu.countMenuAds(),
                   itemBuilder: (context,i){
                     return TextButton(
                       onPressed: () {

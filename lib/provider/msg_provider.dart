@@ -19,7 +19,7 @@ import 'package:tadawl_app/screens/account/discussion_main.dart';
 // import 'package:audioplayers/audioplayers.dart';
 
 class MsgProvider extends ChangeNotifier{
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final TextEditingController _msgController = TextEditingController();
 
@@ -278,14 +278,14 @@ class MsgProvider extends ChangeNotifier{
 
   /// Record start fun
   void startRecorder() async{
-    Map<Permission, PermissionStatus> statuses = await [
+    var statuses = await [
       Permission.storage,
       Permission.speech,
     ].request();
 
-    if(await Permission.speech.isGranted){
+    if(await statuses[1].isGranted){
       var temp = await getTemporaryDirectory();
-      Directory newDir = Directory(temp.path + '/voiceChat');
+      var newDir = Directory(temp.path + '/voiceChat');
       if(!await newDir.exists()){
         await newDir.create(recursive: true);
       }else{
@@ -320,7 +320,7 @@ class MsgProvider extends ChangeNotifier{
     }else{
       await Record.stop().then((value) async{
         var temp = await getTemporaryDirectory();
-        Directory newDir = Directory(temp.path + '/voiceChat');
+        var newDir = Directory(temp.path + '/voiceChat');
         _voiceMsg = await File(newDir.path + '/$randomName.m4a');
         await sendMess(
             context,
@@ -372,11 +372,11 @@ class MsgProvider extends ChangeNotifier{
   void deleteFile(String path) async{
     var temp = await getTemporaryDirectory();
     try{
-      File file = await File('${temp.path}/voiceChat/$path.aac');
+      var file = await File('${temp.path}/voiceChat/$path.aac');
       // File file = await File(path);
       await file.delete();
     }catch(e){
-      print("$e");
+      print('$e');
     }
   }
 

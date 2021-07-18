@@ -6,12 +6,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/map_provider.dart';
-import 'package:tadawl_app/provider/test/mutual_provider.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/ads/advertising_fee.dart';
 import 'package:tadawl_app/screens/general/terms_of_use.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -40,22 +40,12 @@ class AddAds extends StatelessWidget {
 
   final GlobalKey<FormState> _addAdsKey = GlobalKey<FormState>();
 
-  /*
-  Future<void> choiceAction(String choice) async {
-    if (choice == 'من الاستديو' || choice == 'From Studio') {
-      await addAds.getGalleryVideo(context);
-    } else if (choice == 'من الكاميرا' || choice == 'From Camera') {
-      await addAds.getCameraVideo();
-    }
-  }
-  */
-
   @override
   Widget build(BuildContext context) {
-    return Consumer<AdsProvider>(builder: (context, addAds, child) {
+    return Consumer<AddAdProvider>(builder: (context, addAds, child) {
       var mediaQuery = MediaQuery.of(context);
       addAds.setInitSelectionsAddAds();
-
+      print("AddAds -> AddAdProvider");
 
       // ignore: missing_return
       Future<bool> _onBackPressed() {
@@ -316,7 +306,7 @@ class AddAds extends StatelessWidget {
         controller.setMapStyle(Utils.mapStyle);
       }
 
-      Provider.of<UserProvider>(context, listen: false).getSession();
+      Provider.of<UserMutualProvider>(context, listen: false).getSession();
 
       if (addAds.currentStageAddAds == 4){
         Provider.of<MapProvider>(context, listen: false).getLocPer();
@@ -1000,7 +990,7 @@ class AddAds extends StatelessWidget {
                               Expanded(
                                 child: RichText(
                                   text: TextSpan(
-                                    
+
                                       children: <TextSpan>[
                                         TextSpan(
                                             text: AppLocalizations.of(context).rule29,
@@ -2111,7 +2101,7 @@ class AddAds extends StatelessWidget {
                                                     newValue);
                                               },
                                               items: _lang != 'en_US'
-                                                  ? Provider.of<AdsProvider>(context, listen: false).Interface.map(
+                                                  ? Provider.of<MainPageProvider>(context, listen: false).Interface.map(
                                                       (Map map) {
                                                     return DropdownMenuItem<
                                                         String>(
@@ -2137,7 +2127,7 @@ class AddAds extends StatelessWidget {
                                                       ),
                                                     );
                                                   }).toList()
-                                                  : Provider.of<AdsProvider>(context, listen: false).EnInterface.map(
+                                                  : Provider.of<MainPageProvider>(context, listen: false).EnInterface.map(
                                                       (Map map) {
                                                     return DropdownMenuItem<
                                                         String>(
@@ -5999,9 +5989,7 @@ class AddAds extends StatelessWidget {
                                 addAds.ads_cordinates_lngAddAds.toString(),
                                 null,
                                 null,
-                                Provider
-                                    .of<UserProvider>(context,
-                                    listen: false)
+                                Provider.of<UserMutualProvider>(context, listen: false)
                                     .phone,
                                 addAds.ads_cityAddAds,
                                 addAds.ads_neighborhoodAddAds,

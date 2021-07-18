@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NetworkCoverageWidget extends StatelessWidget {
   NetworkCoverageWidget({Key key, this.adsPage}) : super(key: key);
 
-  final AdsProvider adsPage;
+  final AdPageProvider adsPage;
 
   void _launchSTC() async {
     await adsPage.stopVideoAdsPage();

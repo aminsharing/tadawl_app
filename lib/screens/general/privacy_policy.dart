@@ -14,6 +14,7 @@ class PrivacyPolicy extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<GeneralProvider>(builder: (context, privacyPolicy, child) {
 
+      print("PrivacyPolicy -> GeneralProvider");
 
       return Scaffold(
         backgroundColor: const Color(0xffffffff),

@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-
-import 'package:tadawl_app/provider/ads_provider.dart';
-import 'package:tadawl_app/provider/test/mutual_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/today_ads_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -15,8 +14,9 @@ class TodayAds extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AdsProvider>(builder: (context, todayAds, child) {
-      
+    return Consumer<TodayAdsProvider>(builder: (context, todayAds, child) {
+
+      print("TodayAds -> TodayAdsProvider");
 
       var mediaQuery = MediaQuery.of(context);
       //todayAds.getTodayAdsList(context);

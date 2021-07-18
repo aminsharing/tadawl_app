@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/user_provider/change_phone_provider.dart';
 import 'package:tadawl_app/screens/account/new_account.dart';
 import 'package:tadawl_app/screens/account/verifyAccount.dart';
 
@@ -22,7 +22,9 @@ class RestorationPass extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(builder: (context, restorationPass, child) {
+    return Consumer<ChangePhoneProvider>(builder: (context, restorationPass, child) {
+
+      print("RestorationPass -> ChangePhoneProvider");
 
 
       var mediaQuery = MediaQuery.of(context);

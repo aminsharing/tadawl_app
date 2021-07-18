@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:tadawl_app/mainWidgets/bottom_navigation_bar.dart';
 import 'package:tadawl_app/mainWidgets/custom_drawer.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
-import 'package:tadawl_app/screens/ads/main_page.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'discussion_edit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -20,6 +17,8 @@ class DiscussionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<MsgProvider>(builder: (context, convList, child) {
+
+      print("DiscussionList -> MsgProvider");
 
       // Future<bool> _onBackPressed() {
       //   return showDialog(
@@ -78,8 +77,8 @@ class DiscussionList extends StatelessWidget {
       // }
 
       var mediaQuery = MediaQuery.of(context);
-      Provider.of<UserProvider>(context, listen: false).getSession();
-      var _phone = Provider.of<UserProvider>(context, listen: false).phone;
+      Provider.of<UserMutualProvider>(context, listen: false).getSession();
+      var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
       //convList.getConvInfo(context);
       convList.getConvInfo(context, _phone);
 
@@ -95,18 +94,30 @@ class DiscussionList extends StatelessWidget {
         ),
         appBar: AppBar(
           toolbarHeight: 65.0,
+          leadingWidth: 100,
+          centerTitle: true,
           backgroundColor: const Color(0xff00cccc),
-          leading: Container(),
-          title: Center(
-            child: Text(
-              AppLocalizations.of(context).messages,
-              style: CustomTextStyle(
-
-                fontSize: 20,
-                color: const Color(0xffffffff),
-              ).getTextStyle(),
-              textAlign: TextAlign.center,
+          leading: Padding(
+            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Color(0xffffffff),
+                size: 40,
+              ),
+              onPressed: () {
+                //mainChat.closeStreamChat();
+                Navigator.pop(context);
+              },
             ),
+          ),
+          title: Text(
+            AppLocalizations.of(context).messages,
+            style: CustomTextStyle(
+              fontSize: 20,
+              color: const Color(0xffffffff),
+            ).getTextStyle(),
+            textAlign: TextAlign.center,
           ),
           actions: [
             TextButton(
@@ -348,6 +359,7 @@ class DiscussionList extends StatelessWidget {
                     ),
                   );
                 }
+                return SizedBox();
               },
             )
                 :

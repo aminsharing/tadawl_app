@@ -6,8 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
-import 'package:tadawl_app/screens/account/my_account.dart';
+import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
+import 'package:tadawl_app/provider/user_provider/change_pass_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/ads/main_page.dart';
 
 class ChangePass extends StatelessWidget {
@@ -19,10 +20,13 @@ class ChangePass extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(builder: (context, changePass, child) {
+    return Consumer<ChangePassProvider>(builder: (context, changePass, child) {
+
+      print("ChangePass -> ChangePassProvider");
+
 
       var mediaQuery = MediaQuery.of(context);
-      changePass.getSession();
+      Provider.of<UserMutualProvider>(context, listen: false).getSession();
 
       Widget _buildReNewPass() {
         return TextFormField(
@@ -157,7 +161,7 @@ class ChangePass extends StatelessWidget {
                             'https://tadawl.com.sa/API/api_app/login/change_pass.php';
                         var response = await http.post(url, body: {
                           'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
-                          'phone': changePass.phone,
+                          'phone': Provider.of<UserMutualProvider>(context, listen: false).phone,
                           'newPass': changePass.newPass,
                           'reNewPass': changePass.reNewPass,
                         });
@@ -192,15 +196,18 @@ class ChangePass extends StatelessWidget {
                               textColor: Colors.white,
                               fontSize: 15.0);
 
-                          changePass.getAvatarList(context, changePass.phone);
-                          changePass.getUserAdsList(context, changePass.phone);
-                          changePass.getEstimatesInfo(context, changePass.phone);
-                          changePass.getSumEstimatesInfo(context, changePass.phone);
-                          changePass.checkOfficeInfo(context, changePass.phone);
+                          var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
+                          userMutual.getAvatarList(context, userMutual.phone);
+                          userMutual.getUserAdsList(context, userMutual.phone);
+                          userMutual.getEstimatesInfo(context, userMutual.phone);
+                          userMutual.getSumEstimatesInfo(context, userMutual.phone);
+                          userMutual.checkOfficeInfo(context, userMutual.phone);
 
-                          changePass.setUserPhone(changePass.phone);
+                          userMutual.setUserPhone(userMutual.phone);
 
                           Future.delayed(Duration(seconds: 1), () {
+                            Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
+                            Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

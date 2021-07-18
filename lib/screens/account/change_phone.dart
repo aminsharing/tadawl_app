@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/user_provider/change_phone_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/my_account.dart';
 
 String patternPhone =
@@ -22,7 +23,10 @@ class ChangePhone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(builder: (context, changePhone, child) {
+    return Consumer<ChangePhoneProvider>(builder: (context, changePhone, child) {
+
+      print("ChangePhone -> ChangePhoneProvider");
+
       Widget _buildPhone() {
         return TextFormField(
           decoration:
@@ -49,7 +53,7 @@ class ChangePhone extends StatelessWidget {
       }
 
       var mediaQuery = MediaQuery.of(context);
-      changePhone.getSession();
+      Provider.of<UserMutualProvider>(context, listen: false).getSession();
 
       return Scaffold(
         appBar: AppBar(
@@ -113,13 +117,13 @@ class ChangePhone extends StatelessWidget {
 
                       _changePhoneKey.currentState.save();
 
-                      await changePhone.getSession();
+                      await Provider.of<UserMutualProvider>(context, listen: false).getSession();
 
                       var url =
                           'https://tadawl.com.sa/API/api_app/login/change_phone.php';
                       var response = await http.post(url, body: {
                         'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
-                        'oldPhone': changePhone.phone,
+                        'oldPhone': Provider.of<UserMutualProvider>(context, listen: false).phone,
                         'newPhone': changePhone.newPhone,
                       });
 
@@ -145,12 +149,13 @@ class ChangePhone extends StatelessWidget {
                             textColor: Colors.white,
                             fontSize: 15.0);
 
-                        changePhone.getAvatarList(context, changePhone.newPhone);
-                        changePhone.getUserAdsList(context, changePhone.newPhone);
-                        changePhone.getEstimatesInfo(context, changePhone.newPhone);
-                        changePhone.getSumEstimatesInfo(context, changePhone.newPhone);
-                        changePhone.checkOfficeInfo(context, changePhone.newPhone);
-                        changePhone.setUserPhone(changePhone.newPhone);
+                        var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
+                        userMutual.getAvatarList(context, changePhone.newPhone);
+                        userMutual.getUserAdsList(context, changePhone.newPhone);
+                        userMutual.getEstimatesInfo(context, changePhone.newPhone);
+                        userMutual.getSumEstimatesInfo(context, changePhone.newPhone);
+                        userMutual.checkOfficeInfo(context, changePhone.newPhone);
+                        userMutual.setUserPhone(changePhone.newPhone);
 
                         Future.delayed(Duration(seconds: 1), () {
                           Navigator.push(

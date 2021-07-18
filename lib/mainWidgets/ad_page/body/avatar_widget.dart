@@ -4,22 +4,22 @@ import 'package:flutter_simple_rating_bar/flutter_simple_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/UserModel.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/login.dart';
 
 class AvatarWidget extends StatelessWidget {
   const AvatarWidget({Key key, this.adsPage, this.adsUser}) : super(key: key);
 
-  final AdsProvider adsPage;
+  final AdPageProvider adsPage;
   final List<UserModel> adsUser;
 
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
-    var _phone = Provider.of<UserProvider>(context, listen: false).phone;
+    var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
 
       if (adsUser.first != null) {
       return Column(
@@ -41,14 +41,14 @@ class AvatarWidget extends StatelessWidget {
               ],
             ),
           ),
-          Provider.of<UserProvider>(context, listen: false).wait
+          Provider.of<UserMutualProvider>(context, listen: false).wait
               ? Padding(
                   padding: EdgeInsets.all(50),
                   child: CircularProgressIndicator())
               : TextButton(
                   onPressed: () {
                     adsPage.stopVideoAdsPage();
-                    Provider.of<UserProvider>(context, listen: false)
+                    Provider.of<UserMutualProvider>(context, listen: false)
                         .goToAvatar(context, adsUser.first.phone);
                   },
                   child: Padding(
@@ -96,7 +96,7 @@ class AvatarWidget extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                if (Provider.of<UserProvider>(context,
+                                if (Provider.of<UserMutualProvider>(context,
                                         listen: false)
                                     .estimates
                                     .isNotEmpty)
@@ -119,11 +119,11 @@ class AvatarWidget extends StatelessWidget {
                                           padding: const EdgeInsets.fromLTRB(
                                               0, 0, 15, 0),
                                           child: Text(
-                                            Provider.of<UserProvider>(context,
+                                            Provider.of<UserMutualProvider>(context,
                                                         listen: false)
                                                     .estimates
                                                     .isNotEmpty
-                                                ? '(${Provider.of<UserProvider>(context, listen: false).countEstimates()})'
+                                                ? '(${Provider.of<UserMutualProvider>(context, listen: false).countEstimates()})'
                                                 : '0',
                                             style: CustomTextStyle(
                                               fontSize: 15,
@@ -132,7 +132,7 @@ class AvatarWidget extends StatelessWidget {
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
-                                        if (Provider.of<UserProvider>(context,
+                                        if (Provider.of<UserMutualProvider>(context,
                                                 listen: false)
                                             .sumEstimates
                                             .isNotEmpty)
@@ -141,14 +141,14 @@ class AvatarWidget extends StatelessWidget {
                                                 0, 0, 0, 0),
                                             child: RatingBar(
                                               rating: (double.parse(Provider.of<
-                                                                  UserProvider>(
+                                                  UserMutualProvider>(
                                                               context,
                                                               listen: false)
                                                           .sumEstimates
                                                           .first
                                                           .sum_estimates) /
                                                       double.parse(
-                                                          '${Provider.of<UserProvider>(context, listen: false).countEstimates()}'))
+                                                          '${Provider.of<UserMutualProvider>(context, listen: false).countEstimates()}'))
                                                   .toDouble(),
                                               icon: Icon(
                                                 Icons.star,
@@ -320,7 +320,7 @@ class AvatarWidget extends StatelessWidget {
                                               null) {
                                             adsPage.stopVideoAdsPage();
                                           }
-                                          Provider.of<UserProvider>(context,
+                                          Provider.of<UserMutualProvider>(context,
                                                   listen: false)
                                               .callNumber(context,
                                                   adsUser.first.phone);

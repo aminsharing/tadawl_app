@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 class SliderWidget extends StatelessWidget {
   SliderWidget({Key key, this.mainPage}) : super(key: key);
 
-  final AdsProvider mainPage;
+  final MainPageProvider mainPage;
 
 
   @override
@@ -107,11 +107,11 @@ class SliderWidget extends StatelessWidget {
                                               onPressed: () {
 
                                                 mainPage.setIdCategorySearch(mainPage.categories[i]['id_category']);
-                                                mainPage
+                                                Provider.of<MenuProvider>(context,listen: false)
                                                     .setFilterSearchDrawer(1);
-                                                mainPage
+                                                Provider.of<MenuProvider>(context,listen: false)
                                                     .setMenuMainFilterAds(2);
-                                                mainPage
+                                                Provider.of<MenuProvider>(context,listen: false)
                                                     .getAdsInfo(context,
                                                     mainPage.idCategorySearch,
                                                     mainPage.selectedCategory,
@@ -179,9 +179,12 @@ class SliderWidget extends StatelessWidget {
                                               onPressed: () {
                                                 mainPage.setIdCategorySearch(
                                                     mainPage.enCategories[i]['id_category']);
-                                                mainPage.setFilterSearchDrawer(1);
-                                                mainPage.setMenuMainFilterAds(2);
-                                                mainPage.getAdsInfo(
+                                                Provider.of<MenuProvider>(context,listen: false)
+                                                    .setFilterSearchDrawer(1);
+                                                Provider.of<MenuProvider>(context,listen: false)
+                                                    .setMenuMainFilterAds(2);
+                                                Provider.of<MenuProvider>(context,listen: false)
+                                                    .getAdsInfo(
                                                     context,
                                                     mainPage.idCategorySearch,
                                                     mainPage

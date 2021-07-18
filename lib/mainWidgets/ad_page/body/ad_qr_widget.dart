@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share/share.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AdQRWidget extends StatelessWidget {
   AdQRWidget({Key key, this.adsPage, this.qrData}) : super(key: key);
 
-  final AdsProvider adsPage;
+  final AdPageProvider adsPage;
   final String qrData;
 
   void _launchQRLink() async {

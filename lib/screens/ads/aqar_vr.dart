@@ -4,8 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
-import 'package:tadawl_app/provider/test/mutual_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/aqar_vr_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 
 class AqarVR extends StatelessWidget {
   AqarVR({
@@ -16,7 +16,9 @@ class AqarVR extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AdsProvider>(builder: (context, aqarVR, child) {
+    return Consumer<AqarVRProvider>(builder: (context, aqarVR, child) {
+
+      print("AqarVR -> AqarVRProvider");
 
       var mediaQuery = MediaQuery.of(context);
       Widget _buildIDNumber() {

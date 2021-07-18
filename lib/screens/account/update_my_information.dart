@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/user_provider/update_my_information_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/my_account.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
 
 class UpdateMyInformation extends StatelessWidget {
   UpdateMyInformation({
@@ -18,7 +19,11 @@ class UpdateMyInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     // final a = Provider.of<UserProvider>(context, listen: false);
 
-    return Consumer<UserProvider>(builder: (context, userUpdate, child) {
+    return Consumer2<UpdateMyInformationProvider, UserMutualProvider>(builder: (context, userUpdate, userMutual, child) {
+
+
+      print("UpdateMyInformation -> UpdateMyInformationProvider");
+      print("UpdateMyInformation -> UserMutualProvider");
 
 
       var mediaQuery = MediaQuery.of(context);
@@ -36,18 +41,15 @@ class UpdateMyInformation extends StatelessWidget {
                 size: 40,
               ),
               onPressed: () {
-                userUpdate.getAvatarList(context, userUpdate.phone);
-                userUpdate.getUserAdsList(context, userUpdate.phone);
-                userUpdate.getEstimatesInfo(context, userUpdate.phone);
-                userUpdate.getSumEstimatesInfo(context, userUpdate.phone);
-                userUpdate.checkOfficeInfo(context, userUpdate.phone);
-                userUpdate.getSession();
+                userMutual.getAvatarList(context, userMutual.phone);
+                userMutual.getUserAdsList(context, userMutual.phone);
+                userMutual.getEstimatesInfo(context, userMutual.phone);
+                userMutual.getSumEstimatesInfo(context, userMutual.phone);
+                userMutual.checkOfficeInfo(context, userMutual.phone);
+                userMutual.getSession();
 
                 Future.delayed(Duration(seconds: 1), () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyAccount()),
-                  );
+                  Navigator.pop(context);
                 });
               },
             ),
@@ -82,7 +84,7 @@ class UpdateMyInformation extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              if (userUpdate.users.isEmpty)
+                              if (userMutual.users.isEmpty)
                                 Padding(
                                   padding:
                                       const EdgeInsets.fromLTRB(0, 15, 0, 15),
@@ -143,7 +145,7 @@ class UpdateMyInformation extends StatelessWidget {
                                           child: userUpdate
                                                       .imageUpdateProfile ==
                                                   null
-                                              ? userUpdate.users.first.image == '' || userUpdate.users.first.image == null
+                                              ? userMutual.users.first.image == '' || userMutual.users.first.image == null
                                                   ? Container(
                                                       width: mediaQuery
                                                               .size.width *
@@ -169,7 +171,7 @@ class UpdateMyInformation extends StatelessWidget {
                                                       decoration: BoxDecoration(
                                                         image: DecorationImage(
                                                           image: CachedNetworkImageProvider(
-                                                              'https://tadawl.com.sa/API/assets/images/avatar/${userUpdate.users.first.image}'),
+                                                              'https://tadawl.com.sa/API/assets/images/avatar/${userMutual.users.first.image}'),
                                                           fit: BoxFit.contain,
                                                         ),
                                                       ),
@@ -207,7 +209,7 @@ class UpdateMyInformation extends StatelessWidget {
                                         size: 40,
                                       ),
                                       labelText: AppLocalizations.of(context).name),
-                                  initialValue: userUpdate.users.first.username ?? '',
+                                  initialValue: userMutual.users.first.username ?? '',
                                   style: CustomTextStyle(
 
                                     fontSize: 13,
@@ -226,7 +228,7 @@ class UpdateMyInformation extends StatelessWidget {
                                   //},
                                   onSaved: (String value) {
                                     //userUpdate.setUsernameController(value);
-                                    userUpdate.setUsername(value);
+                                    userMutual.setUsername(value);
                                   },
                                 ),
                               ),
@@ -247,7 +249,7 @@ class UpdateMyInformation extends StatelessWidget {
                                       ),
                                       labelText:
                                           AppLocalizations.of(context).email),
-                                  initialValue: userUpdate.users.first.email ?? '',
+                                  initialValue: userMutual.users.first.email ?? '',
                                   style: CustomTextStyle(
 
                                     fontSize: 13,
@@ -262,7 +264,7 @@ class UpdateMyInformation extends StatelessWidget {
                                     return null;
                                   },
                                   onSaved: (String value) {
-                                    userUpdate.setEmail(value);
+                                    userMutual.setEmail(value);
                                     //userUpdate.setEmailController(value);
                                   },
                                 ),
@@ -284,7 +286,7 @@ class UpdateMyInformation extends StatelessWidget {
                                       ),
                                       labelText:
                                           AppLocalizations.of(context).aboutMe),
-                                  initialValue: userUpdate.users.first.about ?? '',
+                                  initialValue: userMutual.users.first.about ?? '',
                                   style: CustomTextStyle(
                                     fontSize: 13,
                                     color: Color(0xff989696),
@@ -298,7 +300,7 @@ class UpdateMyInformation extends StatelessWidget {
                                     return null;
                                   },
                                   onSaved: (String value) {
-                                    userUpdate.setPersonalProfile(value);
+                                    userMutual.setPersonalProfile(value);
                                     //userUpdate.setAboutController(value);
                                   },
                                 ),
@@ -391,9 +393,9 @@ class UpdateMyInformation extends StatelessWidget {
                                       ),
                                     ],
                                     onPressed: (int index) {
-                                      userUpdate.updateMembershipType(index);
+                                      userMutual.updateMembershipType(index);
                                     },
-                                    isSelected: userUpdate.membershipType,
+                                    isSelected: userMutual.membershipType,
                                     color: Color(0xff00cccc),
                                     selectedColor: Color(0xffffffff),
                                     fillColor: Color(0xff00cccc),
@@ -405,7 +407,7 @@ class UpdateMyInformation extends StatelessWidget {
                               ],
                             ),
                           ),
-                          if (userUpdate.selectedMembership == 1)
+                          if (userMutual.selectedMembership == 1)
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
@@ -425,7 +427,7 @@ class UpdateMyInformation extends StatelessWidget {
                                       color: Color(0xff989696),
                                     ).getTextStyle(),
                                     keyboardType: TextInputType.text,
-                                    initialValue: userUpdate.users.first.company_name ?? '',
+                                    initialValue: userMutual.users.first.company_name ?? '',
                                     validator: (String value) {
                                       if (value.isEmpty) {
                                         return AppLocalizations.of(context)
@@ -434,14 +436,14 @@ class UpdateMyInformation extends StatelessWidget {
                                       return null;
                                     },
                                     onSaved: (String value) {
-                                      userUpdate.setCompanyName(value);
+                                      userMutual.setCompanyName(value);
                                       //userUpdate.setCompanyNameController(value);
                                     },
                                   ),
                                 ),
                               ],
                             ),
-                          if (userUpdate.selectedMembership == 5)
+                          if (userMutual.selectedMembership == 5)
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
@@ -462,7 +464,7 @@ class UpdateMyInformation extends StatelessWidget {
                                       color: Color(0xff989696),
                                     ).getTextStyle(),
                                     keyboardType: TextInputType.text,
-                                    initialValue: userUpdate.users.first.office_name ?? '',
+                                    initialValue: userMutual.users.first.office_name ?? '',
                                     validator: (String value) {
                                       if (value.isEmpty) {
                                         return AppLocalizations.of(context)
@@ -471,7 +473,7 @@ class UpdateMyInformation extends StatelessWidget {
                                       return null;
                                     },
                                     onSaved: (String value) {
-                                      userUpdate.setOfficeNameUser(value);
+                                      userMutual.setOfficeNameUser(value);
                                       //userUpdate.setOfficeNameController(value);
                                     },
                                   ),
@@ -488,13 +490,13 @@ class UpdateMyInformation extends StatelessWidget {
                                 _updateMyInfoKey.currentState.save();
                                 await userUpdate.updateMyProfile(
                                     context,
-                                    userUpdate.selectedMembership.toString(),
-                                    userUpdate.userName,
-                                    userUpdate.company_name,
-                                    userUpdate.officeNameUser,
-                                    userUpdate.email,
-                                    userUpdate.personalProfile,
-                                    userUpdate.phone,
+                                    userMutual.selectedMembership.toString(),
+                                    userMutual.userName,
+                                    userMutual.company_name,
+                                    userMutual.officeNameUser,
+                                    userMutual.email,
+                                    userMutual.personalProfile,
+                                    userMutual.phone,
                                     userUpdate.imageUpdateProfile);
                               },
                               child: Container(

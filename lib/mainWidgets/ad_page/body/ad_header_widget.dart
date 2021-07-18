@@ -3,15 +3,15 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:pinch_zoom_image_last/pinch_zoom_image_last.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:tadawl_app/provider/mutual_provider.dart';
-import 'package:tadawl_app/provider/test/mutual_provider.dart';
+import 'package:tadawl_app/mainWidgets/open_images.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 
 class AdHeaderWidget extends StatelessWidget {
   AdHeaderWidget({Key key, this.adsPage, this.mutualProv}) : super(key: key);
 
-  final AdsProvider adsPage;
+  final AdPageProvider adsPage;
   final MutualProvider mutualProv;
 
   @override
@@ -199,12 +199,7 @@ class AdHeaderWidget extends StatelessWidget {
                               onTap: () {
                                 adsPage.stopVideoAdsPage();
                                 adsPage.getImagesAdsPageInfo(context, mutualProv.idDescription);
-                                Navigator.pushNamed(
-                                    context, '/main/open_images',
-                                    arguments: {
-                                      'id_description':
-                                      mutualProv.idDescription,
-                                    });
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => OpenImages()));
                               },
                               child: PinchZoomImage(
                                 image: CachedNetworkImage(

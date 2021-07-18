@@ -4,19 +4,21 @@ import 'package:pinch_zoom_image_last/pinch_zoom_image_last.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-
-import 'package:tadawl_app/provider/ads_provider.dart';
-import 'package:tadawl_app/provider/test/mutual_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 
 class OpenImages extends StatelessWidget {
   OpenImages({
     Key key,
   }) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<AdsProvider>(builder: (context, images, child) {
+    return Consumer<AdPageProvider>(builder: (context, images, child) {
       //images.randomPosition(300);
+
+      print("OpenImages -> AdPageProvider");
 
       return Scaffold(
         backgroundColor: const Color(0xffffffff),

@@ -8,7 +8,7 @@
 // import 'package:tadawl_app/models/QFModel.dart';
 // import 'package:tadawl_app/models/UserModel.dart';
 // import 'package:tadawl_app/models/views_series.dart';
-// import 'package:tadawl_app/provider/ads_provider.dart';
+//
 // import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 // import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 // import 'package:charts_flutter/flutter.dart' as charts;

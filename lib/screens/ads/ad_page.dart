@@ -17,10 +17,10 @@ import 'package:tadawl_app/mainWidgets/ad_page/body/last_update_widget.dart';
 import 'package:tadawl_app/mainWidgets/ad_page/body/network_coverage_widget.dart';
 import 'package:tadawl_app/mainWidgets/ad_page/body/similar_ad_widget.dart';
 //import 'package:tadawl_app/mainWidgets/openMap.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/provider/test/mutual_provider.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
 
 class AdPage extends StatelessWidget {
@@ -36,9 +36,10 @@ class AdPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
-    return Consumer2<AdsProvider, MutualProvider>(builder: (context, adsPage, mutualProv, child) {
+    return Consumer2<AdPageProvider, MutualProvider>(builder: (context, adsPage, mutualProv, child) {
 
-
+      print("AdPage -> AdPageProvider");
+      print("AdPage -> MutualProvider");
 
       // ignore: missing_return
       Future<bool> _onBackPressed() async {
@@ -69,7 +70,7 @@ class AdPage extends StatelessWidget {
       Future<Null> _refresh() async{
         adsPage.update();
       }
-      var _phone = Provider.of<UserProvider>(context, listen: false).phone;
+      var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
 
       return RefreshIndicator(
         onRefresh: _refresh,
@@ -132,7 +133,7 @@ class AdPage extends StatelessWidget {
                           AdStatisticsWidget(adsViews: mutualProv.adsViews,),
 //  end statistics ads ........................
 //  network coverage ...................
-                      NetworkCoverageWidget(),
+                      NetworkCoverageWidget(adsPage: adsPage,),
 // end network coverage ...................
 //  location .....................
                       AdLocationWidget(adsPage: adsPage, ads: mutualProv.adsPage,),

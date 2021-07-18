@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 
 class ConversationModel extends ChangeNotifier {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<ConvModel> _conversations = [];
   final List<ConvModel> _comments = [];
   List _ConversationsData = [];

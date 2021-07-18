@@ -20,6 +20,7 @@ class Contact extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<GeneralProvider>(builder: (context, contact, child) {
 
+      print("Contact -> GeneralProvider");
 
       return Scaffold(
         appBar: AppBar(

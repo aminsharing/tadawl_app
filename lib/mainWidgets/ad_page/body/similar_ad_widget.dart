@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
-import 'package:tadawl_app/provider/test/mutual_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -66,7 +66,7 @@ class SimilarAdWidget extends StatelessWidget {
               }
               return TextButton(
                 onPressed: () {
-                  Provider.of<AdsProvider>(context, listen: false)
+                  Provider.of<AdPageProvider>(context, listen: false)
                       .stopVideoAdsPage();
                   adsPage.getAdsPageList(context,
                       adsPage.adsSimilar[i].idDescription);

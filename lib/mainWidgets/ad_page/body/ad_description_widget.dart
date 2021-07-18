@@ -4,20 +4,20 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/models/UserModel.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
 class AdDescriptionWidget extends StatelessWidget {
   AdDescriptionWidget({Key key, this.adsPage, this.adsUser, this.ads}) : super(key: key);
 
-  final AdsProvider adsPage;
+  final AdPageProvider adsPage;
   final List<AdsModel> ads;
   final List<UserModel> adsUser;
 
   @override
   Widget build(BuildContext context) {
-    var _phone = Provider.of<UserProvider>(context, listen: false).phone;
+    var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
     var mediaQuery = MediaQuery.of(context);
 
     return Column(

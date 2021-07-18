@@ -5,8 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 
-import 'package:tadawl_app/provider/ads_provider.dart';
-import 'package:tadawl_app/provider/test/mutual_provider.dart';
+
+import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/update_location_provider.dart';
 import 'package:tadawl_app/provider/user_markers_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 
@@ -17,7 +18,10 @@ class UpdateLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AdsProvider>(builder: (context, updateLoc, child) {
+    return Consumer<UpdateLocationProvider>(builder: (context, updateLoc, child) {
+
+      print("UpdateLocation -> UpdateLocationProvider");
+
       var mediaQuery = MediaQuery.of(context);
       Provider.of<UserMarkersProvider>(context, listen: false).getLoc();
       // ignore: omit_local_variable_types
@@ -161,6 +165,7 @@ class UpdateLocation extends StatelessWidget {
                           zoom: 13),
                       onMapCreated: _onMapCreated,
                       onCameraMove: (CameraPosition position) {
+                        // TODO This changed
                         updateLoc.handleCameraMoveUpdateLoc(position);
                       },
                     ),

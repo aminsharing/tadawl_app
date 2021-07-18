@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:tadawl_app/provider/NotificationProvider.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
 import 'package:tadawl_app/provider/office_marker_provider.dart';
-import 'package:tadawl_app/provider/test/mutual_provider.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/special_offers_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/today_ads_provider.dart';
+import 'package:tadawl_app/provider/user_provider/favourite_provider.dart';
+import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/ads/main_page.dart';
 
 class Home extends StatelessWidget {
@@ -19,20 +24,20 @@ class Home extends StatelessWidget {
 
     // Provider.of<MapProvider>(context, listen: false).getLocPer();
     // Provider.of<MapProvider>(context, listen: false).getLoc();
-    Provider.of<AdsProvider>(context, listen: false).initStateSelected();
-    Provider.of<AdsProvider>(context, listen: false).setMenuMainFilterAds(2);
+    Provider.of<TodayAdsProvider>(context, listen: false).initStateSelected();
+    Provider.of<MenuProvider>(context, listen: false).setMenuMainFilterAds(2);
     // Provider.of<AdsProvider>(context, listen: false).getAdsList(
     //     context, null, null, null, null, null, null, null, null, null, null, null,
     //     null, null, null, null, null, null, null, null, null, null, null, null,
     //     null, null, null, null, null, null, null, null, null, null, null, null,
     //     null, null);
-    Provider.of<AdsProvider>(context, listen: false)
+    Provider.of<SpecialOffersProvider>(context, listen: false)
         .getAdsSpecialList(context);
-    Provider.of<AdsProvider>(context, listen: false).getTodayAdsList(context);
-    Provider.of<AdsProvider>(context, listen: false).clearMenuFilter(context);
+    Provider.of<TodayAdsProvider>(context, listen: false).getTodayAdsList(context);
+    Provider.of<MenuProvider>(context, listen: false).clearMenuFilter(context);
     Provider.of<MutualProvider>(context, listen: false).randomPosition(50);
-    Provider.of<AdsProvider>(context, listen: false).getCategoryeInfoAddAds(context);
-    Provider.of<AdsProvider>(context, listen: false).getMenuList(
+    Provider.of<AddAdProvider>(context, listen: false).getCategoryeInfoAddAds(context);
+    Provider.of<MenuProvider>(context, listen: false).getMenuList(
         context, null, null, null, null, null, null, null, null, null, null, null,
         null, null, null, null, null, null, null, null, null, null, null, null,
         null, null, null, null, null, null, null, null, null, null, null, null,
@@ -44,28 +49,28 @@ class Home extends StatelessWidget {
 
     Provider.of<OfficeMarkerProvider>(context, listen: false).getOfficeList(context);
 
-    Provider.of<UserProvider>(context, listen: false).getUsersList(context, Provider.of<UserProvider>(context, listen: false).phone);
+    Provider.of<UserMutualProvider>(context, listen: false).getUsersList(context, Provider.of<UserMutualProvider>(context, listen: false).phone);
 
-    Provider.of<AdsProvider>(context, listen: false).getTodayAdsList(context);
+    Provider.of<TodayAdsProvider>(context, listen: false).getTodayAdsList(context);
 
-    Provider.of<UserProvider>(context, listen: false).getUserAdsFavList(context, Provider.of<UserProvider>(context, listen: false).phone);
+    Provider.of<FavouriteProvider>(context, listen: false).getUserAdsFavList(context, Provider.of<UserMutualProvider>(context, listen: false).phone);
 
     Provider.of<NotificationProvider>(context, listen: false)
         .getNotificationsList(
-        context, Provider.of<UserProvider>(context, listen: false).phone);
+        context, Provider.of<UserMutualProvider>(context, listen: false).phone);
 
-    Provider.of<UserProvider>(context, listen: false).getSession();
+    Provider.of<UserMutualProvider>(context, listen: false).getSession();
 
-    Provider.of<MsgProvider>(context, listen: false).getUnreadMsgs(context, Provider.of<UserProvider>(context, listen: false).phone);
+    Provider.of<MsgProvider>(context, listen: false).getUnreadMsgs(context, Provider.of<UserMutualProvider>(context, listen: false).phone);
 
-    Provider.of<UserProvider>(context, listen: false).initStateSelected();
+    Provider.of<MyAccountProvider>(context, listen: false).initStateSelected();
 
     Future.delayed(Duration(seconds: 1), () {
-      Provider.of<MsgProvider>(context, listen: false).getConvInfo(context, Provider.of<UserProvider>(context, listen: false).phone);
+      Provider.of<MsgProvider>(context, listen: false).getConvInfo(context, Provider.of<UserMutualProvider>(context, listen: false).phone);
     });
 
     Future.delayed(Duration(seconds: 5), () {
-      Provider.of<NotificationProvider>(context, listen: false).showNotification(context, Provider.of<UserProvider>(context, listen: false).phone);
+      Provider.of<NotificationProvider>(context, listen: false).showNotification(context, Provider.of<UserMutualProvider>(context, listen: false).phone);
     });
 
 

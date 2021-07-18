@@ -34,9 +34,9 @@ class _VoicePlayerState extends State<VoicePlayer> {
                 ?
             widget.player.duration.inSeconds < 10 ?
             widget.player.duration.inMinutes < 10 ?
-            Text("0${widget.player.duration.inMinutes}:0${widget.player.duration.inSeconds}") :
-            Text("${widget.player.duration.inMinutes}:${widget.player.duration.inSeconds}") :
-            Text("0${widget.player.duration.inMinutes}:${widget.player.duration.inSeconds}")
+            Text('0${widget.player.duration.inMinutes}:0${widget.player.duration.inSeconds}') :
+            Text('${widget.player.duration.inMinutes}:${widget.player.duration.inSeconds}') :
+            Text('0${widget.player.duration.inMinutes}:${widget.player.duration.inSeconds}')
                 :
             Text(''),
             _isLoading

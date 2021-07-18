@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/provider/test/mutual_provider.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
 class Constants {
   static const String editGallery = 'تعديل الصور والفيديو';
@@ -41,7 +41,7 @@ class AppBarActionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<LocaleProvider>(context, listen: false);
-    var _phone = Provider.of<UserProvider>(context, listen: false).phone;
+    var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
     var _lang = provider.locale.toString();
 
     return adsPage.adsUser.isNotEmpty
@@ -56,7 +56,7 @@ class AppBarActionWidget extends StatelessWidget {
           size: 40,
         ),
         onSelected: (String choice) {
-          Provider.of<AdsProvider>(context, listen: false).choiceAction(context, choice, adsPage.idDescription);
+          Provider.of<AdPageProvider>(context, listen: false).choiceAction(context, choice, adsPage.idDescription);
         },
         itemBuilder: (BuildContext context) {
           if (_lang != 'en_US') {

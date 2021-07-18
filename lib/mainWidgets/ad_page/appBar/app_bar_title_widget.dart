@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
-import 'package:tadawl_app/provider/mutual_provider.dart';
 
 class AppBarTitleWidget extends StatelessWidget {
   AppBarTitleWidget({Key key, this.adsPage, this.idDescription}) : super(key: key);
-  final AdsProvider adsPage;
+  final AdPageProvider adsPage;
   final String idDescription;
 
   @override

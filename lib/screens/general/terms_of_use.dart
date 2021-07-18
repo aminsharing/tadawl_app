@@ -13,6 +13,7 @@ class TermsOfUse extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<GeneralProvider>(builder: (context, terms, child) {
 
+      print("TermsOfUse -> GeneralProvider");
 
       return Scaffold(
         backgroundColor: const Color(0xffffffff),

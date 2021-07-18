@@ -5,7 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/request_provider.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
 class Requests extends StatelessWidget {
   Requests({
@@ -16,8 +16,10 @@ class Requests extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<RequestProvider>(builder: (context, requests, child) {
 
-      Provider.of<UserProvider>(context, listen: false).getSession();
-      var _phone = Provider.of<UserProvider>(context, listen: false).phone;
+      print("Requests -> RequestProvider");
+
+      Provider.of<UserMutualProvider>(context, listen: false).getSession();
+      var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
       requests.getUserRequestsList(context, _phone);
 
       return Scaffold(

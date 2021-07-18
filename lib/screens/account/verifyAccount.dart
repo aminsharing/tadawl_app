@@ -6,7 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/user_provider/change_pass_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/update_my_information.dart';
 
 class VerifyAccount extends StatelessWidget {
@@ -18,13 +19,14 @@ class VerifyAccount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(builder: (context, verifyAcc, child) {
+    return Consumer<ChangePassProvider>(builder: (context, verifyAcc, child) {
 
+      print("VerifyAccount -> ChangePassProvider");
 
       var mediaQuery = MediaQuery.of(context);
 
-      verifyAcc.getSession();
-      var _phone = verifyAcc.phone;
+      Provider.of<UserMutualProvider>(context, listen: false).getSession();
+      var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
 
       Widget _buildNewPass() {
         return TextFormField(

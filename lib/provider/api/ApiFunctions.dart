@@ -3,11 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
 
 class Api {
   // GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  String _token = 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@';
+  final String _token = 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@';
   // ignore: sort_constructors_first
   // Api(this.scaffoldKey);
   String BaseURL = 'https://www.tadawl.com.sa/API';
@@ -401,7 +403,7 @@ class Api {
           jsonX = json.decode(response.body);
         }
       }catch(e){
-        print("$e");
+        print('$e');
       }
       return jsonX;
     } else {
@@ -504,6 +506,48 @@ class Api {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 15.0);
+      Provider.of<MenuProvider>(context, listen: false).setFilterSearchDrawer(null);
+      Provider.of<MenuProvider>(context, listen: false).setMenuMainFilterAds(1);
+      Provider.of<MenuProvider>(context, listen: false).getAdsInfo(
+        context,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+      );
     } else {
       await Fluttertoast.showToast(
           msg: 'هناك خطاء راجع الأدارة',

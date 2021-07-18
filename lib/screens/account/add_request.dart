@@ -4,7 +4,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
+
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 class AddRequest extends StatelessWidget {

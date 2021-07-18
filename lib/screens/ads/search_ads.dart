@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-
-import 'package:tadawl_app/provider/ads_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/search_ads_provider.dart';
 
 class SearchAds extends StatefulWidget {
   SearchAds({
@@ -18,8 +17,9 @@ class _SearchAdsState extends State<SearchAds> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AdsProvider>(builder: (context, searchFast, child) {
+    return Consumer<SearchAdsProvider>(builder: (context, searchFast, child) {
 
+      print("SearchAds -> SearchAdsProvider");
 
       var mediaQuery = MediaQuery.of(context);
 

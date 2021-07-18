@@ -4,9 +4,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/provider/test/mutual_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
 
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 import 'package:tadawl_app/screens/ads/advertising_fee.dart';
@@ -23,7 +25,9 @@ class UpdateDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AdsProvider>(builder: (context, updateDetails, child) {
+    return Consumer<UpdateDetailsProvider>(builder: (context, updateDetails, child) {
+
+      print("UpdateDetails -> UpdateDetailsProvider");
 
 
       var mediaQuery = MediaQuery.of(context);
@@ -34,7 +38,7 @@ class UpdateDetails extends StatelessWidget {
       var provider = Provider.of<LocaleProvider>(context, listen: false);
       var _lang = provider.locale.toString();
       updateDetails.getCategoryeInfoUpdate(context);
-      updateDetails.getAdsPageInfoUpdateDetails(context, _id_description);
+      Provider.of<AdPageProvider>(context, listen: false).getAdsPageInfoUpdateDetails(context, _id_description);
 
       if(!updateDetails.typeAqarUpdate.contains(true)){
         // updateDetails.adsPage.first
@@ -112,7 +116,7 @@ class UpdateDetails extends StatelessWidget {
                         ],
                       ),
                       if (updateDetails.categoryUpdate.isNotEmpty)
-                        if (updateDetails.adsUpdateDetails.isNotEmpty)
+                        if (Provider.of<AdPageProvider>(context, listen: false).adsUpdateDetails.isNotEmpty)
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Column(
@@ -120,7 +124,7 @@ class UpdateDetails extends StatelessWidget {
                                 for (int i = 1;
                                     i < updateDetails.categoryUpdate.length;
                                     i++)
-                                  if (updateDetails
+                                  if (Provider.of<AdPageProvider>(context, listen: false)
                                           .adsUpdateDetails.first.idCategory ==
                                       updateDetails
                                           .categoryUpdate[i].id_category)
@@ -383,7 +387,7 @@ class UpdateDetails extends StatelessWidget {
                                                       newValue);
                                             },
                                             items: _lang != 'en_US'
-                                                ? Provider.of<AdsProvider>(context, listen: false).Interface.map(
+                                                ? Provider.of<MainPageProvider>(context, listen: false).Interface.map(
                                                     (Map map) {
                                                     return DropdownMenuItem<
                                                         String>(
@@ -410,7 +414,7 @@ class UpdateDetails extends StatelessWidget {
                                                       ),
                                                     );
                                                   }).toList()
-                                                : Provider.of<AdsProvider>(context, listen: false).EnInterface
+                                                : Provider.of<MainPageProvider>(context, listen: false).EnInterface
                                                     .map((Map map) {
                                                     return DropdownMenuItem<
                                                         String>(
@@ -2188,7 +2192,7 @@ class UpdateDetails extends StatelessWidget {
                                 height: 50,
                                 child: TextFormField(
                                   controller:
-                                      updateDetails.spaceControllerUpdate ??
+                                  Provider.of<AdPageProvider>(context, listen: false).spaceControllerUpdate ??
                                           TextEditingController(text: ''),
                                   decoration: InputDecoration(
                                     labelText:
@@ -2215,11 +2219,11 @@ class UpdateDetails extends StatelessWidget {
                                     return null;
                                   },
                                   onChanged: (String value) {
-                                    updateDetails
+                                    Provider.of<AdPageProvider>(context, listen: false)
                                         .setOnChangedSpaceUpdate(value);
                                   },
                                   onSaved: (String value) {
-                                    updateDetails.setOnSavedSpaceUpdate(value);
+                                    Provider.of<AdPageProvider>(context, listen: false).setOnSavedSpaceUpdate(value);
                                   },
                                 ),
                               ),
@@ -2245,7 +2249,7 @@ class UpdateDetails extends StatelessWidget {
                                 width: mediaQuery.size.width * 0.6,
                                 height: 50,
                                 child: TextFormField(
-                                  controller: updateDetails
+                                  controller: Provider.of<AdPageProvider>(context, listen: false)
                                           .meterPriceControllerUpdate ??
                                       TextEditingController(text: ''),
                                   decoration: InputDecoration(
@@ -2266,11 +2270,11 @@ class UpdateDetails extends StatelessWidget {
                                   minLines: 1,
                                   maxLines: 1,
                                   onChanged: (value) {
-                                    updateDetails
+                                    Provider.of<AdPageProvider>(context, listen: false)
                                         .setOnChangedMeterPriceUpdate(value);
                                   },
                                   onSaved: (value) {
-                                    updateDetails
+                                    Provider.of<AdPageProvider>(context, listen: false)
                                         .setOnSavedMeterPriceUpdate(value);
                                   },
                                 ),
@@ -2297,7 +2301,7 @@ class UpdateDetails extends StatelessWidget {
                               height: 50,
                               child: TextFormField(
                                 controller:
-                                    updateDetails.priceControllerUpdate ??
+                                Provider.of<AdPageProvider>(context, listen: false).priceControllerUpdate ??
                                         TextEditingController(text: ''),
                                 decoration: InputDecoration(
                                   labelText:
@@ -2324,7 +2328,7 @@ class UpdateDetails extends StatelessWidget {
                                   return null;
                                 },
                                 onSaved: (String value) {
-                                  updateDetails
+                                  Provider.of<AdPageProvider>(context, listen: false)
                                       .setOnSavedTotalPriceUpdate(value);
                                 },
                               ),
@@ -2352,7 +2356,7 @@ class UpdateDetails extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                         child: TextFormField(
-                          controller: updateDetails.descControllerUpdate ??
+                          controller: Provider.of<AdPageProvider>(context, listen: false).descControllerUpdate ??
                               TextEditingController(text: ''),
                           decoration: InputDecoration(
                             labelText: AppLocalizations.of(context)
@@ -2378,7 +2382,7 @@ class UpdateDetails extends StatelessWidget {
                             return null;
                           },
                           onSaved: (String value) {
-                            updateDetails.setOnSavedDetailsUpdate(value);
+                            Provider.of<AdPageProvider>(context, listen: false).setOnSavedDetailsUpdate(value);
                           },
                         ),
                       ),
@@ -2453,7 +2457,7 @@ class UpdateDetails extends StatelessWidget {
                             updateDetails.updateDetails(
                                 context,
                                 _id_description,
-                                updateDetails.detailsAqarUpdate,
+                                Provider.of<AdPageProvider>(context, listen: false).detailsAqarUpdate,
                                 updateDetails.isFootballCourtUpdate.toString(),
                                 updateDetails.isVolleyballCourtUpdate
                                     .toString(),
@@ -2487,8 +2491,8 @@ class UpdateDetails extends StatelessWidget {
                                 updateDetails.selectedTypeAqarUpdate.toString(),
                                 updateDetails.selectedFamilyUpdate.toString(),
                                 updateDetails.interfaceSelectedUpdate,
-                                updateDetails.totalSpaceUpdate,
-                                updateDetails.totalPricUpdatee,
+                                Provider.of<AdPageProvider>(context, listen: false).totalSpaceUpdate,
+                                Provider.of<AdPageProvider>(context, listen: false).totalPricUpdatee,
                                 updateDetails.selectedPlanUpdate.toString(),
                                 updateDetails.id_category_finalUpdate
                                     .toString(),

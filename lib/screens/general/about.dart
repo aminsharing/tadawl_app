@@ -341,6 +341,7 @@ final Uri _emailLaunchUri = Uri(
     scheme: 'mailto',
     path: 'support@tadawl.com.sa',
     queryParameters: {'subject': 'تطبيق تداول العقاري'});
+
 void launchWhatsApp() async {
   final link = WhatsAppUnilink(
     phoneNumber: '+966552525000',

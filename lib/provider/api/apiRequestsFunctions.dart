@@ -6,7 +6,7 @@ class ApiRequests {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   // ignore: sort_constructors_first
   ApiRequests(this.scaffoldKey);
-  String _token = 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@';
+  final String _token = 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@';
   String BaseURL = 'https://www.tadawl.com.sa/API/api_app';
 
   Future<dynamic> getUserRequestsListFunc(
@@ -38,6 +38,11 @@ class ApiRequests {
       'id_notification': idNotification,
     });
     // var jsonx = json.decode(response.body);
-    return true;
+    if(response.statusCode == 200){
+      return true;
+    }else{
+      return false;
+    }
+
   }
 }

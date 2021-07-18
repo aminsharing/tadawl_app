@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AdTimestampWidget extends StatelessWidget {

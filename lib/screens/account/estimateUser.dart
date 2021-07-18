@@ -5,7 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_simple_rating_bar/flutter_simple_rating_bar.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
 class Estimate extends StatelessWidget {
   Estimate({
@@ -14,7 +14,9 @@ class Estimate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(builder: (context, estimateUser, child) {
+    return Consumer<UserMutualProvider>(builder: (context, estimateUser, child) {
+
+      print("Estimate -> UserMutualProvider");
 
       // ignore: omit_local_variable_types
       //Map data = {};

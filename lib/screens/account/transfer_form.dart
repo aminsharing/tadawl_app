@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/user_provider/transfer_form_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
 class TransferForm extends StatelessWidget {
   TransferForm({
@@ -15,12 +15,13 @@ class TransferForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(builder: (context, transfer, child) {
+    return Consumer<TransferFormProvider>(builder: (context, transfer, child) {
 
+      print("TransferForm -> TransferFormProvider");
 
       var mediaQuery = MediaQuery.of(context);
-      transfer.getSession();
-      var _phone = transfer.phone;
+      Provider.of<UserMutualProvider>(context, listen: false).getSession();
+      var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
 
       return Scaffold(
         appBar: AppBar(

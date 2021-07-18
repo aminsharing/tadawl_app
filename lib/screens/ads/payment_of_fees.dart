@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 
-import 'package:tadawl_app/provider/ads_provider.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/adv_fee_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/login.dart';
 import 'package:tadawl_app/screens/account/transfer_form.dart';
 
@@ -16,16 +16,17 @@ class PaymentOfFees extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AdsProvider>(builder: (context, payFee, child) {
+    return Consumer<AdvFeeProvider>(builder: (context, payFee, child) {
 
+      print("PaymentOfFees -> AdvFeeProvider");
 
       var mediaQuery = MediaQuery.of(context);
       // ignore: omit_local_variable_types
       Map data = {};
       var price, type;
       //String cardNumber, cardName, cvvNumber, year, month;
-      Provider.of<UserProvider>(context, listen: false).getSession();
-      var _phone = Provider.of<UserProvider>(context, listen: false).phone;
+      Provider.of<UserMutualProvider>(context, listen: false).getSession();
+      var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
       data = ModalRoute.of(context).settings.arguments;
       price = data['price'];
       type = data['type'];

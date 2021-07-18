@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/user_markers_provider.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/user_provider/offices_vr_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+
 
 class OfficesVR extends StatelessWidget {
   OfficesVR({
@@ -23,9 +24,10 @@ class OfficesVR extends StatelessWidget {
   Widget build(BuildContext context) {
     final translate = AppLocalizations.of(context);
     
-    return Consumer<UserProvider>(builder: (context, officesVR, child) {
+    return Consumer<OfficesVRProvider>(builder: (context, officesVR, child) {
       var mediaQuery = MediaQuery.of(context);
 
+      print("OfficesVR -> OfficesVRProvider");
 
       if (officesVR.currentStageOfficeVR == 1){
         Provider.of<UserMarkersProvider>(context, listen: false).getLocPer();
@@ -81,8 +83,8 @@ class OfficesVR extends StatelessWidget {
       }
 
 
-      officesVR.getSession();
-      var phone = officesVR.phone;
+      Provider.of<UserMutualProvider>(context, listen: false).getSession();
+      var phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
 
 
       return WillPopScope(

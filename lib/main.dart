@@ -4,6 +4,19 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/adv_fee_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/aqar_vr_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/search_ads_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/special_offers_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/today_ads_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/update_img_vid_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/update_location_provider.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/general_provider.dart';
 import 'package:tadawl_app/provider/l10n/l10n.dart';
@@ -11,8 +24,16 @@ import 'package:tadawl_app/provider/map_provider.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
 import 'package:tadawl_app/provider/office_marker_provider.dart';
 import 'package:tadawl_app/provider/region_provider.dart';
-import 'package:tadawl_app/provider/test/mutual_provider.dart';
 import 'package:tadawl_app/provider/user_markers_provider.dart';
+import 'package:tadawl_app/provider/user_provider/change_pass_provider.dart';
+import 'package:tadawl_app/provider/user_provider/change_phone_provider.dart';
+import 'package:tadawl_app/provider/user_provider/favourite_provider.dart';
+import 'package:tadawl_app/provider/user_provider/login_provider.dart';
+import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
+import 'package:tadawl_app/provider/user_provider/offices_vr_provider.dart';
+import 'package:tadawl_app/provider/user_provider/transfer_form_provider.dart';
+import 'package:tadawl_app/provider/user_provider/update_my_information_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/estimateUser.dart';
 import 'package:tadawl_app/screens/ads/aqar_vr.dart';
 import 'package:tadawl_app/screens/ads/payment_of_fees.dart';
@@ -25,9 +46,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/provider/NotificationProvider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/cache_markers_provider.dart';
-import 'package:tadawl_app/provider/ads_provider.dart';
 import 'package:tadawl_app/provider/request_provider.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
 import 'package:tadawl_app/screens/account/discussion_main.dart';
 
 void main() async {
@@ -43,14 +62,40 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider<LocaleProvider>(create: (_) => LocaleProvider()),
           ChangeNotifierProvider<CacheMarkerModel>(create: (_) => CacheMarkerModel()),
-          ChangeNotifierProvider<AdsProvider>(create: (context) => AdsProvider()),
-          // ChangeNotifierProvider<MainPageProvider>(create: (context) => MainPageProvider()),
-          ChangeNotifierProvider<MutualProvider>(create: (context) => MutualProvider()),
-          ChangeNotifierProvider<UserProvider>(create: (context) => UserProvider()),
+          // ChangeNotifierProvider<AdsProvider>(create: (context) => AdsProvider()),
+          // ChangeNotifierProvider<UserProvider>(create: (context) => UserProvider()),
           ChangeNotifierProvider<RequestProvider>(create: (_) => RequestProvider()),
           ChangeNotifierProvider<RegionProvider>(create: (_) => RegionProvider()),
           ChangeNotifierProvider<NotificationProvider>(create: (_) => NotificationProvider()),
           ChangeNotifierProvider<GeneralProvider>(create: (_) => GeneralProvider()),
+
+          /// a2 Ads Provider
+          ChangeNotifierProvider<AdPageProvider>(create: (_) => AdPageProvider()),
+          ChangeNotifierProvider<AddAdProvider>(create: (_) => AddAdProvider()),
+          ChangeNotifierProvider<AdvFeeProvider>(create: (_) => AdvFeeProvider()),
+          ChangeNotifierProvider<AqarVRProvider>(create: (_) => AqarVRProvider()),
+          ChangeNotifierProvider<MainPageProvider>(create: (_) => MainPageProvider()),
+          ChangeNotifierProvider<MenuProvider>(create: (_) => MenuProvider()),
+          ChangeNotifierProvider<MutualProvider>(create: (_) => MutualProvider()),
+          ChangeNotifierProvider<SearchAdsProvider>(create: (_) => SearchAdsProvider()),
+          ChangeNotifierProvider<SpecialOffersProvider>(create: (_) => SpecialOffersProvider()),
+          ChangeNotifierProvider<TodayAdsProvider>(create: (_) => TodayAdsProvider()),
+          ChangeNotifierProvider<UpdateDetailsProvider>(create: (_) => UpdateDetailsProvider()),
+          ChangeNotifierProvider<UpdateImgVedProvider>(create: (_) => UpdateImgVedProvider()),
+          ChangeNotifierProvider<UpdateLocationProvider>(create: (_) => UpdateLocationProvider()),
+
+          /// User Provider
+          ChangeNotifierProvider<ChangePassProvider>(create: (_) => ChangePassProvider()),
+          ChangeNotifierProvider<ChangePhoneProvider>(create: (_) => ChangePhoneProvider()),
+          ChangeNotifierProvider<FavouriteProvider>(create: (_) => FavouriteProvider()),
+          ChangeNotifierProvider<LoginProvider>(create: (_) => LoginProvider()),
+          ChangeNotifierProvider<MyAccountProvider>(create: (_) => MyAccountProvider()),
+          ChangeNotifierProvider<OfficesVRProvider>(create: (_) => OfficesVRProvider()),
+          ChangeNotifierProvider<TransferFormProvider>(create: (_) => TransferFormProvider()),
+          ChangeNotifierProvider<UpdateMyInformationProvider>(create: (_) => UpdateMyInformationProvider()),
+          ChangeNotifierProvider<UserMutualProvider>(create: (_) => UserMutualProvider()),
+
+          /// this added
           ChangeNotifierProvider<MapProvider>(create: (_) => MapProvider()),
           ChangeNotifierProvider<OfficeMarkerProvider>(create: (_) => OfficeMarkerProvider()),
           ChangeNotifierProvider<UserMarkersProvider>(create: (_) => UserMarkersProvider()),
@@ -63,7 +108,6 @@ class MyApp extends StatelessWidget {
             routes: {
               '/main/discussion_main': (context) => Discussion(),
               '/main/payment_of_fees': (context) => PaymentOfFees(),
-              '/main/open_images': (context) => OpenImages(),
               '/main/update_ads_img_ved': (context) => UpdateImgVed(),
               '/main/update_location': (context) => UpdateLocation(),
               '/main/update_datails': (context) => UpdateDetails(),

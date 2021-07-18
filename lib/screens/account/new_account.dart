@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/user_provider.dart';
+import 'package:tadawl_app/provider/user_provider/change_phone_provider.dart';
 import 'package:tadawl_app/screens/account/login.dart';
 import 'package:tadawl_app/screens/account/verifyAccount.dart';
 
@@ -22,7 +22,7 @@ class NewAcount extends StatelessWidget {
   final GlobalKey<FormState> _formNewAccountKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return  Consumer<UserProvider>(builder: (context, newAccount, child) {
+    return  Consumer<ChangePhoneProvider>(builder: (context, newAccount, child) {
 
       return Scaffold(
         backgroundColor: const Color(0xffffffff),
