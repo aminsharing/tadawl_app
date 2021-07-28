@@ -16,7 +16,7 @@ import 'package:tadawl_app/models/CategoryModel.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
-import 'package:tadawl_app/screens/ads/add_ad.dart';
+import 'package:tadawl_app/provider/map_provider.dart';
 import 'package:tadawl_app/screens/ads/main_page.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -57,7 +57,7 @@ class AddAdProvider extends ChangeNotifier{
   bool _isDriverRoomAddAds = false;
   bool _isSwimmingPoolAddAds = false;
   bool _isMaidRoomAddAds = false;
-  bool _isMonstersAddAds = false;
+  bool _isYardAddAds = false;
   bool _isVerseAddAds = false;
   bool _isCellarAddAds = false;
   bool _isFamilyPartitionAddAds = false;
@@ -100,7 +100,7 @@ class AddAdProvider extends ChangeNotifier{
     _isFamilyPartitionAddAds= false;
     _isVerseAddAds= false;
     _isCellarAddAds= false;
-    _isMonstersAddAds= false;
+    _isYardAddAds= false;
     _isMaidRoomAddAds= false;
     _isSwimmingPoolAddAds= false;
     _isDriverRoomAddAds= false;
@@ -201,7 +201,7 @@ class AddAdProvider extends ChangeNotifier{
       _ads_neighborhoodAddAds = '${addresses.first.subLocality.toString()}';
       _ads_roadAddAds = '${addresses.first.thoroughfare.toString()}';
     }
-    // notifyListeners();
+    notifyListeners();
   }
 
   void setAdsCordinatesAddAds(LatLng val){
@@ -346,8 +346,8 @@ class AddAdProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setIsMonstersAddAds(bool val) {
-    _isMonstersAddAds = val;
+  void setIsYardAddAds(bool val) {
+    _isYardAddAds = val;
     notifyListeners();
   }
 
@@ -443,7 +443,7 @@ class AddAdProvider extends ChangeNotifier{
   Future getImagesAddAds(BuildContext context) async {
     _imagesListAddAds = [];
 
-    var resultList = await MultiImagePicker.pickImages(
+    await MultiImagePicker.pickImages(
       maxImages: 30,
       enableCamera: true,
       materialOptions: MaterialOptions(
@@ -453,17 +453,19 @@ class AddAdProvider extends ChangeNotifier{
         useDetailsView: true,
         selectCircleStrokeColor: '#00cccc',
       ),
-    );
-    for (var x = 0; x < resultList.length; x++) {
-      var image = await FlutterAbsolutePath.getAbsolutePath(resultList[x].identifier);
-      _imagesListAddAds.add(File(image));
-    }
+    ).then((value) async{
+      for (var x = 0; x < value.length; x++) {
+        var image = await FlutterAbsolutePath.getAbsolutePath(value[x].identifier);
+        _imagesListAddAds.add(File(image));
+      }
+      notifyListeners();
+    });
 
-    await Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-          builder: (context) => AddAds()),
-    );
+    // await Navigator.pushReplacement(
+    //   context,
+    //   MaterialPageRoute(
+    //       builder: (context) => AddAds()),
+    // );
   }
 
   void setCurrentControllerPageAddAds(int value) {
@@ -606,7 +608,7 @@ class AddAdProvider extends ChangeNotifier{
       String isFamilyPartition,
       String isVerse,
       String isCellar,
-      String isMonsters,
+      String isYard,
       String isMaidRoom,
       String isSwimmingPool,
       String isDriverRoom,
@@ -656,7 +658,7 @@ class AddAdProvider extends ChangeNotifier{
         isFamilyPartition,
         isVerse,
         isCellar,
-        isMonsters,
+        isYard,
         isMaidRoom,
         isSwimmingPool,
         isDriverRoom,
@@ -707,6 +709,8 @@ class AddAdProvider extends ChangeNotifier{
         textColor: Colors.white,
         fontSize: 15.0);
 
+    Provider.of<MapProvider>(context, listen: false).getLocPer();
+    Provider.of<MapProvider>(context, listen: false).getLoc();
     Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
     Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
     Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
@@ -749,7 +753,7 @@ class AddAdProvider extends ChangeNotifier{
   bool get isDriverRoomAddAds => _isDriverRoomAddAds;
   bool get isSwimmingPoolAddAds => _isSwimmingPoolAddAds;
   bool get isMaidRoomAddAds => _isMaidRoomAddAds;
-  bool get isMonstersAddAds => _isMonstersAddAds;
+  bool get isYardAddAds => _isYardAddAds;
   bool get isVerseAddAds => _isVerseAddAds;
   bool get isCellarAddAds => _isCellarAddAds;
   bool get isFamilyPartitionAddAds => _isFamilyPartitionAddAds;

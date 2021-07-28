@@ -8,6 +8,7 @@ import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/ads/main_page.dart';
+import 'package:tadawl_app/provider/map_provider.dart';
 
 class UpdateMyInformationProvider extends ChangeNotifier{
   File _imageUpdateProfile;
@@ -61,6 +62,8 @@ class UpdateMyInformationProvider extends ChangeNotifier{
 
     clearUpdatingInformation();
     Future.delayed(Duration(seconds: 0), () {
+      Provider.of<MapProvider>(context, listen: false).getLocPer();
+      Provider.of<MapProvider>(context, listen: false).getLoc();
       Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
       Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
       Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);

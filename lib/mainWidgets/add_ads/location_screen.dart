@@ -23,8 +23,7 @@ class LocationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
 
-    return Consumer<AddAdProvider>(builder: (context, addAds, child) {
-      Future<bool> _onLocationContinue() {
+     Future<bool> _onLocationContinue(String ads_neighborhoodAddAds) {
         return showDialog(
           context: context,
           builder: (context) =>
@@ -44,7 +43,7 @@ class LocationScreen extends StatelessWidget {
                   AppLocalizations
                       .of(context)
                       .reLocationIn +
-                      ' ( ${addAds.ads_neighborhoodAddAds} ) ',
+                      ' ( $ads_neighborhoodAddAds ) ',
                   style: CustomTextStyle(
 
                     fontSize: 17,
@@ -97,6 +96,7 @@ class LocationScreen extends StatelessWidget {
         ) ??
             false;
       }
+
       return Scaffold(
         appBar: AppBar(
           backgroundColor: const Color(0xff00cccc),
@@ -125,156 +125,124 @@ class LocationScreen extends StatelessWidget {
             },
           ),
         ),
-        body: Consumer<MapProvider>(
-          builder: (context, map, child) {
-
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 15, 10, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      addAds.ads_cityAddAds == null
-                          ? Text(
-                        AppLocalizations
-                            .of(context)
-                            .city +
-                            '${map.ads_cityAddAds}',
-                        style: CustomTextStyle(
-                          fontSize: 13,
-                          color: const Color(0xff989696),
-                        ).getTextStyle(),
-                        textAlign: TextAlign.center,
-                        textDirection: TextDirection.rtl,
-                      )
-                          : Text(
-                        AppLocalizations
-                            .of(context)
-                            .city +
-                            '${addAds.ads_cityAddAds}',
-                        style: CustomTextStyle(
-
-                          fontSize: 13,
-                          color: const Color(0xff989696),
-                        ).getTextStyle(),
-                        textAlign: TextAlign.center,
-                        textDirection: TextDirection.rtl,
-                      ),
-                      addAds.ads_neighborhoodAddAds == null
-                          ? Text(
-                        AppLocalizations
-                            .of(context)
-                            .neighborhood +
-                            ' ${map.ads_neighborhoodAddAds}',
-                        style: CustomTextStyle(
-
-                          fontSize: 13,
-                          color: const Color(0xff989696),
-                        ).getTextStyle(),
-                        textAlign: TextAlign.center,
-                        textDirection: TextDirection.rtl,
-                      )
-                          : Text(
-                        AppLocalizations
-                            .of(context)
-                            .neighborhood +
-                            ' ${addAds.ads_neighborhoodAddAds}',
-                        style: CustomTextStyle(
-                          fontSize: 13,
-                          color: const Color(0xff989696),
-                        ).getTextStyle(),
-                        textAlign: TextAlign.center,
-                        textDirection: TextDirection.rtl,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 400,
-                  child: Stack(
-                    children: [
-                      GoogleMap(
-                        myLocationButtonEnabled: true,
-                        zoomGesturesEnabled: true,
-                        zoomControlsEnabled: true,
-                        scrollGesturesEnabled: true,
-                        rotateGesturesEnabled: true,
-                        myLocationEnabled: true,
-                        mapType: MapType.normal,
-                        initialCameraPosition: CameraPosition(
-                            target: addAds.customCameraPositionAddAds ?? map.initialCameraPosition, zoom: 13),
-                        onMapCreated: _onMapCreated,
-                        onCameraMove: (CameraPosition position) {
-                          addAds.handleCameraMoveAddAds(position);
-                        },
-                      ),
-                      Center(
-                        child: Icon(
-                          Icons.my_location_rounded,
-                          color: Color(0xff00cccc),
-                          size: 25,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    if (addAds.ads_cordinatesAddAds == null) {
-                      if (Provider.of<MapProvider>(context, listen: false).initialCameraPosition != null) {
-                        addAds.setAdsCordinatesAddAds(Provider.of<MapProvider>(context, listen: false).initialCameraPosition);
-                      } else {
-                        Fluttertoast.showToast(
-                            msg: 'حرك الخريطة للوصول لموقع العقار المطلوب',
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.CENTER,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.red,
-                            textColor: Colors.white,
-                            fontSize: 15.0);
-                      }
-                    } else {
-                      // if (!addAdsKey.currentState.validate()) {
-                      //   return;
-                      // }
-                      // addAdsKey.currentState.save();
-                      _onLocationContinue();
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
-                    child: Container(
-                      width: mediaQuery.size.width * 0.6,
-                      height: 40.0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.0),
-                        color: const Color(0xffffffff),
-                        border: Border.all(
-                            width: 1.0, color: const Color(0xff3f9d28)),
-                      ),
-                      child: Center(
-                        child: Text(
+        body: Consumer2<AddAdProvider, MapProvider>(builder: (context, addAds, map, child) {
+            return SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 15, 10, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
                           AppLocalizations
                               .of(context)
-                              .continuee,
+                              .city +
+                              '${addAds.ads_cityAddAds}',
                           style: CustomTextStyle(
 
-                            fontSize: 15,
-                            color: const Color(0xff3f9d28),
+                            fontSize: 13,
+                            color: const Color(0xff989696),
                           ).getTextStyle(),
                           textAlign: TextAlign.center,
+                          textDirection: TextDirection.rtl,
+                        ),
+                        Text(
+                          AppLocalizations
+                              .of(context)
+                              .neighborhood +
+                              ' ${addAds.ads_neighborhoodAddAds}',
+                          style: CustomTextStyle(
+                            fontSize: 13,
+                            color: const Color(0xff989696),
+                          ).getTextStyle(),
+                          textAlign: TextAlign.center,
+                          textDirection: TextDirection.rtl,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 400,
+                    child: Stack(
+                      children: [
+                        GoogleMap(
+                          myLocationButtonEnabled: true,
+                          zoomGesturesEnabled: true,
+                          zoomControlsEnabled: true,
+                          scrollGesturesEnabled: true,
+                          rotateGesturesEnabled: true,
+                          myLocationEnabled: true,
+                          mapType: MapType.normal,
+                          initialCameraPosition: CameraPosition(
+                              target: addAds.customCameraPositionAddAds ?? map.initialCameraPosition, zoom: 13),
+                          onMapCreated: _onMapCreated,
+                          onCameraMove: (CameraPosition position) {
+                            addAds.handleCameraMoveAddAds(position);
+                          },
+                        ),
+                        Center(
+                          child: Icon(
+                            Icons.my_location_rounded,
+                            color: Color(0xff00cccc),
+                            size: 25,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      if (addAds.ads_cordinatesAddAds == null) {
+                        if (map.initialCameraPosition != null) {
+                          addAds.setAdsCordinatesAddAds(map.initialCameraPosition);
+                        } else {
+                          Fluttertoast.showToast(
+                              msg: 'حرك الخريطة للوصول لموقع العقار المطلوب',
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.red,
+                              textColor: Colors.white,
+                              fontSize: 15.0);
+                        }
+                      } else {
+                        _onLocationContinue(addAds.ads_neighborhoodAddAds);
+                      }
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+                      child: Container(
+                        width: mediaQuery.size.width * 0.6,
+                        height: 40.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: const Color(0xffffffff),
+                          border: Border.all(
+                              width: 1.0, color: const Color(0xff3f9d28)),
+                        ),
+                        child: Center(
+                          child: Text(
+                            AppLocalizations
+                                .of(context)
+                                .continuee,
+                            style: CustomTextStyle(
+
+                              fontSize: 15,
+                              color: const Color(0xff3f9d28),
+                            ).getTextStyle(),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             );
           },),
       );
-    });
   }
 }
 class Utils {

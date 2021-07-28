@@ -14,6 +14,7 @@ import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/screens/ads/main_page.dart';
 import 'locale_provider.dart';
+import 'package:tadawl_app/provider/map_provider.dart';
 
 class RegionProvider extends ChangeNotifier {
 
@@ -93,6 +94,8 @@ class RegionProvider extends ChangeNotifier {
             markerId: MarkerId(city.name),// d46d1
             position: city.position,
             onTap: () {
+              Provider.of<MapProvider>(context, listen: false).getLocPer();
+              Provider.of<MapProvider>(context, listen: false).getLoc();
               Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
               Provider.of<MainPageProvider>(context, listen: false).clearAdsOnMap();
               Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(CameraPosition(target: city.position, zoom: city.zoom));

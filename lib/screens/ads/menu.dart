@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,7 @@ import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 import 'package:tadawl_app/screens/ads/main_page.dart';
+import 'package:tadawl_app/provider/map_provider.dart';
 
 class Menu extends StatelessWidget {
   Menu({
@@ -36,6 +38,8 @@ class Menu extends StatelessWidget {
 
 
       Future<bool> _onBackPressed() async{
+        Provider.of<MapProvider>(context, listen: false).getLocPer();
+        Provider.of<MapProvider>(context, listen: false).getLoc();
         Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
         Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
         Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
@@ -271,8 +275,8 @@ class Menu extends StatelessWidget {
                               ),
                               Padding(
                                 padding: EdgeInsets.fromLTRB(
-                                    Provider.of<MutualProvider>(context, listen: false).randdLeft,
-                                    Provider.of<MutualProvider>(context, listen: false).randdTop,
+                                    Random().nextInt(50).toDouble(),
+                                    Random().nextInt(50).toDouble(),
                                     5,
                                     5),
                                 child: Opacity(

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
@@ -203,6 +205,8 @@ class AdHeaderWidget extends StatelessWidget {
                               },
                               child: PinchZoomImage(
                                 image: CachedNetworkImage(
+                                placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) => Icon(Icons.error),
                                   imageUrl: 'https://tadawl.com.sa/API/assets/images/ads/${mutualProv.adsPageImages[position].ads_image}',
                                   width: mediaQuery.size.width,
                                   height: mediaQuery.size.height *
@@ -217,8 +221,8 @@ class AdHeaderWidget extends StatelessWidget {
                             ),
                             Padding(
                               padding: EdgeInsets.fromLTRB(
-                                  mutualProv.randdLeft,
-                                  mutualProv.randdTop,
+                                  Random().nextInt(50).toDouble(),
+                                  Random().nextInt(50).toDouble(),
                                   5,
                                   5),
                               child: Opacity(
@@ -242,7 +246,7 @@ class AdHeaderWidget extends StatelessWidget {
                       onPageChanged: (index) {
                         adsPage.currentControllerPageAdsPageFunc(
                             index);
-                        mutualProv.randomPosition(200);
+                        // mutualProv.randomPosition(200);
                       },
                       controller: adsPage.controllerAdsPage,
                     )),

@@ -83,7 +83,7 @@ class AdPage extends StatelessWidget {
               actions: [AppBarActionWidget(adsPage: mutualProv)],
               leadingWidth: 100.0,
               toolbarHeight: 100.0,
-              title: AppBarTitleWidget(adsPage: adsPage),
+              title: AppBarTitleWidget(adsPage: adsPage, idDescription: mutualProv.idDescription,),
               leading: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: IconButton(

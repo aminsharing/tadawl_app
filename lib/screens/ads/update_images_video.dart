@@ -1,7 +1,7 @@
+import 'dart:math';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import 'package:pinch_zoom_image_last/pinch_zoom_image_last.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
@@ -14,9 +14,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class UpdateImgVed extends StatelessWidget {
-  UpdateImgVed({
-    Key key,
-  }) : super(key: key);
+  UpdateImgVed(
+  this._idDescription,
+  {Key key,}) : super(key: key);
+  final String _idDescription;
+
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +31,9 @@ class UpdateImgVed extends StatelessWidget {
       // ignore: omit_local_variable_types
       Map data = {};
       data = ModalRoute.of(context).settings.arguments;
-      var _id_description = data['id_description'];
+      // var _id_description = data['id_description'];
       //updateImgVed.randomPosition(200);
-      Provider.of<AdPageProvider>(context, listen: false).getImagesAdsPageInfo(context, _id_description);
+      Provider.of<AdPageProvider>(context, listen: false).getImagesAdsPageInfo(context, _idDescription);
 
       return Scaffold(
         appBar: AppBar(
@@ -47,7 +49,7 @@ class UpdateImgVed extends StatelessWidget {
               ),
               onPressed: () {
                 Provider.of<MutualProvider>(context, listen: false)
-                .getAllAdsPageInfo(context, _id_description);
+                .getAllAdsPageInfo(context, _idDescription);
                 updateImgVed.stopVideoAdsUpdate();
 
                 Future.delayed(Duration(seconds: 1), () {
@@ -115,6 +117,8 @@ class UpdateImgVed extends StatelessWidget {
                                         },
                                         child: PinchZoomImage(
                                           image: CachedNetworkImage(
+                                placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) => Icon(Icons.error),
                                             imageUrl: 'https://tadawl.com.sa/API/assets/images/ads/${Provider.of<AdPageProvider>(context, listen: false).image[position].ads_image}',
                                             width: mediaQuery.size.width,
                                             height:
@@ -128,8 +132,8 @@ class UpdateImgVed extends StatelessWidget {
                                       ),
                                       Padding(
                                         padding: EdgeInsets.fromLTRB(
-                                            Provider.of<MutualProvider>(context, listen: false).randdLeft,
-                                            Provider.of<MutualProvider>(context, listen: false).randdTop,
+                                            Random().nextInt(50).toDouble(),
+                                            Random().nextInt(50).toDouble(),
                                             5,
                                             5),
                                         child: Opacity(
@@ -154,7 +158,7 @@ class UpdateImgVed extends StatelessWidget {
                                   updateImgVed
                                       .currentControllerPageImgVedUpdateFunc(
                                           index);
-                                  Provider.of<MutualProvider>(context, listen: false).randomPosition(200);
+                                  // Provider.of<MutualProvider>(context, listen: false).randomPosition(200);
                                 },
                                 controller: updateImgVed.controllerImgVedUpdate,
                               )),
@@ -229,8 +233,8 @@ class UpdateImgVed extends StatelessWidget {
                                       ),
                                       Padding(
                                         padding: EdgeInsets.fromLTRB(
-                                            Provider.of<MutualProvider>(context, listen: false).randdLeft,
-                                            Provider.of<MutualProvider>(context, listen: false).randdTop,
+                                            Random().nextInt(50).toDouble(),
+                                            Random().nextInt(50).toDouble(),
                                             5,
                                             5),
                                         child: Opacity(
@@ -255,7 +259,7 @@ class UpdateImgVed extends StatelessWidget {
                                   updateImgVed
                                       .currentControllerPageImgVedUpdateFunc(
                                           index);
-                                  Provider.of<MutualProvider>(context, listen: false).randomPosition(200);
+                                  // Provider.of<MutualProvider>(context, listen: false).randomPosition(200);
                                 },
                                 controller: updateImgVed.controllerImgVedUpdate,
                               )),
@@ -458,8 +462,8 @@ class UpdateImgVed extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(Provider.of<MutualProvider>(context, listen: false).randdLeft,
-                              Provider.of<MutualProvider>(context, listen: false).randdTop, 5, 5),
+                          padding: EdgeInsets.fromLTRB(Random().nextInt(50).toDouble(),
+                              Random().nextInt(50).toDouble(), 5, 5),
                           child: Opacity(
                             opacity: 0.7,
                             child: Container(
@@ -588,7 +592,7 @@ class UpdateImgVed extends StatelessWidget {
                   } else {
                     updateImgVed.updateImgVed(
                         context,
-                        _id_description,
+                        _idDescription,
                         updateImgVed.imagesListUpdate,
                         updateImgVed.videoUpdate);
                   }

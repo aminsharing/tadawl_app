@@ -7,6 +7,7 @@ import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/screens/ads/main_page.dart';
 import 'package:http/http.dart' as http;
+import 'package:tadawl_app/provider/map_provider.dart';
 
 class Item {
   Item({this.expandedValue, this.headerValue, this.isExpanded = false});
@@ -159,6 +160,8 @@ class GeneralProvider extends ChangeNotifier {
       await Fluttertoast.showToast(
           msg: 'تم إرسال النموذج بنجاح، سيتم التواصل معك بأقرب فرصة.',
           toastLength: Toast.LENGTH_SHORT);
+      Provider.of<MapProvider>(context, listen: false).getLocPer();
+      Provider.of<MapProvider>(context, listen: false).getLoc();
       Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
       Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
       Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);

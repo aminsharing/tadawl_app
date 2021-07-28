@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
@@ -34,20 +33,12 @@ import 'package:tadawl_app/provider/user_provider/offices_vr_provider.dart';
 import 'package:tadawl_app/provider/user_provider/transfer_form_provider.dart';
 import 'package:tadawl_app/provider/user_provider/update_my_information_provider.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
-import 'package:tadawl_app/screens/account/estimateUser.dart';
-import 'package:tadawl_app/screens/ads/aqar_vr.dart';
-import 'package:tadawl_app/screens/ads/payment_of_fees.dart';
-import 'package:tadawl_app/screens/ads/update_details.dart';
-import 'package:tadawl_app/screens/ads/update_images_video.dart';
-import 'package:tadawl_app/screens/ads/update_location.dart';
 import 'package:tadawl_app/screens/general/home.dart';
-import 'package:tadawl_app/mainWidgets/open_images.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/provider/NotificationProvider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/cache_markers_provider.dart';
 import 'package:tadawl_app/provider/request_provider.dart';
-import 'package:tadawl_app/screens/account/discussion_main.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -105,87 +96,87 @@ class MyApp extends StatelessWidget {
         builder: (context, child) {
           final provider = Provider.of<LocaleProvider>(context);
           return MaterialApp(
-            routes: {
-              '/main/discussion_main': (context) => Discussion(),
-              '/main/payment_of_fees': (context) => PaymentOfFees(),
-              '/main/update_ads_img_ved': (context) => UpdateImgVed(),
-              '/main/update_location': (context) => UpdateLocation(),
-              '/main/update_datails': (context) => UpdateDetails(),
-              '/main/aqar_vr': (context) => AqarVR(),
-              '/main/estimate_user': (context) => Estimate(),
-            },
+            // routes: {
+            //   '/main/discussion_main': (context) => Discussion(),
+            //   '/main/payment_of_fees': (context) => PaymentOfFees(),
+            //   '/main/update_ads_img_ved': (context) => UpdateImgVed(),
+            //   '/main/update_location': (context) => UpdateLocation(),
+            //   '/main/update_datails': (context) => UpdateDetails(),
+            //   '/main/aqar_vr': (context) => AqarVR(),
+            //   '/main/estimate_user': (context) => Estimate(),
+            // },
 
             // when generating route applying animation
-            onGenerateRoute: (settings) {
-              switch (settings.name) {
-                case '/open_images':
-                  return PageTransition(
-                    child: OpenImages(),
-                    type: PageTransitionType.bottomToTop,
-                    settings: settings,
-                    reverseDuration: Duration(milliseconds: 10),
-                  );
-                  break;
-                case '/discussion_main':
-                  return PageTransition(
-                    child: Discussion(),
-                    type: PageTransitionType.bottomToTop,
-                    settings: settings,
-                    reverseDuration: Duration(milliseconds: 10),
-                  );
-                  break;
-                case '/payment_of_fees':
-                  return PageTransition(
-                    child: PaymentOfFees(),
-                    type: PageTransitionType.bottomToTop,
-                    settings: settings,
-                    reverseDuration: Duration(milliseconds: 10),
-                  );
-                  break;
-                case '/update_ads_img_ved':
-                  return PageTransition(
-                    child: UpdateImgVed(),
-                    type: PageTransitionType.bottomToTop,
-                    settings: settings,
-                    reverseDuration: Duration(milliseconds: 10),
-                  );
-                  break;
-                case '/update_location':
-                  return PageTransition(
-                    child: UpdateLocation(),
-                    type: PageTransitionType.bottomToTop,
-                    settings: settings,
-                    reverseDuration: Duration(milliseconds: 10),
-                  );
-                  break;
-                case '/update_datails':
-                  return PageTransition(
-                    child: UpdateDetails(),
-                    type: PageTransitionType.bottomToTop,
-                    settings: settings,
-                    reverseDuration: Duration(milliseconds: 10),
-                  );
-                  break;
-                case '/aqar_vr':
-                  return PageTransition(
-                    child: AqarVR(),
-                    type: PageTransitionType.bottomToTop,
-                    settings: settings,
-                    reverseDuration: Duration(milliseconds: 10),
-                  );
-                  break;
-                case '/estimate_user':
-                  return PageTransition(
-                    child: Estimate(),
-                    type: PageTransitionType.bottomToTop,
-                    settings: settings,
-                    reverseDuration: Duration(milliseconds: 10),
-                  );
-                  break;
-                default:
-                  return null;
-              }
-            },
+            // onGenerateRoute: (settings) {
+            //   switch (settings.name) {
+            //     case '/open_images':
+            //       return PageTransition(
+            //         child: OpenImages(),
+            //         type: PageTransitionType.bottomToTop,
+            //         settings: settings,
+            //         reverseDuration: Duration(milliseconds: 10),
+            //       );
+            //       break;
+            //     case '/discussion_main':
+            //       return PageTransition(
+            //         child: Discussion(),
+            //         type: PageTransitionType.bottomToTop,
+            //         settings: settings,
+            //         reverseDuration: Duration(milliseconds: 10),
+            //       );
+            //       break;
+            //     case '/payment_of_fees':
+            //       return PageTransition(
+            //         child: PaymentOfFees(),
+            //         type: PageTransitionType.bottomToTop,
+            //         settings: settings,
+            //         reverseDuration: Duration(milliseconds: 10),
+            //       );
+            //       break;
+            //     case '/update_ads_img_ved':
+            //       return PageTransition(
+            //         child: UpdateImgVed(),
+            //         type: PageTransitionType.bottomToTop,
+            //         settings: settings,
+            //         reverseDuration: Duration(milliseconds: 10),
+            //       );
+            //       break;
+            //     case '/update_location':
+            //       return PageTransition(
+            //         child: UpdateLocation(),
+            //         type: PageTransitionType.bottomToTop,
+            //         settings: settings,
+            //         reverseDuration: Duration(milliseconds: 10),
+            //       );
+            //       break;
+            //     case '/update_datails':
+            //       return PageTransition(
+            //         child: UpdateDetails(),
+            //         type: PageTransitionType.bottomToTop,
+            //         settings: settings,
+            //         reverseDuration: Duration(milliseconds: 10),
+            //       );
+            //       break;
+            //     case '/aqar_vr':
+            //       return PageTransition(
+            //         child: AqarVR(),
+            //         type: PageTransitionType.bottomToTop,
+            //         settings: settings,
+            //         reverseDuration: Duration(milliseconds: 10),
+            //       );
+            //       break;
+            //     case '/estimate_user':
+            //       return PageTransition(
+            //         child: Estimate(),
+            //         type: PageTransitionType.bottomToTop,
+            //         settings: settings,
+            //         reverseDuration: Duration(milliseconds: 10),
+            //       );
+            //       break;
+            //     default:
+            //       return null;
+            //   }
+            // },
             // ignore: missing_return
             localeListResolutionCallback: (locales, supportedLocales) {
               for (var i = 0; i < locales.length; i++) {

@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -131,8 +132,8 @@ class SpecialOffers extends StatelessWidget {
                                     ),
                                     Padding(
                                       padding: EdgeInsets.fromLTRB(
-                                          Provider.of<MutualProvider>(context, listen: false).randdLeft,
-                                          Provider.of<MutualProvider>(context, listen: false).randdTop,
+                                          Random().nextInt(50).toDouble(),
+                                          Random().nextInt(50).toDouble(),
                                           5,
                                           5),
                                       child: Opacity(

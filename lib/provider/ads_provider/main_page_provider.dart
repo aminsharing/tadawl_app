@@ -5,6 +5,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/Gist.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
@@ -617,6 +618,23 @@ class MainPageProvider extends ChangeNotifier{
   void setMapControllerMainPage(GoogleMapController val) {
     _mapControllerMainPAge = val;
     notifyListeners();
+  }
+
+  void animateLocation(BuildContext context) async{
+    LocationData currentLocation;
+    var location = Location();
+    try {
+      currentLocation = await location.getLocation();
+    } on Exception {
+      currentLocation = null;
+    }
+    await _mapControllerMainPAge.animateCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(
+          target: LatLng(currentLocation.latitude, currentLocation.longitude),
+          zoom: 17,
+      ),
+    ),
+    );
   }
 
   void setSelectedArea(CameraPosition val){

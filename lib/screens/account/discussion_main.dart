@@ -21,9 +21,12 @@ class Constants {
 }
 
 class Discussion extends StatelessWidget {
-  Discussion({
+  Discussion(
+      this.phone_user,
+      {
     Key key,
   }) : super(key: key);
+  final String phone_user;
 
   final GlobalKey<FormState> _messageKey = GlobalKey<FormState>();
 
@@ -48,7 +51,7 @@ class Discussion extends StatelessWidget {
           .of(context)
           .settings
           .arguments;
-      phone_user = data['phone_user'];
+      // phone_user = data['phone_user'];
 
 
       mainChat.getConvInfo(context, _phone);

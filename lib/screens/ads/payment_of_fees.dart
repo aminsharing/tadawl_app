@@ -12,7 +12,11 @@ import 'package:tadawl_app/screens/account/transfer_form.dart';
 class PaymentOfFees extends StatelessWidget {
   PaymentOfFees({
     Key key,
+    this.price,
+    this.type
   }) : super(key: key);
+  final String price;
+  final String type;
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +32,8 @@ class PaymentOfFees extends StatelessWidget {
       Provider.of<UserMutualProvider>(context, listen: false).getSession();
       var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
       data = ModalRoute.of(context).settings.arguments;
-      price = data['price'];
-      type = data['type'];
-
+      // price = data['price'];
+      // type = data['type'];
 
       //payFee.initStateSelected();
 
@@ -244,6 +247,7 @@ class PaymentOfFees extends StatelessWidget {
                         ],
                       ),
                     ),
+
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                       child: TextFormField(

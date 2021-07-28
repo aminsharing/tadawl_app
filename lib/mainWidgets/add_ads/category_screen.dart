@@ -16,7 +16,6 @@ class CategoryScreen extends StatelessWidget {
     var mediaQuery = MediaQuery.of(context);
     var provider = Provider.of<LocaleProvider>(context, listen: false);
     var _lang = provider.locale.toString();
-    return Consumer<AddAdProvider>(builder: (context, addAds, child) {
 
       Future<bool> _onBackPressed() {
         return showDialog(
@@ -44,7 +43,7 @@ class CategoryScreen extends StatelessWidget {
                 actions: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      addAds.clearChacheAddAds();
+                      Provider.of<AddAdProvider>(context, listen: false).clearChacheAddAds();
                       Navigator.of(context).pop(true);
                     },
                     child: Padding(
@@ -109,118 +108,119 @@ class CategoryScreen extends StatelessWidget {
               onPressed: _onBackPressed,
             ),
           ),
-          body: addAds.categoryAddAds.isNotEmpty
-              ?
-          Padding( // addAds.categoryAddAds.length
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              width: mediaQuery.size.width,
-              height: mediaQuery.size.height,
-              child: ListView.builder(
-                itemCount: addAds.categoryAddAds.length,
-                itemBuilder: (context, i){
-                  if ('${addAds.id_category_finalAddAds}' ==
-                      addAds.categoryAddAds[i].id_category) {
-                    return TextButton(
-                      onPressed: () {
-                        addAds.updateCategoryDetailsAddAds(
-                            int.parse(addAds.categoryAddAds[i].id_category),
-                            addAds.categoryAddAds[i].name);
-                        addAds.setCurrentStageAddAds(2);
-                      },
-                      child: Container(
-                        width: mediaQuery.size.width,
-                        height: 70,
-                        decoration: BoxDecoration(
-                          color: Color(0xff00cccc),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15),
-                              bottomLeft: Radius.circular(15),
-                              bottomRight: Radius.circular(15)),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                _lang != 'en_US'
-                                    ? addAds.categoryAddAds[i].name
-                                    : addAds.categoryAddAds[i].en_name,
-                                style: CustomTextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                ).getTextStyle(),
-                                textAlign: TextAlign.center,
-                              ),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.grey[200],
-                                size: 30,
-                              ),
-                            ],
+          body: Consumer<AddAdProvider>(builder: (context, addAds, child) {
+            return addAds.categoryAddAds.isNotEmpty
+                ?
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Container(
+                width: mediaQuery.size.width,
+                height: mediaQuery.size.height,
+                child: ListView.builder(
+                  itemCount: addAds.categoryAddAds.length,
+                  itemBuilder: (context, i){
+                    if ('${addAds.id_category_finalAddAds}' ==
+                        addAds.categoryAddAds[i].id_category) {
+                      return TextButton(
+                        onPressed: () {
+                          addAds.updateCategoryDetailsAddAds(
+                              int.parse(addAds.categoryAddAds[i].id_category),
+                              addAds.categoryAddAds[i].name);
+                          addAds.setCurrentStageAddAds(2);
+                        },
+                        child: Container(
+                          width: mediaQuery.size.width,
+                          height: 70,
+                          decoration: BoxDecoration(
+                            color: Color(0xff00cccc),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(15),
+                                bottomLeft: Radius.circular(15),
+                                bottomRight: Radius.circular(15)),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  _lang != 'en_US'
+                                      ? addAds.categoryAddAds[i].name
+                                      : addAds.categoryAddAds[i].en_name,
+                                  style: CustomTextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                  ).getTextStyle(),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Colors.grey[200],
+                                  size: 30,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  }
-                  else {
-                    return TextButton(
-                      onPressed: () {
-                        addAds.updateCategoryDetailsAddAds(
-                            int.parse(addAds.categoryAddAds[i].id_category),
-                            addAds.categoryAddAds[i].name);
-                        // addAds.setCurrentStageAddAds(2);
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => AdvertisingFeesScreen()));
-                      },
-                      child: Container(
-                        width: mediaQuery.size.width,
-                        height: 70,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15),
-                              bottomLeft: Radius.circular(15),
-                              bottomRight: Radius.circular(15)),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                _lang != 'en_US'
-                                    ? addAds.categoryAddAds[i].name
-                                    : addAds.categoryAddAds[i].en_name,
-                                style: CustomTextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 15,
-                                  color: const Color(0xff00cccc),
-                                ).getTextStyle(),
-                                textAlign: TextAlign.center,
-                              ),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                color: Color(0xff00cccc),
-                                size: 30,
-                              ),
-                            ],
+                      );
+                    }
+                    else {
+                      return TextButton(
+                        onPressed: () {
+                          addAds.updateCategoryDetailsAddAds(
+                              int.parse(addAds.categoryAddAds[i].id_category),
+                              addAds.categoryAddAds[i].name);
+                          // addAds.setCurrentStageAddAds(2);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => AdvertisingFeesScreen()));
+                        },
+                        child: Container(
+                          width: mediaQuery.size.width,
+                          height: 70,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(15),
+                                bottomLeft: Radius.circular(15),
+                                bottomRight: Radius.circular(15)),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  _lang != 'en_US'
+                                      ? addAds.categoryAddAds[i].name
+                                      : addAds.categoryAddAds[i].en_name,
+                                  style: CustomTextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 15,
+                                    color: const Color(0xff00cccc),
+                                  ).getTextStyle(),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Color(0xff00cccc),
+                                  size: 30,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  }
-                },
+                      );
+                    }
+                  },
+                ),
               ),
-            ),
-          )
-              :
-          Container(),
+            )
+                :
+            Container();
+          }),
         ),
       );
-    });
   }
 }

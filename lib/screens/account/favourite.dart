@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -20,7 +22,7 @@ class Favourite extends StatelessWidget {
 
       print("Favourite -> FavouriteProvider");
 
-      Provider.of<MutualProvider>(context, listen: false).randomPosition(50);
+      // Provider.of<MutualProvider>(context, listen: false).randomPosition(50);
       var mediaQuery = MediaQuery.of(context);
       Provider.of<UserMutualProvider>(context, listen: false).getSession();
       var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
@@ -133,12 +135,8 @@ class Favourite extends StatelessWidget {
                               ),
                               Padding(
                                 padding: EdgeInsets.fromLTRB(
-                                    Provider.of<MutualProvider>(context,
-                                        listen: false)
-                                        .randdLeft,
-                                    Provider.of<MutualProvider>(context,
-                                        listen: false)
-                                        .randdTop,
+                                    Random().nextInt(50).toDouble(),
+                                    Random().nextInt(50).toDouble(),
                                     5,
                                     5),
                                 child: Opacity(

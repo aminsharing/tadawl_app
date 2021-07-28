@@ -8,7 +8,8 @@ import 'package:tadawl_app/provider/ads_provider/aqar_vr_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 
 class AqarVR extends StatelessWidget {
-  AqarVR({
+  AqarVR(
+      {
     Key key,
   }) : super(key: key);
 

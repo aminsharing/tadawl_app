@@ -6,12 +6,14 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
-import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/user_provider/favourite_provider.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/login.dart';
 import 'package:tadawl_app/screens/ads/menu.dart';
+import 'package:tadawl_app/screens/ads/update_details.dart';
+import 'package:tadawl_app/screens/ads/update_images_video.dart';
+import 'package:tadawl_app/screens/ads/update_location.dart';
 import 'package:video_player/video_player.dart';
 
 class AdPageProvider extends ChangeNotifier{
@@ -47,23 +49,29 @@ class AdPageProvider extends ChangeNotifier{
       if(_videoControllerAdsPage != null) {
         _videoControllerAdsPage.pause();
       }
-      Navigator.pushNamed(context, '/main/update_ads_img_ved', arguments: {
-        'id_description': idDescription,
-      });
+      Navigator.push(context, MaterialPageRoute(builder: (context) =>
+          UpdateImgVed(idDescription)));
+      // Navigator.pushNamed(context, '/main/update_ads_img_ved', arguments: {
+      //   'id_description': idDescription,
+      // });
     } else if (choice == 'تعديل الموقع' || choice == 'Update Location') {
       if(_videoControllerAdsPage != null) {
         _videoControllerAdsPage.pause();
       }
-      Navigator.pushNamed(context, '/main/update_location', arguments: {
-        'id_description': idDescription,
-      });
+      Navigator.push(context, MaterialPageRoute(builder: (context) =>
+          UpdateLocation(idDescription)));
+      // Navigator.pushNamed(context, '/main/update_location', arguments: {
+      //   'id_description': idDescription,
+      // });
     } else if (choice == 'تعديل التفاصيل' || choice == 'Update Details') {
       if(_videoControllerAdsPage != null) {
         _videoControllerAdsPage.pause();
       }
-      Navigator.pushNamed(context, '/main/update_datails', arguments: {
-        'id_description': idDescription,
-      });
+      Navigator.push(context, MaterialPageRoute(builder: (context) =>
+          UpdateDetails(idDescription)));
+      // Navigator.pushNamed(context, '/main/update_datails', arguments: {
+      //   'id_description': idDescription,
+      // });
     } else if (choice == 'حذف الإعلان' || choice == 'Delete Ad') {
       onDeletePressed(context, idDescription);
     }
@@ -154,9 +162,12 @@ class AdPageProvider extends ChangeNotifier{
         if (_adsUpdateDetails.isNotEmpty) {
           _priceControllerUpdate..text = _adsUpdateDetails.first.price;
           _spaceControllerUpdate..text = _adsUpdateDetails.first.space;
+          _meterPriceControllerUpdate..text = (int.tryParse(_adsUpdateDetails.first.price) ~/ int.tryParse(_adsUpdateDetails.first.space)).toString();
+          _meterPriceUpdate = int.parse(_meterPriceControllerUpdate.text);
           _descControllerUpdate..text = _adsUpdateDetails.first.description;
         }
-        // notifyListeners();
+        notifyListeners();
+        // Provider.of<UpdateDetailsProvider>(context, listen: false).update();
       });
     });
   }

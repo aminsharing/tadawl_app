@@ -1,8 +1,8 @@
+import 'dart:math';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_rating_bar/flutter_simple_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
@@ -27,6 +27,7 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:tadawl_app/provider/map_provider.dart';
 
 class Constants {
   static const String updateMyInfo = 'تحديث معلوماتي';
@@ -200,6 +201,8 @@ class MyAccount extends StatelessWidget {
               backgroundColor: Colors.red,
               textColor: Colors.white,
               fontSize: 15.0);
+          Provider.of<MapProvider>(context, listen: false).getLocPer();
+          Provider.of<MapProvider>(context, listen: false).getLoc();
           Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
           Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
           Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
@@ -1818,8 +1821,8 @@ class MyAccount extends StatelessWidget {
                                             ),
                                             Padding(
                                               padding: EdgeInsets.fromLTRB(
-                                                  Provider.of<MutualProvider>(context, listen: false).randdLeft,
-                                                  Provider.of<MutualProvider>(context, listen: false).randdTop,
+                                                  Random().nextInt(50).toDouble(),
+                                                  Random().nextInt(50).toDouble(),
                                                   5, 5),
                                               child: Opacity(
                                                 opacity: 0.7,
@@ -2210,8 +2213,8 @@ class MyAccount extends StatelessWidget {
                                           ),
                                           Padding(
                                             padding: EdgeInsets.fromLTRB(
-                                                Provider.of<MutualProvider>(context, listen: false).randdLeft,
-                                                Provider.of<MutualProvider>(context, listen: false).randdTop,
+                                                Random().nextInt(50).toDouble(),
+                                                Random().nextInt(50).toDouble(),
                                                 5, 5),
                                             child: Opacity(
                                               opacity: 0.7,

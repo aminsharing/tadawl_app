@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -123,12 +125,8 @@ class MyAds extends StatelessWidget {
                               ),
                               Padding(
                                 padding: EdgeInsets.fromLTRB(
-                                    Provider.of<MutualProvider>(context,
-                                            listen: false)
-                                        .randdLeft,
-                                    Provider.of<MutualProvider>(context,
-                                            listen: false)
-                                        .randdTop,
+                                    Random().nextInt(50).toDouble(),
+                                    Random().nextInt(50).toDouble(),
                                     5,
                                     5),
                                 child: Opacity(

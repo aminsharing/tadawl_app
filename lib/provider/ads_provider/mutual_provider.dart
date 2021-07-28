@@ -36,9 +36,9 @@ class MutualProvider extends ChangeNotifier{
   List _adsViewsData = [];
   String _qrData = 'https://play.google.com/store/apps/details?id=com.tadawlapp.tadawl_app';
   double leftMargin, topMargin;
-  final Random _random = Random();
-  double randdTop = 50;
-  double randdLeft = 50;
+  // final Random _random = Random();
+  // double randdTop = 50;
+  // double randdLeft = 50;
   String _idDescription;
   int _expendedListCount = 4;
   int _number;
@@ -222,15 +222,15 @@ class MutualProvider extends ChangeNotifier{
     // notifyListeners();
   }
 
-  void randomPosition(int number) {
-    var _randomLeft = _random.nextInt(number);
-    var _randomTop = _random.nextInt(number);
-    var _randLeft = _randomLeft.toDouble();
-    var _randTop = _randomTop.toDouble();
-    randdTop = _randTop;
-    randdLeft = _randLeft;
-    //notifyListeners();
-  }
+  // void randomPosition(int number) {
+  //   var _randomLeft = _random.nextInt(number);
+  //   var _randomTop = _random.nextInt(number);
+  //   var _randLeft = _randomLeft.toDouble();
+  //   var _randTop = _randomTop.toDouble();
+  //   randdTop = _randTop;
+  //   randdLeft = _randLeft;
+  //   //notifyListeners();
+  // }
 
   int countAdsPageImages() {
     if (_AdsPageImages.isNotEmpty) {

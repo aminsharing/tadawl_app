@@ -12,9 +12,12 @@ import 'package:tadawl_app/provider/user_markers_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 
 class UpdateLocation extends StatelessWidget {
-  UpdateLocation({
+  UpdateLocation(
+      this._id_description,
+      {
     Key key,
   }) : super(key: key);
+  final String _id_description;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class UpdateLocation extends StatelessWidget {
           .of(context)
           .settings
           .arguments;
-      var _id_description = data['id_description'];
+      // var _id_description = data['id_description'];
 
       void _onMapCreated(GoogleMapController controller) {
         controller.setMapStyle(Utils.mapStyle);

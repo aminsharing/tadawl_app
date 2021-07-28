@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:tadawl_app/provider/NotificationProvider.dart';
+import 'package:tadawl_app/provider/map_provider.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
 import 'package:tadawl_app/provider/office_marker_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/special_offers_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/today_ads_provider.dart';
 import 'package:tadawl_app/provider/user_provider/favourite_provider.dart';
@@ -21,7 +21,9 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    print("Home");
+    Provider.of<MapProvider>(context, listen: false).getLocPer();
+    Provider.of<MapProvider>(context, listen: false).getLoc();
     // Provider.of<MapProvider>(context, listen: false).getLocPer();
     // Provider.of<MapProvider>(context, listen: false).getLoc();
     Provider.of<TodayAdsProvider>(context, listen: false).initStateSelected();
@@ -35,7 +37,7 @@ class Home extends StatelessWidget {
         .getAdsSpecialList(context);
     Provider.of<TodayAdsProvider>(context, listen: false).getTodayAdsList(context);
     Provider.of<MenuProvider>(context, listen: false).clearMenuFilter(context);
-    Provider.of<MutualProvider>(context, listen: false).randomPosition(50);
+    // Provider.of<MutualProvider>(context, listen: false).randomPosition(50);
     Provider.of<AddAdProvider>(context, listen: false).getCategoryeInfoAddAds(context);
     Provider.of<MenuProvider>(context, listen: false).getMenuList(
         context, null, null, null, null, null, null, null, null, null, null, null,

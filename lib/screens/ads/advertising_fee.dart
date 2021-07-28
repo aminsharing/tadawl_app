@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/adv_fee_provider.dart';
+import 'package:tadawl_app/screens/ads/payment_of_fees.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -478,12 +479,14 @@ class AdvertisingFee extends StatelessWidget {
                                             children: [
                                               TextButton(
                                                 onPressed: () {
-                                                  Navigator.pushNamed(context,
-                                                      '/main/payment_of_fees',
-                                                      arguments: {
-                                                        'price': '2500',
-                                                        'type': 'العضوية المميزة',
-                                                      });
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                                      PaymentOfFees(price: '2500', type: 'العضوية المميزة')));
+                                                  // Navigator.pushNamed(context,
+                                                  //     '/main/payment_of_fees',
+                                                  //     arguments: {
+                                                  //       'price': '2500',
+                                                  //       'type': 'العضوية المميزة',
+                                                  //     });
                                                 },
                                                 child: Container(
                                                   width: 140,
@@ -902,13 +905,15 @@ class AdvertisingFee extends StatelessWidget {
                                             children: [
                                               TextButton(
                                                 onPressed: () {
-                                                  Navigator.pushNamed(context,
-                                                      '/main/payment_of_fees',
-                                                      arguments: {
-                                                        'price': '1900',
-                                                        'type':
-                                                            'العضوية الاحترافية',
-                                                      });
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                                      PaymentOfFees(price: '1900', type: 'العضوية الاحترافية')));
+                                                  // Navigator.pushNamed(context,
+                                                  //     '/main/payment_of_fees',
+                                                  //     arguments: {
+                                                  //       'price': '1900',
+                                                  //       'type':
+                                                  //           'العضوية الاحترافية',
+                                                  //     });
                                                 },
                                                 child: Container(
                                                   width: 140,
@@ -1165,13 +1170,15 @@ class AdvertisingFee extends StatelessWidget {
                                             children: [
                                               TextButton(
                                                 onPressed: () {
-                                                  Navigator.pushNamed(context,
-                                                      '/main/payment_of_fees',
-                                                      arguments: {
-                                                        'price': '750',
-                                                        'type':
-                                                            'العضوية الأساسية',
-                                                      });
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                                      PaymentOfFees(price: '750', type: 'العضوية الأساسية')));
+                                                  // Navigator.pushNamed(context,
+                                                  //     '/main/payment_of_fees',
+                                                  //     arguments: {
+                                                  //       'price': '750',
+                                                  //       'type':
+                                                  //           'العضوية الأساسية',
+                                                  //     });
                                                 },
                                                 child: Container(
                                                   width: 140,
@@ -1439,12 +1446,14 @@ class AdvertisingFee extends StatelessWidget {
                                               children: [
                                                 TextButton(
                                                   onPressed: () {
-                                                    Navigator.pushNamed(context,
-                                                        '/main/payment_of_fees',
-                                                        arguments: {
-                                                          'price': '60',
-                                                          'type': 'رسوم التأجير',
-                                                        });
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                                        PaymentOfFees(price: '60', type: 'رسوم التأجير')));
+                                                    // Navigator.pushNamed(context,
+                                                    //     '/main/payment_of_fees',
+                                                    //     arguments: {
+                                                    //       'price': '60',
+                                                    //       'type': 'رسوم التأجير',
+                                                    //     });
                                                   },
                                                   child: Container(
                                                     width: 100,
@@ -1607,12 +1616,14 @@ class AdvertisingFee extends StatelessWidget {
                                               children: [
                                                 TextButton(
                                                   onPressed: () {
-                                                    Navigator.pushNamed(context,
-                                                        '/main/payment_of_fees',
-                                                        arguments: {
-                                                          'price': '475',
-                                                          'type': 'رسوم البيع',
-                                                        });
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                                        PaymentOfFees(price: '475', type: 'رسوم البيع')));
+                                                    // Navigator.pushNamed(context,
+                                                    //     '/main/payment_of_fees',
+                                                    //     arguments: {
+                                                    //       'price': '475',
+                                                    //       'type': 'رسوم البيع',
+                                                    //     });
                                                   },
                                                   child: Container(
                                                     width: 100,

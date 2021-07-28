@@ -7,6 +7,7 @@ import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/screens/ads/aqar_vr.dart';
 
 class AdInfoWidget extends StatelessWidget {
   AdInfoWidget({Key key, this.adsPage, this.mutualProv}) : super(key: key);
@@ -162,11 +163,13 @@ class AdInfoWidget extends StatelessWidget {
               child: TextButton(
                 onPressed: () {
                   adsPage.stopVideoAdsPage();
-                  Navigator.pushNamed(context, '/main/aqar_vr',
-                      arguments: {
-                        'id_description':
-                        mutualProv.adsPage.first.idDescription,
-                      });
+                  Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                      AqarVR()));
+                  // Navigator.pushNamed(context, '/main/aqar_vr',
+                  //     arguments: {
+                  //       'id_description':
+                  //       mutualProv.adsPage.first.idDescription,
+                  //     });
                 },
                 child: Container(
                   width: double.infinity,

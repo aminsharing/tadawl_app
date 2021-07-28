@@ -279,11 +279,9 @@ class CustomDrawer extends StatelessWidget {
                                               width: 150.0,
                                               height: 150.0,
                                               child: CachedNetworkImage(
+                                                  placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                                  errorWidget: (context, url, error) => Icon(Icons.error),
                                                   imageUrl: 'https://tadawl.com.sa/API/assets/images/avatar/${customDrawer.users[i].image}',
-                                                // TODO CHANGED: to show to user when image load error
-                                                errorWidget: (context,error ,a){
-                                                    return Center(child: Text('خطأ في التحميل'));
-                                                },
                                               ),
                                             ),
                                       Padding(

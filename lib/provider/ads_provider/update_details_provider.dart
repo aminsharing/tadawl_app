@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tadawl_app/models/BFModel.dart';
 import 'package:tadawl_app/models/CategoryModel.dart';
+import 'package:tadawl_app/models/QFModel.dart';
+import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
-import 'package:tadawl_app/screens/ads/ad_page.dart';
+import 'package:tadawl_app/provider/bottom_nav_provider.dart';
+import 'package:tadawl_app/screens/ads/main_page.dart';
+import 'package:tadawl_app/provider/map_provider.dart';
 
 class UpdateDetailsProvider extends ChangeNotifier{
   final List<bool> _typeAqarUpdate = List.generate(3, (_) => false);
@@ -15,40 +20,82 @@ class UpdateDetailsProvider extends ChangeNotifier{
   List _CategoryDataUpdate = [];
   int _id_category_finalUpdate;
   String _interfaceSelectedUpdate;
-  double _LoungesUpdateUpdate = 0;
   bool _AcceptedUpdate = false;
-  bool _isFurnishedUpdate = false;
-  bool _isKitchenUpdate = false;
-  bool _isAppendixUpdate = false;
-  bool _isCarEntranceUpdate = false;
-  bool _isElevatorUpdate = false;
-  bool _isConditionerUpdate = false;
-  bool _isHallStaircaseUpdate = false;
-  bool _isDuplexUpdate = false;
-  bool _isDriverRoomUpdate = false;
-  bool _isSwimmingPoolUpdate = false;
-  bool _isMaidRoomUpdate = false;
-  bool _isMonstersUpdate = false;
-  bool _isVerseUpdate = false;
-  bool _isCellarUpdate = false;
-  bool _isFamilyPartitionUpdate = false;
-  bool _isAmusementParkUpdate = false;
-  bool _isVolleyballCourtUpdate = false;
-  bool _isFootballCourtUpdate = false;
-  double _ToiletsUpdateUpdate = 0;
-  double _RoomsUpdate = 0;
-  double _AgeOfRealEstateUpdate = 0;
-  double _ApartmentsUpdate = 0;
-  double _StoresUpdate = 0;
-  double _WellsUpdate = 0;
-  double _TreesUpdate = 0;
-  double _FloorUpdate = 0;
-  double _StreetWidthUpdate = 0;
+  bool _isFurnishedUpdate;
+  bool _isKitchenUpdate;
+  bool _isAppendixUpdate;
+  bool _isCarEntranceUpdate;
+  bool _isElevatorUpdate;
+  bool _isConditionerUpdate;
+  bool _isHallStaircaseUpdate;
+  bool _isDuplexUpdate;
+  bool _isDriverRoomUpdate;
+  bool _isSwimmingPoolUpdate;
+  bool _isMaidRoomUpdate;
+  bool _isYardUpdate;
+  bool _isVerseUpdate;
+  bool _isCellarUpdate;
+  bool _isFamilyPartitionUpdate;
+  bool _isAmusementParkUpdate;
+  bool _isVolleyballCourtUpdate;
+  bool _isFootballCourtUpdate;
+  double _LoungesUpdateUpdate;
+  double _ToiletsUpdateUpdate;
+  double _RoomsUpdate;
+  double _AgeOfRealEstateUpdate;
+  double _ApartmentsUpdate;
+  double _StoresUpdate;
+  double _WellsUpdate;
+  double _TreesUpdate;
+  double _FloorUpdate;
+  double _StreetWidthUpdate;
   int _selectedPlanUpdate = 0;
   int _selectedFamilyUpdate = 0;
   int _selectedTypeAqarUpdate = 0;
 
 
+  void getAdsUpdateInfo(List<BFModel> _adsBF, List<QFModel> _adsQF, String _interface, String _idTypeAqar, String _plan) {
+    _interfaceSelectedUpdate = _interfaceSelectedUpdate ?? _interface;
+    
+    _isYardUpdate = _isYardUpdate ?? bool.hasEnvironment(_adsBF[17].state);
+    _isFurnishedUpdate = _isFurnishedUpdate ?? bool.hasEnvironment(_adsBF[16].state);
+    _isKitchenUpdate = _isKitchenUpdate ?? bool.hasEnvironment(_adsBF[15].state);
+    _isAppendixUpdate = _isAppendixUpdate ?? bool.hasEnvironment(_adsBF[14].state);
+    _isCarEntranceUpdate = _isCarEntranceUpdate ?? bool.hasEnvironment(_adsBF[13].state);
+    _isElevatorUpdate = _isElevatorUpdate ?? bool.hasEnvironment(_adsBF[12].state);
+    _isConditionerUpdate = _isConditionerUpdate ?? bool.hasEnvironment(_adsBF[11].state);
+    _isHallStaircaseUpdate = _isHallStaircaseUpdate ?? bool.hasEnvironment(_adsBF[10].state);
+    _isDuplexUpdate = _isDuplexUpdate ?? bool.hasEnvironment(_adsBF[9].state);
+    _isDriverRoomUpdate = _isDriverRoomUpdate ?? bool.hasEnvironment(_adsBF[8].state);
+    _isSwimmingPoolUpdate = _isSwimmingPoolUpdate ?? bool.hasEnvironment(_adsBF[7].state);
+    _isMaidRoomUpdate = _isMaidRoomUpdate ?? bool.hasEnvironment(_adsBF[6].state);
+    _isVerseUpdate = _isVerseUpdate ?? bool.hasEnvironment(_adsBF[5].state);
+    _isCellarUpdate = _isCellarUpdate ?? bool.hasEnvironment(_adsBF[4].state);
+    _isFamilyPartitionUpdate = _isFamilyPartitionUpdate ?? bool.hasEnvironment(_adsBF[3].state);
+    _isAmusementParkUpdate = _isAmusementParkUpdate ?? bool.hasEnvironment(_adsBF[2].state);
+    _isVolleyballCourtUpdate = _isVolleyballCourtUpdate ?? bool.hasEnvironment(_adsBF[1].state);
+    _isFootballCourtUpdate = _isFootballCourtUpdate ?? bool.hasEnvironment(_adsBF[0].state);
+
+    _LoungesUpdateUpdate = _LoungesUpdateUpdate ?? double.parse(_adsQF[9].quantity);
+    _ToiletsUpdateUpdate = _ToiletsUpdateUpdate ?? double.parse(_adsQF[8].quantity);
+    _RoomsUpdate = _RoomsUpdate ?? double.parse(_adsQF[7].quantity);
+    _AgeOfRealEstateUpdate = _AgeOfRealEstateUpdate ?? double.parse(_adsQF[6].quantity);
+    _ApartmentsUpdate = _ApartmentsUpdate ?? double.parse(_adsQF[5].quantity);
+    _StoresUpdate = _StoresUpdate ?? double.parse(_adsQF[4].quantity);
+    _WellsUpdate = _WellsUpdate ?? double.parse(_adsQF[3].quantity);
+    _TreesUpdate = _TreesUpdate ?? double.parse(_adsQF[2].quantity);
+    _FloorUpdate = _FloorUpdate ?? double.parse(_adsQF[1].quantity);
+    _StreetWidthUpdate = _StreetWidthUpdate ?? double.parse(_adsQF[0].quantity);
+
+    if(!typeAqarUpdate.contains(true)){
+      setTyprAqarUpdate(int.parse(_idTypeAqar)-1, false);
+    }
+    if(!_planUpdate.contains(true)){
+      setPlanUpdate(int.parse(_plan), false);
+    }
+
+    
+  }
 
   void getCategoryeInfoUpdate(BuildContext context) async {
     Future.delayed(Duration(milliseconds: 0), () {
@@ -58,7 +105,7 @@ class UpdateDetailsProvider extends ChangeNotifier{
         _CategoryDataUpdate.forEach((element) {
           _categoryUpdate.add(CategoryModel.fromJson(element));
         });
-        // notifyListeners();
+        notifyListeners();
       });
     });
   }
@@ -95,7 +142,7 @@ class UpdateDetailsProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setFamilyUpdate(int index) {
+  void setFamilyUpdate(int index, bool update) {
     for (var buttonIndex34 = 0;
     buttonIndex34 < _familyUpdate.length;
     buttonIndex34++) {
@@ -106,10 +153,12 @@ class UpdateDetailsProvider extends ChangeNotifier{
         _familyUpdate[buttonIndex34] = false;
       }
     }
-    notifyListeners();
+    if(update){
+      notifyListeners();
+    }
   }
 
-  void setPlanUpdate(int index) {
+  void setPlanUpdate(int index, bool update) {
     for (var buttonIndex35 = 0;
     buttonIndex35 < _planUpdate.length;
     buttonIndex35++) {
@@ -120,7 +169,9 @@ class UpdateDetailsProvider extends ChangeNotifier{
         _planUpdate[buttonIndex35] = false;
       }
     }
-    notifyListeners();
+    if(update){
+      notifyListeners();
+    }
   }
 
   void setLoungesUpdate(double value) {
@@ -213,8 +264,8 @@ class UpdateDetailsProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setIsMonstersUpdate(bool val) {
-    _isMonstersUpdate = val;
+  void setIsYardUpdate(bool val) {
+    _isYardUpdate = val;
     notifyListeners();
   }
 
@@ -268,6 +319,10 @@ class UpdateDetailsProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  void update(){
+    notifyListeners();
+  }
+
   void updateDetails(
       BuildContext context,
       String id_description,
@@ -278,7 +333,7 @@ class UpdateDetailsProvider extends ChangeNotifier{
       String isFamilyPartition,
       String isVerse,
       String isCellar,
-      String isMonsters,
+      String isYard,
       String isMaidRoom,
       String isSwimmingPool,
       String isDriverRoom,
@@ -321,7 +376,7 @@ class UpdateDetailsProvider extends ChangeNotifier{
         isFamilyPartition,
         isVerse,
         isCellar,
-        isMonsters,
+        isYard,
         isMaidRoom,
         isSwimmingPool,
         isDriverRoom,
@@ -359,9 +414,15 @@ class UpdateDetailsProvider extends ChangeNotifier{
 
 
     Future.delayed(Duration(seconds: 0), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => AdPage()),
+      Provider.of<MapProvider>(context, listen: false).getLocPer();
+      Provider.of<MapProvider>(context, listen: false).getLoc();
+      Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
+      Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
+      Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => MainPage()),
+          ModalRoute.withName('/MainPage')
       );
     });
   }
@@ -387,7 +448,7 @@ class UpdateDetailsProvider extends ChangeNotifier{
   bool get isDriverRoomUpdate => _isDriverRoomUpdate;
   bool get isSwimmingPoolUpdate => _isSwimmingPoolUpdate;
   bool get isMaidRoomUpdate => _isMaidRoomUpdate;
-  bool get isMonstersUpdate => _isMonstersUpdate;
+  bool get isYardUpdate => _isYardUpdate;
   bool get isVerseUpdate => _isVerseUpdate;
   bool get isCellarUpdate => _isCellarUpdate;
   bool get isFamilyPartitionUpdate => _isFamilyPartitionUpdate;
@@ -408,5 +469,7 @@ class UpdateDetailsProvider extends ChangeNotifier{
   int get selectedPlanUpdate => _selectedPlanUpdate;
   int get selectedFamilyUpdate => _selectedFamilyUpdate;
   int get selectedTypeAqarUpdate => _selectedTypeAqarUpdate;
+
+
 
 }

@@ -8,6 +8,7 @@ import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/screens/account/discussion_main.dart';
 import 'package:tadawl_app/screens/account/login.dart';
 
 class AvatarWidget extends StatelessWidget {
@@ -282,11 +283,13 @@ class AvatarWidget extends StatelessWidget {
                                             Provider.of<MsgProvider>(context,
                                                     listen: false)
                                                 .setRecAvatarUserName(adsUser.first.username);
-                                            Navigator.pushNamed(context,
-                                                '/main/discussion_main',
-                                                arguments: {
-                                                  'phone_user': adsUser.first.phone,
-                                                });
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                                Discussion(adsUser.first.phone)));
+                                            // Navigator.pushNamed(context,
+                                            //     '/main/discussion_main',
+                                            //     arguments: {
+                                            //       'phone_user': adsUser.first.phone,
+                                            //     });
                                           }
                                         },
                                         child: Container(

@@ -362,8 +362,7 @@ class Api {
     }
   }
 
-  Future<dynamic> getBFAdsPageFunc(
-      BuildContext context, String id_description) async {
+  Future<dynamic> getBFAdsPageFunc(BuildContext context, String id_description) async {
     var url = '$BaseURL/api_app/ads/ads_BF.php';
     var response = await http.post(url, body: {
       'id_description': id_description,
@@ -653,7 +652,7 @@ class Api {
     String isFamilyPartition,
     String isVerse,
     String isCellar,
-    String isMonsters,
+    String isYard,
     String isMaidRoom,
     String isSwimmingPool,
     String isDriverRoom,
@@ -696,7 +695,7 @@ class Api {
     request.fields['isFamilyPartition'] = isFamilyPartition.toString();
     request.fields['isVerse'] = isVerse.toString();
     request.fields['isCellar'] = isCellar.toString();
-    request.fields['isMonsters'] = isMonsters.toString();
+    request.fields['isYard'] = isYard.toString();
     request.fields['isMaidRoom'] = isMaidRoom.toString();
     request.fields['isSwimmingPool'] = isSwimmingPool.toString();
     request.fields['isDriverRoom'] = isDriverRoom.toString();
@@ -859,7 +858,7 @@ class Api {
     String isFamilyPartition,
     String isVerse,
     String isCellar,
-    String isMonsters,
+    String isYard,
     String isMaidRoom,
     String isSwimmingPool,
     String isDriverRoom,
@@ -909,7 +908,7 @@ class Api {
     request.fields['isFamilyPartition'] = isFamilyPartition.toString();
     request.fields['isVerse'] = isVerse.toString();
     request.fields['isCellar'] = isCellar.toString();
-    request.fields['isMonsters'] = isMonsters.toString();
+    request.fields['isYard'] = isYard.toString();
     request.fields['isMaidRoom'] = isMaidRoom.toString();
     request.fields['isSwimmingPool'] = isSwimmingPool.toString();
     request.fields['isDriverRoom'] = isDriverRoom.toString();
