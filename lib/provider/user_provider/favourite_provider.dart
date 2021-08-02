@@ -1,73 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 
 class FavouriteProvider extends ChangeNotifier{
+
+  FavouriteProvider(){
+    print("FavouriteProvider init");
+    getSession().then((value) {
+      if(value != null) {
+        getUserAdsFavList(value);
+      }
+    });
+  }
+
+  @override
+  void dispose(){
+    print("FavouriteProvider dispose");
+    super.dispose();
+  }
+
+  String _phone;
   final List<AdsModel> _userAdsFav = [];
   List _UserAdsFavData = [];
 
 
+  Future<String> getSession() async {
+    var p = await SharedPreferences.getInstance();
+    _phone = p.getString('token');
+    return _phone;
+  }
 
-
-  void getUserAdsFavList(BuildContext context, String Phone) {
+  void getUserAdsFavList(String Phone) {
     Future.delayed(Duration(milliseconds: 0), () {
       if (_userAdsFav.isEmpty) {
-        Api().getFavAdsFunc(context, Phone).then((value) {
+        Api().getFavAdsFunc(Phone).then((value) {
           _UserAdsFavData = value ?? [];
           _UserAdsFavData.forEach((element) {
-            _userAdsFav.add(AdsModel(
-              idDescription: element['id_description'],
-              idUser: element['id_user'],
-              price: element['price'],
-              lat: element['lat'],
-              lng: element['lng'],
-              ads_city: element['ads_city'],
-              ads_neighborhood: element['ads_neighborhood'],
-              ads_road: element['ads_road'],
-              description: element['description'],
-              ads_image: element['ads_image'],
-              title: element['title'],
-              space: element['space'],
-              idSpecial: element['id_special'],
-              video: element['video'],
-              timeAdded: element['timeAdded'],
-              id_fav: element['id_fav'],
-              isFav: element['isFav'],
-              id_ads: element['id'],
-              phone_faved_user: element['phone_faved_user'],
-              idCategory: element['id_category'],
-            ));
+            _userAdsFav.add(AdsModel.ads(element));
           });
           // TODO ADDED
           notifyListeners();
         });
       } else {
-        Api().getFavAdsFunc(context, Phone).then((value) {
+        Api().getFavAdsFunc(Phone).then((value) {
           _UserAdsFavData = value;
           _userAdsFav.clear();
           _UserAdsFavData.forEach((element) {
-            _userAdsFav.add(AdsModel(
-              idDescription: element['id_description'],
-              idUser: element['id_user'],
-              price: element['price'],
-              lat: element['lat'],
-              lng: element['lng'],
-              ads_city: element['ads_city'],
-              ads_neighborhood: element['ads_neighborhood'],
-              ads_road: element['ads_road'],
-              description: element['description'],
-              ads_image: element['ads_image'],
-              title: element['title'],
-              space: element['space'],
-              idSpecial: element['id_special'],
-              video: element['video'],
-              timeAdded: element['timeAdded'],
-              id_fav: element['id_fav'],
-              isFav: element['isFav'],
-              id_ads: element['id'],
-              phone_faved_user: element['phone_faved_user'],
-              idCategory: element['id_category'],
-            ));
+            _userAdsFav.add(AdsModel.ads(element));
           });
           // TODO ADDED
           // notifyListeners();
@@ -88,15 +68,15 @@ class FavouriteProvider extends ChangeNotifier{
     }
   }
 
-  String getIsFav(String idDescription){
-    String isFav;
-    _userAdsFav.forEach((element) {
-      if(element.idDescription == idDescription){
-        isFav = element.isFav;
-      }
-    });
-    return isFav;
-  }
+  // String getIsFav(String idDescription){
+  //   String isFav;
+  //   _userAdsFav.forEach((element) {
+  //     if(element.idDescription == idDescription){
+  //       isFav = element.isFav;
+  //     }
+  //   });
+  //   return isFav;
+  // }
 
 
 

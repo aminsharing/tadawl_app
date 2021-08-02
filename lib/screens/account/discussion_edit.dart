@@ -11,6 +11,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/screens/account/discussion_main.dart';
 
 class DiscussionEdit extends StatelessWidget {
   DiscussionEdit({
@@ -58,6 +59,7 @@ class DiscussionEdit extends StatelessWidget {
 
       return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           toolbarHeight: 80.0,
           leadingWidth: 100,
           leading: Padding(
@@ -134,11 +136,14 @@ class DiscussionEdit extends StatelessWidget {
                                         child: TextButton(
                                           onPressed: () {
                                             convEdit.setRecAvatarUserName(convEdit.conv[i].username);
-                                            Navigator.pushNamed(
-                                                context, '/main/discussion_main',
-                                                arguments: {
-                                                  'phone_user': convEdit.conv[i].phone,
-                                                });
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(builder: (context) => Discussion(convEdit.conv[i].phone)));
+                                            // Navigator.pushNamed(
+                                            //     context, '/main/discussion_main',
+                                            //     arguments: {
+                                            //       'phone_user': convEdit.conv[i].phone,
+                                            //     });
                                           },
                                           child: Container(
                                             margin: EdgeInsets.only(

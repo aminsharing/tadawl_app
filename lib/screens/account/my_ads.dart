@@ -29,6 +29,7 @@ class MyAds extends StatelessWidget {
       return Scaffold(
         backgroundColor: const Color(0xffffffff),
         appBar: AppBar(
+          centerTitle: true,
           toolbarHeight: 80.0,
           leadingWidth: 100,
           leading: Padding(
@@ -173,7 +174,7 @@ class MyAds extends StatelessWidget {
                                             Provider.of<MutualProvider>(context, listen: false).setNumber(i);
                                             Provider.of<MutualProvider>(context, listen: false).updateAds(context, myAds.userAds[i].idDescription).then((value) {
                                               if(value){
-                                                myAds.getUserAdsList(context,Provider.of<UserMutualProvider>(context, listen: false).phone);
+                                                myAds.getUserAdsList(Provider.of<UserMutualProvider>(context, listen: false).phone);
                                               }
                                             });
                                           },

@@ -12,13 +12,10 @@ class PrivacyPolicy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<GeneralProvider>(builder: (context, privacyPolicy, child) {
-
-      print("PrivacyPolicy -> GeneralProvider");
-
-      return Scaffold(
+    return Scaffold(
         backgroundColor: const Color(0xffffffff),
         appBar: AppBar(
+          centerTitle: true,
           toolbarHeight: 80.0,
           leadingWidth: 100,
           leading: Padding(
@@ -83,42 +80,44 @@ class PrivacyPolicy extends StatelessWidget {
                     ),
                   ],
                 ),
-                ExpansionPanelList(
-                  expansionCallback: (int index, bool isExpanded) {
-                    privacyPolicy.setExpanded(index, isExpanded);
-                  },
-                  children: privacyPolicy.data.map<ExpansionPanel>((Item item) {
-                    return ExpansionPanel(
-                        headerBuilder: (BuildContext context, bool isExpanded) {
-                          return ListTile(
+                Consumer<GeneralProvider>(builder: (context, privacyPolicy, child) {
+                  print("PrivacyPolicy -> GeneralProvider");
+                  return ExpansionPanelList(
+                    expansionCallback: (int index, bool isExpanded) {
+                      privacyPolicy.setExpanded(index, isExpanded);
+                    },
+                    children: privacyPolicy.data.map<ExpansionPanel>((Item item) {
+                      return ExpansionPanel(
+                          headerBuilder: (BuildContext context, bool isExpanded) {
+                            return ListTile(
+                              title: Text(
+                                item.headerValue,
+                                style: CustomTextStyle(
+
+                                  fontSize: 15,
+                                  color: const Color(0xff00cccc),
+                                ).getTextStyle(),
+                              ),
+                            );
+                          },
+                          body: ListTile(
                             title: Text(
-                              item.headerValue,
+                              item.expandedValue,
                               style: CustomTextStyle(
 
                                 fontSize: 15,
-                                color: const Color(0xff00cccc),
+                                color: const Color(0xff000000),
                               ).getTextStyle(),
                             ),
-                          );
-                        },
-                        body: ListTile(
-                          title: Text(
-                            item.expandedValue,
-                            style: CustomTextStyle(
-
-                              fontSize: 15,
-                              color: const Color(0xff000000),
-                            ).getTextStyle(),
                           ),
-                        ),
-                        isExpanded: item.isExpanded);
-                  }).toList(),
-                ),
+                          isExpanded: item.isExpanded);
+                    }).toList(),
+                  );
+                }),
               ],
             ),
           ),
         ),
       );
-    });
   }
 }

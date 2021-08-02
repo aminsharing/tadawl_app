@@ -31,6 +31,7 @@ class Estimate extends StatelessWidget {
       return Scaffold(
         backgroundColor: const Color(0xffffffff),
         appBar: AppBar(
+          centerTitle: true,
           leadingWidth: 100,
           leading: IconButton(
             icon: Icon(

@@ -18,8 +18,8 @@ class Stage2 extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+          centerTitle: true,
         backgroundColor: const Color(0xff00cccc),
-        centerTitle: true,
         leadingWidth: 70,
         title: Text(
           AppLocalizations.of(context)
@@ -48,6 +48,8 @@ class Stage2 extends StatelessWidget {
       body: Form(
         key: _updateAdsKey,
         child: Consumer2<UpdateDetailsProvider, AdPageProvider>(builder: (context, updateDetails, adPage, _){
+          print("Stage2 -> UpdateDetailsProvider");
+          print("Stage2 -> AdPageProvider");
           return SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -83,7 +85,6 @@ class Stage2 extends StatelessWidget {
                               ),
                             ),
                             style: CustomTextStyle(
-
                               fontSize: 15,
                               color: const Color(0xff989696),
                             ).getTextStyle(),

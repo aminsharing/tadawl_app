@@ -100,7 +100,6 @@ class UpdateImgVedProvider extends ChangeNotifier{
   void updateImgVed(BuildContext context, String id_description, List<File> imagesList, File video) async {
     Future.delayed(Duration(milliseconds: 0), () {
       Api().updateImgVedFunc(
-        context,
         id_description,
         imagesList,
         video,

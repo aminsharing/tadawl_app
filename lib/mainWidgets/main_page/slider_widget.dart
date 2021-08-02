@@ -16,6 +16,7 @@ class SliderWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
       child: Consumer<MainPageProvider>(builder: (context, mainPage, _){
+        print("SliderWidget -> MainPageProvider");
         return Row(
           mainAxisAlignment: _lang != 'en_US'
               ? MainAxisAlignment.end

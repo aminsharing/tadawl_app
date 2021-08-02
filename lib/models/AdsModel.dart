@@ -129,6 +129,11 @@ class AdsModel {
     video = json['video'];
     timeAdded = json['timeAdded'];
     idAds = json['id'];
+    id_fav = json['id_fav'];
+    isFav = json['isFav'];
+    id_ads = json['id'];
+    phone_faved_user = json['phone_faved_user'];
+    timeUpdated = json['timeUpdated'];
     idCategory = json['id_category'];
   }
 
@@ -149,6 +154,7 @@ class AdsModel {
     title= json['title'];
     timeAdded= json['timeAdded'];
     timeUpdated= json['timeUpdated'];
+    isFav = json['isFav'];
     views= json['views'];
     idSpecial= json['id_special'];
     ads_image= json['ads_image'];

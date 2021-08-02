@@ -10,6 +10,7 @@ class Toilets extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<UpdateDetailsProvider>(builder: (context, updateDetails, _) {
+      print("Toilets -> UpdateDetailsProvider");
       return Column(
         children: [
           Padding(

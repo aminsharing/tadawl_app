@@ -6,26 +6,37 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/Gist.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
+import 'package:tadawl_app/mainWidgets/my_account/other/body/other_account.dart';
+import 'package:tadawl_app/mainWidgets/my_account/owner/body/owen_account.dart';
 import 'package:tadawl_app/models/OfficeModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
-import 'package:tadawl_app/screens/account/my_account.dart';
 
 class OfficeMarkerProvider extends ChangeNotifier{
-  // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  OfficeMarkerProvider(){
+    print("init of OfficeMarkerProvider");
+    aO();
+  }
 
   var _markers = <Marker>[];
   final List<OfficeModel> _officesList = [];
-  List _OfficeListData = [];
   OverlayEntry _entry;
 
+  @override
+  void dispose(){
+    super.dispose();
+    print("OfficeMarkerProvider dispose");
+    _entry.remove();
+    _entry = null;
+    _markers.clear();
+    // _officesList.clear();
+  }
 
   Widget _getMarkerWidget(String name) {
-
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       child: Container(
@@ -41,7 +52,6 @@ class OfficeMarkerProvider extends ChangeNotifier{
           child: Text(
             name,
             style: CustomTextStyle(
-
               fontSize: 15,
               color: const Color(0xffffffff),
             ).getTextStyle(),
@@ -52,7 +62,7 @@ class OfficeMarkerProvider extends ChangeNotifier{
     );
   }
 
-  void getOfficeListMap(BuildContext context, {bool showOnMap = false}) {
+  Future getOfficeListMap(BuildContext context) async {
     List<Widget> markerWidgets() {
       return _officesList
           .map((c) => _getMarkerWidget('${c.office_name ?? ""}'))
@@ -71,17 +81,28 @@ class OfficeMarkerProvider extends ChangeNotifier{
                 double.parse(office.office_lng)),
             onTap: () {
               var user = Provider.of<UserMutualProvider>(context, listen: false);
-              user.getAvatarList(context, office.phone_user);
-              user.getUserAdsList(context, office.phone_user);
-              user.getEstimatesInfo(context, office.phone_user);
-              user.getSumEstimatesInfo(context, office.phone_user);
-              user.checkOfficeInfo(context, office.phone_user);
+              user.getAvatarList(office.phone_user);
+              user.getUserAdsList(office.phone_user);
+              user.getEstimatesInfo(office.phone_user);
+              user.getSumEstimatesInfo(office.phone_user);
+              user.checkOfficeInfo(office.phone_user);
               user.setUserPhone(office.phone_user);
               Future.delayed(Duration(seconds: 0), () {
-                Navigator.push(
+                if (user.userPhone == user.phone){
+                  Navigator.push(
                     context,
-                    PageTransition(type: PageTransitionType.bottomToTop,duration: Duration(milliseconds: 10), child: MyAccount())
-                );
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            OwenAccount()),
+                  );
+                }else{
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            OtherAccount()),
+                  );
+                }
               });
             },
             icon: BitmapDescriptor.fromBytes(bmp)));
@@ -89,191 +110,60 @@ class OfficeMarkerProvider extends ChangeNotifier{
       return markersList;
     }
 
-    // void getOfficeList(BuildContext context) {
-    //   Future.delayed(Duration(milliseconds: 0), () {
-    //     if (_officesList.isEmpty) {
-    //       Api().getsOfficeFunc(context).then((value) {
-    //         _OfficeListData = value;
-    //         _OfficeListData.forEach((element) {
-    //           _officesList.add(OfficeModel(
-    //             office_name: element['office_name'],
-    //             phone_user: element['phone_user'],
-    //             office_lat: element['office_lat'],
-    //             office_lng: element['office_lng'],
-    //             state: element['state'],
-    //           ));
-    //         });
-    //         // notifyListeners();
-    //       });
-    //     } else {
-    //       Api().getsOfficeFunc(context).then((value) {
-    //         _OfficeListData = value;
-    //         _officesList.clear();
-    //         _OfficeListData.forEach((element) {
-    //           _officesList.add(OfficeModel(
-    //             office_name: element['office_name'],
-    //             phone_user: element['phone_user'],
-    //             office_lat: element['office_lat'],
-    //             office_lng: element['office_lng'],
-    //             state: element['state'],
-    //           ));
-    //         });
-    //         // notifyListeners();
-    //       });
-    //     }
-    //   });
-    // }
-
     Future.delayed(Duration(milliseconds: 0), () {
-      if (_officesList.isEmpty) {
-        Api().getsOfficeFunc(context).then((value) {
-          _OfficeListData = value;
-          _OfficeListData.forEach((element) {
-            _officesList.add(OfficeModel(
-              office_name: element['office_name'],
-              phone_user: element['phone_user'],
-              office_lat: element['office_lat'],
-              office_lng: element['office_lng'],
-              state: element['state'],
-            ));
-          });
-          if(showOnMap){
-            if(_entry != null){
-              _entry.remove();
-              _entry = OverlayEntry(
-                  builder: (context) {
-                    return _MarkerHelper(
-                      markerWidgets: markerWidgets(),
-                      callback: (bitmaps) {
-                        _markers = mapBitmapsToMarkers(bitmaps);
-                      },
-                    );
-                  },
-                  maintainState: true);
-              var overlayState = Overlay.of(context);
-              overlayState.insert(_entry);
-            }else{
-              _entry = OverlayEntry(
-                  builder: (context) {
-                    return _MarkerHelper(
-                      markerWidgets: markerWidgets(),
-                      callback: (bitmaps) {
-                        _markers = mapBitmapsToMarkers(bitmaps);
-                      },
-                    );
-                  },
-                  maintainState: true);
-              MarkerGenerator(_entry).generate(context);
-            }
-          }else{
-            if(_entry != null){
-              _entry.remove();
-              _entry = null;
-            }
-          }
-
-          notifyListeners(); // TODO Added
-        });
-      }
-      else {
-        Api().getsOfficeFunc(context).then((value) {
-          _OfficeListData = value;
-          _officesList.clear();
-          _OfficeListData.forEach((element) {
-            _officesList.add(OfficeModel(
-              office_name: element['office_name'],
-              phone_user: element['phone_user'],
-              office_lat: element['office_lat'],
-              office_lng: element['office_lng'],
-              state: element['state'],
-            ));
-          });
-          if(showOnMap){
-            if(_entry != null){
-              _entry.remove();
-              _entry = OverlayEntry(
-                  builder: (context) {
-                    return _MarkerHelper(
-                      markerWidgets: markerWidgets(),
-                      callback: (bitmaps) {
-                        _markers = mapBitmapsToMarkers(bitmaps);
-                      },
-                    );
-                  },
-                  maintainState: true);
-              var overlayState = Overlay.of(context);
-              overlayState.insert(_entry);
-            }else{
-              _entry = OverlayEntry(
-                  builder: (context) {
-                    return _MarkerHelper(
-                      markerWidgets: markerWidgets(),
-                      callback: (bitmaps) {
-                        _markers = mapBitmapsToMarkers(bitmaps);
-                      },
-                    );
-                  },
-                  maintainState: true);
-              MarkerGenerator(_entry).generate(context);
-            }
-
-
-          }else{
-            if(_entry != null){
-              _entry.remove();
-              _entry = null;
-            }
-          }
-
-          notifyListeners(); // TODO Added
-        });
-      }
+      var a = <String>[];
+      _officesList.forEach((element) {
+        a.add(element.id_offices);
+      });
+      _entry = OverlayEntry(
+          builder: (context) {
+            return _MarkerHelper(
+              markerWidgets: markerWidgets(),
+              callback: (bitmaps) {
+                _markers = mapBitmapsToMarkers(bitmaps);
+              },
+            );
+          },
+          maintainState: true);
+      MarkerGenerator(_entry).generate(context);
+      notifyListeners();
+      // if (_officesList.isEmpty) {
+      //   Api().getsOfficeFunc().then((value) {
+      //     _OfficeListData = value;
+      //     _OfficeListData.forEach((element) {
+      //       if(!a.contains(element['id_offices'])){
+      //         print("id_officess");
+      //         _officesList.add(OfficeModel.offices(element));
+      //       }
+      //     });
+      //     _entry = OverlayEntry(
+      //         builder: (context) {
+      //           return _MarkerHelper(
+      //             markerWidgets: markerWidgets(),
+      //             callback: (bitmaps) {
+      //               _markers = mapBitmapsToMarkers(bitmaps);
+      //             },
+      //           );
+      //         },
+      //         maintainState: true);
+      //     MarkerGenerator(_entry).generate(context);
+      //     notifyListeners();
+      //   });
     });
   }
 
-  void removeMarkers(){
-    if(_entry != null){
-      _entry.remove();
-      _entry = null;
-      _markers.clear();
-    }
-  }
-
-  void getOfficeList(BuildContext context) {
-    Future.delayed(Duration(milliseconds: 0), () {
-      if (_officesList.isEmpty) {
-        Api().getsOfficeFunc(context).then((value) {
-          _OfficeListData = value;
-          _OfficeListData.forEach((element) {
-            _officesList.add(OfficeModel(
-              office_name: element['office_name'],
-              phone_user: element['phone_user'],
-              office_lat: element['office_lat'],
-              office_lng: element['office_lng'],
-              state: element['state'],
-            ));
-          });
-        });
-      } else {
-        Api().getsOfficeFunc(context).then((value) {
-          _OfficeListData = value;
-          _officesList.clear();
-          _OfficeListData.forEach((element) {
-            _officesList.add(OfficeModel(
-              office_name: element['office_name'],
-              phone_user: element['phone_user'],
-              office_lat: element['office_lat'],
-              office_lng: element['office_lng'],
-              state: element['state'],
-            ));
-          });
-        });
+  Future aO() async {
+    var a = <String>[];
+    _officesList.forEach((element) {
+      a.add(element.id_offices);
+    });
+    List<dynamic> value = await Api().getsOfficeFunc();
+    value.forEach((element) {
+      if(!a.contains(element['id_offices'])){
+        print("id_officess");
+        _officesList.add(OfficeModel.offices(element));
       }
     });
-  }
-
-  void clearMarkers(){
-    _markers.clear();
   }
 
   int countOffices() {

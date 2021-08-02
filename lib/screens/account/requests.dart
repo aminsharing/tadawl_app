@@ -20,11 +20,12 @@ class Requests extends StatelessWidget {
 
       Provider.of<UserMutualProvider>(context, listen: false).getSession();
       var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
-      requests.getUserRequestsList(context, _phone);
+      requests.getUserRequestsList(_phone);
 
       return Scaffold(
         backgroundColor: const Color(0xffffffff),
         appBar: AppBar(
+          centerTitle: true,
           toolbarHeight: 80.0,
           leadingWidth: 100,
           leading: Padding(

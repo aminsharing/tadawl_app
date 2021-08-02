@@ -16,6 +16,7 @@ class SimilarAdWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
 
+
     return Column(
       children: [
         Padding(
@@ -66,7 +67,8 @@ class SimilarAdWidget extends StatelessWidget {
               }
               return TextButton(
                 onPressed: () {
-                  Provider.of<AdPageProvider>(context, listen: false)
+                  final adPageProv = Provider.of<AdPageProvider>(context, listen: false);
+                  adPageProv
                       .stopVideoAdsPage();
                   adsPage.getAdsPageList(context,
                       adsPage.adsSimilar[i].idDescription);

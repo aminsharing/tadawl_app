@@ -53,9 +53,9 @@ class AdPage extends StatelessWidget {
       }
 
 
-    if( mutualProv.adsPage.isNotEmpty){
-      adsPage.getIsFav(context, mutualProv.adsPage.first.idDescription);
-    }
+    // if( mutualProv.adsPage.isNotEmpty){
+    //   adsPage.getIsFav(context, mutualProv.adsPage.first.idDescription);
+    // }
 
 
       var provider = Provider.of<LocaleProvider>(context, listen: false);
@@ -80,10 +80,11 @@ class AdPage extends StatelessWidget {
             backgroundColor: const Color(0xffffffff),
             key: _scaffoldKey,
             appBar: AppBar(
+          centerTitle: true,
               actions: [AppBarActionWidget(adsPage: mutualProv)],
               leadingWidth: 100.0,
               toolbarHeight: 100.0,
-              title: AppBarTitleWidget(adsPage: adsPage, idDescription: mutualProv.idDescription,),
+              title: AppBarTitleWidget(adsPage: adsPage, mutualProv: mutualProv,),
               leading: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: IconButton(

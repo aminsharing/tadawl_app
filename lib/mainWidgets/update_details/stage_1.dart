@@ -48,8 +48,8 @@ class Stage1 extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+          centerTitle: true,
         backgroundColor: const Color(0xff00cccc),
-        centerTitle: true,
         leadingWidth: 70,
         title: Text(
           AppLocalizations.of(context)
@@ -81,6 +81,7 @@ class Stage1 extends StatelessWidget {
           children: <Widget>[
 //...............................
             Consumer<UpdateDetailsProvider>(builder: (context, updateDetails, _){
+              print("Stage1 -> UpdateDetailsProvider");
               if (updateDetails.id_category_finalUpdate != null){
                 return Column(
                   children: [

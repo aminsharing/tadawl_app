@@ -22,8 +22,7 @@ class RealEstateOffices extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Provider.of<UserMutualProvider>(context, listen: false).getSession();
-    var _phone = Provider.of<UserMutualProvider>(context, listen: false)
-        .phone;
+    var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
 
     Future<bool> _onBackPressed() {
       return showDialog(
@@ -101,8 +100,8 @@ class RealEstateOffices extends StatelessWidget {
       child: Scaffold(
         backgroundColor: const Color(0xffffffff),
         drawer: Drawer(
-        child: CustomDrawer(),
-      ),
+          child: CustomDrawer(),
+        ),
         endDrawer: Container(),
         body: Stack(
           children: <Widget>[
@@ -111,7 +110,10 @@ class RealEstateOffices extends StatelessWidget {
               height: mediaQuery.size.height,
               color: Color(0xffffffff),
               child: Center(
-                child: RealEstateMap(),
+                child: ChangeNotifierProvider<OfficeMarkerProvider>(
+                  create: (_) => OfficeMarkerProvider(),
+                  child: RealEstateMap(),
+                ),
               ),
             ),
             Padding(
@@ -124,14 +126,13 @@ class RealEstateOffices extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       if (_phone != null) {
-                        Provider.of<OfficeMarkerProvider>(
-                            context, listen: false).removeMarkers();
                         Navigator.push(context,
                           PageTransition(type: PageTransitionType.bottomToTop,
                               duration: Duration(milliseconds: 10),
                               child: OfficesVR()),
                         );
-                      } else {
+                      }
+                      else {
                         Navigator.push(context,
                           PageTransition(type: PageTransitionType.bottomToTop,
                               duration: Duration(milliseconds: 10),
@@ -161,9 +162,7 @@ class RealEstateOffices extends StatelessWidget {
                                   Flexible(
                                     flex: 2,
                                     child: Text(
-                                      AppLocalizations
-                                          .of(context)
-                                          .officesAccreditation,
+                                      AppLocalizations.of(context).officesAccreditation,
                                       style: CustomTextStyle(
                                         fontSize: _lang != 'en_US' ? mediaQuery.size.width * .035 >= 13 ? 13 : mediaQuery.size.width * .035 : mediaQuery.size.width * .035 >= 13 ? 13 : mediaQuery.size.width * .035,
                                         color: const Color(0xffffffff),
@@ -174,10 +173,12 @@ class RealEstateOffices extends StatelessWidget {
                                   Flexible(
                                     flex: 1,
                                     child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          5, 0, 0, 0),
-                                      child: Icon(Icons.verified_user_rounded,
-                                          color: Color(0xffffffff), size: mediaQuery.size.width * .085 >= 30 ? 30 : mediaQuery.size.width * .085),
+                                      padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                      child: Icon(
+                                          Icons.verified_user_rounded,
+                                          color: Color(0xffffffff),
+                                          size: mediaQuery.size.width * .085 >= 30 ? 30 : mediaQuery.size.width * .085,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -187,11 +188,8 @@ class RealEstateOffices extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                             child: Text(
-                              AppLocalizations
-                                  .of(context)
-                                  .officesAccreditation2,
+                              AppLocalizations.of(context).officesAccreditation2,
                               style: CustomTextStyle(
-
                                 fontSize: _lang != 'en_US' ? mediaQuery.size.width * .035 >= 13 ? 13 : mediaQuery.size.width * .035 : mediaQuery.size.width * .035 >= 13 ? 13 : mediaQuery.size.width * .035,
                                 color: const Color(0xffe6e600),
                               ).getTextStyle(),

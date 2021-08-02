@@ -9,7 +9,6 @@ import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/map_provider.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
-import 'package:tadawl_app/provider/office_marker_provider.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/login.dart';
 import 'package:tadawl_app/screens/account/discussion_list.dart';
@@ -34,10 +33,12 @@ class BottomNavigationBarApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
+    final mainPageProv = Provider.of<MainPageProvider>(context, listen: false);
+    final msgProv = Provider.of<MsgProvider>(context, listen: false);
+    final menuProv = Provider.of<MenuProvider>(context, listen: false);
+
     Provider.of<UserMutualProvider>(context, listen: false).getSession();
-    var _phone = Provider
-        .of<UserMutualProvider>(context, listen: false)
-        .phone;
+    var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
 
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
@@ -45,19 +46,16 @@ class BottomNavigationBarApp extends StatelessWidget {
         height: mediaQuery.size.height * 0.11,
         width: mediaQuery.size.width,
         color: Color(0xff00cccc),
-        child: Consumer<BottomNavProvider>(
-          builder: (ctxt, btmNav, child){
+        child: Consumer<BottomNavProvider>(builder: (ctxt, btmNav, child){
+          print("BottomNavigationBarApp -> BottomNavProvider");
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Expanded(
                   child: TextButton(
                     onPressed: () {
-                      if (Provider
-                          .of<MainPageProvider>(context, listen: false)
-                          .showDiaogSearchDrawer) {
-                        Provider.of<MainPageProvider>(context, listen: false)
-                            .setShowDiogFalse();
+                      if (mainPageProv.showDiaogSearchDrawer) {
+                        mainPageProv.setShowDiogFalse();
                       }
                       // Scaffold.of(context).openEndDrawer();
                       Scaffold.of(context).openDrawer();
@@ -71,9 +69,7 @@ class BottomNavigationBarApp extends StatelessWidget {
                           size: 25,
                         ),
                         Text(
-                          AppLocalizations
-                              .of(context)
-                              .myAccount,
+                          AppLocalizations.of(context).myAccount,
                           style: CustomTextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 12,
@@ -88,23 +84,21 @@ class BottomNavigationBarApp extends StatelessWidget {
                 Expanded(
                   child: TextButton(
                     onPressed: () {
-                      Provider.of<MapProvider>(context, listen: false).getLocPer();
-                      Provider.of<MapProvider>(context, listen: false).getLoc();
                       if(btmNav.currentPage == 0){
-                        Provider.of<MainPageProvider>(context, listen: false).animateLocation(context);
+                        mainPageProv.animateLocation(context);
                       }else{
-                        Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
+                        mainPageProv.removeMarkers();
                         btmNav.setCurrentPage(0);
                         // CHANGED: To disappear diog if it shown
-                        if (Provider.of<MainPageProvider>(context, listen: false).showDiaogSearchDrawer) {
-                          Provider.of<MainPageProvider>(context, listen: false).setShowDiogFalse();
+                        if (mainPageProv.showDiaogSearchDrawer) {
+                          mainPageProv.setShowDiogFalse();
                         }
                         // CHANGED: To clear expended menu list count
-                        Provider.of<MenuProvider>(context, listen: false).clearExpendedMenuListCount();
+                        menuProv.clearExpendedMenuListCount();
                         // CHANGED: To reset region position
-                        Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
+                        mainPageProv.setRegionPosition(null);
                         // CHANGED: To reload ads markers on map
-                        Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
+                        mainPageProv.setInItMainPageDone(0);
                         // CHANGED: To get current position before go to main page
                         Navigator.pushReplacement(
                           context,
@@ -140,12 +134,12 @@ class BottomNavigationBarApp extends StatelessWidget {
                       if(btmNav.currentPage != 1){
                         btmNav.setCurrentPage(1);
                         // CHANGED: To disappear diog if it shown
-                        if (Provider.of<MainPageProvider>(context, listen: false).showDiaogSearchDrawer) {
-                          Provider.of<MainPageProvider>(context, listen: false).setShowDiogFalse();
+                        if (mainPageProv.showDiaogSearchDrawer) {
+                          mainPageProv.setShowDiogFalse();
                         }
                         // CHANGED: To clear expended menu list count
-                        Provider.of<MenuProvider>(context, listen: false).clearExpendedMenuListCount();
-                        Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
+                        menuProv.clearExpendedMenuListCount();
+                        mainPageProv.removeMarkers();
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (context) => Regions()),
@@ -180,17 +174,15 @@ class BottomNavigationBarApp extends StatelessWidget {
                       if(btmNav.currentPage != 2){
                         btmNav.setCurrentPage(2);
                         // CHANGED: To disappear diog if it shown
-                        if (Provider
-                            .of<MainPageProvider>(context, listen: false)
+                        if (mainPageProv
                             .showDiaogSearchDrawer) {
-                          Provider.of<MainPageProvider>(context, listen: false)
+                          mainPageProv
                               .setShowDiogFalse();
                         }
                         // CHANGED: To clear expended menu list count
-                        Provider.of<MenuProvider>(context, listen: false).clearExpendedMenuListCount();
+                        menuProv.clearExpendedMenuListCount();
                         // CHANGED: To clear office markers from map
-                        Provider.of<OfficeMarkerProvider>(context, listen: false).clearMarkers();
-                        Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
+                        mainPageProv.removeMarkers();
                         await Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -226,17 +218,13 @@ class BottomNavigationBarApp extends StatelessWidget {
                   child: TextButton(
                     onPressed: () {
                       // CHANGED: To disappear diog if it shown
-                      if (Provider
-                          .of<MainPageProvider>(context, listen: false)
-                          .showDiaogSearchDrawer) {
-                        Provider.of<MainPageProvider>(context, listen: false)
-                            .setShowDiogFalse();
+                      if (mainPageProv.showDiaogSearchDrawer) {
+                        mainPageProv.setShowDiogFalse();
                       }
                       // CHANGED: To clear ads markers from map
-                      Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
+                      mainPageProv.removeMarkers();
                       // CHANGED: To clear expended menu list count
-                      Provider.of<MenuProvider>(context, listen: false)
-                          .clearExpendedMenuListCount();
+                      menuProv.clearExpendedMenuListCount();
                       if(_phone != null) {
                         // btmNav.setCurrentPage(3);
                         // CHANGED
@@ -261,7 +249,7 @@ class BottomNavigationBarApp extends StatelessWidget {
                           size: btmNav.currentPage == 3 ? 30 : 25,
                         ),
                             ),
-                            if(Provider.of<MsgProvider>(context, listen: false).unreadMsgs != 0)
+                            if(msgProv.unreadMsgs != 0)
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: Container(
@@ -277,7 +265,7 @@ class BottomNavigationBarApp extends StatelessWidget {
                                           .circle),
                                   child: Center(
                                     child: Text(
-                                      '${Provider.of<MsgProvider>(context, listen: false).unreadMsgs}',
+                                      '${msgProv.unreadMsgs}',
                                       style: TextStyle(
                                         fontFamily:
                                         'DINNext',
@@ -317,15 +305,12 @@ class BottomNavigationBarApp extends StatelessWidget {
                       if(btmNav.currentPage != 4){
                         btmNav.setCurrentPage(4);
                         // CHANGED: To disappear diog if it shown
-                        if (Provider
-                            .of<MainPageProvider>(context, listen: false)
-                            .showDiaogSearchDrawer) {
-                          Provider.of<MainPageProvider>(context, listen: false)
-                              .setShowDiogFalse();
+                        if (mainPageProv.showDiaogSearchDrawer) {
+                          mainPageProv.setShowDiogFalse();
                         }
                         // CHANGED: To clear expended menu list count
-                        Provider.of<MenuProvider>(context, listen: false).clearExpendedMenuListCount();
-                        Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
+                        menuProv.clearExpendedMenuListCount();
+                        mainPageProv.removeMarkers();
                         Navigator.pushReplacement(
                           context,
                           _createRoute(2),
@@ -340,9 +325,7 @@ class BottomNavigationBarApp extends StatelessWidget {
                           size: btmNav.currentPage == 4 ? 30 : 25,
                         ),
                         Text(
-                          AppLocalizations
-                              .of(context)
-                              .menu,
+                          AppLocalizations.of(context).menu,
                           style: CustomTextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 12,

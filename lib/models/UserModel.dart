@@ -64,6 +64,20 @@ class UserModel {
     image = json['image'];
   }
 
+  // ignore: sort_constructors_first
+  UserModel.users(Map<String, dynamic> json) {
+    image = json['image'];
+    username = json['username'];
+    timeRegistered = json['timeRegistered'];
+    lastActive = json['lastActive'];
+    about = json['about'];
+    phone = json['phone'];
+    company_name = json['company_name'];
+    office_name = json['office_name'];
+    email = json['email'];
+    id_mem = json['id_mem'];
+  }
+
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['id'] = id_user;

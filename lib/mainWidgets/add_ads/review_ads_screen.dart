@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tadawl_app/provider/general_provider.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/ads/advertising_fee.dart';
 import 'package:tadawl_app/screens/general/terms_of_use.dart';
@@ -21,6 +22,7 @@ class ReviewAdsScreen extends StatelessWidget {
     var mediaQuery = MediaQuery.of(context);
       return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: const Color(0xff00cccc),
           title: Center(
             widthFactor: 2.0,
@@ -48,6 +50,7 @@ class ReviewAdsScreen extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Consumer<AddAdProvider>(builder: (context, addAds, child) {
+            print("ReviewAdsScreen -> AddAdProvider");
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -1716,7 +1719,12 @@ class ReviewAdsScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => TermsOfUse()),
+                                builder: (context) =>
+                                    ChangeNotifierProvider<GeneralProvider>(
+                                      create: (_) => GeneralProvider(),
+                                      child: TermsOfUse(),
+                                    ),
+                            ),
                           );
                         },
                         child: Text(
@@ -1815,8 +1823,7 @@ class ReviewAdsScreen extends StatelessWidget {
                         addAds.ads_cordinates_lngAddAds.toString(),
                         null,
                         null,
-                        Provider.of<UserMutualProvider>(context, listen: false)
-                            .phone,
+                        Provider.of<UserMutualProvider>(context, listen: false).phone,
                         addAds.ads_cityAddAds,
                         addAds.ads_neighborhoodAddAds,
                         addAds.ads_roadAddAds,

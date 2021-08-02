@@ -99,6 +99,7 @@ class LocationScreen extends StatelessWidget {
 
       return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: const Color(0xff00cccc),
           title: Center(
             widthFactor: 2.0,
@@ -126,6 +127,8 @@ class LocationScreen extends StatelessWidget {
           ),
         ),
         body: Consumer2<AddAdProvider, MapProvider>(builder: (context, addAds, map, child) {
+          print("LocationScreen -> AddAdProvider");
+          print("LocationScreen -> MapProvider");
             return SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,

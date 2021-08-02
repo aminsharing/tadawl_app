@@ -12,7 +12,9 @@ class Interface extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<LocaleProvider>(context, listen: false);
+    final provider = Provider.of<LocaleProvider>(context, listen: false);
+    final mutualProv = Provider.of<MutualProvider>(context, listen: false);
+    final mainPageProv = Provider.of<MainPageProvider>(context, listen: false);
     var _lang = provider.locale.toString();
     return Consumer<UpdateDetailsProvider>(builder: (context, updateDetails, _) {
       return Padding(
@@ -61,14 +63,14 @@ class Interface extends StatelessWidget {
                       ).getTextStyle(),
                       textAlign: TextAlign.center,
                     ),
-                    value: updateDetails.interfaceSelectedUpdate ?? (int.tryParse(Provider.of<MutualProvider>(context, listen: false).adsPage.first.idInterface)?? '1').toString(),
+                    value: updateDetails.interfaceSelectedUpdate ?? (int.tryParse(mutualProv.adsPage.first.idInterface)?? '1').toString(),
                     onChanged: (String newValue) {
                       updateDetails
                           .setInterfaceSelectedUpdate(
                           newValue);
                     },
                     items: _lang != 'en_US'
-                        ? Provider.of<MainPageProvider>(context, listen: false).Interface.map(
+                        ? mainPageProv.Interface.map(
                             (Map map) {
                           return DropdownMenuItem<
                               String>(
@@ -95,7 +97,7 @@ class Interface extends StatelessWidget {
                             ),
                           );
                         }).toList()
-                        : Provider.of<MainPageProvider>(context, listen: false).EnInterface
+                        : mainPageProv.EnInterface
                         .map((Map map) {
                       return DropdownMenuItem<
                           String>(

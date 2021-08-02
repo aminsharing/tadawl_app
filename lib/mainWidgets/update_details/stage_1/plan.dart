@@ -10,7 +10,7 @@ class Plan extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<UpdateDetailsProvider>(builder: (context, updateDetails, _) {
-
+      print("Plan -> UpdateDetailsProvider");
       // if(!updateDetails.planUpdate.contains(true)){
       //   // updateDetails.adsPage.first
       //   updateDetails.setPlanUpdate(int.parse(Provider.of<MutualProvider>(context, listen: false).adsPage.first.idTypeRes), false);

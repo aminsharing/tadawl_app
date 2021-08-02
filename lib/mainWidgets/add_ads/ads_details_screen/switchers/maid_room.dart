@@ -28,6 +28,7 @@ class MaidRoom extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           Consumer<AddAdProvider>(builder: (context, addAd, _) {
+            print("MaidRoom -> AddAdProvider");
             return FlutterSwitch(
               activeColor: const Color(0xff00cccc),
               width: 40.0,

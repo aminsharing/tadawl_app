@@ -10,6 +10,7 @@ class Trees extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<AddAdProvider>(builder: (context, addAd, _) {
+      print("Trees -> AddAdProvider");
       return Column(
         children: [
           Padding(

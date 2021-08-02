@@ -12,7 +12,7 @@ class RegionsMap extends StatelessWidget {
 
       void _onMapCreated(GoogleMapController controller) {
         controller.setMapStyle(Utils.mapStyle);
-        region.getRegionMapList(context, showOnMap: true);
+        region.getRegionMapList(context);
       }
 
 

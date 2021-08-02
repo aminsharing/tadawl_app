@@ -10,6 +10,7 @@ class AgeOfRealEstate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<AddAdProvider>(builder: (context, addAd, _) {
+      print("AgeOfRealEstate -> AddAdProvider");
       return Column(
         children: [
           Padding(

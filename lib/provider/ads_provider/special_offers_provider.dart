@@ -3,6 +3,17 @@ import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 
 class SpecialOffersProvider extends ChangeNotifier{
+  SpecialOffersProvider(){
+    print("SpecialOffersProvider init");
+    getAdsSpecialList();
+  }
+
+  @override
+  void dispose() {
+    print("SpecialOffersProvider dispose");
+    super.dispose();
+  }
+
   final List<AdsModel> _AdsSpecial = [];
   List _AdsSpecialData = [];
   bool _wait = false;
@@ -20,10 +31,10 @@ class SpecialOffersProvider extends ChangeNotifier{
     _wait = wait;
   }
 
-  void getAdsSpecialList(BuildContext context) {
+  void getAdsSpecialList() {
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsSpecial.clear();
-      Api().getadsFunc(context).then((value) {
+      Api().getadsFunc().then((value) {
         _AdsSpecialData = value;
         _AdsSpecialData.forEach((element) {
           if (element['id_special'] == '1') {

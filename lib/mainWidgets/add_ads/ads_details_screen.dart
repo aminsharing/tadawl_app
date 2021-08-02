@@ -89,6 +89,7 @@ class AdsDetailsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+          centerTitle: true,
         backgroundColor: const Color(0xff00cccc),
         title: Center(
           widthFactor: 1.3,
@@ -117,6 +118,7 @@ class AdsDetailsScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Consumer<AddAdProvider>(builder: (context, addAds, child) {
+          print("AdsDetailsScreen -> AddAdProvider");
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[

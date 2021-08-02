@@ -5,6 +5,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
+import 'package:tadawl_app/provider/ads_provider/update_img_vid_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/update_location_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/user_provider/favourite_provider.dart';
@@ -20,7 +22,7 @@ class AdPageProvider extends ChangeNotifier{
   VideoPlayerController _videoControllerAdsPage;
   Future<void> _initializeFutureVideoPlyerAdsPage;
   ChewieController _chewieControllerAdsPage;
-  int _is_favAdsPageDB = 0;
+
   bool _busyAdsPage = false;
   final bool _waitAdsPage = false;
   int _currentControllerPageAdsPage = 0;
@@ -50,7 +52,11 @@ class AdPageProvider extends ChangeNotifier{
         _videoControllerAdsPage.pause();
       }
       Navigator.push(context, MaterialPageRoute(builder: (context) =>
-          UpdateImgVed(idDescription)));
+          ChangeNotifierProvider<UpdateImgVedProvider>(
+            create: (_) => UpdateImgVedProvider(),
+            child: UpdateImgVed(idDescription),
+          )
+      ));
       // Navigator.pushNamed(context, '/main/update_ads_img_ved', arguments: {
       //   'id_description': idDescription,
       // });
@@ -59,7 +65,11 @@ class AdPageProvider extends ChangeNotifier{
         _videoControllerAdsPage.pause();
       }
       Navigator.push(context, MaterialPageRoute(builder: (context) =>
-          UpdateLocation(idDescription)));
+          ChangeNotifierProvider<UpdateLocationProvider>(
+            create: (_) => UpdateLocationProvider(),
+            child: UpdateLocation(idDescription),
+          )
+          ));
       // Navigator.pushNamed(context, '/main/update_location', arguments: {
       //   'id_description': idDescription,
       // });
@@ -97,7 +107,7 @@ class AdPageProvider extends ChangeNotifier{
   void updateAdsAdsPage(BuildContext context, String id_ads) async {
     Future.delayed(Duration(milliseconds: 0), () {
       _busyAdsPage = true;
-      Api().updateAdsFunc(context, id_ads).then((value) {
+      Api().updateAdsFunc(id_ads).then((value) {
         _busyAdsPage = false;
         notifyListeners();
       });
@@ -120,7 +130,7 @@ class AdPageProvider extends ChangeNotifier{
     Future.delayed(Duration(milliseconds: 0), () {
       _image.clear();
       Api()
-          .getImagesAdsPageFunc(context, id_description)
+          .getImagesAdsPageFunc(id_description)
           .then((value) {
         _imageData = value;
         _imageData.forEach((element) {
@@ -134,7 +144,7 @@ class AdPageProvider extends ChangeNotifier{
   void getAdsPageInfo(BuildContext context, String id_description) async {
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsUpdateLoc.clear();
-      Api().getAdsPageFunc(context, id_description).then((value) {
+      Api().getAdsPageFunc(id_description).then((value) {
         _AdsUpdateLocData = value;
         _AdsUpdateLocData.forEach((element) {
           _AdsUpdateLoc.add(AdsModel.adsUpdateLoc(element));
@@ -154,7 +164,7 @@ class AdPageProvider extends ChangeNotifier{
   void getAdsPageInfoUpdateDetails(BuildContext context, String id_description) async {
     Future.delayed(Duration(milliseconds: 0), () {
       _adsUpdateDetails.clear();
-      Api().getAdsPageFunc(context, id_description).then((value) {
+      Api().getAdsPageFunc(id_description).then((value) {
         _AdsDataUpdateDetails = value;
         _AdsDataUpdateDetails.forEach((element) {
           _adsUpdateDetails.add(AdsModel.adsUpdateDetails(element));
@@ -286,11 +296,11 @@ class AdPageProvider extends ChangeNotifier{
   void changeAdsFavState(BuildContext context, int fav, String idDescription) async {
     if(Provider.of<UserMutualProvider>(context, listen: false).phone != null){
       Future.delayed(Duration(milliseconds: 0), () {
-        Api().changeAdsFavStateFunc(context, idDescription, Provider.of<UserMutualProvider>(context, listen: false).phone).then((value) {
+        Api().changeAdsFavStateFunc(idDescription, Provider.of<UserMutualProvider>(context, listen: false).phone).then((value) {
           _is_favAdsPage = fav;
           notifyListeners();
         });
-        Provider.of<FavouriteProvider>(context, listen: false).getUserAdsFavList(context, Provider.of<UserMutualProvider>(context, listen: false).phone);
+        // Provider.of<FavouriteProvider>(context, listen: false).getUserAdsFavList(Provider.of<UserMutualProvider>(context, listen: false).phone);
         // notifyListeners();
       });
     }else{
@@ -301,10 +311,10 @@ class AdPageProvider extends ChangeNotifier{
     }
   }
 
-  void getIsFav(BuildContext context, String idDescription) {
-    _is_favAdsPageDB = int.tryParse(Provider.of<FavouriteProvider>(context, listen: false).getIsFav(idDescription)?? '0');
-    // notifyListeners();
-  }
+  // void getIsFav(BuildContext context, String idDescription) {
+  //   _is_favAdsPageDB = int.tryParse(Provider.of<FavouriteProvider>(context, listen: false).getIsFav(idDescription)?? '0');
+  //   // notifyListeners();
+  // }
 
   void setMarker(BuildContext context) async {
     if (Provider.of<MainPageProvider>(context, listen: false).ads.isNotEmpty) {
@@ -380,7 +390,7 @@ class AdPageProvider extends ChangeNotifier{
   int get currentControllerPageAdsPage => _currentControllerPageAdsPage;
   PageController get controllerAdsPage => _controllerAdsPage;
   int get is_favAdsPage => _is_favAdsPage;
-  int get is_favAdsPageDB => _is_favAdsPageDB;
+
   List<AdsModel> get AdsUpdateLoc => _AdsUpdateLoc;
   Set<Marker> get markersUpdateLoc => _markersUpdateLoc;
   TextEditingController get priceControllerUpdate => _priceControllerUpdate;

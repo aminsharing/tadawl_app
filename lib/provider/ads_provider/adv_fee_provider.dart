@@ -223,7 +223,7 @@ class AdvFeeProvider extends ChangeNotifier{
           transactionStatus == "success" ||
           transactionStatus == "SYNC") {
         print(transactionStatus);
-        getpaymentstatus();
+        await getpaymentstatus();
       } else {
         _resultText = transactionStatus;
         notifyListeners();
@@ -276,12 +276,12 @@ class AdvFeeProvider extends ChangeNotifier{
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text("Alert!"),
-          content: new Text("Please fill all fields"),
+          title: Text("Alert!"),
+          content: Text("Please fill all fields"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Close"),
+            FlatButton(
+              child: Text("Close"),
               onPressed: () {
                 Navigator.of(context).pop();
               },

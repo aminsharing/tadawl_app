@@ -18,6 +18,7 @@ class About extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
       appBar: AppBar(
+          centerTitle: true,
         backgroundColor: Color(0xff00cccc),
         title: Padding(
           padding: const EdgeInsets.fromLTRB(80, 0, 80, 0),

@@ -1,21 +1,35 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tadawl_app/mainWidgets/my_account/other/body/other_account.dart';
+import 'package:tadawl_app/mainWidgets/my_account/owner/body/owen_account.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/models/OfficeModel.dart';
 import 'package:tadawl_app/models/UserEstimateModel.dart';
 import 'package:tadawl_app/models/UserModel.dart';
+import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/screens/account/login.dart';
-import 'package:tadawl_app/screens/account/my_account.dart';
+import 'package:tadawl_app/screens/ads/main_page.dart';
 
 
 class UserMutualProvider extends ChangeNotifier{
+
+  UserMutualProvider(){
+    getSession().then((value) {
+      print("UserMutualProvider _phone: $_phone");
+    });
+
+  }
   String _phone;
   int _called;
   final List<UserEstimateModel> _estimates = [];
@@ -37,7 +51,20 @@ class UserMutualProvider extends ChangeNotifier{
   int _selectedMembership;
   bool _wait = false;
 
+  File _imageUpdateProfile;
+  final _picker2 = ImagePicker();
 
+  Future<void> getImageUpdateProfile() async {
+    final _pickedFile2 = await _picker2.getImage(
+      source: ImageSource.gallery,
+    );
+    if (_pickedFile2 != null) {
+      _imageUpdateProfile = File(_pickedFile2.path);
+      notifyListeners();
+    }
+  }
+
+  File get imageUpdateProfile => _imageUpdateProfile;
 
   Future getSession() async {
     var p = await SharedPreferences.getInstance();
@@ -140,28 +167,17 @@ class UserMutualProvider extends ChangeNotifier{
     }
   }
 
-  void getUsersList(BuildContext context, String Phone) {
+  void getUsersList( String Phone) {
     Future.delayed(Duration(milliseconds: 0), () {
       if(Phone != null) {
-        Api().getUserInfoFunc(context, Phone).then((value) {
+        Api().getUserInfoFunc(Phone).then((value) {
           _UserData = value;
           _users.clear();
           _UserData.forEach((element) {
-            _users.add(UserModel(
-              image: element['image'],
-              username: element['username'],
-              timeRegistered: element['timeRegistered'],
-              lastActive: element['lastActive'],
-              about: element['about'],
-              phone: element['phone'],
-              company_name: element['company_name'],
-              office_name: element['office_name'],
-              email: element['email'],
-              id_mem: element['id_mem'],
-            ));
+            _users.add(UserModel.users(element));
           });
           // TODO ADDED
-          notifyListeners();
+          // notifyListeners();
         });
 
         if (_users.isNotEmpty) {
@@ -186,19 +202,14 @@ class UserMutualProvider extends ChangeNotifier{
     });
   }
 
-  void getEstimatesInfo(BuildContext context, String Phone) {
+  void getEstimatesInfo( String Phone) {
     Future.delayed(Duration(milliseconds: 0), () {
       if (_estimates.isEmpty) {
-        Api().getEstimates(context, Phone).then((value) {
+        Api().getEstimates(Phone).then((value) {
           _EstimateData = value;
+
           _EstimateData.forEach((element) {
-            _estimates.add(UserEstimateModel(
-              id_UE: element['id_UE'],
-              phone_user: element['phone_user'],
-              phone_user_estimated: element['phone_user_estimated'],
-              rate: element['rate'],
-              comment: element['comment'],
-            ));
+            _estimates.add(UserEstimateModel.estimates(element));
           });
           // TODO ADDED
           // notifyListeners();
@@ -206,17 +217,11 @@ class UserMutualProvider extends ChangeNotifier{
         });
       }
       else {
-        Api().getEstimates(context, Phone).then((value) {
+        Api().getEstimates(Phone).then((value) {
           _EstimateData = value;
           _estimates.clear();
           _EstimateData.forEach((element) {
-            _estimates.add(UserEstimateModel(
-              id_UE: element['id_UE'],
-              phone_user: element['phone_user'],
-              phone_user_estimated: element['phone_user_estimated'],
-              rate: element['rate'],
-              comment: element['comment'],
-            ));
+            _estimates.add(UserEstimateModel.estimates(element));
           });
           // TODO ADDED
           // notifyListeners();
@@ -227,28 +232,25 @@ class UserMutualProvider extends ChangeNotifier{
     //notifyListeners();
   }
 
-  void getSumEstimatesInfo(BuildContext context, String Phone) {
+  void getSumEstimatesInfo( String Phone) {
     Future.delayed(Duration(milliseconds: 0), () {
       if (_sumEstimates.isEmpty) {
-        Api().getSumEstimates(context, Phone).then((value) {
+        Api().getSumEstimates(Phone).then((value) {
           _SumEstimateData = value;
           _SumEstimateData.forEach((element) {
-            _sumEstimates.add(UserEstimateModel(
-              sum_estimates: element['SUM(`rate`)'],
-            ));
+            _sumEstimates.add(UserEstimateModel.sumEstimates(element));
           });
           // TODO ADDED
           notifyListeners();
           // Provider.of<AdsProvider>(context, listen: false).update();
         });
-      } else {
-        Api().getSumEstimates(context, Phone).then((value) {
+      }
+      else {
+        Api().getSumEstimates(Phone).then((value) {
           _SumEstimateData = value;
           _sumEstimates.clear();
           _SumEstimateData.forEach((element) {
-            _sumEstimates.add(UserEstimateModel(
-              sum_estimates: element['SUM(`rate`)'],
-            ));
+            _sumEstimates.add(UserEstimateModel.sumEstimates(element));
           });
           // TODO ADDED
           notifyListeners();
@@ -259,141 +261,69 @@ class UserMutualProvider extends ChangeNotifier{
     //notifyListeners();
   }
 
-  void getAvatarList(BuildContext context, String PhoneOther) {
+  void getAvatarList( String PhoneOther) {
     Future.delayed(Duration(milliseconds: 0), () {
       if (_avatars.isEmpty) {
-        Api().getUserInfoFunc(context, PhoneOther).then((value) {
+        Api().getUserInfoFunc(PhoneOther).then((value) {
           _AvatarData = value;
           _AvatarData.forEach((element) {
-            _avatars.add(UserModel(
-              image: element['image'],
-              username: element['username'],
-              timeRegistered: element['timeRegistered'],
-              lastActive: element['lastActive'],
-              about: element['about'],
-              phone: element['phone'],
-              company_name: element['company_name'],
-              office_name: element['office_name'],
-              email: element['email'],
-              id_mem: element['id_mem'],
-            ));
+            _avatars.add(UserModel.users(element));
           });
         });
       } else {
-        Api().getUserInfoFunc(context, PhoneOther).then((value) {
+        Api().getUserInfoFunc(PhoneOther).then((value) {
           _AvatarData = value;
           _avatars.clear();
           _AvatarData.forEach((element) {
-            _avatars.add(UserModel(
-              image: element['image'],
-              username: element['username'],
-              timeRegistered: element['timeRegistered'],
-              lastActive: element['lastActive'],
-              about: element['about'],
-              phone: element['phone'],
-              company_name: element['company_name'],
-              office_name: element['office_name'],
-              email: element['email'],
-              id_mem: element['id_mem'],
-            ));
+            _avatars.add(UserModel.users(element));
           });
         });
       }
     });
   }
 
-  void getUserAdsList(BuildContext context, String Phone) {
+  void getUserAdsList( String Phone) {
     Future.delayed(Duration(milliseconds: 0), () {
       if (_userAds.isEmpty) {
-        Api().getUserAdsFunc(context, Phone).then((value) {
+        Api().getUserAdsFunc(Phone).then((value) {
           _UserAdsData = value;
           _UserAdsData.forEach((element) {
-            _userAds.add(AdsModel(
-              id_ads: element['id'],
-              idDescription: element['id_description'],
-              idUser: element['id_user'],
-              price: element['price'],
-              lat: element['lat'],
-              lng: element['lng'],
-              ads_city: element['ads_city'],
-              ads_neighborhood: element['ads_neighborhood'],
-              ads_road: element['ads_road'],
-              description: element['description'],
-              ads_image: element['ads_image'],
-              title: element['title'],
-              space: element['space'],
-              idSpecial: element['id_special'],
-              video: element['video'],
-              timeAdded: element['timeAdded'],
-              timeUpdated: element['timeUpdated'],
-              idCategory: element['id_category'],
-            ));
+            _userAds.add(AdsModel.ads(element));
           });
           // TODO ADDED
-          notifyListeners();
+          // notifyListeners();
         });
       } else {
-        Api().getUserAdsFunc(context, Phone).then((value) {
+        Api().getUserAdsFunc(Phone).then((value) {
           _UserAdsData = value;
           _userAds.clear();
           _UserAdsData.forEach((element) {
-            _userAds.add(AdsModel(
-              id_ads: element['id'],
-              idDescription: element['id_description'],
-              idUser: element['id_user'],
-              price: element['price'],
-              lat: element['lat'],
-              lng: element['lng'],
-              ads_city: element['ads_city'],
-              ads_neighborhood: element['ads_neighborhood'],
-              ads_road: element['ads_road'],
-              description: element['description'],
-              ads_image: element['ads_image'],
-              title: element['title'],
-              space: element['space'],
-              idSpecial: element['id_special'],
-              video: element['video'],
-              timeAdded: element['timeAdded'],
-              timeUpdated: element['timeUpdated'],
-              idCategory: element['id_category'],
-            ));
+            _userAds.add(AdsModel.ads(element));
           });
           // TODO ADDED
-          notifyListeners();
+          // notifyListeners();
         });
       }
     });
   }
 
-  void checkOfficeInfo(BuildContext context, String Phone) {
+  void checkOfficeInfo( String Phone) {
     Future.delayed(Duration(milliseconds: 0), () {
       if (_offices.isEmpty) {
-        Api().getOfficeCheckFunc(context, Phone).then((value) {
+        Api().getOfficeCheckFunc(Phone).then((value) {
           _OfficeData = value;
           _OfficeData.forEach((element) {
-            _offices.add(OfficeModel(
-              office_name: element['office_name'],
-              phone_user: element['phone_user'],
-              office_lat: element['office_lat'],
-              office_lng: element['office_lng'],
-              state: element['state'],
-            ));
+            _offices.add(OfficeModel.offices(element));
           });
           // TODO ADDED
           notifyListeners();
         });
       } else {
-        Api().getOfficeCheckFunc(context, Phone).then((value) {
+        Api().getOfficeCheckFunc(Phone).then((value) {
           _OfficeData = value;
           _offices.clear();
           _OfficeData.forEach((element) {
-            _offices.add(OfficeModel(
-              office_name: element['office_name'],
-              phone_user: element['phone_user'],
-              office_lat: element['office_lat'],
-              office_lng: element['office_lng'],
-              state: element['state'],
-            ));
+            _offices.add(OfficeModel.offices(element));
           });
           // TODO ADDED
           notifyListeners();
@@ -509,7 +439,7 @@ class UserMutualProvider extends ChangeNotifier{
     }
   }
 
-  void updateMembershipType(int index) {
+  void updateMembershipType(int index, bool update) {
     for (var buttonIndex2 = 0; buttonIndex2 < _membershipType.length; buttonIndex2++) {
 
       if (buttonIndex2 == index) {
@@ -519,8 +449,9 @@ class UserMutualProvider extends ChangeNotifier{
         _membershipType[buttonIndex2] = false;
       }
     }
-
-    notifyListeners();
+    if(update){
+      notifyListeners();
+    }
   }
 
   void clearUpdatingInformation(){
@@ -530,6 +461,7 @@ class UserMutualProvider extends ChangeNotifier{
     _personalProfile = null;
     _officeNameUser = null;
     _selectedMembership = null;
+    _imageUpdateProfile = null;
   }
 
   void setWaitState(bool wait) {
@@ -539,22 +471,75 @@ class UserMutualProvider extends ChangeNotifier{
   void goToAvatar(BuildContext context, String phone) {
     Future.delayed(Duration(milliseconds: 0), () {
       _wait = true;
-      var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
-      userMutual.getAvatarList(context, phone);
-      userMutual.getUserAdsList(context, phone);
-      userMutual.getEstimatesInfo(context, phone);
-      userMutual.getSumEstimatesInfo(context, phone);
-      userMutual.checkOfficeInfo(context, phone);
-      userMutual.setUserPhone(phone);
+      getAvatarList(phone);
+      getUserAdsList(phone);
+      getEstimatesInfo(phone);
+      getSumEstimatesInfo(phone);
+      checkOfficeInfo(phone);
+      setUserPhone(phone);
     });
     Future.delayed(Duration(seconds: 0), () {
       _wait = false;
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => MyAccount()),
-      );
+      if (_userPhone == _phone){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  OwenAccount()),
+        );
+      }else{
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  OtherAccount()),
+        );
+      }
     });
     notifyListeners();
+  }
+
+  void update() => notifyListeners();
+
+  Future updateMyProfile(
+      BuildContext context,
+      int selectedMembership,
+      String userName,
+      String company_name,
+      String office_name,
+      String email,
+      String personalProfile,
+      String phone,
+      File image) async {
+    Future.delayed(Duration(milliseconds: 0), () {
+      Api().updateMyProfileFunc(
+          selectedMembership,
+          userName,
+          company_name,
+          office_name,
+          email,
+          personalProfile,
+          phone,
+          image);
+    });
+    getAvatarList(phone);
+    getUserAdsList(phone);
+    getEstimatesInfo(phone);
+    getSumEstimatesInfo(phone);
+    checkOfficeInfo(phone);
+    setUserPhone(phone);
+
+    clearUpdatingInformation();
+    Future.delayed(Duration(seconds: 0), () {
+      Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
+      Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
+      Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
+      Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MainPage()),
+      );
+    });
   }
 
 
@@ -577,4 +562,6 @@ class UserMutualProvider extends ChangeNotifier{
   List<bool> get membershipType => _membershipType;
   int get selectedMembership => _selectedMembership;
   bool get wait => _wait;
+
+
 }

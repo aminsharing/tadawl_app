@@ -4,11 +4,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-
-
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/update_location_provider.dart';
-import 'package:tadawl_app/provider/user_markers_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 
 class UpdateLocation extends StatelessWidget {
@@ -21,18 +18,15 @@ class UpdateLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mutualProv = Provider.of<MutualProvider>(context, listen: false);
     return Consumer<UpdateLocationProvider>(builder: (context, updateLoc, child) {
 
       print("UpdateLocation -> UpdateLocationProvider");
 
       var mediaQuery = MediaQuery.of(context);
-      Provider.of<UserMarkersProvider>(context, listen: false).getLoc();
       // ignore: omit_local_variable_types
-      Map data = {};
-      data = ModalRoute
-          .of(context)
-          .settings
-          .arguments;
+      // Map data = {};
+      // data = ModalRoute.of(context).settings.arguments;
       // var _id_description = data['id_description'];
 
       void _onMapCreated(GoogleMapController controller) {
@@ -42,6 +36,7 @@ class UpdateLocation extends StatelessWidget {
 
       return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           toolbarHeight: 80.0,
           leadingWidth: 100,
           leading: Padding(
@@ -53,7 +48,7 @@ class UpdateLocation extends StatelessWidget {
                 size: 40,
               ),
               onPressed: () {
-                Provider.of<MutualProvider>(context, listen: false)
+                mutualProv
                 .getAllAdsPageInfo(context, _id_description);
 
                 Future.delayed(Duration(seconds: 1), () {
@@ -88,51 +83,23 @@ class UpdateLocation extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    updateLoc.ads_city == null
-                        ? Text(
+                    Text(
                       AppLocalizations
                           .of(context)
                           .city +
-                          ' ${Provider.of<MutualProvider>(context, listen: false).adsPage.first.ads_city}',
+                          ' ${updateLoc.ads_city ?? mutualProv.adsPage.first.ads_city}',
                       style: CustomTextStyle(
-                        fontSize: 13,
-                        color: const Color(0xff989696),
-                      ).getTextStyle(),
-                      textAlign: TextAlign.center,
-                      textDirection: TextDirection.rtl,
-                    )
-                        : Text(
-                      AppLocalizations
-                          .of(context)
-                          .city +
-                          ' ${updateLoc.ads_city}',
-                      style: CustomTextStyle(
-
                         fontSize: 13,
                         color: const Color(0xff989696),
                       ).getTextStyle(),
                       textAlign: TextAlign.center,
                       textDirection: TextDirection.rtl,
                     ),
-                    updateLoc.ads_neighborhood == null
-                        ? Text(
+                    Text(
                       AppLocalizations
                           .of(context)
                           .neighborhood +
-                          ' ${Provider.of<MutualProvider>(context, listen: false).adsPage.first.ads_neighborhood}',
-                      style: CustomTextStyle(
-
-                        fontSize: 13,
-                        color: const Color(0xff989696),
-                      ).getTextStyle(),
-                      textAlign: TextAlign.center,
-                      textDirection: TextDirection.rtl,
-                    )
-                        : Text(
-                      AppLocalizations
-                          .of(context)
-                          .neighborhood +
-                          ' ${updateLoc.ads_neighborhood}',
+                          ' ${updateLoc.ads_neighborhood??mutualProv.adsPage.first.ads_neighborhood}',
                       style: CustomTextStyle(
 
                         fontSize: 13,
@@ -156,13 +123,13 @@ class UpdateLocation extends StatelessWidget {
                       rotateGesturesEnabled: true,
                       myLocationEnabled: true,
                       mapType: MapType.normal,
-                      initialCameraPosition: CameraPosition( ///Provider.of<UserMarkersProvider>(context,listen: false).initialCameraPosition
+                      initialCameraPosition: CameraPosition(
                           target: LatLng(
                               double.parse(
-                                  Provider.of<MutualProvider>(context, listen: false).adsPage.first.lat ?? Provider.of<UserMarkersProvider>(context,listen: false).initialCameraPosition.latitude
+                                  mutualProv.adsPage.first.lat ?? updateLoc.ads_cordinates_lat
                               ),
                               double.parse(
-                                  Provider.of<MutualProvider>(context, listen: false).adsPage.first.lng ?? Provider.of<UserMarkersProvider>(context,listen: false).initialCameraPosition.longitude
+                                  mutualProv.adsPage.first.lng ?? updateLoc.ads_cordinates_lng
                               ),
                           ),
                           zoom: 13),

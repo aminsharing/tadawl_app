@@ -26,6 +26,21 @@ class UserEstimateModel {
     sum_estimates = json['SUM(`rate`)'];
     count_estimates = json['COUNT(`rate`)'];
   }
+
+  // ignore: sort_constructors_first
+  UserEstimateModel.estimates(Map<String, dynamic> json) {
+    id_UE = json['id_UE'];
+    phone_user = json['phone_user'];
+    phone_user_estimated = json['phone_user_estimated'];
+    rate = json['rate'];
+    comment = json['comment'];
+  }
+
+  // ignore: sort_constructors_first
+  UserEstimateModel.sumEstimates(Map<String, dynamic> json) {
+    sum_estimates = json['SUM(`rate`)'];
+  }
+
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['id_UE'] = id_UE;

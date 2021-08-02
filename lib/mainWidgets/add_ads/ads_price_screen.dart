@@ -16,6 +16,7 @@ class AdsPriceScreen extends StatelessWidget {
     var mediaQuery = MediaQuery.of(context);
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: const Color(0xff00cccc),
           title: Center(
             widthFactor: 1.3,
@@ -46,6 +47,7 @@ class AdsPriceScreen extends StatelessWidget {
           child: Form(
             key: _addAdsKey,
             child: Consumer<AddAdProvider>(builder: (context, addAds, child) {
+              print("AdsPriceScreen -> AddAdProvider");
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[

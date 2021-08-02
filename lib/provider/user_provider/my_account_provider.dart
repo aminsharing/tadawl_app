@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
 
 class MyAccountProvider extends ChangeNotifier{
+  MyAccountProvider(){
+    print("MyAccountProvider init");
+    initStateSelected();
+  }
+
+  @override
+  void dispose() {
+    print("MyAccountProvider dispose");
+    clearExpendedListCount();
+    super.dispose();
+  }
   final List<bool> _isSelected = List.generate(2, (_) => false);
   int _selectedNav = 0;
-  int _expendedListCount = 4;
+  int _expendedListCount = 3;
 
 
   void clearExpendedListCount(){
-    _expendedListCount = 4;
+    _expendedListCount = 3;
   }
 
   void updateSelected(int index) {
@@ -44,11 +55,4 @@ class MyAccountProvider extends ChangeNotifier{
   List<bool> get isSelected => _isSelected;
   int get selectedNav => _selectedNav;
   int get expendedListCount => _expendedListCount;
-
-
-
-
-
-
-
 }

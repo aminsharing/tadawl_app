@@ -14,13 +14,11 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:record/record.dart';
 import 'package:tadawl_app/models/ConvModel.dart';
+import 'package:tadawl_app/models/message_model.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
-import 'package:tadawl_app/screens/account/discussion_main.dart';
 // import 'package:audioplayers/audioplayers.dart';
 
 class MsgProvider extends ChangeNotifier{
-  // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   final TextEditingController _msgController = TextEditingController();
 
   String _recAvatarUserName = 'Username';
@@ -29,9 +27,7 @@ class MsgProvider extends ChangeNotifier{
   final TextEditingController _messageController = TextEditingController();
   bool _atBottom = false;
   final List<ConvModel> _conv = [];
-  List _ConvData = [];
   final List<ConvModel> _comment = [];
-  List _CommentData = [];
   AudioPlayer _player;
   List<File> _imagesListUpdate = [];
 
@@ -50,56 +46,20 @@ class MsgProvider extends ChangeNotifier{
 
 
 
-  void getConvInfo(BuildContext context, String _phone) async {
+  Future<void> getConvInfo(BuildContext context, String _phone) async {
     if(_phone != null) {
-      Future.delayed(Duration(milliseconds: 0), () {
+      Future.delayed(Duration(milliseconds: 0), () async{
         if (_conv.isEmpty) {
-          Api().getDiscListFunc(context, _phone).then((value) {
-            _ConvData = value ?? [];
-            _ConvData.forEach((element) {
-              _conv.add(ConvModel.fromJson(element));
-              // _conv.add(ConvModel(
-              //   id_conv: element['id_conv'],
-              //   phone_user_recipient: element['phone_user_recipient'],
-              //   phone_user_sender: element['phone_user_sender'],
-              //   id_comment: element['id_comment'],
-              //   seen_reciever: element['seen_reciever'],
-              //   seen_sender: element['seen_sender'],
-              //   state_conv_receiver: element['state_conv_receiver'],
-              //   state_conv_sender: element['state_conv_sender'],
-              //   comment: element['comment'],
-              //   timeAdded: element['timeAdded'],
-              //   username: element['username'],
-              //   image: element['image'],
-              //   phone: element['phone'],
-              // ));
-            });
-            // notifyListeners();
+          List<dynamic> value = await Api().getDiscListFunc(_phone);
+          value.forEach((element) {
+            _conv.add(ConvModel.fromJson(element));
           });
         }
         else {
-          Api().getDiscListFunc(context, _phone).then((value) {
-            _ConvData = value;
-            _conv.clear();
-            _ConvData.forEach((element) {
-              _conv.add(ConvModel.fromJson(element));
-              // _conv.add(ConvModel(
-              //   id_conv: element['id_conv'],
-              //   phone_user_recipient: element['phone_user_recipient'],
-              //   phone_user_sender: element['phone_user_sender'],
-              //   id_comment: element['id_comment'],
-              //   seen_reciever: element['seen_reciever'],
-              //   seen_sender: element['seen_sender'],
-              //   state_conv_receiver: element['state_conv_receiver'],
-              //   state_conv_sender: element['state_conv_sender'],
-              //   comment: element['comment'],
-              //   timeAdded: element['timeAdded'],
-              //   username: element['username'],
-              //   image: element['image'],
-              //   phone: element['phone'],
-              // ));
-            });
-            // notifyListeners();
+          List<dynamic> value = await Api().getDiscListFunc(_phone);
+          _conv.clear();
+          value.forEach((element) {
+            _conv.add(ConvModel.fromJson(element));
           });
         }
       });
@@ -109,7 +69,7 @@ class MsgProvider extends ChangeNotifier{
   void getUnreadMsgs(BuildContext context, String _phone, {String other_phone}) {
     if(_phone != null) {
       Future.delayed(Duration(milliseconds: 0), () {
-        Api().getUnreadMessagesFunc(context, _phone).then((value) {
+        Api().getUnreadMessagesFunc(_phone).then((value) {
           _unreadMsgs = 0;
           if(other_phone != null){
             if(_conv.isNotEmpty){
@@ -130,78 +90,42 @@ class MsgProvider extends ChangeNotifier{
   void setReadMsgs(BuildContext context, String _phone, String _other_phone, String unreadMsgs) {
     if(_phone != null) {
       Future.delayed(Duration(milliseconds: 0), () {
-        Api().setReadMessagesFunc(context, _phone, _other_phone).then((value) {
+        Api().setReadMessagesFunc(_phone, _other_phone).then((value) {
           notifyListeners();
         });
       });
     }
   }
 
-  Future getCommentUser(BuildContext context, String phone_user, String _phone) async {
+  Future<void> getCommentUser(BuildContext context, String phone_user, String _phone) async {
 
-    Future.delayed(Duration(milliseconds: 0), () {
+    Future.delayed(Duration(milliseconds: 0), () async{
       if (_comment.isEmpty) {
-        Api().getComments(context, _phone, phone_user).then((
-            value) {
-
-          _CommentData = value;
-          _CommentData.forEach((element) {
-            _comment.add(ConvModel(
-              id_conv: element['id_conv'],
-              phone_user_recipient: element['phone_user_recipient'],
-              phone_user_sender: element['phone_user_sender'],
-              id_comment: element['id_comment'],
-              seen_reciever: element['seen_reciever'],
-              seen_sender: element['seen_sender'],
-              state_conv_receiver: element['state_conv_receiver'],
-              state_conv_sender: element['state_conv_sender'],
-              comment: element['comment'],
-              timeAdded: element['timeAdded'],
-              username: element['username'],
-              image: element['image'],
-              phone: element['phone'],
-            ));
-          });
-
-          // if(_streamChatSubscription.isPaused) {
-          //   _streamChatSubscription.resume();
-          //   _streamChatController.add(value);
-          //  } else {
-          _streamChatController.add(value);
-          //  }
-          // notifyListeners();
+        List<dynamic> value = await Api().getComments(_phone, phone_user);
+        value.forEach((element) {
+          _comment.add(ConvModel.fromJson(element));
         });
+
+        // if(_streamChatSubscription.isPaused) {
+        //   _streamChatSubscription.resume();
+        //   _streamChatController.add(value);
+        //  } else {
+        _streamChatController.add(value);
+        //  }
+        // notifyListeners();
       } else {
-        Api().getComments(context, _phone, phone_user).then((
-            value) {
-
-          _CommentData = value;
-          _comment.clear();
-          _CommentData.forEach((element) {
-            _comment.add(ConvModel(
-              id_conv: element['id_conv'],
-              phone_user_recipient: element['phone_user_recipient'],
-              phone_user_sender: element['phone_user_sender'],
-              id_comment: element['id_comment'],
-              seen_reciever: element['seen_reciever'],
-              seen_sender: element['seen_sender'],
-              state_conv_receiver: element['state_conv_receiver'],
-              state_conv_sender: element['state_conv_sender'],
-              comment: element['comment'],
-              timeAdded: element['timeAdded'],
-              username: element['username'],
-              image: element['image'],
-              phone: element['phone'],
-            ));
-          });
-          //  if(_streamChatSubscription.isPaused) {
-          //   _streamChatSubscription.resume();
-          //   _streamChatController.add(value);
-          //  } else {
-          _streamChatController.add(value);
-          //  }
-          // notifyListeners();
+        List<dynamic> value = await Api().getComments(_phone, phone_user);
+        _comment.clear();
+        value.forEach((element) {
+          _comment.add(ConvModel.fromJson(element));
         });
+        //  if(_streamChatSubscription.isPaused) {
+        //   _streamChatSubscription.resume();
+        //   _streamChatController.add(value);
+        //  } else {
+        _streamChatController.add(value);
+        //  }
+        // notifyListeners();
       }
     });
   }
@@ -209,7 +133,7 @@ class MsgProvider extends ChangeNotifier{
   Future<void> sendMess(
       BuildContext context,List<File> imagesList, File voiceMsg, String content, String phone_user, String _phone, String msgType) async {
     Future.delayed(Duration(milliseconds: 0), () {
-      Api().sendMessFunc(context, imagesList, voiceMsg, content, _phone, phone_user, msgType);
+      Api().sendMessFunc(imagesList, voiceMsg, content, _phone, phone_user, msgType);
     });
     _messageController.clear();
     Provider.of<MsgProvider>(context, listen: false).setIsTyping(false);

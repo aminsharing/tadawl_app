@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
+import 'package:tadawl_app/mainWidgets/my_account/other/body/other_account.dart';
+import 'package:tadawl_app/mainWidgets/my_account/owner/body/owen_account.dart';
 import 'package:tadawl_app/provider/user_provider/change_phone_provider.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/my_account.dart';
@@ -57,6 +59,7 @@ class ChangePhone extends StatelessWidget {
 
       return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           toolbarHeight: 80.0,
           leadingWidth: 100,
           leading: Padding(
@@ -150,20 +153,29 @@ class ChangePhone extends StatelessWidget {
                             fontSize: 15.0);
 
                         var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
-                        userMutual.getAvatarList(context, changePhone.newPhone);
-                        userMutual.getUserAdsList(context, changePhone.newPhone);
-                        userMutual.getEstimatesInfo(context, changePhone.newPhone);
-                        userMutual.getSumEstimatesInfo(context, changePhone.newPhone);
-                        userMutual.checkOfficeInfo(context, changePhone.newPhone);
+                        userMutual.getAvatarList(changePhone.newPhone);
+                        userMutual.getUserAdsList(changePhone.newPhone);
+                        userMutual.getEstimatesInfo(changePhone.newPhone);
+                        userMutual.getSumEstimatesInfo(changePhone.newPhone);
+                        userMutual.checkOfficeInfo(changePhone.newPhone);
                         userMutual.setUserPhone(changePhone.newPhone);
 
                         Future.delayed(Duration(seconds: 1), () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    MyAccount()),
-                          );
+                          if (userMutual.userPhone == userMutual.phone){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      OwenAccount()),
+                            );
+                          }else{
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      OtherAccount()),
+                            );
+                          }
                         });
                       }
                     },

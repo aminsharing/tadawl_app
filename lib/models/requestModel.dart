@@ -95,11 +95,6 @@ class RequestModel {
     max_price = json['max_price'];
     min_space = json['min_space'];
     max_space = json['max_space'];
-    lat = json['lat'];
-    lng = json['lng'];
-    city = json['city'];
-    nighborhood = json['nighborhood'];
-    road = json['road'];
     type_aqar = json['type_aqar'];
     interface = json['interface'];
     plan = json['plan'];

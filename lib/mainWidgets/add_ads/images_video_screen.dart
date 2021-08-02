@@ -9,6 +9,7 @@ import 'package:tadawl_app/mainWidgets/add_ads/location_screen.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
+import 'package:tadawl_app/provider/map_provider.dart';
 
 
 class ImagesVideoScreen extends StatelessWidget {
@@ -98,6 +99,7 @@ class ImagesVideoScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+          centerTitle: true,
         backgroundColor: const Color(0xff00cccc),
         title: Center(
           widthFactor: 4.5,
@@ -125,6 +127,7 @@ class ImagesVideoScreen extends StatelessWidget {
         ),
       ),
       body: Consumer<AddAdProvider>(builder: (context, addAds, child) {
+        print("ImagesVideoScreen -> AddAdProvider");
         return SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -517,7 +520,12 @@ class ImagesVideoScreen extends StatelessWidget {
                   }
                   // addAds.setCurrentStageAddAds(4);
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LocationScreen()));
+                      MaterialPageRoute(builder: (context) =>
+                          ChangeNotifierProvider<MapProvider>(
+                            create: (_) => MapProvider(),
+                            child: LocationScreen(),
+                          )
+                      ));
                 },
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 15, 0, 30),

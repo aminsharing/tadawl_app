@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/models/BFModel.dart';
 import 'package:tadawl_app/models/QFModel.dart';
@@ -11,11 +10,16 @@ import 'package:tadawl_app/models/UserModel.dart';
 import 'package:tadawl_app/models/views_series.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
-import 'package:tadawl_app/provider/user_provider/favourite_provider.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 
 class MutualProvider extends ChangeNotifier{
+  MutualProvider(){
+    print("MutualProvider init");
+    getSession();
+  }
+
+
   final List<AdsModel> _AdsPage = [];
   List _adsPageData = [];
   final List<AdsModel> _AdsPageImages = [];
@@ -43,15 +47,28 @@ class MutualProvider extends ChangeNotifier{
   int _expendedListCount = 4;
   int _number;
   bool _busy = false;
+  bool _is_favAdsPageDB = false;
+  String _phone;
 
+  @override
+  void dispose(){
+    print("MutualProvider dispose");
+    super.dispose();
+  }
 
   Future<bool> updateAds(BuildContext context, String id_ads) async {
     return Future.delayed(Duration(milliseconds: 0), () {
-      return Api().updateAdsFunc(context, id_ads).then((value) {
+      return Api().updateAdsFunc(id_ads).then((value) {
         _busy = false;
         return true;
       });
     });
+  }
+
+  Future<String> getSession() async {
+    var p = await SharedPreferences.getInstance();
+    _phone = p.getString('token');
+    return _phone;
   }
 
   void setNumber(int i) {
@@ -63,7 +80,7 @@ class MutualProvider extends ChangeNotifier{
   void sendEstimate(BuildContext context, String phone, String phoneEstimated, String rating, String comment, String idDescription) async {
     Future.delayed(Duration(milliseconds: 0), () {
       Api()
-          .sendEstimateFunc(context, phone, phoneEstimated, rating, comment);
+          .sendEstimateFunc(phone, phoneEstimated, rating, comment);
     });
     Provider.of<MutualProvider>(context, listen: false)
         .getAllAdsPageSendEs(context, idDescription);
@@ -79,7 +96,8 @@ class MutualProvider extends ChangeNotifier{
   void getAdsPageList(BuildContext context, String idDescription) {
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsPage.clear();
-      Api().getAdsPageFunc(context, idDescription).then((value) {
+      getFavStatus();
+      Api().getAdsPageFunc(idDescription).then((value) {
         _adsPageData = value;
         _adsPageData.forEach((element) {
           _AdsPage.add(AdsModel.adsPage(element));
@@ -94,11 +112,21 @@ class MutualProvider extends ChangeNotifier{
     });
   }
 
+  void getFavStatus() async{
+    await Api().getFavStatusFunc(_phone, _idDescription).then((value) {
+      print("value: $value");
+      _is_favAdsPageDB = value;
+      print("idDescription: $idDescription");
+      print("_phone: $_phone");
+      print("_is_favAdsPageDB: $_is_favAdsPageDB");
+    });
+  }
+
   void getImagesAdsPageList(BuildContext context, String idDescription) {
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsPageImages.clear();
       Api()
-          .getImagesAdsPageFunc(context, idDescription)
+          .getImagesAdsPageFunc(idDescription)
           .then((value) {
         _adsPageImagesData = value;
         _adsPageImagesData.forEach((element) {
@@ -113,7 +141,7 @@ class MutualProvider extends ChangeNotifier{
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsSimilar.clear();
       Api()
-          .getSimilarAdsFunc(context, idCategory, idAds)
+          .getSimilarAdsFunc(idCategory, idAds)
           .then((value) {
         _adsSimilarData = value;
         _adsSimilarData.forEach((element) {
@@ -129,14 +157,15 @@ class MutualProvider extends ChangeNotifier{
   void getUserAdsPageInfo(BuildContext context, String idDescription) {
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsUser.clear();
-      Api().getAdsPageFunc(context, idDescription).then((value) {
+      Api().getAdsPageFunc(idDescription).then((value) {
         _adsUserData = value;
         _adsUserData.forEach((element) {
           _AdsUser.add(UserModel.adsUser(element));
         });
-        Provider.of<UserMutualProvider>(context, listen: false).getEstimatesInfo(context, _AdsUser.first.phone);
-        Provider.of<UserMutualProvider>(context, listen: false).getSumEstimatesInfo(context, _AdsUser.first.phone);
-        Provider.of<FavouriteProvider>(context, listen: false).update();
+        Provider.of<UserMutualProvider>(context, listen: false).getEstimatesInfo(_AdsUser.first.phone);
+        Provider.of<UserMutualProvider>(context, listen: false).getSumEstimatesInfo(_AdsUser.first.phone);
+        // Provider.of<FavouriteProvider>(context, listen: false).update();
+        Provider.of<UserMutualProvider>(context, listen: false).update();
       });
     });
   }
@@ -144,7 +173,7 @@ class MutualProvider extends ChangeNotifier{
   void getAdsVRInfo(BuildContext context, String idDescription) {
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsVR.clear();
-      Api().getAqarVRFunc(context, idDescription).then((value) {
+      Api().getAqarVRFunc(idDescription).then((value) {
         _adsVRData = value;
         _adsVRData.forEach((element) {
           _AdsVR.add(AdsModel.adsVR(element));
@@ -158,7 +187,7 @@ class MutualProvider extends ChangeNotifier{
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsBF.clear();
       Api()
-          .getBFAdsPageFunc(context, idDescription)
+          .getBFAdsPageFunc(idDescription)
           .then((value) {
         _adsBFData = value;
         _adsBFData.forEach((element) {
@@ -173,7 +202,7 @@ class MutualProvider extends ChangeNotifier{
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsQF.clear();
       Api()
-          .getQFAdsPageFunc(context, idDescription)
+          .getQFAdsPageFunc(idDescription)
           .then((value) {
         _adsQFData = value;
         _adsQFData.forEach((element) {
@@ -187,7 +216,7 @@ class MutualProvider extends ChangeNotifier{
   void getNavigationAdsPageList(BuildContext context) {
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsNavigation.clear();
-      Api().getNavigationFunc(context).then((value) {
+      Api().getNavigationFunc().then((value) {
         _adsNavigationData = value;
         _adsNavigationData.forEach((element) {
           _AdsNavigation.add(AdsModel.adsNavigation(element));
@@ -202,7 +231,7 @@ class MutualProvider extends ChangeNotifier{
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsViews.clear();
       Api()
-          .getViewsChartFunc(context, idDescription)
+          .getViewsChartFunc(idDescription)
           .then((value) {
         _adsViewsData = value;
         _adsViewsData.forEach((element) {
@@ -253,7 +282,7 @@ class MutualProvider extends ChangeNotifier{
       if (_AdsPage.isNotEmpty) {
         var _viewsAds = double.parse(_AdsPage.first.views) + 1;
         Api().updateViewsFunc(
-            context, _AdsPage.first.idAds, _viewsAds.toString());
+            _AdsPage.first.idAds, _viewsAds.toString());
         getAdsPageList(context, idDescription);
       }
     });
@@ -308,5 +337,5 @@ class MutualProvider extends ChangeNotifier{
   String get idDescription => _idDescription;
   bool get busy => _busy;
   int get number => _number;
-
+  bool get is_favAdsPageDB => _is_favAdsPageDB;
 }

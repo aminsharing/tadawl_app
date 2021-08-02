@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/screens/ads/main_page.dart';
-import 'package:tadawl_app/provider/map_provider.dart';
 
 class TransferFormProvider extends ChangeNotifier{
   final List<bool> _isSelected2 = List.generate(2, (_) => false);
@@ -82,8 +81,7 @@ class TransferFormProvider extends ChangeNotifier{
       String radioValue1,
       File imageInvoice) async {
     Future.delayed(Duration(seconds: 0), () {
-      Provider.of<MapProvider>(context, listen: false).getLocPer();
-      Provider.of<MapProvider>(context, listen: false).getLoc();
+      Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
       Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
       Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
       Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);

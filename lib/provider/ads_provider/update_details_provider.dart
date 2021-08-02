@@ -8,7 +8,6 @@ import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/screens/ads/main_page.dart';
-import 'package:tadawl_app/provider/map_provider.dart';
 
 class UpdateDetailsProvider extends ChangeNotifier{
   final List<bool> _typeAqarUpdate = List.generate(3, (_) => false);
@@ -100,7 +99,7 @@ class UpdateDetailsProvider extends ChangeNotifier{
   void getCategoryeInfoUpdate(BuildContext context) async {
     Future.delayed(Duration(milliseconds: 0), () {
       _categoryUpdate.clear();
-      Api().getCategoryFunc(context).then((value) {
+      Api().getCategoryFunc().then((value) {
         _CategoryDataUpdate = value;
         _CategoryDataUpdate.forEach((element) {
           _categoryUpdate.add(CategoryModel.fromJson(element));
@@ -367,7 +366,6 @@ class UpdateDetailsProvider extends ChangeNotifier{
       ) async {
     Future.delayed(Duration(milliseconds: 0), () {
       Api().updateDetailsFunc(
-        context,
         id_description,
         detailsAqar,
         isFootballCourt,
@@ -414,8 +412,7 @@ class UpdateDetailsProvider extends ChangeNotifier{
 
 
     Future.delayed(Duration(seconds: 0), () {
-      Provider.of<MapProvider>(context, listen: false).getLocPer();
-      Provider.of<MapProvider>(context, listen: false).getLoc();
+      Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
       Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
       Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
       Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);

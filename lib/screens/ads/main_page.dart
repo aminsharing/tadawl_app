@@ -15,6 +15,7 @@ import 'package:tadawl_app/mainWidgets/custom_drawer.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 //import 'package:tadawl_app/provider/user_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tadawl_app/provider/map_provider.dart';
 
 class MainPage extends StatelessWidget {
   MainPage({Key key}) : super(key: key);
@@ -23,8 +24,6 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    print("MainPage -> MainPageProvider");
 
     Future<bool> _onBackPressed() {
       return showDialog(
@@ -56,7 +55,6 @@ class MainPage extends StatelessWidget {
                 child: Text(
                   AppLocalizations.of(context).yes,
                   style: CustomTextStyle(
-
                     fontSize: 17,
                     color: const Color(0xff000000),
                   ).getTextStyle(),
@@ -103,7 +101,10 @@ class MainPage extends StatelessWidget {
         ),
         body: Stack(
           children: <Widget>[
-            MapWidget(),
+            ChangeNotifierProvider<MapProvider>(
+              create: (_) => MapProvider(),
+              child: MapWidget(),
+            ),
             // map ....................................
             SliderWidget(),
             // slider ....................................

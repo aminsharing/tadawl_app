@@ -11,6 +11,7 @@ class Toilets extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<AddAdProvider>(builder: (context, addAd, _) {
+      print("Toilets -> AddAdProvider");
       return Column(
         children: [
           Padding(

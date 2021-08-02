@@ -26,11 +26,11 @@ class Favourite extends StatelessWidget {
       var mediaQuery = MediaQuery.of(context);
       Provider.of<UserMutualProvider>(context, listen: false).getSession();
       var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
-      adsFav.getUserAdsFavList(context, _phone);
+      adsFav.getUserAdsFavList(_phone);
 
       Future<Null> _refresh() async{
         var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
-        adsFav.getUserAdsFavList(context, _phone);
+        adsFav.getUserAdsFavList(_phone);
         adsFav.update();
       }
 
@@ -38,6 +38,7 @@ class Favourite extends StatelessWidget {
         onRefresh: _refresh,
         child: Scaffold(
           appBar: AppBar(
+          centerTitle: true,
             toolbarHeight: 80.0,
             leadingWidth: 100,
             leading: Padding(

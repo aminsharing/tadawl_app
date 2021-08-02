@@ -40,9 +40,9 @@ class AppBarActionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<LocaleProvider>(context, listen: false);
+    var _lang = Provider.of<LocaleProvider>(context, listen: false).locale.toString();
+    final adPageProv = Provider.of<AdPageProvider>(context, listen: false);
     var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
-    var _lang = provider.locale.toString();
 
     return adsPage.adsUser.isNotEmpty
         ? adsPage.adsUser.first.phone == _phone
@@ -56,7 +56,7 @@ class AppBarActionWidget extends StatelessWidget {
           size: 40,
         ),
         onSelected: (String choice) {
-          Provider.of<AdPageProvider>(context, listen: false).choiceAction(context, choice, adsPage.idDescription);
+          adPageProv.choiceAction(context, choice, adsPage.idDescription);
         },
         itemBuilder: (BuildContext context) {
           if (_lang != 'en_US') {

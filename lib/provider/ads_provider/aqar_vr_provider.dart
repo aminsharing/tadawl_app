@@ -6,6 +6,10 @@ import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 
 class AqarVRProvider extends ChangeNotifier{
+  AqarVRProvider(){
+    print("AqarVRProvider init");
+  }
+
   File _imageAqarVR;
   int _buttonClickedAqarVR;
   final _picker3 = ImagePicker();
@@ -60,7 +64,7 @@ class AqarVRProvider extends ChangeNotifier{
       String id_description,
       File image) async {
     Future.delayed(Duration(milliseconds: 0), () {
-      Api().sendInfoAqarVRFunc(context, identity_number, saq_number,
+      Api().sendInfoAqarVRFunc(identity_number, saq_number,
           identity_type, id_description, image);
     });
 

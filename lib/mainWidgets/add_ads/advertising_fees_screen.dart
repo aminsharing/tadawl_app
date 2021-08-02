@@ -14,6 +14,7 @@ class AdvertisingFeesScreen extends StatelessWidget {
     var mediaQuery = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
+          centerTitle: true,
         backgroundColor: const Color(0xff00cccc),
         title: Center(
           widthFactor: 2.0,

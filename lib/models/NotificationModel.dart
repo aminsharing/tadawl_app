@@ -23,8 +23,8 @@ class NotificationModel {
   NotificationModel.fromJson(Map<String, dynamic> json) {
     id_user_notification = json['id_user_notification'];
     id_notification = json['id_notification'];
-    title = json['phone_user'];
-    title = json['response_phone_user'];
+    phone_user = json['phone_user'];
+    response_phone_user = json['response_phone_user'];
     title = json['title'];
     body = json['body'];
     state = json['state'];

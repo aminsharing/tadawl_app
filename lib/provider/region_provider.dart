@@ -14,12 +14,20 @@ import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/screens/ads/main_page.dart';
 import 'locale_provider.dart';
-import 'package:tadawl_app/provider/map_provider.dart';
 
 class RegionProvider extends ChangeNotifier {
 
   var _markers = <Marker>[];
   OverlayEntry _entry;
+
+  @override
+  void dispose(){
+    print("RegionProvider dispose");
+    _entry.remove();
+    _entry = null;
+    _markers.clear();
+    super.dispose();
+  }
 
   List<Widget> markerWidgets() {
     return cities.map((c) => _getMarkerWidget(c.name)).toList();
@@ -80,7 +88,7 @@ class RegionProvider extends ChangeNotifier {
     );
   }
 
-  void getRegionMapList(BuildContext context, {bool showOnMap = false}) {
+  void getRegionMapList(BuildContext context) {
 
     var provider = Provider.of<LocaleProvider>(context, listen: false);
     var _lang = provider.locale.toString();
@@ -94,8 +102,7 @@ class RegionProvider extends ChangeNotifier {
             markerId: MarkerId(city.name),// d46d1
             position: city.position,
             onTap: () {
-              Provider.of<MapProvider>(context, listen: false).getLocPer();
-              Provider.of<MapProvider>(context, listen: false).getLoc();
+              Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
               Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
               Provider.of<MainPageProvider>(context, listen: false).clearAdsOnMap();
               Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(CameraPosition(target: city.position, zoom: city.zoom));
@@ -108,112 +115,40 @@ class RegionProvider extends ChangeNotifier {
             },
             icon: BitmapDescriptor.fromBytes(bmp)));
       });
-
       return markersList;
     }
 
-    if (_lang == 'en_US') {
-      if(showOnMap){
-        if(_entry != null){
-          _entry.remove();
-          _entry = null;
-          _markers.clear();
-          _entry = OverlayEntry(
-              builder: (context) {
-                return _MarkerHelper(
-                  markerWidgets: enMarkerWidgets(),
-                  callback: (bitmaps) {
-                    _markers = mapBitmapsToMarkers(bitmaps);
-                    notifyListeners();
-                  },
-                );
+    if(_lang == 'en_US'){
+      _entry = OverlayEntry(
+          builder: (context) {
+            return _MarkerHelper(
+              markerWidgets: enMarkerWidgets(),
+              callback: (bitmaps) {
+                _markers = mapBitmapsToMarkers(bitmaps);
+                notifyListeners();
               },
-              maintainState: true);
-          MarkerGenerator(_entry).generate(context);
-          // var overlayState = Overlay.of(context);
-          // overlayState.insert(_entry);
-        }else{
-          _entry = OverlayEntry(
-              builder: (context) {
-                return _MarkerHelper(
-                  markerWidgets: enMarkerWidgets(),
-                  callback: (bitmaps) {
-                    _markers = mapBitmapsToMarkers(bitmaps);
-                    notifyListeners();
-                  },
-                );
-              },
-              maintainState: true);
-          MarkerGenerator(_entry).generate(context);
-        }
-
-      }
-      else{
-        if(_entry != null){
-          _entry.remove();
-          _entry = null;
-        }
-      }
-
-
+            );
+          },
+          maintainState: true);
+      MarkerGenerator(_entry).generate(context);
     }
-    else {
-      if(showOnMap){
-        if(_entry != null){
-          _entry.remove();
-          _entry = null;
-          _markers.clear();
-          _entry = OverlayEntry(
-              builder: (context) {
-                return _MarkerHelper(
-                  markerWidgets: markerWidgets(),
-                  callback: (bitmaps) {
-                    _markers = mapBitmapsToMarkers(bitmaps);
-                    notifyListeners();
-                  },
-                );
+    else{
+      _entry = OverlayEntry(
+          builder: (context) {
+            return _MarkerHelper(
+              markerWidgets: markerWidgets(),
+              callback: (bitmaps) {
+                _markers = mapBitmapsToMarkers(bitmaps);
+                notifyListeners();
               },
-              maintainState: true);
-          MarkerGenerator(_entry).generate(context);
-          // var overlayState = Overlay.of(context);
-          // overlayState.insert(_entry);
-        }else{
-          _entry = OverlayEntry(
-              builder: (context) {
-                return _MarkerHelper(
-                  markerWidgets: markerWidgets(),
-                  callback: (bitmaps) {
-                    _markers = mapBitmapsToMarkers(bitmaps);
-                    notifyListeners();
-                  },
-                );
-              },
-              maintainState: true);
-          MarkerGenerator(_entry).generate(context);
-        }
-
-      }
-      else{
-        if(_entry != null){
-          _entry.remove();
-          _entry = null;
-        }
-      }
-
-    }
-
-  }
-
-  void removeMarkers(){
-    if(_entry != null){
-      _entry.remove();
-      _entry = null;
-      _markers.clear();
+            );
+          },
+          maintainState: true);
+      MarkerGenerator(_entry).generate(context);
     }
   }
 
   List<Marker> get markers => _markers;
-
 }
 
 

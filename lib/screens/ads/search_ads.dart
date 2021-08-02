@@ -17,37 +17,11 @@ class _SearchAdsState extends State<SearchAds> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SearchAdsProvider>(builder: (context, searchFast, child) {
-
-      print("SearchAds -> SearchAdsProvider");
-
-      var mediaQuery = MediaQuery.of(context);
-
-      Widget _buildSearch() {
-        return TextFormField(
-          decoration: InputDecoration(
-              labelText: AppLocalizations.of(context).enterHere),
-          style: CustomTextStyle(
-
-            fontSize: 13,
-            color: const Color(0xff989696),
-          ).getTextStyle(),
-          keyboardType: TextInputType.number,
-          validator: (String value) {
-            if (value.isEmpty) {
-              return AppLocalizations.of(context).notFound;
-            }
-            return null;
-          },
-          onSaved: (String value) {
-            searchFast.setSearchKey(value);
-          },
-        );
-      }
-
-      return Scaffold(
+    var mediaQuery = MediaQuery.of(context);
+    return Scaffold(
         backgroundColor: const Color(0xffffffff),
         appBar: AppBar(
+          centerTitle: true,
           toolbarHeight: 80.0,
           leadingWidth: 100,
           leading: Padding(
@@ -98,73 +72,97 @@ class _SearchAdsState extends State<SearchAds> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                Consumer<SearchAdsProvider>(builder: (context, searchFast, child) {
+                  print("SearchAds -> SearchAdsProvider");
+                  return Column(
                     children: [
-                      SizedBox(
-                        width: mediaQuery.size.width * 0.6,
-                        child: _buildSearch(),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: mediaQuery.size.width * 0.6,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    labelText: AppLocalizations.of(context).enterHere),
+                                style: CustomTextStyle(
+
+                                  fontSize: 13,
+                                  color: const Color(0xff989696),
+                                ).getTextStyle(),
+                                keyboardType: TextInputType.number,
+                                validator: (String value) {
+                                  if (value.isEmpty) {
+                                    return AppLocalizations.of(context).notFound;
+                                  }
+                                  return null;
+                                },
+                                onSaved: (String value) {
+                                  searchFast.setSearchKey(value);
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                              child: SizedBox(
+                                width: mediaQuery.size.width * 0.1,
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.search_rounded,
+                                    color: Color(0xff00cccc),
+                                    size: 40,
+                                  ),
+                                  onPressed: () {},
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        child: SizedBox(
-                          width: mediaQuery.size.width * 0.1,
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.search_rounded,
-                              color: Color(0xff00cccc),
-                              size: 40,
+                        padding: const EdgeInsets.fromLTRB(0, 50, 0, 30),
+                        child: TextButton(
+                          onPressed: () {
+                            if (!_searchAdsKey.currentState.validate()) {
+                              return;
+                            }
+                            _searchAdsKey.currentState.save();
+                            searchFast.searchKeyInfo(context, searchFast.search);
+                          },
+                          child: Container(
+                            width: mediaQuery.size.width * 0.6,
+                            height: 50.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.0),
+                              color: const Color(0xffffffff),
+                              border: Border.all(
+                                  width: 1.0, color: const Color(0xff3f9d28)),
                             ),
-                            onPressed: () {},
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  AppLocalizations.of(context).search,
+                                  style: CustomTextStyle(
+
+                                    fontSize: 20,
+                                    color: const Color(0xff3f9d28),
+                                  ).getTextStyle(),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 50, 0, 30),
-                  child: TextButton(
-                    onPressed: () {
-                      if (!_searchAdsKey.currentState.validate()) {
-                        return;
-                      }
-                      _searchAdsKey.currentState.save();
-                      searchFast.searchKeyInfo(context, searchFast.search);
-                    },
-                    child: Container(
-                      width: mediaQuery.size.width * 0.6,
-                      height: 50.0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.0),
-                        color: const Color(0xffffffff),
-                        border: Border.all(
-                            width: 1.0, color: const Color(0xff3f9d28)),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context).search,
-                            style: CustomTextStyle(
-
-                              fontSize: 20,
-                              color: const Color(0xff3f9d28),
-                            ).getTextStyle(),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                  );
+                }),
               ],
             ),
           ),
         ),
       );
-    });
   }
 }

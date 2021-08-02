@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pinch_zoom_image_last/pinch_zoom_image_last.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
+import 'package:tadawl_app/mainWidgets/open_images.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/update_img_vid_provider.dart';
@@ -29,14 +30,15 @@ class UpdateImgVed extends StatelessWidget {
 
       var mediaQuery = MediaQuery.of(context);
       // ignore: omit_local_variable_types
-      Map data = {};
-      data = ModalRoute.of(context).settings.arguments;
+      // Map data = {};
+      // data = ModalRoute.of(context).settings.arguments;
       // var _id_description = data['id_description'];
       //updateImgVed.randomPosition(200);
       Provider.of<AdPageProvider>(context, listen: false).getImagesAdsPageInfo(context, _idDescription);
 
       return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           toolbarHeight: 80.0,
           leadingWidth: 100,
           leading: Padding(
@@ -51,7 +53,6 @@ class UpdateImgVed extends StatelessWidget {
                 Provider.of<MutualProvider>(context, listen: false)
                 .getAllAdsPageInfo(context, _idDescription);
                 updateImgVed.stopVideoAdsUpdate();
-
                 Future.delayed(Duration(seconds: 1), () {
                   Navigator.push(
                     context,
@@ -64,7 +65,6 @@ class UpdateImgVed extends StatelessWidget {
           title: Text(
             AppLocalizations.of(context).updateImgVid,
             style: CustomTextStyle(
-
               fontSize: 20,
               color: const Color(0xffffffff),
             ).getTextStyle(),
@@ -107,13 +107,16 @@ class UpdateImgVed extends StatelessWidget {
                                     children: [
                                       InkWell(
                                         onTap: () {
-                                          Navigator.pushNamed(
-                                              context, '/main/open_images',
-                                              arguments: {
-                                                'id_description': Provider.of<AdPageProvider>(context, listen: false)
-                                                    .image[position]
-                                                    .idDescription,
-                                              });
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(builder: (context) => OpenImages()));
+                                          // Navigator.pushNamed(
+                                          //     context, '/main/open_images',
+                                          //     arguments: {
+                                          //       'id_description': Provider.of<AdPageProvider>(context, listen: false)
+                                          //           .image[position]
+                                          //           .idDescription,
+                                          //     });
                                         },
                                         child: PinchZoomImage(
                                           image: CachedNetworkImage(
@@ -155,9 +158,7 @@ class UpdateImgVed extends StatelessWidget {
                                   );
                                 },
                                 onPageChanged: (index) {
-                                  updateImgVed
-                                      .currentControllerPageImgVedUpdateFunc(
-                                          index);
+                                  updateImgVed.currentControllerPageImgVedUpdateFunc(index);
                                   // Provider.of<MutualProvider>(context, listen: false).randomPosition(200);
                                 },
                                 controller: updateImgVed.controllerImgVedUpdate,
@@ -177,11 +178,8 @@ class UpdateImgVed extends StatelessWidget {
                                           width: 10,
                                           height: 10,
                                           decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
-                                              color: updateImgVed
-                                                          .currentControllerPageImgVedUpdate ==
-                                                      indexListView
+                                              borderRadius: BorderRadius.circular(30),
+                                              color: updateImgVed.currentControllerPageImgVedUpdate == indexListView
                                                   ? Color(0xff00cccc)
                                                   : Colors.grey),
                                         ),

@@ -16,7 +16,6 @@ class UpdateDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      print("UpdateDetails -> UpdateDetailsProvider");
       // var mediaQuery = MediaQuery.of(context);
       // ignore: omit_local_variable_types
       // Map data = {};

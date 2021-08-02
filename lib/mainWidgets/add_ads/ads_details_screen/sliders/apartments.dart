@@ -10,6 +10,7 @@ class Apartments extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<AddAdProvider>(builder: (context, addAd, _) {
+      print("Apartments -> AddAdProvider");
       return Column(
         children: [
           Padding(

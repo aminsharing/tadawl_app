@@ -924,7 +924,6 @@ class MainPageProvider extends ChangeNotifier{
         markerId: MarkerId(' ${ad.price}'),
         position: LatLng(double.tryParse(ad.lat)??26.0, double.tryParse(ad.lng)??46.0),
         onTap: () {
-          print(context);
           Provider.of<CacheMarkerModel>(context, listen: false).updateCache(context, ad.idDescription);
           setShowDiogTrue();
           _SelectedAdsModelMainPage = ad;
@@ -1038,7 +1037,7 @@ class MainPageProvider extends ChangeNotifier{
           a.add(element.idDescription);
         });
 
-        Api().getadsFunc(context).then((value) {
+        Api().getadsFunc().then((value) {
           _AdsData = value;
           _AdsData.forEach((element) {
             if(!a.contains(element['id_description'])){
@@ -1071,7 +1070,7 @@ class MainPageProvider extends ChangeNotifier{
           a.add(element.idDescription);
         });
         Api()
-            .getFilterAdsFunc(context, sliderCategory)
+            .getFilterAdsFunc(sliderCategory)
             .then((value) {
           _AdsData = value;
           _AdsData.forEach((element) {
@@ -1105,7 +1104,7 @@ class MainPageProvider extends ChangeNotifier{
           a.add(element.idDescription);
         });
 
-        Api().getFilterTwoWeeksAgoFunc(context).then((value) {
+        Api().getFilterTwoWeeksAgoFunc().then((value) {
           _AdsData = value;
           _AdsData.forEach((element) {
             if(!a.contains(element['id_description'])){
@@ -1140,7 +1139,6 @@ class MainPageProvider extends ChangeNotifier{
         });
         Api()
             .getAdvancedSearchFunc(
-            context,
             category,
             min_price,
             max_price,

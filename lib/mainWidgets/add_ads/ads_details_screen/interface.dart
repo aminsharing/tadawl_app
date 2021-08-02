@@ -12,6 +12,8 @@ class Interface extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mutualProv = Provider.of<MutualProvider>(context, listen: false);
+    final mainPageProv = Provider.of<MainPageProvider>(context, listen: false);
     var provider = Provider.of<LocaleProvider>(context, listen: false);
     var _lang = provider.locale.toString();
     return Padding(
@@ -50,6 +52,7 @@ class Interface extends StatelessWidget {
               child: ButtonTheme(
                 alignedDropdown: true,
                 child: Consumer<AddAdProvider>(builder: (context, addAd, _) {
+                  print("Interface -> AddAdProvider");
                   return DropdownButton<String>(
                     hint: Text(
                       AppLocalizations.of(context)
@@ -61,14 +64,14 @@ class Interface extends StatelessWidget {
                       ).getTextStyle(),
                       textAlign: TextAlign.center,
                     ),
-                    value: addAd.interfaceSelectedAddAds ?? (int.tryParse(Provider.of<MutualProvider>(context, listen: false).adsPage.first.idInterface)?? '1').toString(),
+                    value: addAd.interfaceSelectedAddAds ?? (int.tryParse(mutualProv.adsPage.first.idInterface)?? '1').toString(),
                     onChanged: (String newValue) {
                       addAd
                           .setInterfaceSelectedAddAds(
                           newValue);
                     },
                     items: _lang != 'en_US'
-                        ? Provider.of<MainPageProvider>(context, listen: false).Interface.map(
+                        ? mainPageProv.Interface.map(
                             (Map map) {
                           return DropdownMenuItem<
                               String>(
@@ -95,7 +98,7 @@ class Interface extends StatelessWidget {
                             ),
                           );
                         }).toList()
-                        : Provider.of<MainPageProvider>(context, listen: false).EnInterface
+                        : mainPageProv.EnInterface
                         .map((Map map) {
                       return DropdownMenuItem<
                           String>(

@@ -3,6 +3,19 @@ import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 
 class TodayAdsProvider extends ChangeNotifier{
+
+  TodayAdsProvider(){
+    print("TodayAdsProvider init");
+    initStateSelected();
+    getTodayAdsList();
+  }
+
+  @override
+  void dispose() {
+    print("TodayAdsProvider dispose");
+    super.dispose();
+  }
+
   final List<bool> _isSelected5 = List.generate(4, (_) => false);
   int _filterCity;
   final List<AdsModel> _TodayAds = [];
@@ -12,7 +25,6 @@ class TodayAdsProvider extends ChangeNotifier{
   int _countAdsDammam = 0;
   int _countAdsRest = 0;
 
-
   int countTodayAds() {
     if (_TodayAds.isNotEmpty) {
       return _TodayAds.length;
@@ -21,13 +33,13 @@ class TodayAdsProvider extends ChangeNotifier{
     }
   }
 
-  void updateSelected5(BuildContext context, int index) {
+  void updateSelected5(int index) {
     for (var buttonIndex5 = 0;
     buttonIndex5 < _isSelected5.length;
     buttonIndex5++) {
       if (buttonIndex5 == index) {
         _isSelected5[buttonIndex5] = true;
-        getTodayAdsList(context);
+        getTodayAdsList();
         _filterCity = buttonIndex5 + 1;
       } else {
         _isSelected5[buttonIndex5] = false;
@@ -40,10 +52,10 @@ class TodayAdsProvider extends ChangeNotifier{
     _isSelected5[0] = true;
   }
 
-  void getTodayAdsList(BuildContext context) {
+  void getTodayAdsList() {
     Future.delayed(Duration(milliseconds: 0), () {
       _TodayAds.clear();
-      Api().getadsFunc(context).then((value) {
+      Api().getadsFunc().then((value) {
         _TodayAdsData = value;
         _TodayAdsData.forEach((element) {
           var now = DateTime.now();

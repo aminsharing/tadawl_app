@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ChangePhoneProvider extends ChangeNotifier{
+class ChangePhoneProvider extends ChangeNotifier {
+  ChangePhoneProvider(){
+    print("ChangePhoneProvider init");
+
+  }
+
   String _newPhone;
   String _currentPhone;
   String _newAccountPhone;
 
+  @override
+  void dispose() {
+    print("ChangePhoneProvider dispose");
+    super.dispose();
+  }
 
   void setNewPhone(String val) {
     _newPhone = filterPhone(val);

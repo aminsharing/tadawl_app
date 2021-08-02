@@ -14,24 +14,10 @@ class ConversationModel extends ChangeNotifier {
   void getConversationsList(BuildContext context, String Phone) {
     _conversations.clear();
     Future.delayed(Duration(milliseconds: 0), () {
-      Api().getDiscListFunc(context, Phone).then((value) {
+      Api().getDiscListFunc(Phone).then((value) {
         _ConversationsData = value;
         _ConversationsData.forEach((element) {
-          _conversations.add(ConvModel(
-            id_conv: element['id_conv'],
-            phone_user_recipient: element['phone_user_recipient'],
-            phone_user_sender: element['phone_user_sender'],
-            id_comment: element['id_comment'],
-            seen_reciever: element['seen_reciever'],
-            seen_sender: element['seen_sender'],
-            state_conv_receiver: element['state_conv_receiver'],
-            state_conv_sender: element['state_conv_sender'],
-            comment: element['comment'],
-            timeAdded: element['timeAdded'],
-            username: element['username'],
-            image: element['image'],
-            phone: element['phone'],
-          ));
+          _conversations.add(ConvModel.fromJson(element));
         });
       });
     });
@@ -41,24 +27,10 @@ class ConversationModel extends ChangeNotifier {
   void getCommentsDiscussion(
       BuildContext context, String Phone, String OtherPhone) {
     Future.delayed(Duration(milliseconds: 0), () {
-      Api().getComments(context, Phone, OtherPhone).then((value) {
+      Api().getComments(Phone, OtherPhone).then((value) {
         _CommentData = value;
         _CommentData.forEach((element) {
-          _comments.add(ConvModel(
-            id_conv: element['id_conv'],
-            phone_user_recipient: element['phone_user_recipient'],
-            phone_user_sender: element['phone_user_sender'],
-            id_comment: element['id_comment'],
-            seen_reciever: element['seen_reciever'],
-            seen_sender: element['seen_sender'],
-            state_conv_receiver: element['state_conv_receiver'],
-            state_conv_sender: element['state_conv_sender'],
-            comment: element['comment'],
-            timeAdded: element['timeAdded'],
-            username: element['username'],
-            image: element['image'],
-            phone: element['phone'],
-          ));
+          _comments.add(ConvModel.fromJson(element));
         });
       });
     });

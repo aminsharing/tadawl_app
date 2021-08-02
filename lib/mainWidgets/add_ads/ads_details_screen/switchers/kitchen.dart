@@ -27,6 +27,7 @@ class Kitchen extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           Consumer<AddAdProvider>(builder: (context, addAd, _) {
+            print("Kitchen -> AddAdProvider");
             return FlutterSwitch(
               activeColor: const Color(0xff00cccc),
               width: 40.0,

@@ -81,6 +81,7 @@ class ExcellenceList extends StatelessWidget {
     var mediaQuery = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
+          centerTitle: true,
         toolbarHeight: 80.0,
         leadingWidth: 100,
         leading: Padding(

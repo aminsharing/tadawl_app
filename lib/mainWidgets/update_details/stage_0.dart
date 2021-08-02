@@ -20,8 +20,8 @@ class Stage0 extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+          centerTitle: true,
         backgroundColor: const Color(0xff00cccc),
-        centerTitle: true,
         leadingWidth: 70,
         title: Text(
           AppLocalizations.of(context)
@@ -61,6 +61,7 @@ class Stage0 extends StatelessWidget {
           .adsUpdateDetails.isNotEmpty
             ?
       Consumer<UpdateDetailsProvider>(builder: (context, updateDetails, _){
+        print("Stage0 -> UpdateDetailsProvider");
         final mutualProv = Provider.of<MutualProvider>(context, listen: false);
         updateDetails.getAdsUpdateInfo(mutualProv.adsBF, mutualProv.adsQF, mutualProv.adsPage.first.idInterface, mutualProv.adsPage.first.idTypeAqar, mutualProv.adsPage.first.idTypeRes);
         if(updateDetails.categoryUpdate.isNotEmpty){

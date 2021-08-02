@@ -25,6 +25,7 @@ class TransferForm extends StatelessWidget {
 
       return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           toolbarHeight: 80.0,
           leadingWidth: 100,
           leading: Padding(

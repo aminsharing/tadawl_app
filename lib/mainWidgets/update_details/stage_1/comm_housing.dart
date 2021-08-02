@@ -11,7 +11,7 @@ class CommHousing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<UpdateDetailsProvider>(builder: (context, updateDetails, _) {
-
+      print("CommHousing -> UpdateDetailsProvider");
       // if(!updateDetails.typeAqarUpdate.contains(true)){
       //   // updateDetails.adsPage.first
       //   updateDetails.setTyprAqarUpdate(int.parse(Provider.of<MutualProvider>(context, listen: false).adsPage.first.idTypeAqar)-1, false);

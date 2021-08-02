@@ -1,16 +1,12 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class ApiRequests {
-  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  // ignore: sort_constructors_first
-  ApiRequests(this.scaffoldKey);
   final String _token = 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@';
   String BaseURL = 'https://www.tadawl.com.sa/API/api_app';
 
   Future<dynamic> getUserRequestsListFunc(
-      BuildContext context, String Phone) async {
+       String Phone) async {
     var url = '$BaseURL/orders/get_user_requests.php';
     var response = await http.post(url, body: {
       'auth_key': _token,
@@ -20,7 +16,7 @@ class ApiRequests {
     return jsonx;
   }
 
-  Future<dynamic> getNotificationsFunc(BuildContext context, String phone) async {
+  Future<dynamic> getNotificationsFunc( String phone) async {
     var url = '$BaseURL/notifications/get_notifications.php';
     var response = await http.post(url, body: {
       'auth_key': _token,
@@ -30,7 +26,7 @@ class ApiRequests {
     return jsonx;
   }
 
-  Future<dynamic> changeNotificationStateFunc(BuildContext context, String phone, String idNotification) async {
+  Future<dynamic> changeNotificationStateFunc( String phone, String idNotification) async {
     var url = '$BaseURL/notifications/notification_seen.php';
     var response = await http.post(url, body: {
       'auth_key': _token,

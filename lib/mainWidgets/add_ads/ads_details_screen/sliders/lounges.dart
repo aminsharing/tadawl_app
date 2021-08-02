@@ -10,6 +10,7 @@ class Lounges extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<AddAdProvider>(builder: (context, addAd, _) {
+      print("Lounges -> AddAdProvider");
       return Column(
         children: [
           Padding(

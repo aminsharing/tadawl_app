@@ -5,6 +5,7 @@ import 'package:tadawl_app/mainWidgets/custom_drawer.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/screens/account/discussion_main.dart';
 import 'discussion_edit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -93,9 +94,9 @@ class DiscussionList extends StatelessWidget {
           child: CustomDrawer(),
         ),
         appBar: AppBar(
+          centerTitle: true,
           toolbarHeight: 65.0,
           leadingWidth: 100,
-          centerTitle: true,
           backgroundColor: const Color(0xff00cccc),
           leading: Padding(
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
@@ -154,12 +155,9 @@ class DiscussionList extends StatelessWidget {
                       // convList.initScrollDown();
                       convList.setReadMsgs(context, _phone, convList.conv[i].phone, convList.conv[i].unreadMsgs);
                       convList.setRecAvatarUserName(convList.conv[i].username);
-                      Navigator.pushNamed(
-                          context, '/main/discussion_main',
-                          arguments: {
-                            'phone_user':
-                            convList.conv[i].phone,
-                          });
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Discussion(convList.conv[i].phone)));
                     },
                     child: Container(
                       margin: EdgeInsets.only(

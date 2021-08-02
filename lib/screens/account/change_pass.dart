@@ -26,60 +26,11 @@ class ChangePass extends StatelessWidget {
 
 
       var mediaQuery = MediaQuery.of(context);
-      Provider.of<UserMutualProvider>(context, listen: false).getSession();
 
-      Widget _buildReNewPass() {
-        return TextFormField(
-          decoration: InputDecoration(
-              labelText: AppLocalizations.of(context).configNewPass),
-          style: CustomTextStyle(
-
-            fontSize: 15,
-            color: const Color(0xff989696),
-          ).getTextStyle(),
-          keyboardType: TextInputType.visiblePassword,
-          validator: (String value) {
-            if (value.isEmpty) {
-              return AppLocalizations.of(context).reqConfirmNewPass;
-            } else if (value.length < 8) {
-              return AppLocalizations.of(context).reqPassless8;
-            } //else if (value != changePass.newPass) {
-            //  return AppLocalizations.of(context).notMatch;
-            //}
-            return null;
-          },
-          onSaved: (String value) {
-            changePass.setReNewPass(value);
-          },
-        );
-      }
-
-      Widget _buildNewPass() {
-        return TextFormField(
-          decoration:
-          InputDecoration(labelText: AppLocalizations.of(context).newPass),
-          style: CustomTextStyle(
-
-            fontSize: 15,
-            color: const Color(0xff989696),
-          ).getTextStyle(),
-          keyboardType: TextInputType.visiblePassword,
-          validator: (String value) {
-            if (value.isEmpty) {
-              return AppLocalizations.of(context).reqNewPass;
-            } else if (value.length < 8) {
-              return AppLocalizations.of(context).reqPassless8;
-            }
-            return null;
-          },
-          onSaved: (String value) {
-            changePass.setNewPass(value);
-          },
-        );
-      }
 
       return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           toolbarHeight: 80.0,
           leadingWidth: 100,
           leading: Padding(
@@ -122,7 +73,27 @@ class ChangePass extends StatelessWidget {
                     children: <Widget>[
                       SizedBox(
                         width: mediaQuery.size.width * 0.7,
-                        child: _buildNewPass(),
+                        child: TextFormField(
+                          decoration:
+                          InputDecoration(labelText: AppLocalizations.of(context).newPass),
+                          style: CustomTextStyle(
+
+                            fontSize: 15,
+                            color: const Color(0xff989696),
+                          ).getTextStyle(),
+                          keyboardType: TextInputType.visiblePassword,
+                          validator: (String value) {
+                            if (value.isEmpty) {
+                              return AppLocalizations.of(context).reqNewPass;
+                            } else if (value.length < 8) {
+                              return AppLocalizations.of(context).reqPassless8;
+                            }
+                            return null;
+                          },
+                          onSaved: (String value) {
+                            changePass.setNewPass(value);
+                          },
+                        ),
                       ),
                       Icon(
                         Icons.vpn_key_rounded,
@@ -139,7 +110,29 @@ class ChangePass extends StatelessWidget {
                     children: <Widget>[
                       SizedBox(
                         width: mediaQuery.size.width * 0.7,
-                        child: _buildReNewPass(),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context).configNewPass),
+                          style: CustomTextStyle(
+
+                            fontSize: 15,
+                            color: const Color(0xff989696),
+                          ).getTextStyle(),
+                          keyboardType: TextInputType.visiblePassword,
+                          validator: (String value) {
+                            if (value.isEmpty) {
+                              return AppLocalizations.of(context).reqConfirmNewPass;
+                            } else if (value.length < 8) {
+                              return AppLocalizations.of(context).reqPassless8;
+                            } //else if (value != changePass.newPass) {
+                            //  return AppLocalizations.of(context).notMatch;
+                            //}
+                            return null;
+                          },
+                          onSaved: (String value) {
+                            changePass.setReNewPass(value);
+                          },
+                        ),
                       ),
                       Icon(
                         Icons.vpn_key_outlined,
@@ -161,7 +154,7 @@ class ChangePass extends StatelessWidget {
                             'https://tadawl.com.sa/API/api_app/login/change_pass.php';
                         var response = await http.post(url, body: {
                           'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
-                          'phone': Provider.of<UserMutualProvider>(context, listen: false).phone,
+                          'phone': changePass.phone,
                           'newPass': changePass.newPass,
                           'reNewPass': changePass.reNewPass,
                         });
@@ -197,11 +190,11 @@ class ChangePass extends StatelessWidget {
                               fontSize: 15.0);
 
                           var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
-                          userMutual.getAvatarList(context, userMutual.phone);
-                          userMutual.getUserAdsList(context, userMutual.phone);
-                          userMutual.getEstimatesInfo(context, userMutual.phone);
-                          userMutual.getSumEstimatesInfo(context, userMutual.phone);
-                          userMutual.checkOfficeInfo(context, userMutual.phone);
+                          userMutual.getAvatarList(userMutual.phone);
+                          userMutual.getUserAdsList(userMutual.phone);
+                          userMutual.getEstimatesInfo(userMutual.phone);
+                          userMutual.getSumEstimatesInfo(userMutual.phone);
+                          userMutual.checkOfficeInfo(userMutual.phone);
 
                           userMutual.setUserPhone(userMutual.phone);
 

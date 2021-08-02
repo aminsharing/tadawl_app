@@ -9,6 +9,7 @@ import 'package:tadawl_app/provider/msg_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/discussion_main.dart';
+import 'package:tadawl_app/screens/account/estimateUser.dart';
 import 'package:tadawl_app/screens/account/login.dart';
 
 class AvatarWidget extends StatelessWidget {
@@ -20,9 +21,12 @@ class AvatarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
-    var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
+    final userMutualProv = Provider.of<UserMutualProvider>(context, listen: false);
+    final msgProv = Provider.of<MsgProvider>(context, listen: false);
+    var _phone = userMutualProv.phone;
 
-      if (adsUser.first != null) {
+
+    if (adsUser.first != null) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -42,15 +46,16 @@ class AvatarWidget extends StatelessWidget {
               ],
             ),
           ),
-          Provider.of<UserMutualProvider>(context, listen: false).wait
-              ? Padding(
+          userMutualProv.wait
+              ?
+          Padding(
                   padding: EdgeInsets.all(50),
                   child: CircularProgressIndicator())
-              : TextButton(
+              :
+          TextButton(
                   onPressed: () {
                     adsPage.stopVideoAdsPage();
-                    Provider.of<UserMutualProvider>(context, listen: false)
-                        .goToAvatar(context, adsUser.first.phone);
+                    userMutualProv.goToAvatar(context, adsUser.first.phone);
                   },
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -97,20 +102,22 @@ class AvatarWidget extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                if (Provider.of<UserMutualProvider>(context,
-                                        listen: false)
+                                if (userMutualProv
                                     .estimates
                                     .isNotEmpty)
                                   TextButton(
                                     onPressed: () {
                                       adsPage.stopVideoAdsPage();
-                                      Navigator.pushNamed(
-                                          context, '/main/estimate_user',
-                                          arguments: {
-                                            'phone':
-                                                adsUser.first.phone ??
-                                                    _phone,
-                                          });
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => Estimate()));
+                                      // Navigator.pushNamed(
+                                      //     context, '/main/estimate_user',
+                                      //     arguments: {
+                                      //       'phone':
+                                      //           adsUser.first.phone ??
+                                      //               _phone,
+                                      //     });
                                     },
                                     child: Row(
                                       mainAxisAlignment:
@@ -120,11 +127,10 @@ class AvatarWidget extends StatelessWidget {
                                           padding: const EdgeInsets.fromLTRB(
                                               0, 0, 15, 0),
                                           child: Text(
-                                            Provider.of<UserMutualProvider>(context,
-                                                        listen: false)
+                                            userMutualProv
                                                     .estimates
                                                     .isNotEmpty
-                                                ? '(${Provider.of<UserMutualProvider>(context, listen: false).countEstimates()})'
+                                                ? '(${userMutualProv.countEstimates()})'
                                                 : '0',
                                             style: CustomTextStyle(
                                               fontSize: 15,
@@ -133,23 +139,19 @@ class AvatarWidget extends StatelessWidget {
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
-                                        if (Provider.of<UserMutualProvider>(context,
-                                                listen: false)
+                                        if (userMutualProv
                                             .sumEstimates
                                             .isNotEmpty)
                                           Padding(
                                             padding: const EdgeInsets.fromLTRB(
                                                 0, 0, 0, 0),
                                             child: RatingBar(
-                                              rating: (double.parse(Provider.of<
-                                                  UserMutualProvider>(
-                                                              context,
-                                                              listen: false)
+                                              rating: (double.parse(userMutualProv
                                                           .sumEstimates
                                                           .first
-                                                          .sum_estimates) /
+                                                          .sum_estimates?? '0') /
                                                       double.parse(
-                                                          '${Provider.of<UserMutualProvider>(context, listen: false).countEstimates()}'))
+                                                          '${userMutualProv.countEstimates()}'))
                                                   .toDouble(),
                                               icon: Icon(
                                                 Icons.star,
@@ -190,13 +192,16 @@ class AvatarWidget extends StatelessWidget {
                                   TextButton(
                                     onPressed: () {
                                       adsPage.stopVideoAdsPage();
-                                      Navigator.pushNamed(
-                                          context, '/main/estimate_user',
-                                          arguments: {
-                                            'phone':
-                                                adsUser.first.phone ??
-                                                    _phone,
-                                          });
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => Estimate()));
+                                      // Navigator.pushNamed(
+                                      //     context, '/main/estimate_user',
+                                      //     arguments: {
+                                      //       'phone':
+                                      //           adsUser.first.phone ??
+                                      //               _phone,
+                                      //     });
                                     },
                                     child: Row(
                                       mainAxisAlignment:
@@ -280,8 +285,7 @@ class AvatarWidget extends StatelessWidget {
                                                     builder: (context) =>
                                                         Login()));
                                           } else {
-                                            Provider.of<MsgProvider>(context,
-                                                    listen: false)
+                                            msgProv
                                                 .setRecAvatarUserName(adsUser.first.username);
                                             Navigator.push(context, MaterialPageRoute(builder: (context) =>
                                                 Discussion(adsUser.first.phone)));
@@ -323,8 +327,7 @@ class AvatarWidget extends StatelessWidget {
                                               null) {
                                             adsPage.stopVideoAdsPage();
                                           }
-                                          Provider.of<UserMutualProvider>(context,
-                                                  listen: false)
+                                          userMutualProv
                                               .callNumber(context,
                                                   adsUser.first.phone);
                                         },
@@ -361,7 +364,8 @@ class AvatarWidget extends StatelessWidget {
                 ),
         ],
       );
-    } else {
+    }
+    else {
       return Container();
     }
   }

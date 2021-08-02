@@ -28,6 +28,17 @@ class OfficeModel {
     state = json['state'];
     phone_user = json['phone_user'];
   }
+
+  // ignore: sort_constructors_first
+  OfficeModel.offices(Map<String, dynamic> json) {
+    id_offices = json['id_offices'];
+    office_name = json['office_name'];
+    phone_user = json['phone_user'];
+    office_lat = json['office_lat'];
+    office_lng = json['office_lng'];
+    state = json['state'];
+  }
+
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['id_offices'] = id_offices;

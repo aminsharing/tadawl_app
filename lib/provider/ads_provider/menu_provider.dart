@@ -358,7 +358,7 @@ class MenuProvider extends ChangeNotifier{
     if (_menuFilter == null) {
       Future.delayed(Duration(milliseconds: 0), () {
         _MenuAds.clear();
-        Api().filterUpToDateAdsFunc(context).then((value) {
+        Api().filterUpToDateAdsFunc().then((value) {
           _MenuAdsData = value;
           _MenuAdsData.forEach((element) {
             _MenuAds.add(AdsModel.ads(element));
@@ -371,7 +371,7 @@ class MenuProvider extends ChangeNotifier{
     else if (_menuFilter == 2) {
       Future.delayed(Duration(milliseconds: 0), () {
         _MenuAds.clear();
-        Api().getFilterTwoWeeksAgoFunc(context).then((value) {
+        Api().getFilterTwoWeeksAgoFunc().then((value) {
           _MenuAdsData = value;
           _MenuAdsData.forEach((element) {
             _MenuAds.add(AdsModel.ads(element));
@@ -386,7 +386,6 @@ class MenuProvider extends ChangeNotifier{
         _MenuAds.clear();
         Api()
             .getAdvancedSearchFunc(
-            context,
             category,
             min_price,
             max_price,

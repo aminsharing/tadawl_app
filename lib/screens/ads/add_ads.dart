@@ -322,6 +322,7 @@
 //         onWillPop: _onBackPressed,
 //         child: Scaffold(
 //           appBar: AppBar(
+//           centerTitle: true,
 //               backgroundColor: const Color(0xff00cccc),
 //             title: addAds.currentStageAddAds == null
 //                 ?

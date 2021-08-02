@@ -16,7 +16,6 @@ import 'package:tadawl_app/models/CategoryModel.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
-import 'package:tadawl_app/provider/map_provider.dart';
 import 'package:tadawl_app/screens/ads/main_page.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -139,6 +138,7 @@ class AddAdProvider extends ChangeNotifier{
     _priceControllerAddAds.clear();
     _spaceControllerAddAds.clear();
     _meterPriceControllerAddAds.clear();
+    _meterPriceAddAds = null;
     _descControllerAddAds.clear();
     _interfaceSelectedAddAds = '0';
     _typeAqarAddAds[0] = false;
@@ -484,7 +484,7 @@ class AddAdProvider extends ChangeNotifier{
   void getCategoryeInfoAddAds(BuildContext context) async {
     Future.delayed(Duration(milliseconds: 200), () {
       _categoryAddAds.clear();
-      Api().getCategoryFunc(context).then((value) {
+      Api().getCategoryFunc().then((value) {
         _CategoryDataAddAds = value;
         _CategoryDataAddAds.forEach((element) {
           _categoryAddAds.add(CategoryModel.fromJson(element));
@@ -650,7 +650,6 @@ class AddAdProvider extends ChangeNotifier{
       ) async {
     Future.delayed(Duration(milliseconds: 0), () {
       Api().addNewAdsFunc(
-        context,
         detailsAqar,
         isFootballCourt,
         isVolleyballCourt,
@@ -708,9 +707,7 @@ class AddAdProvider extends ChangeNotifier{
         backgroundColor: Colors.green,
         textColor: Colors.white,
         fontSize: 15.0);
-
-    Provider.of<MapProvider>(context, listen: false).getLocPer();
-    Provider.of<MapProvider>(context, listen: false).getLoc();
+    Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
     Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
     Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
     Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);

@@ -4,6 +4,7 @@ import 'package:share/share.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/aqar_vr_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
@@ -164,7 +165,11 @@ class AdInfoWidget extends StatelessWidget {
                 onPressed: () {
                   adsPage.stopVideoAdsPage();
                   Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                      AqarVR()));
+                      ChangeNotifierProvider<AqarVRProvider>(
+                        create: (_) => AqarVRProvider(),
+                        child: AqarVR(),
+                      )
+                  ));
                   // Navigator.pushNamed(context, '/main/aqar_vr',
                   //     arguments: {
                   //       'id_description':
@@ -184,7 +189,6 @@ class AdInfoWidget extends StatelessWidget {
                     child: Text(
                       AppLocalizations.of(context).reVR,
                       style: CustomTextStyle(
-
                         fontSize: 15,
                         color: const Color(0xff00cccc),
                       ).getTextStyle(),
@@ -233,19 +237,26 @@ class AdInfoWidget extends StatelessWidget {
                               5, 0, 20, 0),
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(
-                                  context, '/main/aqar_vr',
-                                  arguments: {
-                                    'id_description': mutualProv
-                                        .adsPage
-                                        .first
-                                        .idDescription,
-                                  });
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) =>
+                                      ChangeNotifierProvider<AqarVRProvider>(
+                                        create: (_) => AqarVRProvider(),
+                                        child: AqarVR(),
+                                      )
+                                  ));
+                              // Navigator.pushNamed(
+                              //     context, '/main/aqar_vr',
+                              //     arguments: {
+                              //       'id_description': mutualProv
+                              //           .adsPage
+                              //           .first
+                              //           .idDescription,
+                              //     });
                             },
                             child: Text(
                               AppLocalizations.of(context).reVR,
                               style: CustomTextStyle(
-
                                 fontSize: 15,
                                 color: const Color(0xff00cccc),
                               ).getTextStyle(),

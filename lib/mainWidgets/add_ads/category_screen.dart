@@ -84,6 +84,7 @@ class CategoryScreen extends StatelessWidget {
         onWillPop: _onBackPressed,
         child: Scaffold(
           appBar: AppBar(
+          centerTitle: true,
             backgroundColor: const Color(0xff00cccc),
             title: Center(
               widthFactor: 2.5,
@@ -109,6 +110,7 @@ class CategoryScreen extends StatelessWidget {
             ),
           ),
           body: Consumer<AddAdProvider>(builder: (context, addAds, child) {
+            print("CategoryScreen -> AddAdProvider");
             return addAds.categoryAddAds.isNotEmpty
                 ?
             Padding(

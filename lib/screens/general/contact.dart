@@ -18,12 +18,11 @@ class Contact extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<GeneralProvider>(builder: (context, contact, child) {
-
-      print("Contact -> GeneralProvider");
-
-      return Scaffold(
+    final contact = Provider.of(context, listen: false);
+    print("Contact -> GeneralProvider");
+    return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           toolbarHeight: 80.0,
           leadingWidth: 100,
           leading: Padding(
@@ -57,192 +56,248 @@ class Contact extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      AppLocalizations.of(context).name,
-                      style: CustomTextStyle(
-
-                        fontSize: 15,
-                        color: const Color(0xff000000),
-                      ).getTextStyle(),
-                      textAlign: TextAlign.right,
-                      textDirection: TextDirection.rtl,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context).name,
-                      fillColor: const Color(0xff989696),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(),
-                      ),
-                    ),
-                    style: CustomTextStyle(
-
-                      fontSize: 13,
-                      color: const Color(0xff989696),
-                    ).getTextStyle(),
+                ContactTextField(
+                    text: AppLocalizations.of(context).name,
                     keyboardType: TextInputType.text,
-                    minLines: 1,
-                    maxLines: 1,
+                    onSaved: (String value) {
+                      contact.setName(value);
+                    },
                     validator: (String value) {
                       if (value.isEmpty) {
                         return AppLocalizations.of(context).reqName;
                       }
                       return null;
                     },
-                    onSaved: (String value) {
-                      contact.setName(value);
-                    },
-                  ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      AppLocalizations.of(context).mobileNumber,
-                      style: CustomTextStyle(
+                ContactTextField(
+                  text: AppLocalizations.of(context).mobileNumber,
+                  keyboardType: TextInputType.number,
+                  onSaved: (String value) {
+                    contact.filterPhone(value);
+                  },
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return AppLocalizations.of(context).reqMob;
+                    } else if (!regExpPhone.hasMatch(value)) {
+                      return AppLocalizations.of(context).reqSaudiMob;
+                    }
+                    return null;
+                  },
+                ),
+                ContactTextField(
+                  text: AppLocalizations.of(context).title,
+                  keyboardType: TextInputType.text,
+                  onSaved: (String value) {
+                    contact.setTitle(value);
+                  },
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return AppLocalizations.of(context).reqTitle;
+                    }
+                    return null;
+                  },
+                ),
+                ContactTextField(
+                  text: AppLocalizations.of(context).message,
+                  keyboardType: TextInputType.text,
+                  onSaved: (String value) {
+                    contact.setDetails(value);
+                  },
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return AppLocalizations.of(context).reqMess;
+                    }
+                    return null;
+                  },
+                ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
+                //   child: SizedBox(
+                //     width: double.infinity,
+                //     child: Text(
+                //       AppLocalizations.of(context).name,
+                //       style: CustomTextStyle(
+                //
+                //         fontSize: 15,
+                //         color: const Color(0xff000000),
+                //       ).getTextStyle(),
+                //       textAlign: TextAlign.right,
+                //       textDirection: TextDirection.rtl,
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                //   child: TextFormField(
+                //     decoration: InputDecoration(
+                //       labelText: AppLocalizations.of(context).name,
+                //       fillColor: const Color(0xff989696),
+                //       border: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(10.0),
+                //         borderSide: BorderSide(),
+                //       ),
+                //     ),
+                //     style: CustomTextStyle(
+                //       fontSize: 13,
+                //       color: const Color(0xff989696),
+                //     ).getTextStyle(),
+                //     keyboardType: TextInputType.text,
+                //     minLines: 1,
+                //     maxLines: 1,
+                //     validator: (String value) {
+                //       if (value.isEmpty) {
+                //         return AppLocalizations.of(context).reqName;
+                //       }
+                //       return null;
+                //     },
+                //     onSaved: (String value) {
+                //       contact.setName(value);
+                //     },
+                //   ),
+                // ),
+                //
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
+                //   child: SizedBox(
+                //     width: double.infinity,
+                //     child: Text(
+                //       AppLocalizations.of(context).mobileNumber,
+                //       style: CustomTextStyle(
+                //         fontSize: 15,
+                //         color: const Color(0xff000000),
+                //       ).getTextStyle(),
+                //       textAlign: TextAlign.right,
+                //       textDirection: TextDirection.rtl,
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                //   child: TextFormField(
+                //     decoration: InputDecoration(
+                //       labelText: AppLocalizations.of(context).mobileNumber,
+                //       fillColor: const Color(0xff989696),
+                //       border: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(10.0),
+                //         borderSide: BorderSide(),
+                //       ),
+                //     ),
+                //     style: CustomTextStyle(
+                //
+                //       fontSize: 13,
+                //       color: const Color(0xff989696),
+                //     ).getTextStyle(),
+                //     keyboardType: TextInputType.number,
+                //     minLines: 1,
+                //     maxLines: 1,
+                //     validator: (String value) {
+                //       if (value.isEmpty) {
+                //         return AppLocalizations.of(context).reqMob;
+                //       } else if (!regExpPhone.hasMatch(value)) {
+                //         return AppLocalizations.of(context).reqSaudiMob;
+                //       }
+                //       return null;
+                //     },
+                //     onSaved: (String value) {
+                //       contact.filterPhone(value);
+                //     },
+                //   ),
+                // ),
+                //
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
+                //   child: SizedBox(
+                //     width: double.infinity,
+                //     child: Text(
+                //       AppLocalizations.of(context).title,
+                //       style: CustomTextStyle(
+                //
+                //         fontSize: 15,
+                //         color: const Color(0xff000000),
+                //       ).getTextStyle(),
+                //       textAlign: TextAlign.right,
+                //       textDirection: TextDirection.rtl,
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                //   child: TextFormField(
+                //     decoration: InputDecoration(
+                //       labelText: AppLocalizations.of(context).title,
+                //       fillColor: const Color(0xff989696),
+                //       border: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(10.0),
+                //         borderSide: BorderSide(),
+                //       ),
+                //     ),
+                //     style: CustomTextStyle(
+                //
+                //       fontSize: 13,
+                //       color: const Color(0xff989696),
+                //     ).getTextStyle(),
+                //     keyboardType: TextInputType.text,
+                //     minLines: 1,
+                //     maxLines: 1,
+                //     validator: (String value) {
+                //       if (value.isEmpty) {
+                //         return AppLocalizations.of(context).reqTitle;
+                //       }
+                //       return null;
+                //     },
+                //     onSaved: (String value) {
+                //       contact.setTitle(value);
+                //     },
+                //   ),
+                // ),
+                //
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
+                //   child: SizedBox(
+                //     width: double.infinity,
+                //     child: Text(
+                //       AppLocalizations.of(context).message,
+                //       style: CustomTextStyle(
+                //
+                //         fontSize: 15,
+                //         color: const Color(0xff000000),
+                //       ).getTextStyle(),
+                //       textAlign: TextAlign.right,
+                //       textDirection: TextDirection.rtl,
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                //   child: TextFormField(
+                //     decoration: InputDecoration(
+                //       labelText: AppLocalizations.of(context).message,
+                //       fillColor: Colors.white,
+                //       border: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(10.0),
+                //         borderSide: BorderSide(),
+                //       ),
+                //     ),
+                //     style: CustomTextStyle(
+                //
+                //       fontSize: 13,
+                //       color: const Color(0xff989696),
+                //     ).getTextStyle(),
+                //     keyboardType: TextInputType.text,
+                //     minLines: 4,
+                //     maxLines: 4,
+                //     validator: (String value) {
+                //       if (value.isEmpty) {
+                //         return AppLocalizations.of(context).reqMess;
+                //       }
+                //       return null;
+                //     },
+                //     onSaved: (String value) {
+                //       contact.setDetails(value);
+                //     },
+                //   ),
+                // ),
 
-                        fontSize: 15,
-                        color: const Color(0xff000000),
-                      ).getTextStyle(),
-                      textAlign: TextAlign.right,
-                      textDirection: TextDirection.rtl,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context).mobileNumber,
-                      fillColor: const Color(0xff989696),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(),
-                      ),
-                    ),
-                    style: CustomTextStyle(
-
-                      fontSize: 13,
-                      color: const Color(0xff989696),
-                    ).getTextStyle(),
-                    keyboardType: TextInputType.number,
-                    minLines: 1,
-                    maxLines: 1,
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return AppLocalizations.of(context).reqMob;
-                      } else if (!regExpPhone.hasMatch(value)) {
-                        return AppLocalizations.of(context).reqSaudiMob;
-                      }
-                      return null;
-                    },
-                    onSaved: (String value) {
-                      contact.filterPhone(value);
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      AppLocalizations.of(context).title,
-                      style: CustomTextStyle(
-
-                        fontSize: 15,
-                        color: const Color(0xff000000),
-                      ).getTextStyle(),
-                      textAlign: TextAlign.right,
-                      textDirection: TextDirection.rtl,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context).title,
-                      fillColor: const Color(0xff989696),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(),
-                      ),
-                    ),
-                    style: CustomTextStyle(
-
-                      fontSize: 13,
-                      color: const Color(0xff989696),
-                    ).getTextStyle(),
-                    keyboardType: TextInputType.text,
-                    minLines: 1,
-                    maxLines: 1,
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return AppLocalizations.of(context).reqTitle;
-                      }
-                      return null;
-                    },
-                    onSaved: (String value) {
-                      contact.setTitle(value);
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      AppLocalizations.of(context).message,
-                      style: CustomTextStyle(
-
-                        fontSize: 15,
-                        color: const Color(0xff000000),
-                      ).getTextStyle(),
-                      textAlign: TextAlign.right,
-                      textDirection: TextDirection.rtl,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context).message,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(),
-                      ),
-                    ),
-                    style: CustomTextStyle(
-
-                      fontSize: 13,
-                      color: const Color(0xff989696),
-                    ).getTextStyle(),
-                    keyboardType: TextInputType.text,
-                    minLines: 4,
-                    maxLines: 4,
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return AppLocalizations.of(context).reqMess;
-                      }
-                      return null;
-                    },
-                    onSaved: (String value) {
-                      contact.setDetails(value);
-                    },
-                  ),
-                ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(100, 15, 100, 30),
                   child: Container(
@@ -283,6 +338,65 @@ class Contact extends StatelessWidget {
           ),
         ),
       );
-    });
+  }
+}
+
+
+class ContactTextField extends StatelessWidget {
+  const ContactTextField({
+    Key key,
+    @required this.text,
+    @required this.keyboardType,
+    @required this.onSaved,
+    @required this.validator,
+  }) : super(key: key);
+  final String text;
+  final TextInputType keyboardType;
+  final Function(String) validator;
+  final Function(String) onSaved;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
+          child: SizedBox(
+            width: double.infinity,
+            child: Text(
+              text,
+              style: CustomTextStyle(
+                fontSize: 15,
+                color: const Color(0xff000000),
+              ).getTextStyle(),
+              textAlign: TextAlign.right,
+              textDirection: TextDirection.rtl,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+          child: TextFormField(
+            decoration: InputDecoration(
+              labelText: text,
+              fillColor: const Color(0xff989696),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(),
+              ),
+            ),
+            style: CustomTextStyle(
+              fontSize: 13,
+              color: const Color(0xff989696),
+            ).getTextStyle(),
+            keyboardType: keyboardType,
+            minLines: text == AppLocalizations.of(context).message ? 4 : 1,
+            maxLines: text == AppLocalizations.of(context).message ? 4 : 1,
+            validator: validator,
+            onSaved: onSaved,
+          ),
+        ),
+      ],
+    );
   }
 }
