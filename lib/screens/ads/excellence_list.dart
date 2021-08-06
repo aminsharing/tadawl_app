@@ -198,7 +198,7 @@ class ExcellenceList extends StatelessWidget {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: CachedNetworkImageProvider(
-                                    'https://tadawl.com.sa/API/assets/images/ads/' +
+                                    'https://tadawl-store.com/API/assets/images/ads/' +
                                             ads[i].ads_image ??
                                         ''),
                               ),
@@ -215,7 +215,7 @@ class ExcellenceList extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
                                     image: const CachedNetworkImageProvider(
-                                        'https://tadawl.com.sa/API/assets/images/logo22.png'),
+                                        'https://tadawl-store.com/API/assets/images/logo22.png'),
                                     fit: BoxFit.cover,
                                   ),
                                 ),

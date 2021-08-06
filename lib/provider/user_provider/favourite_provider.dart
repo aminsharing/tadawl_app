@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 
 class FavouriteProvider extends ChangeNotifier{
 
-  FavouriteProvider(){
+  FavouriteProvider(String _phone){
     print("FavouriteProvider init");
-    getSession().then((value) {
-      if(value != null) {
-        getUserAdsFavList(value);
-      }
-    });
+    getUserAdsFavList(_phone);
   }
 
   @override
@@ -20,16 +15,9 @@ class FavouriteProvider extends ChangeNotifier{
     super.dispose();
   }
 
-  String _phone;
+
   final List<AdsModel> _userAdsFav = [];
   List _UserAdsFavData = [];
-
-
-  Future<String> getSession() async {
-    var p = await SharedPreferences.getInstance();
-    _phone = p.getString('token');
-    return _phone;
-  }
 
   void getUserAdsFavList(String Phone) {
     Future.delayed(Duration(milliseconds: 0), () {
@@ -83,6 +71,5 @@ class FavouriteProvider extends ChangeNotifier{
 
 
   List<AdsModel> get userAdsFav => _userAdsFav;
-
 
 }

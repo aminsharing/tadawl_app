@@ -140,7 +140,8 @@ class NewAcount extends StatelessWidget {
                               }
                               _formNewAccountKey.currentState.save();
                               var url =
-                                  'https://www.tadawl.com.sa/API/api_app/login/new_account.php';
+                                  // 'https://www.tadawl.com.sa/API/api_app/login/new_account.php';
+                                  'https://www.tadawl-store.com/API/api_app/login/new_account.php';
                               var response = await http.post(url, body: {
                                 'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
                                 'phone': newAccount.newAccountPhone,
@@ -165,11 +166,11 @@ class NewAcount extends StatelessWidget {
                                     backgroundColor: Colors.green,
                                     textColor: Colors.white,
                                     fontSize: 15.0);
-                                newAccount..saveSession(newAccount.newAccountPhone);
+                                // await newAccount.saveSession(newAccount.newAccountPhone);
                                 await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => VerifyAccount()),
+                                      builder: (context) => VerifyAccount(newAccount.newAccountPhone)),
                                 );
                               }
                             },

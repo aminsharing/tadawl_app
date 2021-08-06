@@ -3,11 +3,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class BuildCellar extends StatelessWidget {
   const BuildCellar({Key key, this.searchDrawer}) : super(key: key);
-  final MainPageProvider searchDrawer;
+  final SearchDrawerProvider searchDrawer;
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +25,8 @@ class BuildCellar extends StatelessWidget {
             ).getTextStyle(),
             textAlign: TextAlign.center,
           ),
-          Consumer<MainPageProvider>(builder: (context, searchDrawer, child) {
-            print("BuildCellar -> MainPageProvider");
+          Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
+            print("BuildCellar -> SearchDrawerProvider");
             return FlutterSwitch(
               activeColor: const Color(0xff00cccc),
               width: 40.0,

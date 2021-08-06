@@ -4,19 +4,22 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ChangePassProvider extends ChangeNotifier{
   ChangePassProvider(){
     print("ChangePassProvider init");
-    getSession().then((value) {
-      print("ChangePassProvider _phone $_phone");
-    });
   }
   String _newPass, _reNewPass;
   int _current_stage;
   String _verificationCode;
-  String _phone;
 
   @override
   void dispose() {
     print("ChangePassProvider dispose");
     super.dispose();
+  }
+
+  Future<void> saveSession(String phone) async {
+    var p = await SharedPreferences.getInstance();
+    await p.setString('token', phone.toString());
+    // ignore: deprecated_member_use
+    await p.commit();
   }
 
   void setReNewPass(String reNewPass) {
@@ -39,16 +42,8 @@ class ChangePassProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future getSession() async {
-    var p = await SharedPreferences.getInstance();
-    _phone = p.getString('token');
-    // notifyListeners(); // TODO this case problem because provider repeating this func too many times
-  }
-
   String get newPass => _newPass;
   String get reNewPass => _reNewPass;
   int get current_stage => _current_stage;
   String get verificationCode => _verificationCode;
-  String get phone => _phone;
-
 }

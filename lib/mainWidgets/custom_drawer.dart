@@ -5,7 +5,6 @@ import 'package:tadawl_app/mainWidgets/custom_drawer/custom_drawer_header.dart';
 import 'package:tadawl_app/mainWidgets/custom_drawer/drawer_button.dart';
 import 'package:tadawl_app/mainWidgets/custom_drawer/nav_button.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/special_offers_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/today_ads_provider.dart';
 import 'package:tadawl_app/provider/general_provider.dart';
@@ -46,12 +45,11 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
 
 
-    Provider.of<UserMutualProvider>(context, listen: false).getSession();
-    var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
 
     var mediaQuery = MediaQuery.of(context);
-    var provider = Provider.of<LocaleProvider>(context, listen: false);
-    var _lang = provider.locale.toString();
+    var locale = Provider.of<LocaleProvider>(context, listen: false);
+    var _lang = locale.locale.toString();
+    final UserMutualProvider userMutualProvider = UserMutualProvider(locale.phone);
 
     return Scaffold(
       appBar: AppBar(
@@ -62,11 +60,11 @@ class CustomDrawer extends StatelessWidget {
           child: TextButton(
             onPressed: () {
               if(_lang != 'en_US'){
-                provider.setLocale(L10n.all.first);
+                locale.setLocale(L10n.all.first);
               }else{
-                provider.setLocale(L10n.all.last);
+                locale.setLocale(L10n.all.last);
               }
-              Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
+              // Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => Home()),
@@ -125,45 +123,6 @@ class CustomDrawer extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        width: double.infinity,
-        height: 60,
-        color: Color(0xffffffff),
-        child: Column(
-          children: [
-            Divider(
-              color: Color(0xff989898),
-              thickness: 1,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  NavButton(
-                      text: AppLocalizations.of(context).contactUs,
-                      page: ChangeNotifierProvider<GeneralProvider>(
-                        create: (_) => GeneralProvider(),
-                        child: Contact(),
-                      ),
-                  ),
-                  NavButton(
-                      text: AppLocalizations.of(context).privacyPolicy,
-                      page: ChangeNotifierProvider<GeneralProvider>(
-                        create: (_) => GeneralProvider(),
-                        child: PrivacyPolicy(),
-                      ),
-                  ),
-                  NavButton(
-                      text: AppLocalizations.of(context).about,
-                      page: About(),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
       backgroundColor: const Color(0xffffffff),
       body: Container(
         color: Color(0xffffffff),
@@ -175,34 +134,48 @@ class CustomDrawer extends StatelessWidget {
             children: <Widget>[
               Column(
                 children: [
-                  CustomDrawerHeader(_phone),
+                  ChangeNotifierProvider<UserMutualProvider>(
+                    create: (_) => userMutualProvider,
+                    child: CustomDrawerHeader(userMutualProvider: userMutualProvider),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       DrawerButton(
                           icon: Icons.add_outlined,
                           text: AppLocalizations.of(context).addAds,
-                          page: _phone != null ? AddAds() : Login(),
+                          page: locale.phone != null ? AddAds() : Login(),
                       ),
                       DrawerButton(
                           icon: Icons.library_books_rounded,
                           text: AppLocalizations.of(context).myAds,
-                          page: _phone != null ? MyAds() : Login(),
+                          page: locale.phone != null
+                              ?
+                          ChangeNotifierProvider<UserMutualProvider>(
+                            create: (_) => UserMutualProvider(locale.phone),
+                            child: MyAds(),
+                          )
+                              :
+                          Login(),
                       ),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      DrawerButton(icon: Icons.message_rounded, text: AppLocalizations.of(context).messages, page: _phone != null ? DiscussionList() : Login()),
+                      DrawerButton(
+                          icon: Icons.message_rounded,
+                          text: AppLocalizations.of(context).messages,
+                          page: locale.phone != null ? DiscussionList() : Login()
+                      ),
                       DrawerButton(
                           icon: Icons.star_border_outlined,
                           text: AppLocalizations.of(context).favourite,
                           page:
-                          _phone != null
+                          locale.phone != null
                               ?
                           ChangeNotifierProvider<FavouriteProvider>(
-                            create: (_) => FavouriteProvider(),
+                            create: (_) => FavouriteProvider(locale.phone),
                             child: Favourite(),
                           )
                               :
@@ -213,15 +186,31 @@ class CustomDrawer extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      DrawerButton(icon: Icons.account_balance, text: AppLocalizations.of(context).realEstateEmptying, page: RealEstateEmptyingService()),
-                      DrawerButton(icon: Icons.recent_actors_outlined, text: AppLocalizations.of(context).leaseContracts, page: LeaseContracts()),
+                      DrawerButton(
+                          icon: Icons.account_balance,
+                          text: AppLocalizations.of(context).realEstateEmptying,
+                          page: RealEstateEmptyingService()
+                      ),
+                      DrawerButton(
+                          icon: Icons.recent_actors_outlined,
+                          text: AppLocalizations.of(context).leaseContracts,
+                          page: LeaseContracts()
+                      ),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      DrawerButton(icon: Icons.apartment_outlined, text: AppLocalizations.of(context).exclusiveMarketing, page: ExclusiveMarketing()),
-                      DrawerButton(icon: Icons.hotel, text: AppLocalizations.of(context).contractConstruction, page: ConstructionContracting()),
+                      DrawerButton(
+                          icon: Icons.apartment_outlined,
+                          text: AppLocalizations.of(context).exclusiveMarketing,
+                          page: ExclusiveMarketing()
+                      ),
+                      DrawerButton(
+                          icon: Icons.hotel,
+                          text: AppLocalizations.of(context).contractConstruction,
+                          page: ConstructionContracting()
+                      ),
                     ],
                   ),
                   Row(
@@ -248,11 +237,15 @@ class CustomDrawer extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      DrawerButton(icon: Icons.payments_rounded, text: AppLocalizations.of(context).advFees, page: AdvertisingFee()),
+                      DrawerButton(
+                          icon: Icons.payments_rounded,
+                          text: AppLocalizations.of(context).advFees,
+                          page: AdvertisingFee(),
+                      ),
                       DrawerButton(
                           icon: Icons.notifications_rounded,
                           text: AppLocalizations.of(context).requests,
-                          page: _phone != null
+                          page: locale.phone != null
                               ?
                           ChangeNotifierProvider<RequestProvider>(
                             create: (_) => RequestProvider(),
@@ -273,6 +266,45 @@ class CustomDrawer extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        width: double.infinity,
+        height: 60,
+        color: Color(0xffffffff),
+        child: Column(
+          children: [
+            Divider(
+              color: Color(0xff989898),
+              thickness: 1,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  NavButton(
+                    text: AppLocalizations.of(context).contactUs,
+                    page: ChangeNotifierProvider<GeneralProvider>(
+                      create: (_) => GeneralProvider(),
+                      child: Contact(),
+                    ),
+                  ),
+                  NavButton(
+                    text: AppLocalizations.of(context).privacyPolicy,
+                    page: ChangeNotifierProvider<GeneralProvider>(
+                      create: (_) => GeneralProvider(),
+                      child: PrivacyPolicy(),
+                    ),
+                  ),
+                  NavButton(
+                    text: AppLocalizations.of(context).about,
+                    page: About(),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

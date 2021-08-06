@@ -6,8 +6,8 @@ import 'package:tadawl_app/mainWidgets/discussion/msg_bottom_button.dart';
 import 'package:tadawl_app/mainWidgets/discussion/msg_receive_time.dart';
 import 'package:tadawl_app/mainWidgets/discussion/msg_send_field.dart';
 import 'package:tadawl_app/models/message_model.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
 class Constants {
   static const String banMessaging = 'حظر المراسلة';
@@ -30,6 +30,7 @@ class Discussion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
     final msgProv = Provider.of<MsgProvider>(context, listen: false);
     msgProv.initScrollDown();
 
@@ -40,8 +41,7 @@ class Discussion extends StatelessWidget {
       // var phone_user;
       // ignore: omit_local_variable_types
       // Map data = {};
-      Provider.of<UserMutualProvider>(context, listen: false).getSession();
-      var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
+
 
       // data = ModalRoute
       //     .of(context)
@@ -114,8 +114,8 @@ class Discussion extends StatelessWidget {
               height: mediaQuery.size.height * 0.75,
               child: Consumer<MsgProvider>(builder: (context, mainChat, child) {
                 print("Discussion -> MsgProvider");
-                mainChat.getConvInfo(context, _phone);
-                mainChat.getCommentUser(context, phone_user, _phone);
+                mainChat.getConvInfo(context, locale.phone);
+                mainChat.getCommentUser(context, phone_user, locale.phone);
                 return StreamBuilder(
                   stream: mainChat.streamChatController.stream,
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -131,8 +131,8 @@ class Discussion extends StatelessWidget {
                         itemBuilder: (context, i){
                           return Column(
                             children: [
-                              MsgBody(_phone, msgs: msgs[i]),
-                              MsgReceiveTime(_phone, msgs: msgs[i]),
+                              MsgBody(locale.phone, msgs: msgs[i]),
+                              MsgReceiveTime(locale.phone, msgs: msgs[i]),
                             ],
                           );
                         },

@@ -9,6 +9,7 @@ import 'package:tadawl_app/mainWidgets/my_account/mutual/body/user_last_seen.dar
 import 'package:tadawl_app/mainWidgets/my_account/mutual/body/user_name.dart';
 import 'package:tadawl_app/mainWidgets/my_account/mutual/body/user_registered_date.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -17,8 +18,9 @@ class AvatarInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
     var mediaQuery = MediaQuery.of(context);
-
+    Provider.of<UserMutualProvider>(context, listen: false).getUsersList(locale.phone);
     return SizedBox(
       width: mediaQuery.size.width,
       height: 250,
@@ -27,20 +29,20 @@ class AvatarInfo extends StatelessWidget {
         child: Consumer<UserMutualProvider>(builder: (context, userMutual, child) {
           userMutual.getAvatarList(userMutual.userPhone);
           userMutual.getUserAdsList(userMutual.userPhone);
-          userMutual.getUsersList(userMutual.phone);
+
 
           void sendEstimate() async {
             Future.delayed(Duration(milliseconds: 0), () {
               Api().sendEstimateFunc(
-                  userMutual.phone, userMutual.userPhone, userMutual.rating, userMutual.commentRating);
+                  locale.phone, userMutual.userPhone, userMutual.rating, userMutual.commentRating);
             });
 
-            userMutual.getAvatarList(userMutual.userPhone ?? userMutual.phone);
-            userMutual.getUserAdsList(userMutual.userPhone ?? userMutual.phone);
-            userMutual.getEstimatesInfo(userMutual.userPhone ?? userMutual.phone);
-            userMutual.getSumEstimatesInfo(userMutual.userPhone ?? userMutual.phone);
-            userMutual.checkOfficeInfo(userMutual.userPhone ?? userMutual.phone);
-            userMutual.setUserPhone(userMutual.userPhone ?? userMutual.phone);
+            userMutual.getAvatarList(userMutual.userPhone ?? locale.phone);
+            userMutual.getUserAdsList(userMutual.userPhone ?? locale.phone);
+            userMutual.getEstimatesInfo(userMutual.userPhone ?? locale.phone);
+            userMutual.getSumEstimatesInfo(userMutual.userPhone ?? locale.phone);
+            userMutual.checkOfficeInfo(userMutual.userPhone ?? locale.phone);
+            userMutual.setUserPhone(userMutual.userPhone ?? locale.phone);
 
             // Future.delayed(Duration(seconds: 0), () {
             //   Navigator.push(context,
@@ -82,28 +84,42 @@ class AvatarInfo extends StatelessWidget {
           void _callNumber() async {
             if (userMutual.estimates.isNotEmpty) {
               for (var i = 0; i < userMutual.countEstimates(); i++) {
-                if (userMutual.estimates[i].phone_user == userMutual.phone &&
+                if (userMutual.estimates[i].phone_user == locale.phone &&
                     userMutual.estimates[i].phone_user_estimated == userMutual.userPhone) {
                   userMutual.setCalled();
                 }
               }
               if (userMutual.called == 1) {
               } else {
-                _showRatingDialog();
+                // _showRatingDialog();
               }
             } else {
-              _showRatingDialog();
+              // _showRatingDialog();
             }
-            if (userMutual.userPhone == userMutual.phone) {
-              var number = '+${userMutual.phone}';
-              await FlutterPhoneDirectCaller.callNumber(number);
+            if (userMutual.userPhone == locale.phone) {
+              var number = '+${locale.phone}';
+              await FlutterPhoneDirectCaller.callNumber(number).then((value) {
+                print("callNumberr value: $value");
+                if(value){
+                  Future.delayed(Duration(seconds: 5), (){
+                    _showRatingDialog();
+                  });
+                }
+              });
             } else {
               var number = '+${userMutual.userPhone}';
-              await FlutterPhoneDirectCaller.callNumber(number);
+              await FlutterPhoneDirectCaller.callNumber(number).then((value) {
+                print("callNumberr value: $value");
+                if(value){
+                  Future.delayed(Duration(seconds: 5), (){
+                    _showRatingDialog();
+                  });
+                }
+              });
             }
           }
 
-          if(userMutual.avatars.isEmpty){
+          if(userMutual.avatars == null){
             return Center(child: CircularProgressIndicator());
           }
           return Row(
@@ -112,9 +128,9 @@ class AvatarInfo extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  userMutual.avatars.isNotEmpty
+                  userMutual.avatars != null
                       ?
-                  UserImage(imageName: userMutual.avatars.first.image,)
+                  UserImage(imageName: userMutual.avatars.image??'',)
                       :
                   Container(
                     width: 150.0,
@@ -135,9 +151,9 @@ class AvatarInfo extends StatelessWidget {
                 mainAxisAlignment:
                 MainAxisAlignment.center,
                 children: [
-                  UserName(username: userMutual.avatars.first.username),
-                  UserRegisteredDate(timeRegistered: userMutual.avatars.first.timeRegistered),
-                  UserLastSeen(lastSeen: Jiffy(DateTime.parse(userMutual.avatars.first.lastActive ?? '').add(Duration(hours: 3))).fromNow()),
+                  UserName(username: userMutual.avatars.username),
+                  UserRegisteredDate(timeRegistered: userMutual.avatars.timeRegistered),
+                  UserLastSeen(lastSeen: Jiffy(DateTime.parse(userMutual.avatars.lastActive ?? '').add(Duration(hours: 3))).fromNow()),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(
                         0, 30, 0, 30),

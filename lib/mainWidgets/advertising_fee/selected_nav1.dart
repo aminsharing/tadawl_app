@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tadawl_app/mainWidgets/advertising_fee/fee_card.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tadawl_app/provider/ads_provider/adv_fee_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 
 class SelectedNav1 extends StatelessWidget {
-  const SelectedNav1({Key key}) : super(key: key);
+  const SelectedNav1({Key key, @required this.advFeeProvider}) : super(key: key);
+  final AdvFeeProvider advFeeProvider;
 
   void launchWhatsApp2() async {
     final link = WhatsAppUnilink(
@@ -37,8 +39,20 @@ class SelectedNav1 extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    FeeCard(selectedNav: [AppLocalizations.of(context).rentalFees,AppLocalizations.of(context).rule17], price: '60', type: 'رسوم التأجير', cardType: CardType.medium,),
-                    FeeCard(selectedNav: [AppLocalizations.of(context).sellingFees,AppLocalizations.of(context).rule18], price: '475', type: 'رسوم البيع', cardType: CardType.medium),
+                    FeeCard(
+                      selectedNav: [AppLocalizations.of(context).rentalFees,AppLocalizations.of(context).rule17],
+                      price: '60',
+                      type: 'رسوم التأجير',
+                      cardType: CardType.medium,
+                      advFeeProvider: advFeeProvider,
+                    ),
+                    FeeCard(
+                        selectedNav: [AppLocalizations.of(context).sellingFees,AppLocalizations.of(context).rule18],
+                        price: '475',
+                        type: 'رسوم البيع',
+                        cardType: CardType.medium,
+                      advFeeProvider: advFeeProvider,
+                    ),
                   ],
                 ),
               ),

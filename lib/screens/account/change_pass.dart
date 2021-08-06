@@ -6,10 +6,10 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/change_pass_provider.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
-import 'package:tadawl_app/screens/ads/main_page.dart';
+import 'package:tadawl_app/screens/general/home.dart';
 
 class ChangePass extends StatelessWidget {
   ChangePass({
@@ -20,6 +20,7 @@ class ChangePass extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
     return Consumer<ChangePassProvider>(builder: (context, changePass, child) {
 
       print("ChangePass -> ChangePassProvider");
@@ -151,10 +152,10 @@ class ChangePass extends StatelessWidget {
                       } else {
                         _changePassKey.currentState.save();
                         var url =
-                            'https://tadawl.com.sa/API/api_app/login/change_pass.php';
+                            'https://tadawl-store.com/API/api_app/login/change_pass.php';
                         var response = await http.post(url, body: {
                           'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
-                          'phone': changePass.phone,
+                          'phone': locale.phone,
                           'newPass': changePass.newPass,
                           'reNewPass': changePass.reNewPass,
                         });
@@ -190,22 +191,20 @@ class ChangePass extends StatelessWidget {
                               fontSize: 15.0);
 
                           var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
-                          userMutual.getAvatarList(userMutual.phone);
-                          userMutual.getUserAdsList(userMutual.phone);
-                          userMutual.getEstimatesInfo(userMutual.phone);
-                          userMutual.getSumEstimatesInfo(userMutual.phone);
-                          userMutual.checkOfficeInfo(userMutual.phone);
-
-                          userMutual.setUserPhone(userMutual.phone);
+                          userMutual.getAvatarList(locale.phone);
+                          userMutual.getUserAdsList(locale.phone);
+                          userMutual.getEstimatesInfo(locale.phone);
+                          userMutual.getSumEstimatesInfo(locale.phone);
+                          userMutual.checkOfficeInfo(locale.phone);
+                          userMutual.setUserPhone(locale.phone);
 
                           Future.delayed(Duration(seconds: 1), () {
-                            Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
-                            Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      MainPage()),
+                            // Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
+                            // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(builder: (context) => Home()),
+                                ModalRoute.withName('/Home')
                             );
                           });
                         }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:tadawl_app/mainWidgets/constans.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 class BuildAgeOfRealEstate extends StatelessWidget {
@@ -41,8 +42,8 @@ class BuildAgeOfRealEstate extends StatelessWidget {
                 child: DropdownButtonHideUnderline(
                   child: ButtonTheme(
                     alignedDropdown: true,
-                    child: Consumer<MainPageProvider>(builder: (context, searchDrawer, child) {
-                      print("BuildAgeOfRealEstate -> MainPageProvider");
+                    child: Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
+                      print("BuildAgeOfRealEstate -> SearchDrawerProvider");
                       return DropdownButton<String>(
                         hint: Text(
                           AppLocalizations.of(context).ageOfRealEstate,
@@ -65,7 +66,7 @@ class BuildAgeOfRealEstate extends StatelessWidget {
                             .locale
                             .toString() !=
                             'en_US'
-                            ? searchDrawer.AgeOfRealEstate.map((Map map) {
+                            ? AgeOfRealEstateCons.map((Map map) {
                           return DropdownMenuItem<String>(
                             value: map['id_type'].toString(),
                             child: Row(
@@ -85,7 +86,7 @@ class BuildAgeOfRealEstate extends StatelessWidget {
                             ),
                           );
                         }).toList()
-                            : searchDrawer.EnAgeOfRealEstate.map((Map map) {
+                            : EnAgeOfRealEstateCons.map((Map map) {
                           return DropdownMenuItem<String>(
                             value: map['id_type'].toString(),
                             child: Row(

@@ -40,8 +40,8 @@ import 'ads_details_screen/switchers/yard.dart';
 
 
 class AdsDetailsScreen extends StatelessWidget {
-  const AdsDetailsScreen({Key key}) : super(key: key);
-
+  const AdsDetailsScreen(this.addAdProvider ,{Key key}) : super(key: key);
+  final AddAdProvider addAdProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +152,12 @@ class AdsDetailsScreen extends StatelessWidget {
                     _onInterfaceCheck();
                   } else {
                     // addAds.setCurrentStageAddAds(6);
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AdsPriceScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                    ChangeNotifierProvider<AddAdProvider>.value(
+                      value: addAdProvider,
+                      child: AdsPriceScreen(addAdProvider),
+                    )
+                    ));
                   }
                 },
                 child: Padding(

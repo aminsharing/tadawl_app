@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/update_details/stage_0.dart';
-import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
 
 
@@ -14,6 +13,8 @@ class UpdateDetails extends StatelessWidget {
   }) : super(key: key);
   final String _id_description;
 
+  final UpdateDetailsProvider updateDetailsProvider = UpdateDetailsProvider();
+
   @override
   Widget build(BuildContext context) {
       // var mediaQuery = MediaQuery.of(context);
@@ -23,8 +24,11 @@ class UpdateDetails extends StatelessWidget {
       // var _id_description = data['id_description'];
       // var provider = Provider.of<LocaleProvider>(context, listen: false);
       // var _lang = provider.locale.toString();
-      Provider.of<UpdateDetailsProvider>(context, listen: false).getCategoryeInfoUpdate(context);
-      Provider.of<AdPageProvider>(context, listen: false).getAdsPageInfoUpdateDetails(context, _id_description);
-      return Stage0(_id_description);
+
+
+      return ChangeNotifierProvider<UpdateDetailsProvider>(
+        create: (_) => updateDetailsProvider,
+        child: Stage0(_id_description, updateDetailsProvider: updateDetailsProvider),
+      );
   }
 }

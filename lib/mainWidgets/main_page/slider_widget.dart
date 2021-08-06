@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tadawl_app/mainWidgets/constans.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 class SliderWidget extends StatelessWidget {
@@ -103,62 +104,18 @@ class SliderWidget extends StatelessWidget {
                                       if (_lang != 'en_US')
                                         Column(
                                           children: [
-                                            for (var i = 0; i < mainPage.categories.length; i++)
+                                            for (var i = 0; i < categoriesCons().length; i++)
                                               TextButton(
                                                 onPressed: () {
-
-                                                  mainPage.setIdCategorySearch(mainPage.categories[i]['id_category']);
-                                                  Provider.of<MenuProvider>(context,listen: false)
-                                                      .setFilterSearchDrawer(1);
-                                                  Provider.of<MenuProvider>(context,listen: false)
-                                                      .setMenuMainFilterAds(2);
-                                                  Provider.of<MenuProvider>(context,listen: false)
-                                                      .getAdsInfo(context,
-                                                      mainPage.idCategorySearch,
-                                                      mainPage.selectedCategory,
-                                                      mainPage.minPriceSearchDrawer,
-                                                      mainPage.maxPriceSearchDrawer,
-                                                      mainPage.minSpaceSearchDrawer,
-                                                      mainPage.maxSpaceSearchDrawer,
-                                                      mainPage.selectedTypeAqarSearchDrawer,
-                                                      mainPage.interfaceSelectedSearchDrawer,
-                                                      mainPage.selectedPlanSearchDrawer,
-                                                      mainPage.ageOfRealEstateSelectedSearchDrawer,
-                                                      mainPage.selectedApartmentsSearchDrawer,
-                                                      mainPage.floorSelectedSearchDrawer,
-                                                      mainPage.selectedLoungesSearchDrawer,
-                                                      mainPage.selectedRoomsSearchDrawer,
-                                                      mainPage.storesSelectedSearchDrawer,
-                                                      mainPage.streetWidthSelectedSearchDrawer,
-                                                      mainPage.selectedToiletsSearchDrawer,
-                                                      mainPage.treesSelectedSearchDrawer,
-                                                      mainPage.wellsSelectedSearchDrawer,
-                                                      mainPage.bool_feature1SearchDrawer.toString(),
-                                                      mainPage.bool_feature2SearchDrawer.toString(),
-                                                      mainPage.bool_feature3SearchDrawer.toString(),
-                                                      mainPage.bool_feature4SearchDrawer.toString(),
-                                                      mainPage.bool_feature5SearchDrawer.toString(),
-                                                      mainPage.bool_feature6SearchDrawer.toString(),
-                                                      mainPage.bool_feature7SearchDrawer.toString(),
-                                                      mainPage.bool_feature8SearchDrawer.toString(),
-                                                      mainPage.bool_feature9SearchDrawer.toString(),
-                                                      mainPage.bool_feature10SearchDrawer.toString(),
-                                                      mainPage.bool_feature11SearchDrawer.toString(),
-                                                      mainPage.bool_feature12SearchDrawer.toString(),
-                                                      mainPage.bool_feature13SearchDrawer.toString(),
-                                                      mainPage.bool_feature14SearchDrawer.toString(),
-                                                      mainPage.bool_feature15SearchDrawer.toString(),
-                                                      mainPage.bool_feature16SearchDrawer.toString(),
-                                                      mainPage.bool_feature17SearchDrawer.toString(),
-                                                      mainPage.bool_feature18SearchDrawer.toString(),
-                                                      showOnMap: true
-                                                  );
+                                                  Provider.of<SearchDrawerProvider>(context, listen: false).setFilter(1);
+                                                  Provider.of<SearchDrawerProvider>(context, listen: false).setIdCategorySearch(categoriesCons()[i]['id_category']);
+                                                  Provider.of<SearchDrawerProvider>(context, listen: false).getAdsList(context);
                                                   if(mainPage.showDiaogSearchDrawer){
                                                     mainPage.setShowDiogFalse();
                                                   }
                                                 },
                                                 child: Text(
-                                                  mainPage.categories[i]
+                                                  categoriesCons()[i]
                                                   ['name'],
                                                   style: CustomTextStyle(
                                                     fontWeight: FontWeight.w400,
@@ -173,119 +130,20 @@ class SliderWidget extends StatelessWidget {
                                           ],
                                         )
                                       else
-                                        for (var i = 0; i < mainPage.enCategories.length; i++)
+                                        for (var i = 0; i < enCategoriesCons().length; i++)
                                           Column(
                                             children: [
                                               TextButton(
                                                 onPressed: () {
-                                                  mainPage.setIdCategorySearch(
-                                                      mainPage.enCategories[i]['id_category']);
-                                                  Provider.of<MenuProvider>(context,listen: false)
-                                                      .setFilterSearchDrawer(1);
-                                                  Provider.of<MenuProvider>(context,listen: false)
-                                                      .setMenuMainFilterAds(2);
-                                                  Provider.of<MenuProvider>(context,listen: false)
-                                                      .getAdsInfo(
-                                                      context,
-                                                      mainPage.idCategorySearch,
-                                                      mainPage
-                                                          .selectedCategory,
-                                                      mainPage
-                                                          .minPriceSearchDrawer,
-                                                      mainPage
-                                                          .maxPriceSearchDrawer,
-                                                      mainPage
-                                                          .minSpaceSearchDrawer,
-                                                      mainPage
-                                                          .maxSpaceSearchDrawer,
-                                                      mainPage
-                                                          .selectedTypeAqarSearchDrawer,
-                                                      mainPage
-                                                          .interfaceSelectedSearchDrawer,
-                                                      mainPage
-                                                          .selectedPlanSearchDrawer,
-                                                      mainPage
-                                                          .ageOfRealEstateSelectedSearchDrawer,
-                                                      mainPage
-                                                          .selectedApartmentsSearchDrawer,
-                                                      mainPage
-                                                          .floorSelectedSearchDrawer,
-                                                      mainPage
-                                                          .selectedLoungesSearchDrawer,
-                                                      mainPage
-                                                          .selectedRoomsSearchDrawer,
-                                                      mainPage
-                                                          .storesSelectedSearchDrawer,
-                                                      mainPage
-                                                          .streetWidthSelectedSearchDrawer,
-                                                      mainPage
-                                                          .selectedToiletsSearchDrawer,
-                                                      mainPage
-                                                          .treesSelectedSearchDrawer,
-                                                      mainPage
-                                                          .wellsSelectedSearchDrawer,
-                                                      mainPage
-                                                          .bool_feature1SearchDrawer
-                                                          .toString(),
-                                                      mainPage
-                                                          .bool_feature2SearchDrawer
-                                                          .toString(),
-                                                      mainPage
-                                                          .bool_feature3SearchDrawer
-                                                          .toString(),
-                                                      mainPage
-                                                          .bool_feature4SearchDrawer
-                                                          .toString(),
-                                                      mainPage
-                                                          .bool_feature5SearchDrawer
-                                                          .toString(),
-                                                      mainPage
-                                                          .bool_feature6SearchDrawer
-                                                          .toString(),
-                                                      mainPage
-                                                          .bool_feature7SearchDrawer
-                                                          .toString(),
-                                                      mainPage
-                                                          .bool_feature8SearchDrawer
-                                                          .toString(),
-                                                      mainPage
-                                                          .bool_feature9SearchDrawer
-                                                          .toString(),
-                                                      mainPage
-                                                          .bool_feature10SearchDrawer
-                                                          .toString(),
-                                                      mainPage
-                                                          .bool_feature11SearchDrawer
-                                                          .toString(),
-                                                      mainPage
-                                                          .bool_feature12SearchDrawer
-                                                          .toString(),
-                                                      mainPage
-                                                          .bool_feature13SearchDrawer
-                                                          .toString(),
-                                                      mainPage
-                                                          .bool_feature14SearchDrawer
-                                                          .toString(),
-                                                      mainPage
-                                                          .bool_feature15SearchDrawer
-                                                          .toString(),
-                                                      mainPage
-                                                          .bool_feature16SearchDrawer
-                                                          .toString(),
-                                                      mainPage
-                                                          .bool_feature17SearchDrawer
-                                                          .toString(),
-                                                      mainPage
-                                                          .bool_feature18SearchDrawer
-                                                          .toString(),
-                                                      showOnMap: true
-                                                  );
+                                                  Provider.of<SearchDrawerProvider>(context, listen: false).setFilter(1);
+                                                  Provider.of<SearchDrawerProvider>(context, listen: false).setIdCategorySearch(enCategoriesCons()[i]['id_category']);
+                                                  Provider.of<SearchDrawerProvider>(context, listen: false).getAdsList(context);
                                                   if(mainPage.showDiaogSearchDrawer){
                                                     mainPage.setShowDiogFalse();
                                                   }
                                                 },
                                                 child: Text(
-                                                  mainPage.enCategories[
+                                                  enCategoriesCons()[
                                                   i]['name'],
                                                   style: CustomTextStyle(
                                                     fontWeight: FontWeight.w300,

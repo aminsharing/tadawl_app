@@ -10,8 +10,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class LocationScreen extends StatelessWidget {
-  const LocationScreen({Key key}) : super(key: key);
-
+  const LocationScreen(this.addAdProvider,{Key key}) : super(key: key);
+  final AddAdProvider addAdProvider;
 
   void _onMapCreated(GoogleMapController controller) {
     controller.setMapStyle(Utils.mapStyle);
@@ -58,7 +58,12 @@ class LocationScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.of(context).pop(false);
                         // addAds.setCurrentStageAddAds(5);
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => AdsDetailsScreen()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                        ChangeNotifierProvider<AddAdProvider>.value(
+                          value: addAdProvider,
+                          child: AdsDetailsScreen(addAdProvider),
+                        )
+                        ));
                       },
                       child: Text(
                         AppLocalizations

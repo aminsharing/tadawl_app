@@ -11,11 +11,14 @@ import 'package:tadawl_app/mainWidgets/Gist.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/RegionModel.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/screens/ads/main_page.dart';
 import 'locale_provider.dart';
 
 class RegionProvider extends ChangeNotifier {
+
+  RegionProvider(){
+    print("RegionProvider init");
+  }
 
   var _markers = <Marker>[];
   OverlayEntry _entry;
@@ -102,15 +105,15 @@ class RegionProvider extends ChangeNotifier {
             markerId: MarkerId(city.name),// d46d1
             position: city.position,
             onTap: () {
-              Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
-              Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
-              Provider.of<MainPageProvider>(context, listen: false).clearAdsOnMap();
-              Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(CameraPosition(target: city.position, zoom: city.zoom));
-              Provider.of<MainPageProvider>(context, listen: false).setSelectedArea(CameraPosition(target: city.position, zoom: city.zoom));
+              // Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
+              // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
+              // Provider.of<MainPageProvider>(context, listen: false).clearAdsOnMap();
+              // Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(CameraPosition(target: city.position, zoom: city.zoom));
+              // Provider.of<MainPageProvider>(context, listen: false).setSelectedArea(CameraPosition(target: city.position, zoom: city.zoom));
               Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => MainPage()),
+                  MaterialPageRoute(builder: (context) => MainPage(CameraPosition(target: city.position, zoom: city.zoom))),
                 );
             },
             icon: BitmapDescriptor.fromBytes(bmp)));

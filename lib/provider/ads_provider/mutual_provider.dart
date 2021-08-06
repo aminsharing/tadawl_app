@@ -2,7 +2,6 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/models/BFModel.dart';
 import 'package:tadawl_app/models/QFModel.dart';
@@ -10,15 +9,20 @@ import 'package:tadawl_app/models/UserModel.dart';
 import 'package:tadawl_app/models/views_series.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 
 class MutualProvider extends ChangeNotifier{
   MutualProvider(){
     print("MutualProvider init");
-    getSession();
   }
 
+  @override
+  void dispose(){
+    print("MutualProvider dispose");
+    super.dispose();
+  }
 
   final List<AdsModel> _AdsPage = [];
   List _adsPageData = [];
@@ -44,17 +48,13 @@ class MutualProvider extends ChangeNotifier{
   // double randdTop = 50;
   // double randdLeft = 50;
   String _idDescription;
-  int _expendedListCount = 4;
+
   int _number;
   bool _busy = false;
   bool _is_favAdsPageDB = false;
-  String _phone;
 
-  @override
-  void dispose(){
-    print("MutualProvider dispose");
-    super.dispose();
-  }
+
+
 
   Future<bool> updateAds(BuildContext context, String id_ads) async {
     return Future.delayed(Duration(milliseconds: 0), () {
@@ -63,12 +63,6 @@ class MutualProvider extends ChangeNotifier{
         return true;
       });
     });
-  }
-
-  Future<String> getSession() async {
-    var p = await SharedPreferences.getInstance();
-    _phone = p.getString('token');
-    return _phone;
   }
 
   void setNumber(int i) {
@@ -96,7 +90,7 @@ class MutualProvider extends ChangeNotifier{
   void getAdsPageList(BuildContext context, String idDescription) {
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsPage.clear();
-      getFavStatus();
+      getFavStatus(context);
       Api().getAdsPageFunc(idDescription).then((value) {
         _adsPageData = value;
         _adsPageData.forEach((element) {
@@ -112,14 +106,17 @@ class MutualProvider extends ChangeNotifier{
     });
   }
 
-  void getFavStatus() async{
-    await Api().getFavStatusFunc(_phone, _idDescription).then((value) {
-      print("value: $value");
-      _is_favAdsPageDB = value;
-      print("idDescription: $idDescription");
-      print("_phone: $_phone");
-      print("_is_favAdsPageDB: $_is_favAdsPageDB");
-    });
+  void getFavStatus(BuildContext context) async{
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
+    if(locale.phone != null){
+      await Api().getFavStatusFunc(locale.phone, _idDescription).then((value) {
+        print("value: $value");
+        _is_favAdsPageDB = value;
+        print("idDescription: $idDescription");
+        print("_phone: ${locale.phone}");
+        print("_is_favAdsPageDB: $_is_favAdsPageDB");
+      });
+    }
   }
 
   void getImagesAdsPageList(BuildContext context, String idDescription) {
@@ -162,10 +159,10 @@ class MutualProvider extends ChangeNotifier{
         _adsUserData.forEach((element) {
           _AdsUser.add(UserModel.adsUser(element));
         });
-        Provider.of<UserMutualProvider>(context, listen: false).getEstimatesInfo(_AdsUser.first.phone);
-        Provider.of<UserMutualProvider>(context, listen: false).getSumEstimatesInfo(_AdsUser.first.phone);
-        // Provider.of<FavouriteProvider>(context, listen: false).update();
-        Provider.of<UserMutualProvider>(context, listen: false).update();
+        // Provider.of<UserMutualProvider>(context, listen: false).getEstimatesInfo(_AdsUser.first.phone);
+        // Provider.of<UserMutualProvider>(context, listen: false).getSumEstimatesInfo(_AdsUser.first.phone);
+        // // Provider.of<FavouriteProvider>(context, listen: false).update();
+        // Provider.of<UserMutualProvider>(context, listen: false).update();
       });
     });
   }
@@ -309,14 +306,7 @@ class MutualProvider extends ChangeNotifier{
     setIdDescription(idDescription);
   }
 
-  void setExpendedListCount(int val){
-    _expendedListCount = val;
-    notifyListeners();
-  }
 
-  void clearExpendedListCount(){
-    _expendedListCount = 4;
-  }
 
 
 
@@ -333,7 +323,7 @@ class MutualProvider extends ChangeNotifier{
   List<QFModel> get adsQF => _AdsQF;
   List<AdsModel> get adsNavigation => _AdsNavigation;
   List<ViewsSeriesModel> get adsViews => _AdsViews;
-  int get expendedListCount => _expendedListCount;
+
   String get idDescription => _idDescription;
   bool get busy => _busy;
   int get number => _number;

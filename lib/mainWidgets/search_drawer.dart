@@ -11,16 +11,12 @@ import 'package:tadawl_app/mainWidgets/search_drawer/two_weeks_switch.dart';
 import 'package:tadawl_app/provider/ads_provider/search_ads_provider.dart';
 import 'package:tadawl_app/screens/ads/search_ads.dart';
 
-class SearchDrawer extends StatefulWidget {
-  SearchDrawer({
+class SearchDrawer extends StatelessWidget {
+  const SearchDrawer({
     Key key,
+    @required this.isMainPage
   }) : super(key: key);
-  @override
-  _SearchDrawerState createState() => _SearchDrawerState();
-}
-
-class _SearchDrawerState extends State<SearchDrawer> {
-  // final GlobalKey<FormState> _searchDrawerKey = GlobalKey<FormState>();
+  final bool isMainPage;
 
   @override
   Widget build(BuildContext context) {
@@ -38,17 +34,15 @@ class _SearchDrawerState extends State<SearchDrawer> {
               ),
             ),
             // top cyan bar .................................
-
-            SearchField(),
-
+            SearchField(isMainPage: isMainPage,),
             // choose location ..............................
             ChooseCategory(),
             // choose category ..............................
             SearchFilter(),
 
-            SearchButton(),
+            SearchButton(isMainPage: isMainPage,),
             // search button ................................
-            TwoWeeksSwitch(),
+            TwoWeeksSwitch(isMainPage: isMainPage,),
             // two weeks ago switch .........................
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 50, 20, 30),
@@ -57,10 +51,10 @@ class _SearchDrawerState extends State<SearchDrawer> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) =>
-                    ChangeNotifierProvider<SearchAdsProvider>(
-                      create: (_) => SearchAdsProvider(),
-                      child: SearchAds(),
-                    )
+                        ChangeNotifierProvider<SearchAdsProvider>(
+                          create: (_) => SearchAdsProvider(),
+                          child: SearchAds(),
+                        )
                     ),
                   );
                 },

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tadawl_app/provider/ads_provider/adv_fee_provider.dart';
 import 'package:tadawl_app/screens/ads/payment_of_fees.dart';
 
 enum CardType{
@@ -16,12 +18,14 @@ class FeeCard extends StatelessWidget {
     @required this.price,
     @required this.type,
     @required this.cardType,
+    @required this.advFeeProvider,
     this.title,
   }) : super(key: key);
 
   final List<String> selectedNav;
   final String price, type, title;
   final CardType cardType;
+  final AdvFeeProvider advFeeProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +140,10 @@ class FeeCard extends StatelessWidget {
                           TextButton(
                             onPressed: () {
                               Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                                  PaymentOfFees(price: price, type: type)));
+                                  ChangeNotifierProvider<AdvFeeProvider>.value(
+                                      value: advFeeProvider,
+                                      child: PaymentOfFees(price: price, type: type))
+                              ));
                             },
                             child: Container(
                               width: cardType == CardType.big ? 140.0 : 100.0,

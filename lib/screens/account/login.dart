@@ -7,11 +7,9 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
-import 'package:tadawl_app/provider/user_provider/change_phone_provider.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/login_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/new_account.dart';
 import 'package:tadawl_app/screens/account/restoration_pass.dart';
 import 'package:tadawl_app/screens/account/verifyAccount.dart';
@@ -50,6 +48,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final translate = AppLocalizations.of(context);
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
     return ChangeNotifierProvider<LoginProvider>(
       create: (_) => LoginProvider(),
       child: Scaffold(
@@ -138,7 +137,6 @@ class Login extends StatelessWidget {
                                 decoration: InputDecoration(labelText: translate.pass),
                                 obscureText: !login.passwordVisible,
                                 style: CustomTextStyle(
-
                                   fontSize: 15,
                                   color: const Color(0xff989696),
                                 ).getTextStyle(),
@@ -191,7 +189,8 @@ class Login extends StatelessWidget {
                             }
                             _formLoginKey.currentState.save();
                             var url =
-                                'https://www.tadawl.com.sa/API/api_app/login/login.php';
+                                // 'https://www.tadawl.com.sa/API/api_app/login/login.php';
+                                'https://www.tadawl-store.com/API/api_app/login/login.php';
                             var response = await http.post(url, body: {
                               'phone': phone,
                               'password': password,
@@ -224,29 +223,30 @@ class Login extends StatelessWidget {
                                     builder: (context) => NewAcount()),
                               );
                             } else if (data == 'successful') {
-                              login.saveSession(phone);
-                              await Provider.of<UserMutualProvider>(context, listen: false).getSession();
+                              await login.saveSession(phone).then((value) {
+                                locale.getSession().then((value) async{
+                                  await Fluttertoast.showToast(
+                                      msg: 'تم تسجيل الدخول بنجاح',
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.green,
+                                      textColor: Colors.white,
+                                      fontSize: 15.0);
+                                  // Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
+                                  Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
+                                  // Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
+                                  // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
+                                  await Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Home()),
+                                      ModalRoute.withName('/Home')
+                                  );
+                                });
+                              });
 
-                              await Fluttertoast.showToast(
-                                  msg: 'تم تسجيل الدخول بنجاح',
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.CENTER,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: Colors.green,
-                                  textColor: Colors.white,
-                                  fontSize: 15.0);
-                              Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
-                              Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
-                              Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
-                              Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
-                              await Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Home()),
-                                ModalRoute.withName('/Home')
-                              );
                             } else if (data == 'not verified') {
-                              login.saveSession(phone);
                               await Fluttertoast.showToast(
                                   msg: 'لم يتم تفعيل الحساب بعد',
                                   toastLength: Toast.LENGTH_SHORT,
@@ -259,8 +259,9 @@ class Login extends StatelessWidget {
                               await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => VerifyAccount()),
+                                    builder: (context) => VerifyAccount(phone)),
                               );
+
                             }
                             ;
                           },

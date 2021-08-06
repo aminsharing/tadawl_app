@@ -4,8 +4,13 @@ import 'package:tadawl_app/models/requestModel.dart';
 import 'package:tadawl_app/provider/api/apiRequestsFunctions.dart';
 
 class RequestProvider extends ChangeNotifier {
+  RequestProvider(){
+    print("RequestProvider init");
+  }
+
   final List<RequestModel> _requests = [];
   List __requestsData = [];
+
 
   void getUserRequestsList(String Phone) {
     Future.delayed(Duration(milliseconds: 0), () {

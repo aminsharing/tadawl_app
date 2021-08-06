@@ -7,7 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
-import 'package:tadawl_app/provider/user_provider/favourite_provider.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
@@ -17,10 +17,15 @@ class AdsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
     var mediaQuery = MediaQuery.of(context);
     return Consumer2<MyAccountProvider, UserMutualProvider>(builder: (context, avatar, userMutual, child) {
       print("AdsList owner -> MyAccountProvider");
       print("AdsList owner -> UserMutualProvider");
+      print("UserMutualProvider avatars ${userMutual.avatars}");
+      print("UserMutualProvider users ${userMutual.users}");
+      print("UserMutualProvider offices ${userMutual.offices}");
+      print("UserMutualProvider userAds ${userMutual.userAds}");
       return Column(
         children: [
           Padding(
@@ -162,7 +167,7 @@ class AdsList extends StatelessWidget {
                                       image: DecorationImage(
                                         fit: BoxFit.cover,
                                         image: CachedNetworkImageProvider(
-                                            'https://tadawl.com.sa/API/assets/images/ads/' +
+                                            'https://tadawl-store.com/API/assets/images/ads/' +
                                                 userMutual.userAds[i]
                                                     .ads_image ??
                                                 ''),
@@ -182,7 +187,7 @@ class AdsList extends StatelessWidget {
                                         decoration: BoxDecoration(
                                           image: DecorationImage(
                                             image: const CachedNetworkImageProvider(
-                                                'https://tadawl.com.sa/API/assets/images/logo22.png'),
+                                                'https://tadawl-store.com/API/assets/images/logo22.png'),
                                             fit: BoxFit.cover,
                                           ),
                                         ),
@@ -220,7 +225,7 @@ class AdsList extends StatelessWidget {
                                           // Provider.of<FavouriteProvider>(context, listen: false).update();
                                           Provider.of<MutualProvider>(context, listen: false).updateAds(context, userMutual.userAds[i].idDescription).then((value) {
                                             if(value){
-                                              userMutual.getUserAdsList(userMutual.phone);
+                                              userMutual.getUserAdsList(locale.phone);
                                               // Provider.of<FavouriteProvider>(context, listen: false).update();
                                             }
                                           });

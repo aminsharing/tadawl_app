@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 
 class BuildSpace extends StatelessWidget {
@@ -11,7 +11,7 @@ class BuildSpace extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final searchDrawer = Provider.of<MainPageProvider>(context, listen: false);
+    final searchDrawer = Provider.of<SearchDrawerProvider>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
       child: Row(

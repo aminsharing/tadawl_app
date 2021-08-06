@@ -7,20 +7,19 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
 import 'package:tadawl_app/mainWidgets/verify_account/stage_2.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/change_pass_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
 class Stage1 extends StatelessWidget {
-  Stage1({Key key}) : super(key: key);
-
+  Stage1(this.currentPhone, {Key key, @required this.changePassProvider}) : super(key: key);
+  final String currentPhone;
   final GlobalKey<FormState> _formVerAccountKey = GlobalKey<FormState>();
+  final ChangePassProvider changePassProvider;
 
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
-    Provider.of<UserMutualProvider>(context, listen: false).getSession();
-    var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
-
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xff00cccc),
@@ -85,11 +84,11 @@ class Stage1 extends StatelessWidget {
                   return;
                 }
                 _formVerAccountKey.currentState.save();
-                var url =
-                    'https://www.tadawl.com.sa/API/api_app/login/verifyAccount.php';
+                var url = 'https://www.tadawl-store.com/API/api_app/login/verifyAccount.php';
+                    // 'https://www.tadawl.com.sa/API/api_app/login/verifyAccount.php';
                 var response = await http.post(url, body: {
                   'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
-                  'phone': _phone,
+                  'phone': currentPhone,
                   'verCode': Provider.of<ChangePassProvider>(context, listen: false).verificationCode,
                 });
                 var data = json.decode(response.body);
@@ -125,9 +124,9 @@ class Stage1 extends StatelessWidget {
 
                   // verifyAcc.setCurrentStage(2);
                   await Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                      ChangeNotifierProvider<ChangePassProvider>(
-                        create: (_) => ChangePassProvider(),
-                        child: Stage2(),
+                      ChangeNotifierProvider<ChangePassProvider>.value(
+                        value: changePassProvider,
+                        child: Stage2(currentPhone),
                       )
                   ));
                 }

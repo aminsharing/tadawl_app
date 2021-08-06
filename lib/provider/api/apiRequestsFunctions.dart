@@ -3,7 +3,8 @@ import 'package:http/http.dart' as http;
 
 class ApiRequests {
   final String _token = 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@';
-  String BaseURL = 'https://www.tadawl.com.sa/API/api_app';
+  // String BaseURL = 'https://www.tadawl.com.sa/API/api_app';
+  String BaseURL = 'https://www.tadawl-store.com/API/api_app';
 
   Future<dynamic> getUserRequestsListFunc(
        String Phone) async {

@@ -6,7 +6,7 @@ import 'package:pinch_zoom_image_last/pinch_zoom_image_last.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/open_image_provider.dart';
 
 class OpenImages extends StatelessWidget {
   OpenImages({
@@ -46,7 +46,7 @@ class OpenImages extends StatelessWidget {
         ),
         backgroundColor: Color(0xff00cccc),
       ),
-      body: Consumer<AdPageProvider>(builder: (context, images, child) {
+      body: Consumer<OpenImageProvider>(builder: (context, images, child) {
         print("OpenImages -> AdPageProvider");
         return ListView.separated(
           itemCount: images.image.length,
@@ -56,7 +56,7 @@ class OpenImages extends StatelessWidget {
               image: CachedNetworkImage(
                 placeholder: (context, url) => Center(child: CircularProgressIndicator()),
                 errorWidget: (context, url, error) => Icon(Icons.error),
-                imageUrl: 'https://tadawl.com.sa/API/assets/images/ads/${images.image[i].ads_image}',
+                imageUrl: 'https://tadawl-store.com/API/assets/images/ads/${images.image[i].ads_image}',
                 width: MediaQuery.of(context).size.width,
                 fit: BoxFit.cover,
               ),
@@ -75,7 +75,7 @@ class OpenImages extends StatelessWidget {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: const CachedNetworkImageProvider(
-                          'https://tadawl.com.sa/API/assets/images/logo22.png'),
+                          'https://tadawl-store.com/API/assets/images/logo22.png'),
                       fit: BoxFit.cover,
                     ),
                   ),

@@ -13,7 +13,7 @@ class About extends StatelessWidget {
       width: mediaQuery.size.width,
       height: 100,
       child: Consumer<UserMutualProvider>(builder: (context, userMutual, child) {
-        return UserAbout(about: userMutual.users.first.about,);
+        return UserAbout(about: userMutual.users.about,);
       }),
     );
   }

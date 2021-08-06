@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/mainWidgets/my_account/mutual/body/user_about.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/discussion_main.dart';
@@ -13,12 +14,13 @@ class About extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
     var mediaQuery = MediaQuery.of(context);
     return SizedBox(
       width: mediaQuery.size.width,
       height: 200,
       child: Consumer<UserMutualProvider>(builder: (context, userMutual, child) {
-        if(userMutual.avatars.isEmpty){
+        if(userMutual.avatars == null){
           return Center(child: CircularProgressIndicator());
         }
         return Column(
@@ -29,10 +31,10 @@ class About extends StatelessWidget {
               const EdgeInsets.fromLTRB(0, 30, 0, 30),
               child: TextButton(
                 onPressed: () {
-                  if(userMutual.phone == null){
+                  if(locale.phone == null){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
                   }else{
-                    Provider.of<MsgProvider>(context, listen: false).setRecAvatarUserName(userMutual.avatars.first.username);
+                    Provider.of<MsgProvider>(context, listen: false).setRecAvatarUserName(userMutual.avatars.username);
                     Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => Discussion(userMutual.userPhone)));
@@ -76,7 +78,7 @@ class About extends StatelessWidget {
                 ),
               ),
             ),
-            UserAbout(about: userMutual.avatars.first.about),
+            UserAbout(about: userMutual.avatars.about),
           ],
         );
       }),

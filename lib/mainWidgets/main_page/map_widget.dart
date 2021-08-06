@@ -5,8 +5,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/map_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
@@ -14,12 +14,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/screens/general/regions.dart';
 
 class MapWidget extends StatelessWidget {
-  MapWidget({Key key}) : super(key: key);
-
+  MapWidget(this._region_position ,{Key key}) : super(key: key);
+  final CameraPosition _region_position;
 
   @override
   Widget build(BuildContext context) {
-    // Provider.of<MapProvider>(context, listen: false).getLoc();
+    Provider.of<SearchDrawerProvider>(context, listen: false).getAdsList(context);
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -29,66 +29,65 @@ class MapWidget extends StatelessWidget {
             builder: (context, mainPage, mapProv, _) {
               print("MapWidget -> MainPageProvider");
               print("MapWidget -> MapProvider");
-              mapProv.getLoc();
               void _onMapCreated(GoogleMapController controller) {
                 controller.setMapStyle(Utils.mapStyle);
                 mainPage.setMapControllerMainPage(controller);
               }
               if (mapProv.initialCameraPosition != null) {
-                mainPage.setSelectedArea(mainPage.region_position ??
-                    CameraPosition(target: mapProv.initialCameraPosition,
-                        zoom: mapProv.zoom));
+                // mainPage.setSelectedArea(mainPage.region_position ??
+                //     CameraPosition(target: mapProv.initialCameraPosition,
+                //         zoom: mapProv.zoom));
               }
-              if (mainPage.inItMainPageDone == 0) {
-                mainPage.setIdCategorySearch('0');
-                Provider.of<MenuProvider>(context, listen: false)
-                    .setFilterSearchDrawer(1);
-                Provider.of<MenuProvider>(context, listen: false)
-                    .setMenuMainFilterAds(2);
-                Provider.of<MenuProvider>(context, listen: false)
-                    .getAdsInfo(
-                    context,
-                    mainPage.idCategorySearch,
-                    mainPage.selectedCategory,
-                    mainPage.minPriceSearchDrawer,
-                    mainPage.maxPriceSearchDrawer,
-                    mainPage.minSpaceSearchDrawer,
-                    mainPage.maxSpaceSearchDrawer,
-                    mainPage.selectedTypeAqarSearchDrawer,
-                    mainPage.interfaceSelectedSearchDrawer,
-                    mainPage.selectedPlanSearchDrawer,
-                    mainPage.ageOfRealEstateSelectedSearchDrawer,
-                    mainPage.selectedApartmentsSearchDrawer,
-                    mainPage.floorSelectedSearchDrawer,
-                    mainPage.selectedLoungesSearchDrawer,
-                    mainPage.selectedRoomsSearchDrawer,
-                    mainPage.storesSelectedSearchDrawer,
-                    mainPage.streetWidthSelectedSearchDrawer,
-                    mainPage.selectedToiletsSearchDrawer,
-                    mainPage.treesSelectedSearchDrawer,
-                    mainPage.wellsSelectedSearchDrawer,
-                    mainPage.bool_feature1SearchDrawer.toString(),
-                    mainPage.bool_feature2SearchDrawer.toString(),
-                    mainPage.bool_feature3SearchDrawer.toString(),
-                    mainPage.bool_feature4SearchDrawer.toString(),
-                    mainPage.bool_feature5SearchDrawer.toString(),
-                    mainPage.bool_feature6SearchDrawer.toString(),
-                    mainPage.bool_feature7SearchDrawer.toString(),
-                    mainPage.bool_feature8SearchDrawer.toString(),
-                    mainPage.bool_feature9SearchDrawer.toString(),
-                    mainPage.bool_feature10SearchDrawer.toString(),
-                    mainPage.bool_feature11SearchDrawer.toString(),
-                    mainPage.bool_feature12SearchDrawer.toString(),
-                    mainPage.bool_feature13SearchDrawer.toString(),
-                    mainPage.bool_feature14SearchDrawer.toString(),
-                    mainPage.bool_feature15SearchDrawer.toString(),
-                    mainPage.bool_feature16SearchDrawer.toString(),
-                    mainPage.bool_feature17SearchDrawer.toString(),
-                    mainPage.bool_feature18SearchDrawer.toString(),
-                    showOnMap: true
-                );
-                mainPage.setInItMainPageDone(1);
-              }
+              // if (mainPage.inItMainPageDone == 0) {
+              //   mainPage.setIdCategorySearch('0');
+              //   Provider.of<MenuProvider>(context, listen: false)
+              //       .setFilterSearchDrawer(1);
+              //   Provider.of<MenuProvider>(context, listen: false)
+              //       .setMenuMainFilterAds(2);
+              //   Provider.of<MenuProvider>(context, listen: false)
+              //       .getAdsInfo(
+              //       context,
+              //       mainPage.idCategorySearch,
+              //       mainPage.selectedCategory,
+              //       mainPage.minPriceSearchDrawer,
+              //       mainPage.maxPriceSearchDrawer,
+              //       mainPage.minSpaceSearchDrawer,
+              //       mainPage.maxSpaceSearchDrawer,
+              //       mainPage.selectedTypeAqarSearchDrawer,
+              //       mainPage.interfaceSelectedSearchDrawer,
+              //       mainPage.selectedPlanSearchDrawer,
+              //       mainPage.ageOfRealEstateSelectedSearchDrawer,
+              //       mainPage.selectedApartmentsSearchDrawer,
+              //       mainPage.floorSelectedSearchDrawer,
+              //       mainPage.selectedLoungesSearchDrawer,
+              //       mainPage.selectedRoomsSearchDrawer,
+              //       mainPage.storesSelectedSearchDrawer,
+              //       mainPage.streetWidthSelectedSearchDrawer,
+              //       mainPage.selectedToiletsSearchDrawer,
+              //       mainPage.treesSelectedSearchDrawer,
+              //       mainPage.wellsSelectedSearchDrawer,
+              //       mainPage.bool_feature1SearchDrawer.toString(),
+              //       mainPage.bool_feature2SearchDrawer.toString(),
+              //       mainPage.bool_feature3SearchDrawer.toString(),
+              //       mainPage.bool_feature4SearchDrawer.toString(),
+              //       mainPage.bool_feature5SearchDrawer.toString(),
+              //       mainPage.bool_feature6SearchDrawer.toString(),
+              //       mainPage.bool_feature7SearchDrawer.toString(),
+              //       mainPage.bool_feature8SearchDrawer.toString(),
+              //       mainPage.bool_feature9SearchDrawer.toString(),
+              //       mainPage.bool_feature10SearchDrawer.toString(),
+              //       mainPage.bool_feature11SearchDrawer.toString(),
+              //       mainPage.bool_feature12SearchDrawer.toString(),
+              //       mainPage.bool_feature13SearchDrawer.toString(),
+              //       mainPage.bool_feature14SearchDrawer.toString(),
+              //       mainPage.bool_feature15SearchDrawer.toString(),
+              //       mainPage.bool_feature16SearchDrawer.toString(),
+              //       mainPage.bool_feature17SearchDrawer.toString(),
+              //       mainPage.bool_feature18SearchDrawer.toString(),
+              //       showOnMap: true
+              //   );
+              //   mainPage.setInItMainPageDone(1);
+              // }
               return Stack(
                 children: [
                   // mainPage.initialCameraPosition != null ?
@@ -98,6 +97,11 @@ class MapWidget extends StatelessWidget {
                     onPointerMove: (move) {
                       // print("move.distance ${move.size}");
                       mainPage.setMoveState(true);
+                    },
+                    onPointerUp: (move){
+                      if (mainPage.showDiaogSearchDrawer) {
+                        mainPage.setShowDiogFalse();
+                      }
                     },
                     // onPointerUp: (move){
                     //   if(mainPage.isMove){
@@ -114,7 +118,7 @@ class MapWidget extends StatelessWidget {
                     //   }
                     // },
                     child:
-                    mapProv.initialCameraPosition == null
+                    (_region_position??mapProv.initialCameraPosition) == null
                         ?
                     Padding(
                       padding: const EdgeInsets.all(50.0),
@@ -139,7 +143,7 @@ class MapWidget extends StatelessWidget {
                             mainPage.setShowDiogFalse();
                           }
                         },
-                        initialCameraPosition: mainPage.region_position ??
+                        initialCameraPosition: _region_position ??
                             CameraPosition(target: mapProv.initialCameraPosition,
                                 zoom: mapProv.zoom),
                         mapType: MapType.normal,
@@ -154,7 +158,7 @@ class MapWidget extends StatelessWidget {
                         onCameraMove: (Cameraposioion) {
                           // mainPage.getSelectedAreaAds(context, Cameraposioion);
                           // mainPage.setCurrentCameraView(Cameraposioion);
-                          mainPage.setSelectedArea(Cameraposioion);
+                          // mainPage.setSelectedArea(Cameraposioion);
                           if (Cameraposioion.zoom <= 5) {
                             Provider.of<BottomNavProvider>(context, listen: false)
                                 .setCurrentPage(1);
@@ -190,10 +194,6 @@ class MapWidget extends StatelessWidget {
                         .of(context)
                         .size
                         .height * .2,
-                    // top: mainPage.topMargin != null
-                    //     ? mainPage.topMargin - 20
-                    //     : 0,
-                    // left: mainPage.leftMargin,
                     left: MediaQuery
                         .of(context)
                         .size
@@ -205,13 +205,10 @@ class MapWidget extends StatelessWidget {
                           children: <Widget>[
                             InkWell(
                               onTap: () {
-                                Provider.of<MutualProvider>(
-                                    context, listen: false)
+                                Provider.of<MutualProvider>(context, listen: false)
                                     .getAllAdsPageInfo(
                                     context,
-                                    mainPage
-                                        .SelectedAdsModelMainPage
-                                        .idDescription);
+                                    mainPage.SelectedAdsModelMainPage.idDescription);
                                 Provider.of<MutualProvider>(
                                     context, listen: false)
                                     .getSimilarAdsList(context,
@@ -220,6 +217,9 @@ class MapWidget extends StatelessWidget {
                                     mainPage.SelectedAdsModelMainPage
                                         .idDescription);
 
+                                if (mainPage.showDiaogSearchDrawer) {
+                                  mainPage.setShowDiogFalse();
+                                }
                                 Future.delayed(Duration(seconds: 0),
                                         () {
                                       Navigator.push(
@@ -254,7 +254,7 @@ class MapWidget extends StatelessWidget {
                                               child: CircularProgressIndicator()),
                                           errorWidget: (context, url, error) =>
                                               Icon(Icons.error),
-                                          imageUrl: 'https://tadawl.com.sa/API/assets/images/ads/' +
+                                          imageUrl: 'https://tadawl-store.com/API/assets/images/ads/' +
                                               mainPage
                                                   .SelectedAdsModelMainPage
                                                   .ads_image ??
@@ -277,7 +277,7 @@ class MapWidget extends StatelessWidget {
                                               decoration: BoxDecoration(
                                                 image: DecorationImage(
                                                   image: const CachedNetworkImageProvider(
-                                                      'https://tadawl.com.sa/API/assets/images/logo22.png'),
+                                                      'https://tadawl-store.com/API/assets/images/logo22.png'),
                                                   fit: BoxFit.cover,
                                                 ),
                                               ),

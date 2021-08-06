@@ -1,13 +1,16 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/add_ads/images_video_screen.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
+import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 import 'package:tadawl_app/screens/ads/advertising_fee.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AdvertisingFeesScreen extends StatelessWidget {
-  AdvertisingFeesScreen({Key key}) : super(key: key);
+  AdvertisingFeesScreen(this.addAdProvider,{Key key}) : super(key: key);
+  final AddAdProvider addAdProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -255,7 +258,13 @@ class AdvertisingFeesScreen extends StatelessWidget {
                 // }
                 // _addAdsKey.currentState.save();
                 // addAds.setCurrentStageAddAds(3);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ImagesVideoScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                ChangeNotifierProvider<AddAdProvider>.value(
+                  value: addAdProvider,
+                  child: ImagesVideoScreen(addAdProvider),
+                )
+                )
+                );
               },
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 30, 0, 30),

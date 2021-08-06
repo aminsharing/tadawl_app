@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/account/login.dart';
 
 class EPayment extends StatelessWidget {
@@ -16,8 +16,7 @@ class EPayment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<UserMutualProvider>(context, listen: false).getSession();
-    var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -369,7 +368,7 @@ class EPayment extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            if (_phone != null) {
+            if (locale.phone != null) {
               // TODO Add payment method
             }
             else {

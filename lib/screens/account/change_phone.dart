@@ -8,9 +8,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/mainWidgets/my_account/other/body/other_account.dart';
 import 'package:tadawl_app/mainWidgets/my_account/owner/body/owen_account.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/change_phone_provider.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
-import 'package:tadawl_app/screens/account/my_account.dart';
 
 String patternPhone =
     r'(^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$)';
@@ -25,6 +25,7 @@ class ChangePhone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
     return Consumer<ChangePhoneProvider>(builder: (context, changePhone, child) {
 
       print("ChangePhone -> ChangePhoneProvider");
@@ -55,7 +56,7 @@ class ChangePhone extends StatelessWidget {
       }
 
       var mediaQuery = MediaQuery.of(context);
-      Provider.of<UserMutualProvider>(context, listen: false).getSession();
+
 
       return Scaffold(
         appBar: AppBar(
@@ -120,13 +121,11 @@ class ChangePhone extends StatelessWidget {
 
                       _changePhoneKey.currentState.save();
 
-                      await Provider.of<UserMutualProvider>(context, listen: false).getSession();
-
                       var url =
                           'https://tadawl.com.sa/API/api_app/login/change_phone.php';
                       var response = await http.post(url, body: {
                         'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
-                        'oldPhone': Provider.of<UserMutualProvider>(context, listen: false).phone,
+                        'oldPhone': locale.phone,
                         'newPhone': changePhone.newPhone,
                       });
 
@@ -142,41 +141,45 @@ class ChangePhone extends StatelessWidget {
                             textColor: Colors.white,
                             fontSize: 15.0);
                       } else if (data == 'successful') {
-                        changePhone.saveSession(changePhone.newPhone);
-                        await Fluttertoast.showToast(
-                            msg: 'لقد تم تغيير رقم الجوال بنجاح',
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.CENTER,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.green,
-                            textColor: Colors.white,
-                            fontSize: 15.0);
+                        await changePhone.saveSession(changePhone.newPhone).then((value) {
+                          locale.getSession().then((value) async{
+                            await Fluttertoast.showToast(
+                                msg: 'لقد تم تغيير رقم الجوال بنجاح',
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.green,
+                                textColor: Colors.white,
+                                fontSize: 15.0);
 
-                        var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
-                        userMutual.getAvatarList(changePhone.newPhone);
-                        userMutual.getUserAdsList(changePhone.newPhone);
-                        userMutual.getEstimatesInfo(changePhone.newPhone);
-                        userMutual.getSumEstimatesInfo(changePhone.newPhone);
-                        userMutual.checkOfficeInfo(changePhone.newPhone);
-                        userMutual.setUserPhone(changePhone.newPhone);
+                            var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
+                            userMutual.getAvatarList(changePhone.newPhone);
+                            userMutual.getUserAdsList(changePhone.newPhone);
+                            userMutual.getEstimatesInfo(changePhone.newPhone);
+                            userMutual.getSumEstimatesInfo(changePhone.newPhone);
+                            userMutual.checkOfficeInfo(changePhone.newPhone);
+                            userMutual.setUserPhone(changePhone.newPhone);
 
-                        Future.delayed(Duration(seconds: 1), () {
-                          if (userMutual.userPhone == userMutual.phone){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      OwenAccount()),
-                            );
-                          }else{
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      OtherAccount()),
-                            );
-                          }
+                            Future.delayed(Duration(seconds: 1), () {
+                              if (userMutual.userPhone == locale.phone){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          OwenAccount()),
+                                );
+                              }else{
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          OtherAccount()),
+                                );
+                              }
+                            });
+                          });
                         });
+
                       }
                     },
                     child: Container(

@@ -12,6 +12,17 @@ String _MadaRegexM = '5(0(4300|8160)|13213|2(1076|4(130|514)|9(415|741))|3(0906|
 
 class AdvFeeProvider extends ChangeNotifier{
 
+  AdvFeeProvider(){
+    print("AdvFeeProvider init");
+    initStateSelected();
+  }
+
+  @override
+  void dispose() {
+    print("AdvFeeProvider dispose");
+    super.dispose();
+  }
+
   final List<bool> _isSelected1 = List.generate(3, (_) => false);
   int _selectedNav1;
   final List<bool> _isSelected2 = List.generate(3, (_) => false);

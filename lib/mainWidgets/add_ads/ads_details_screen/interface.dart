@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tadawl_app/mainWidgets/constans.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
@@ -13,7 +13,6 @@ class Interface extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mutualProv = Provider.of<MutualProvider>(context, listen: false);
-    final mainPageProv = Provider.of<MainPageProvider>(context, listen: false);
     var provider = Provider.of<LocaleProvider>(context, listen: false);
     var _lang = provider.locale.toString();
     return Padding(
@@ -55,10 +54,8 @@ class Interface extends StatelessWidget {
                   print("Interface -> AddAdProvider");
                   return DropdownButton<String>(
                     hint: Text(
-                      AppLocalizations.of(context)
-                          .interface,
+                      AppLocalizations.of(context).interface,
                       style: CustomTextStyle(
-
                         fontSize: 15,
                         color: const Color(0xff989696),
                       ).getTextStyle(),
@@ -66,17 +63,13 @@ class Interface extends StatelessWidget {
                     ),
                     value: addAd.interfaceSelectedAddAds ?? (int.tryParse(mutualProv.adsPage.first.idInterface)?? '1').toString(),
                     onChanged: (String newValue) {
-                      addAd
-                          .setInterfaceSelectedAddAds(
-                          newValue);
+                      addAd.setInterfaceSelectedAddAds(newValue);
                     },
-                    items: _lang != 'en_US'
-                        ? mainPageProv.Interface.map(
+                    items: (_lang != 'en_US'?InterfaceCons:EnInterfaceCons).map(
                             (Map map) {
                           return DropdownMenuItem<
                               String>(
-                            value: map['id_type']
-                                .toString(),
+                            value: map['id_type'].toString(),
                             child: Row(
                               children: <Widget>[
                                 Container(
@@ -86,8 +79,7 @@ class Interface extends StatelessWidget {
                                     map['type'],
                                     style: CustomTextStyle(
                                       fontSize: 15,
-                                      color: const Color(
-                                          0xff989696),
+                                      color: const Color(0xff989696),
                                     ).getTextStyle(),
                                     textAlign:
                                     TextAlign
@@ -97,32 +89,7 @@ class Interface extends StatelessWidget {
                               ],
                             ),
                           );
-                        }).toList()
-                        : mainPageProv.EnInterface
-                        .map((Map map) {
-                      return DropdownMenuItem<
-                          String>(
-                        value: map['id_type']
-                            .toString(),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              child: Text(
-                                map['type'],
-                                style: CustomTextStyle(
-                                  fontSize: 15,
-                                  color: const Color(
-                                      0xff989696),
-                                ).getTextStyle(),
-                                textAlign:
-                                TextAlign
-                                    .center,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
+                        }).toList(),
                   );
                 }),
               ),

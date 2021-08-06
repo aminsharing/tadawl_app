@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class BuildLounges extends StatelessWidget {
   const BuildLounges({Key key}) : super(key: key);
@@ -31,8 +31,8 @@ class BuildLounges extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Consumer<MainPageProvider>(builder: (context, searchDrawer, child) {
-              print("BuildLounges -> MainPageProvider");
+            Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
+              print("BuildLounges -> SearchDrawerProvider");
               return ToggleButtons(
                 children: <Widget>[
                   Padding(

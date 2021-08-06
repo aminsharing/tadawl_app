@@ -19,6 +19,17 @@ import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 // import 'package:audioplayers/audioplayers.dart';
 
 class MsgProvider extends ChangeNotifier{
+
+  MsgProvider(){
+    print("MsgProvider init");
+  }
+
+  @override
+  void dispose() {
+    print("MsgProvider dispose");
+    super.dispose();
+  }
+
   final TextEditingController _msgController = TextEditingController();
 
   String _recAvatarUserName = 'Username';
@@ -43,7 +54,6 @@ class MsgProvider extends ChangeNotifier{
   bool _isRecording = false;
   File _voiceMsg;
   int _unreadMsgs = 0;
-
 
 
   Future<void> getConvInfo(BuildContext context, String _phone) async {
@@ -382,7 +392,6 @@ class MsgProvider extends ChangeNotifier{
   TextEditingController get msgController => _msgController;
   File get voiceMsg => _voiceMsg;
   int get unreadMsgs => _unreadMsgs;
-
 
 
 

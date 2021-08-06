@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/offices_vr_provider.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
@@ -26,10 +27,10 @@ class Stage1 extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
     final translate = AppLocalizations.of(context);
-    Provider.of<UserMutualProvider>(context, listen: false).getSession();
-    var phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
-    
+
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -119,7 +120,9 @@ class Stage1 extends StatelessWidget {
                   if (officesVR.buttonClicked == null)
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
-                      child: TextButton(
+                      child: ChangeNotifierProvider<UserMutualProvider>(
+                        create: (_) => UserMutualProvider(locale.phone),
+                        child: TextButton(
                         onPressed: () async {
                           officesVR.setButtonClicked(1);
 
@@ -137,21 +140,39 @@ class Stage1 extends StatelessWidget {
                             if(officesVR.office_cordinates != null){
                               await officesVR.sendOfficesVRInfo(
                                   context,
-                                  phone,
+                                  locale.phone,
                                   CRNumber,
                                   officeName,
                                   officesVR.office_cordinates_lat.toString(),
                                   officesVR.office_cordinates_lng.toString(),
-                                  imageOfficeVR);
+                                  imageOfficeVR).then((value) {
+                                var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
+
+                                userMutual.getAvatarList(locale.phone);
+                                userMutual.getUserAdsList(locale.phone);
+                                userMutual.getEstimatesInfo(locale.phone);
+                                userMutual.getSumEstimatesInfo(locale.phone);
+                                userMutual.checkOfficeInfo(locale.phone);
+                                userMutual.setUserPhone(locale.phone);
+                              });
                             }else{
                               await officesVR.sendOfficesVRInfo(
                                   context,
-                                  phone,
+                                  locale.phone,
                                   CRNumber,
                                   officeName,
                                   officesVR.initialCameraPosition.latitude.toString(),
                                   officesVR.initialCameraPosition.longitude.toString(),
-                                  imageOfficeVR);
+                                  imageOfficeVR).then((value) {
+                                var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
+
+                                userMutual.getAvatarList(locale.phone);
+                                userMutual.getUserAdsList(locale.phone);
+                                userMutual.getEstimatesInfo(locale.phone);
+                                userMutual.getSumEstimatesInfo(locale.phone);
+                                userMutual.checkOfficeInfo(locale.phone);
+                                userMutual.setUserPhone(locale.phone);
+                              });
                             }
                           }
                         },
@@ -176,6 +197,7 @@ class Stage1 extends StatelessWidget {
                             ),
                           ),
                         ),
+                      ),
                       ),
                     ),
                   if (officesVR.buttonClicked == 1)

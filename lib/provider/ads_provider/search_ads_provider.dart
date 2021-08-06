@@ -6,6 +6,7 @@ import 'package:tadawl_app/mainWidgets/my_account/owner/body/owen_account.dart';
 import 'package:tadawl_app/models/KeySearchModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -40,21 +41,16 @@ class SearchAdsProvider extends ChangeNotifier{
           if (_key.isNotEmpty) {
             if (_key.first.phone == keySearch) {
               var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
-              userMutual
-                  .getAvatarList(_key.first.phone);
-              userMutual
-                  .getUserAdsList(_key.first.phone);
-              userMutual
-                  .getEstimatesInfo(_key.first.phone);
-              userMutual
-                  .getSumEstimatesInfo(_key.first.phone);
-              userMutual
-                  .checkOfficeInfo(_key.first.phone);
-              userMutual
-                  .setUserPhone(_key.first.phone);
+              userMutual.getAvatarList(_key.first.phone);
+              userMutual.getUserAdsList(_key.first.phone);
+              userMutual.getEstimatesInfo(_key.first.phone);
+              userMutual.getSumEstimatesInfo(_key.first.phone);
+              userMutual.checkOfficeInfo(_key.first.phone);
+              userMutual.setUserPhone(_key.first.phone);
 
               Future.delayed(Duration(seconds: 0), () {
-                if (userMutual.userPhone == userMutual.phone){
+                final locale = Provider.of<LocaleProvider>(context, listen: false);
+                if (userMutual.userPhone == locale.phone){
                   Navigator.push(
                     context,
                     MaterialPageRoute(

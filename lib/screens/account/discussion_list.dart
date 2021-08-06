@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_drawer.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/discussion_main.dart';
 import 'discussion_edit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,6 +17,7 @@ class DiscussionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
     return Consumer<MsgProvider>(builder: (context, convList, child) {
 
       print("DiscussionList -> MsgProvider");
@@ -78,13 +79,12 @@ class DiscussionList extends StatelessWidget {
       // }
 
       var mediaQuery = MediaQuery.of(context);
-      Provider.of<UserMutualProvider>(context, listen: false).getSession();
-      var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
+      
       //convList.getConvInfo(context);
-      convList.getConvInfo(context, _phone);
+      convList.getConvInfo(context, locale.phone);
 
       Future<Null> refreshPage()async{
-        convList.getConvInfo(context, _phone);
+        await convList.getConvInfo(context, locale.phone);
         convList.update();
       }
 
@@ -149,11 +149,11 @@ class DiscussionList extends StatelessWidget {
               physics: AlwaysScrollableScrollPhysics(),
               itemBuilder: (context, i){
                 if (convList.conv[i].state_conv_sender != '0') {
-                  convList.getUnreadMsgs(context, _phone, other_phone: convList.conv[i].phone);
+                  convList.getUnreadMsgs(context, locale.phone, other_phone: convList.conv[i].phone);
                   return TextButton(
                     onPressed: () {
                       // convList.initScrollDown();
-                      convList.setReadMsgs(context, _phone, convList.conv[i].phone, convList.conv[i].unreadMsgs);
+                      convList.setReadMsgs(context, locale.phone, convList.conv[i].phone, convList.conv[i].unreadMsgs);
                       convList.setRecAvatarUserName(convList.conv[i].username);
                       Navigator.push(
                           context,
@@ -209,7 +209,7 @@ class DiscussionList extends StatelessWidget {
                                         fontSize: 17,
                                         // color: Colors.white,
                                         color:
-                                        convList.conv[i].phone_user_sender == _phone
+                                        convList.conv[i].phone_user_sender == locale.phone
                                                 ? Color(0xff00cccc)
                                                 : Color(0xffffffff),
                                       ).getTextStyle(),
@@ -222,7 +222,7 @@ class DiscussionList extends StatelessWidget {
                                         fontSize: 13,
                                         // color: Colors.white54,
                                         color:
-                                        convList.conv[i].phone_user_sender == _phone
+                                        convList.conv[i].phone_user_sender == locale.phone
                                                 ? Color(0xff848282)
                                                 : Color(0xffffffff),
                                       ).getTextStyle(),
@@ -292,7 +292,7 @@ class DiscussionList extends StatelessWidget {
                                               //     .black45,
                                               color: convList.conv[i]
                                                           .phone_user_sender ==
-                                                      _phone
+                                                  locale.phone
                                                   ? Color(
                                                       0xff848282)
                                                   : Color(
@@ -350,7 +350,7 @@ class DiscussionList extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
                           border: Border.all(color: Colors.grey),
                         color: convList.conv[i].phone_user_sender ==
-                                _phone
+                            locale.phone
                             ? Colors.grey[100]
                             : Color(0xff00cccc),
                       ),

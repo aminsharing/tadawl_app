@@ -13,8 +13,8 @@ class Certified extends StatelessWidget {
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
     return Consumer<UserMutualProvider>(builder: (context, userMutual, child) {
-      if (userMutual.offices.isNotEmpty) {
-        return CertifiedOffice(state: userMutual.offices.first.state,);
+      if (userMutual.offices != null) {
+        return CertifiedOffice(state: userMutual.offices.state,);
       } else {
         return Column(
           children: [

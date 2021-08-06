@@ -164,6 +164,7 @@ class AdsModel {
     idAdderRelation= json['id_adder_relation'];
     idMarketerRelation= json['id_marketer_relation'];
     idCategory= json['id_category'];
+    phone_faved_user = json['phone'];
   }
 
   // ignore: sort_constructors_first

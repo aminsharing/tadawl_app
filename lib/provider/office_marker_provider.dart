@@ -9,11 +9,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/Gist.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/mainWidgets/my_account/other/body/other_account.dart';
-import 'package:tadawl_app/mainWidgets/my_account/owner/body/owen_account.dart';
 import 'package:tadawl_app/models/OfficeModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/screens/account/my_account.dart';
+
+import 'locale_provider.dart';
 
 class OfficeMarkerProvider extends ChangeNotifier{
 
@@ -80,29 +81,41 @@ class OfficeMarkerProvider extends ChangeNotifier{
             position: LatLng(double.parse(office.office_lat),
                 double.parse(office.office_lng)),
             onTap: () {
-              var user = Provider.of<UserMutualProvider>(context, listen: false);
-              user.getAvatarList(office.phone_user);
-              user.getUserAdsList(office.phone_user);
-              user.getEstimatesInfo(office.phone_user);
-              user.getSumEstimatesInfo(office.phone_user);
-              user.checkOfficeInfo(office.phone_user);
-              user.setUserPhone(office.phone_user);
+              // var user = Provider.of<UserMutualProvider>(context, listen: false);
+              // user.getAvatarList(office.phone_user);
+              // user.getUserAdsList(office.phone_user);
+              // user.getEstimatesInfo(office.phone_user);
+              // user.getSumEstimatesInfo(office.phone_user);
+              // user.checkOfficeInfo(office.phone_user);
+              // user.setUserPhone(office.phone_user);
               Future.delayed(Duration(seconds: 0), () {
-                if (user.userPhone == user.phone){
+                final locale = Provider.of<LocaleProvider>(context, listen: false);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            OwenAccount()),
+                            ChangeNotifierProvider<UserMutualProvider>(
+                              create: (_) => UserMutualProvider(locale.phone),
+                              child: MyAccount(),
+                            )
+                    ),
                   );
-                }else{
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            OtherAccount()),
-                  );
-                }
+                // final locale = Provider.of<LocaleProvider>(context, listen: false);
+                // if (user.userPhone == locale.phone){
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) =>
+                //             OwenAccount()),
+                //   );
+                // }else{
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) =>
+                //             OtherAccount()),
+                //   );
+                // }
               });
             },
             icon: BitmapDescriptor.fromBytes(bmp)));
@@ -111,22 +124,26 @@ class OfficeMarkerProvider extends ChangeNotifier{
     }
 
     Future.delayed(Duration(milliseconds: 0), () {
-      var a = <String>[];
-      _officesList.forEach((element) {
-        a.add(element.id_offices);
+      // var a = <String>[];
+      // _officesList.forEach((element) {
+      //   a.add(element.id_offices);
+      // });
+      aO().then((value) {
+        _entry = OverlayEntry(
+            builder: (context) {
+              return _MarkerHelper(
+                markerWidgets: markerWidgets(),
+                callback: (bitmaps) {
+                  _markers = mapBitmapsToMarkers(bitmaps);
+                  notifyListeners();
+                },
+              );
+            },
+            maintainState: true);
+        MarkerGenerator(_entry).generate(context);
+        notifyListeners();
       });
-      _entry = OverlayEntry(
-          builder: (context) {
-            return _MarkerHelper(
-              markerWidgets: markerWidgets(),
-              callback: (bitmaps) {
-                _markers = mapBitmapsToMarkers(bitmaps);
-              },
-            );
-          },
-          maintainState: true);
-      MarkerGenerator(_entry).generate(context);
-      notifyListeners();
+
       // if (_officesList.isEmpty) {
       //   Api().getsOfficeFunc().then((value) {
       //     _OfficeListData = value;

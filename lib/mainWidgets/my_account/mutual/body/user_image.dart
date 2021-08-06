@@ -13,7 +13,7 @@ class UserImage extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         image: DecorationImage(
-            image: imageName.isEmpty ? AssetImage('assets/images/avatar.png') : CachedNetworkImageProvider('https://tadawl.com.sa/API/assets/images/avatar/$imageName'),
+            image: imageName.isEmpty ? AssetImage('assets/images/avatar.png') : CachedNetworkImageProvider('https://tadawl-store.com/API/assets/images/avatar/$imageName'),
             onError: (obj, stack) => AssetImage('assets/images/avatar.png'),
             fit: BoxFit.contain),
       ),

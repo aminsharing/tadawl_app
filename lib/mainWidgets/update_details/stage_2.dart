@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/screens/ads/advertising_fee.dart';
 
 class Stage2 extends StatelessWidget {
-  Stage2(this._id_description, {Key key}) : super(key: key);
+  Stage2(this._id_description, {Key key, @required this.updateDetailsProvider}) : super(key: key);
   final String _id_description;
+  final UpdateDetailsProvider updateDetailsProvider;
   final GlobalKey<FormState> _updateAdsKey = GlobalKey<FormState>();
 
   @override
@@ -47,9 +47,9 @@ class Stage2 extends StatelessWidget {
       ),
       body: Form(
         key: _updateAdsKey,
-        child: Consumer2<UpdateDetailsProvider, AdPageProvider>(builder: (context, updateDetails, adPage, _){
+        child: Consumer<UpdateDetailsProvider>(builder: (context, updateDetails, _){
           print("Stage2 -> UpdateDetailsProvider");
-          print("Stage2 -> AdPageProvider");
+          print("Stage2 -> updateDetailsProvider");
           return SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -73,7 +73,7 @@ class Stage2 extends StatelessWidget {
                           height: 50,
                           child: TextFormField(
                             controller:
-                            adPage.spaceControllerUpdate ??
+                            updateDetails.spaceControllerUpdate ??
                                 TextEditingController(text: ''),
                             decoration: InputDecoration(
                               labelText:
@@ -99,11 +99,11 @@ class Stage2 extends StatelessWidget {
                               return null;
                             },
                             onChanged: (String value) {
-                              adPage
+                              updateDetails
                                   .setOnChangedSpaceUpdate(value);
                             },
                             onSaved: (String value) {
-                              adPage.setOnSavedSpaceUpdate(value);
+                              updateDetails.setOnSavedSpaceUpdate(value);
                             },
                           ),
                         ),
@@ -129,7 +129,7 @@ class Stage2 extends StatelessWidget {
                           width: mediaQuery.size.width * 0.6,
                           height: 50,
                           child: TextFormField(
-                            controller: adPage.meterPriceControllerUpdate ??
+                            controller: updateDetails.meterPriceControllerUpdate ??
                                 TextEditingController(text: ''),
                             decoration: InputDecoration(
                               labelText:
@@ -149,11 +149,11 @@ class Stage2 extends StatelessWidget {
                             minLines: 1,
                             maxLines: 1,
                             onChanged: (value) {
-                              adPage
+                              updateDetails
                                   .setOnChangedMeterPriceUpdate(value);
                             },
                             onSaved: (value) {
-                              adPage
+                              updateDetails
                                   .setOnSavedMeterPriceUpdate(value);
                             },
                           ),
@@ -180,7 +180,7 @@ class Stage2 extends StatelessWidget {
                         height: 50,
                         child: TextFormField(
                           controller:
-                          adPage.priceControllerUpdate ??
+                          updateDetails.priceControllerUpdate ??
                               TextEditingController(text: ''),
                           decoration: InputDecoration(
                             labelText:
@@ -207,7 +207,7 @@ class Stage2 extends StatelessWidget {
                             return null;
                           },
                           onSaved: (String value) {
-                            adPage
+                            updateDetails
                                 .setOnSavedTotalPriceUpdate(value);
                           },
                         ),
@@ -235,7 +235,7 @@ class Stage2 extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                   child: TextFormField(
-                    controller: adPage.descControllerUpdate ??
+                    controller: updateDetails.descControllerUpdate ??
                         TextEditingController(text: ''),
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)
@@ -261,7 +261,7 @@ class Stage2 extends StatelessWidget {
                       return null;
                     },
                     onSaved: (String value) {
-                      adPage.setOnSavedDetailsUpdate(value);
+                      updateDetails.setOnSavedDetailsUpdate(value);
                     },
                   ),
                 ),
@@ -335,7 +335,7 @@ class Stage2 extends StatelessWidget {
                       updateDetails.updateDetails(
                           context,
                           _id_description,
-                          adPage.detailsAqarUpdate,
+                          updateDetails.detailsAqarUpdate,
                           updateDetails.isFootballCourtUpdate.toString(),
                           updateDetails.isVolleyballCourtUpdate.toString(),
                           updateDetails.isAmusementParkUpdate.toString(),
@@ -367,8 +367,8 @@ class Stage2 extends StatelessWidget {
                           updateDetails.selectedTypeAqarUpdate.toString(),
                           updateDetails.selectedFamilyUpdate.toString(),
                           updateDetails.interfaceSelectedUpdate,
-                          adPage.totalSpaceUpdate,
-                          adPage.totalPricUpdatee,
+                          updateDetails.totalSpaceUpdate,
+                          updateDetails.totalPricUpdatee,
                           updateDetails.selectedPlanUpdate.toString(),
                           updateDetails.id_category_finalUpdate.toString(),
                           null,

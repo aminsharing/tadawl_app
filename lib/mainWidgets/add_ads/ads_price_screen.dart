@@ -7,7 +7,8 @@ import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 
 
 class AdsPriceScreen extends StatelessWidget {
-  AdsPriceScreen({Key key}) : super(key: key);
+  AdsPriceScreen(this.addAdProvider,{Key key}) : super(key: key);
+  final AddAdProvider addAdProvider;
 
   final GlobalKey<FormState> _addAdsKey = GlobalKey<FormState>();
 
@@ -279,7 +280,12 @@ class AdsPriceScreen extends StatelessWidget {
                       }
                       _addAdsKey.currentState.save();
                       // addAds.setCurrentStageAddAds(7);
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewAdsScreen()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                      ChangeNotifierProvider<AddAdProvider>.value(
+                        value: addAdProvider,
+                        child: ReviewAdsScreen(),
+                      )
+                          ));
                     },
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 30),

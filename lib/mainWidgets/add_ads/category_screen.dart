@@ -8,8 +8,8 @@ import 'package:tadawl_app/provider/locale_provider.dart';
 
 
 class CategoryScreen extends StatelessWidget {
-  const CategoryScreen({Key key}) : super(key: key);
-
+  const CategoryScreen(this.addAdProvider,{Key key}) : super(key: key);
+  final AddAdProvider addAdProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +20,11 @@ class CategoryScreen extends StatelessWidget {
       Future<bool> _onBackPressed() {
         return showDialog(
           context: context,
-          builder: (context) =>
+          builder: (context2) =>
               AlertDialog(
                 title: Text(
                   'إلغاء نشر الإعلان',
                   style: CustomTextStyle(
-
                     fontSize: 20,
                     color: const Color(0xff00cccc),
                   ).getTextStyle(),
@@ -34,7 +33,6 @@ class CategoryScreen extends StatelessWidget {
                 content: Text(
                   'هل تريد إلغاء نشر الإعلان، بموافقتك سوف تفقد أية معلومات متعلقة بالإعلان؟',
                   style: CustomTextStyle(
-
                     fontSize: 15,
                     color: const Color(0xff000000),
                   ).getTextStyle(),
@@ -175,7 +173,7 @@ class CategoryScreen extends StatelessWidget {
                               int.parse(addAds.categoryAddAds[i].id_category),
                               addAds.categoryAddAds[i].name);
                           // addAds.setCurrentStageAddAds(2);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => AdvertisingFeesScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => AdvertisingFeesScreen(addAdProvider),));
                         },
                         child: Container(
                           width: mediaQuery.size.width,

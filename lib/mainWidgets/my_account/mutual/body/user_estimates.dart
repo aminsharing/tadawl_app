@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_rating_bar/flutter_simple_rating_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/UserEstimateModel.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/estimateUser.dart';
 
 class UserEstimates extends StatelessWidget {
   const UserEstimates({Key key, @required this.estimates, @required this.sumEstimates}) : super(key: key);
   final List<UserEstimateModel> estimates;
-  final List<UserEstimateModel> sumEstimates;
+  final UserEstimateModel sumEstimates;
 
   @override
   Widget build(BuildContext context) {
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
     return TextButton(
       onPressed: () {
         Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Estimate()));
+            MaterialPageRoute(builder: (context) =>
+                ChangeNotifierProvider<UserMutualProvider>(
+                  create: (_) => UserMutualProvider(locale.phone),
+                  child: Estimate(),
+                )
+            ));
       },
       child: Row(
         mainAxisAlignment:
@@ -44,15 +53,10 @@ class UserEstimates extends StatelessWidget {
             const EdgeInsets.fromLTRB(
                 0, 0, 0, 0),
             child: RatingBar(
-              rating: sumEstimates.isNotEmpty
-                  ?
-              (double.parse(sumEstimates
-                  .first
-                  .sum_estimates ?? '0') /
-                  sumEstimates.length)
-                  .toDouble()
-                  :
-              3,
+              rating: sumEstimates != null
+                  ?// TODO check if estimates count is true
+              (double.parse(sumEstimates.sum_estimates ?? '0') / estimates.length).toDouble()
+                  : 3,
               icon: Icon(
                 Icons.star,
                 size: 15,

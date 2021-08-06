@@ -105,8 +105,9 @@ class RestorationPass extends StatelessWidget {
                             return;
                           }
                           _restorationPassKey.currentState.save();
-                          var url =
-                              'https://www.tadawl.com.sa/API/api_app/login/restoration_pass.php';
+                          var url = 'https://www.tadawl-store.com/API/api_app/login/restoration_pass.php';
+                              // 'https://www.tadawl.com.sa/API/api_app/login/restoration_pass.php';
+
                           var response = await http.post(url, body: {
                             'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
                             'phone': restorationPass.currentPhone,
@@ -136,11 +137,10 @@ class RestorationPass extends StatelessWidget {
                                 backgroundColor: Colors.green,
                                 textColor: Colors.white,
                                 fontSize: 15.0);
-                            restorationPass.saveSession(restorationPass.currentPhone);
                             await Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => VerifyAccount()),
+                                  builder: (context) => VerifyAccount(restorationPass.currentPhone)),
                             );
                           }
                         },

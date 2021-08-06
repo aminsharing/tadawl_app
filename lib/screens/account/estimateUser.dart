@@ -51,9 +51,9 @@ class Estimate extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      estimateUser.sumEstimates.isNotEmpty
+                      estimateUser.sumEstimates != null
                           ? AppLocalizations.of(context).estimate +
-                              ' ${(double.parse(estimateUser.sumEstimates.first.sum_estimates) / estimateUser.countEstimates()).toDouble().toStringAsFixed(1)} '
+                              ' ${(double.parse(estimateUser.sumEstimates.sum_estimates) / estimateUser.countEstimates()).toDouble().toStringAsFixed(1)} '
                           : AppLocalizations.of(context).estimate,
                       style: CustomTextStyle(
 
@@ -74,10 +74,10 @@ class Estimate extends StatelessWidget {
                           ).getTextStyle(),
                           textAlign: TextAlign.center,
                         ),
-                        if (estimateUser.sumEstimates.isNotEmpty)
+                        if (estimateUser.sumEstimates != null)
                           RatingBar(
                             rating: (double.parse(estimateUser
-                                        .sumEstimates.first.sum_estimates) /
+                                        .sumEstimates.sum_estimates) /
                                     estimateUser.countEstimates())
                                 .toDouble(),
                             icon: Icon(

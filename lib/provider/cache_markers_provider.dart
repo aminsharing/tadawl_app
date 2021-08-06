@@ -3,6 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:dcache/dcache.dart';
 
 class CacheMarkerModel extends ChangeNotifier {
+  CacheMarkerModel(){
+    print("CacheMarkerModel init");
+  }
+  @override
+  void dispose() {
+    print("CacheMarkerModel dispose");
+    super.dispose();
+  }
+
   Cache chache = SimpleCache<String, String>(
       storage: InMemoryStorage<String, String>(200));
   void updateCache(BuildContext context, String id_ads) {

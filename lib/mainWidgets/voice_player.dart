@@ -16,7 +16,7 @@ class _VoicePlayerState extends State<VoicePlayer> {
   @override
   void initState() {
     super.initState();
-    widget.player.setUrl('https://tadawl.com.sa/API/assets/voices/${widget.voice}', preload: false);
+    widget.player.setUrl('https://tadawl-store.com/API/assets/voices/${widget.voice}', preload: false);
   }
 
   @override
@@ -66,7 +66,7 @@ class _VoicePlayerState extends State<VoicePlayer> {
                 setState(() {
                   _isLoading = true;
                 });
-                widget.player.setUrl('https://tadawl.com.sa/API/assets/voices/${widget.voice}', preload: false).then((value) {
+                widget.player.setUrl('https://tadawl-store.com/API/assets/voices/${widget.voice}', preload: false).then((value) {
                   setState(() {
                     _isLoading = false;
                     widget.player.play().then((value) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class BuildPlan extends StatelessWidget {
   const BuildPlan({Key key}) : super(key: key);
@@ -14,8 +14,8 @@ class BuildPlan extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Consumer<MainPageProvider>(builder: (context, searchDrawer, child) {
-            print("BuildPlan -> MainPageProvider");
+          Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
+            print("BuildPlan -> SearchDrawerProvider");
             return ToggleButtons(
               children: <Widget>[
                 Padding(

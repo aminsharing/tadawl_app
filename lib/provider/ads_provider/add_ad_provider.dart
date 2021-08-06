@@ -11,16 +11,29 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/CategoryModel.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
-import 'package:tadawl_app/screens/ads/main_page.dart';
+import 'package:tadawl_app/screens/general/home.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddAdProvider extends ChangeNotifier{
+
+  AddAdProvider(){
+    print("AddAdProvider init");
+    getCategoryeInfoAddAds();
+  }
+
+  @override
+  void dispose() {
+    print("AddAdProvider dispose");
+    clearChacheAddAds();
+    super.dispose();
+  }
+
   VideoPlayerController _videoControllerAddAds;
   ChewieController _chewieControllerAddAds;
   File _videoAddAds;
@@ -85,8 +98,7 @@ class AddAdProvider extends ChangeNotifier{
   List<File> _imagesListAddAds = [];
   int _currentControllerPageAddAds = 0;
   final PageController _controllerAddAds = PageController();
-
-
+  int _userAdsCount;
 
 
 
@@ -144,6 +156,19 @@ class AddAdProvider extends ChangeNotifier{
     _typeAqarAddAds[0] = false;
     _typeAqarAddAds[1] = false;
     _typeAqarAddAds[2] = false;
+  }
+
+  Future<int> getSession() async {
+    var p = await SharedPreferences.getInstance();
+    _userAdsCount = p.getInt('userAdsCount');
+    return _userAdsCount;
+  }
+
+  Future<void> saveSession(int userAdsCount) async {
+    var p = await SharedPreferences.getInstance();
+    await p.setInt('userAdsCount', userAdsCount);
+    // ignore: deprecated_member_use
+    await p.commit();
   }
 
   void setCurrentStageAddAds(int value) {
@@ -481,7 +506,7 @@ class AddAdProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void getCategoryeInfoAddAds(BuildContext context) async {
+  void getCategoryeInfoAddAds() async {
     Future.delayed(Duration(milliseconds: 200), () {
       _categoryAddAds.clear();
       Api().getCategoryFunc().then((value) {
@@ -707,16 +732,16 @@ class AddAdProvider extends ChangeNotifier{
         backgroundColor: Colors.green,
         textColor: Colors.white,
         fontSize: 15.0);
-    Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
+    // Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
     Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
-    Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
-    Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
+    // Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
+    // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
 
     await Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => MainPage()),
-      ModalRoute.withName('/MainPage')
-    ).then((value) {clearChacheAddAds();});
+      MaterialPageRoute(builder: (context) => Home()),
+      ModalRoute.withName('/Home')
+    );
   }
 
 
@@ -783,8 +808,6 @@ class AddAdProvider extends ChangeNotifier{
   int get id_category_finalAddAds => _id_category_finalAddAds;
   String get category_finalAddAds => _category_finalAddAds;
   VideoPlayerController get videoControllerAddAds => _videoControllerAddAds;
-
   ChewieController get chewieControllerAddAds => _chewieControllerAddAds;
-
   File get videoAddAds => _videoAddAds;
 }

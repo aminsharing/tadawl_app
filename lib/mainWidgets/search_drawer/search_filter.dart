@@ -1,34 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_1.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_10.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_11.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_12.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_13.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_14.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_15.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_16.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_17.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_18.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_19.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_2.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_20.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_21.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_3.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_4.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_5.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_6.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_7.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_8.dart';
-import 'package:tadawl_app/mainWidgets/search_drawer/choose_category/selected_category_9.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
+
+import 'choose_category/selected_category_1.dart';
+import 'choose_category/selected_category_10.dart';
+import 'choose_category/selected_category_11.dart';
+import 'choose_category/selected_category_12.dart';
+import 'choose_category/selected_category_13.dart';
+import 'choose_category/selected_category_14.dart';
+import 'choose_category/selected_category_15.dart';
+import 'choose_category/selected_category_16.dart';
+import 'choose_category/selected_category_17.dart';
+import 'choose_category/selected_category_18.dart';
+import 'choose_category/selected_category_19.dart';
+import 'choose_category/selected_category_2.dart';
+import 'choose_category/selected_category_20.dart';
+import 'choose_category/selected_category_21.dart';
+import 'choose_category/selected_category_3.dart';
+import 'choose_category/selected_category_4.dart';
+import 'choose_category/selected_category_5.dart';
+import 'choose_category/selected_category_6.dart';
+import 'choose_category/selected_category_7.dart';
+import 'choose_category/selected_category_8.dart';
+import 'choose_category/selected_category_9.dart';
+
+
 
 class SearchFilter extends StatelessWidget {
   const SearchFilter({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MainPageProvider>(builder: (context, searchDrawer, child) {
+    return Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
       if (searchDrawer.selectedCategory == '0') {
         return Container();
       } else if (searchDrawer.selectedCategory == '1') {

@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import 'package:jiffy/jiffy.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/ad_page/body/ad_description_widget.dart';
 import 'package:tadawl_app/mainWidgets/ad_page/body/ad_header_widget.dart';
@@ -9,17 +8,16 @@ import 'package:tadawl_app/mainWidgets/ad_page/body/ad_info_widget.dart';
 import 'package:tadawl_app/mainWidgets/ad_page/body/ad_location_widget.dart';
 import 'package:tadawl_app/mainWidgets/ad_page/body/ad_qr_widget.dart';
 import 'package:tadawl_app/mainWidgets/ad_page/body/ad_statistics_widget.dart';
-import 'package:tadawl_app/mainWidgets/ad_page/body/ad_timestamp_widget.dart';
+import 'package:tadawl_app/mainWidgets/ad_page/body/ad_times_and_update_widget.dart';
 import 'package:tadawl_app/mainWidgets/ad_page/appBar/app_bar_action_widget.dart';
 import 'package:tadawl_app/mainWidgets/ad_page/appBar/app_bar_title_widget.dart';
 import 'package:tadawl_app/mainWidgets/ad_page/body/avatar_widget.dart';
-import 'package:tadawl_app/mainWidgets/ad_page/body/last_update_widget.dart';
 import 'package:tadawl_app/mainWidgets/ad_page/body/network_coverage_widget.dart';
 import 'package:tadawl_app/mainWidgets/ad_page/body/similar_ad_widget.dart';
 //import 'package:tadawl_app/mainWidgets/openMap.dart';
-import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
 
@@ -31,60 +29,42 @@ class AdPage extends StatelessWidget {
 
   
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final ScrollController _scrollController = ScrollController();
+
 
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
-    return Consumer2<AdPageProvider, MutualProvider>(builder: (context, adsPage, mutualProv, child) {
+    return ChangeNotifierProvider<AdPageProvider>(
+      create: (_) => AdPageProvider(),
+      child: Consumer2<AdPageProvider, MutualProvider>(builder: (context, adsPage, mutualProv, child) {
 
-      print("AdPage -> AdPageProvider");
-      print("AdPage -> MutualProvider");
+        print("AdPage -> AdPageProvider");
+        print("AdPage -> MutualProvider");
 
-      // ignore: missing_return
-      Future<bool> _onBackPressed() async {
-        adsPage.clearFav();
-        if (adsPage.videoControllerAdsPage != null) {
-          await adsPage.stopVideoAdsPage();
+
+
+        // if( mutualProv.adsPage.isNotEmpty){
+        //   adsPage.getIsFav(context, mutualProv.adsPage.first.idDescription);
+        // }
+
+
+
+
+        Future<Null> _refresh() async{
+          adsPage.update();
         }
-        _scrollController.dispose();
-        mutualProv.clearExpendedListCount();
-        Navigator.pop(context);
-      }
 
-
-    // if( mutualProv.adsPage.isNotEmpty){
-    //   adsPage.getIsFav(context, mutualProv.adsPage.first.idDescription);
-    // }
-
-
-      var provider = Provider.of<LocaleProvider>(context, listen: false);
-      var _lang = provider.locale.toString();
-      if (_lang != 'en_US') {
-        Jiffy.locale('ar');
-      }
-      else if (_lang == 'en_US') {
-        Jiffy.locale('en');
-      }
-
-      Future<Null> _refresh() async{
-        adsPage.update();
-      }
-      var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
-
-      return RefreshIndicator(
-        onRefresh: _refresh,
-        child: WillPopScope(
-          onWillPop: _onBackPressed,
+        return RefreshIndicator(
+          onRefresh: _refresh,
           child: Scaffold(
             backgroundColor: const Color(0xffffffff),
             key: _scaffoldKey,
             appBar: AppBar(
-          centerTitle: true,
-              actions: [AppBarActionWidget(adsPage: mutualProv)],
+              centerTitle: true,
+              actions: [AppBarActionWidget()],
               leadingWidth: 100.0,
               toolbarHeight: 100.0,
-              title: AppBarTitleWidget(adsPage: adsPage, mutualProv: mutualProv,),
+              title: AppBarTitleWidget(),
               leading: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: IconButton(
@@ -105,45 +85,42 @@ class AdPage extends StatelessWidget {
             ),
             body: ListView(
               physics: AlwaysScrollableScrollPhysics(),
-              controller: _scrollController,
+              controller: adsPage.scrollController,
               dragStartBehavior: DragStartBehavior.down,
               children: [
                 if (mutualProv.adsPage.isNotEmpty)
                   Column(
                     children: [
-                      AdHeaderWidget(adsPage: adsPage, mutualProv: mutualProv),
-                      AdInfoWidget(adsPage: adsPage, mutualProv: mutualProv),
+                      AdHeaderWidget(),
+                      AdInfoWidget(),
 // ads add timestamp ....................
-                      AdTimestampWidget(timeAdded: mutualProv.adsPage.first.timeAdded,),
-// end ads add timestamp ....................
 // last update ads timestamp ....................
-                      LastUpdateWidget(timeUpdated: mutualProv.adsPage.first.timeUpdated,),
+                      AdTimesAndUpdateWidget(),
+// end ads add timestamp ....................
 // end last update ads timestamp ....................
 // description ...................
-                      AdDescriptionWidget(adsPage: adsPage, ads: mutualProv.adsPage, adsUser: mutualProv.adsUser,),
+                      AdDescriptionWidget(),
 // end description ...................
-
 //  avatar .............
-                      if (mutualProv.adsUser.isNotEmpty)
-                        AvatarWidget(adsPage: adsPage, adsUser: mutualProv.adsUser,),
+                      ChangeNotifierProvider<UserMutualProvider>(
+                        create: (_) => UserMutualProvider(mutualProv.adsPage.first.phone_faved_user),
+                        child: AvatarWidget(),
+                      ),
 // end avatar .............
-
 //  statistics ads ........................
-                      if (mutualProv.adsUser.isNotEmpty)
-                        if (mutualProv.adsUser.first.phone == _phone)
-                          AdStatisticsWidget(adsViews: mutualProv.adsViews,),
+                      AdStatisticsWidget(),
 //  end statistics ads ........................
 //  network coverage ...................
-                      NetworkCoverageWidget(adsPage: adsPage,),
+                      NetworkCoverageWidget(),
 // end network coverage ...................
 //  location .....................
-                      AdLocationWidget(adsPage: adsPage, ads: mutualProv.adsPage,),
+                      AdLocationWidget(),
 // end location .....................
 // qr share ..........................................
-                      AdQRWidget(adsPage: adsPage, qrData: mutualProv.qrData,),
+                      AdQRWidget(),
 // end qr share ..........................................
 //  similar ads ..............
-                      SimilarAdWidget(adsPage: mutualProv,),
+                      SimilarAdWidget(),
 // end similar ads ..............
                     ],
                   )
@@ -191,7 +168,6 @@ class AdPage extends StatelessWidget {
                                       adsPage.stopVideoAdsPage();
                                       mutualProv.getAllAdsPageInfo(context, mutualProv.adsNavigation[i - 1].idDescription);
                                       mutualProv.getSimilarAdsList(context, mutualProv.adsNavigation[i - 1].idCategory, mutualProv.adsNavigation[i - 1].idDescription);
-
                                       Future.delayed(Duration(seconds: 0), () {
                                         Navigator.pushReplacement(
                                           context,
@@ -243,9 +219,9 @@ class AdPage extends StatelessWidget {
               ),
             ),
           ),
-        ),
-      );
-    });
+        );
+      }),
+    );
   }
 }
 

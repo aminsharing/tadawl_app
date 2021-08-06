@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:tadawl_app/mainWidgets/constans.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 
@@ -42,8 +43,8 @@ class BuildStreetWidth extends StatelessWidget {
                 child: DropdownButtonHideUnderline(
                   child: ButtonTheme(
                     alignedDropdown: true,
-                    child: Consumer<MainPageProvider>(builder: (context, searchDrawer, child) {
-                      print("BuildStreetWidth -> MainPageProvider");
+                    child: Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
+                      print("BuildStreetWidth -> SearchDrawerProvider");
                       return DropdownButton<String>(
                         hint: Text(
                           AppLocalizations.of(context).streetWidth,
@@ -63,9 +64,9 @@ class BuildStreetWidth extends StatelessWidget {
                         items:
                         (Provider.of<LocaleProvider>(context, listen: false).locale.toString() != 'en_US'
                             ?
-                        searchDrawer.StreetWidth
+                        StreetWidthCons
                             :
-                        searchDrawer.EnStreetWidth
+                        EnStreetWidthCons
                         ).map((Map map) {
                           return DropdownMenuItem<String>(
                             value: map['id_type'].toString(),

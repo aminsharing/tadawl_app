@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ChangePhoneProvider extends ChangeNotifier {
   ChangePhoneProvider(){
     print("ChangePhoneProvider init");
-
   }
 
   String _newPhone;
@@ -22,7 +21,7 @@ class ChangePhoneProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void saveSession(String phone) async {
+  Future<void> saveSession(String phone) async {
     var p = await SharedPreferences.getInstance();
     await p.setString('token', phone.toString());
     // ignore: deprecated_member_use
@@ -61,6 +60,5 @@ class ChangePhoneProvider extends ChangeNotifier {
   String get newPhone => _newPhone;
   String get currentPhone => _currentPhone;
   String get newAccountPhone => _newAccountPhone;
-
 
 }

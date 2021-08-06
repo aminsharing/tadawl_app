@@ -39,8 +39,9 @@ import 'stage_1/sliders/wells.dart';
 import 'stage_1/switchers/yard.dart';
 
 class Stage1 extends StatelessWidget {
-  const Stage1(this._id_description, {Key key}) : super(key: key);
+  const Stage1(this._id_description, {Key key, @required this.updateDetailsProvider}) : super(key: key);
   final String _id_description;
+  final UpdateDetailsProvider updateDetailsProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +102,12 @@ class Stage1 extends StatelessWidget {
                 // }
                 // _updateAdsKey.currentState.save();
                 // updateDetails.setCurrentStageUpdateDetails(2);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Stage2(_id_description)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                ChangeNotifierProvider<UpdateDetailsProvider>.value(
+                  value: updateDetailsProvider,
+                  child: Stage2(_id_description, updateDetailsProvider: updateDetailsProvider),
+                )
+                ));
               },
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 15, 0, 30),

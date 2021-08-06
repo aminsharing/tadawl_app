@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AdLocationWidget extends StatelessWidget {
-  AdLocationWidget({Key key, this.adsPage, this.ads}) : super(key: key);
-
-  final AdPageProvider adsPage;
-  final List<AdsModel> ads;
-
-
+  AdLocationWidget({Key key}) : super(key: key);
+  
   Future<void> _openMap(double latitude, double longitude) async {
-    var googleUrl =
-        'https://www.google.com/maps/dir/?api=1&destination=$latitude,$longitude';
+    var googleUrl = 'https://www.google.com/maps/dir/?api=1&destination=$latitude,$longitude';
     // 'https://www.google.com/maps/search/?provider.api=1&query=$latitude,$longitude';
     if (await canLaunch(googleUrl)) {
       await launch(googleUrl);
@@ -49,46 +45,49 @@ class AdLocationWidget extends StatelessWidget {
             ],
           ),
         ),
-        if (ads.isNotEmpty)
-          Container(
-            width: mediaQuery.size.width,
-            height: 300,
-            child: Stack(
-              children: <Widget>[
-                GoogleMap(
-                  onTap: (value){
-                    adsPage.stopVideoAdsPage();
-                    _openMap(double.parse(ads.first.lat),
-                        double.parse(ads.first.lng));
-                  },
-                  initialCameraPosition: CameraPosition(
-                      target: LatLng(
-                          double.parse(
-                              ads.first.lat),
-                          double.parse(
-                              ads.first.lng)),
-                      zoom: 15),
-                  mapType: MapType.normal,
-                  onMapCreated: _onMapCreated,
-                  myLocationEnabled: false,
-                  myLocationButtonEnabled: false,
-                  rotateGesturesEnabled: false,
-                  scrollGesturesEnabled: false,
-                  zoomControlsEnabled: false,
-                  zoomGesturesEnabled: false,
-                ),
-                Center(
-                  child: Icon(
-                    Icons.my_location_rounded,
-                    color: Color(0xff00cccc),
-                    size: 40,
+        Consumer2<AdPageProvider, MutualProvider>(builder: (context, adsPage, mutualProv, child) {
+          if (mutualProv.adsPage.isNotEmpty) {
+            return Container(
+              width: mediaQuery.size.width,
+              height: 300,
+              child: Stack(
+                children: <Widget>[
+                  GoogleMap(
+                    onTap: (value){
+                      adsPage.stopVideoAdsPage();
+                      _openMap(double.parse(mutualProv.adsPage.first.lat),
+                          double.parse(mutualProv.adsPage.first.lng));
+                    },
+                    initialCameraPosition: CameraPosition(
+                        target: LatLng(
+                            double.parse(
+                                mutualProv.adsPage.first.lat),
+                            double.parse(
+                                mutualProv.adsPage.first.lng)),
+                        zoom: 15),
+                    mapType: MapType.normal,
+                    onMapCreated: _onMapCreated,
+                    myLocationEnabled: false,
+                    myLocationButtonEnabled: false,
+                    rotateGesturesEnabled: false,
+                    scrollGesturesEnabled: false,
+                    zoomControlsEnabled: false,
+                    zoomGesturesEnabled: false,
                   ),
-                ),
-              ],
-            ),
-          )
-        else
-          Container(),
+                  Center(
+                    child: Icon(
+                      Icons.my_location_rounded,
+                      color: Color(0xff00cccc),
+                      size: 40,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return Container();
+          }
+        }),
       ],
     );
   }

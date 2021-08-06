@@ -4,8 +4,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/adv_fee_provider.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/transfer_form_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/login.dart';
 import 'package:tadawl_app/screens/account/transfer_form.dart';
 
@@ -15,8 +15,7 @@ class BankPayment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<UserMutualProvider>(context, listen: false).getSession();
-    var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
     var mediaQuery = MediaQuery.of(context);
 
     return Column(
@@ -380,7 +379,7 @@ class BankPayment extends StatelessWidget {
                         children: [
                           TextButton(
                             onPressed: () {
-                              if (_phone != null) {
+                              if (locale.phone != null) {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

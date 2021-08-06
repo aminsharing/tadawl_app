@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class BuildYard extends StatelessWidget {
   const BuildYard({Key key}) : super(key: key);
@@ -24,8 +24,8 @@ class BuildYard extends StatelessWidget {
             ).getTextStyle(),
             textAlign: TextAlign.center,
           ),
-          Consumer<MainPageProvider>(builder: (context, searchDrawer, child) {
-            print("BuildYard -> MainPageProvider");
+          Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
+            print("BuildYard -> SearchDrawerProvider");
             return FlutterSwitch(
               activeColor: const Color(0xff00cccc),
               width: 40.0,

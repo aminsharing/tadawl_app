@@ -3,8 +3,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/transfer_form_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
 class TransferForm extends StatelessWidget {
   TransferForm({
@@ -15,13 +15,13 @@ class TransferForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
     return Consumer<TransferFormProvider>(builder: (context, transfer, child) {
 
       print("TransferForm -> TransferFormProvider");
 
       var mediaQuery = MediaQuery.of(context);
-      Provider.of<UserMutualProvider>(context, listen: false).getSession();
-      var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
+
 
       return Scaffold(
         appBar: AppBar(
@@ -79,7 +79,7 @@ class TransferForm extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                   child: TextFormField(
                     enabled: false,
-                    controller: TextEditingController(text: _phone),
+                    controller: TextEditingController(text: locale.phone),
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context).mobileNumber,
                       fillColor: Colors.white,
@@ -532,7 +532,7 @@ class TransferForm extends StatelessWidget {
                       _transferKey.currentState.save();
                       transfer.sendTransfer(
                           context,
-                          _phone,
+                          locale.phone,
                           transfer.fullName,
                           transfer.reason,
                           transfer.refrencedNumber,

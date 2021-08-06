@@ -14,18 +14,18 @@ class AvatarInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
     var mediaQuery = MediaQuery.of(context);
-
+    Provider.of<UserMutualProvider>(context, listen: false).getUsersList(locale.phone);
     return SizedBox(
       width: mediaQuery.size.width,
       height: 250,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Consumer<UserMutualProvider>(builder: (context, userMutual, child) {
-          userMutual.getUsersList(userMutual.phone);
-          userMutual.getUserAdsList(userMutual.phone);
-          var provider = Provider.of<LocaleProvider>(context, listen: false);
-          var _lang = provider.locale.toString();
+
+          userMutual.getUserAdsList(locale.phone);
+          var _lang = locale.locale.toString();
           if (_lang != 'en_US') {
             Jiffy.locale('ar');
           }
@@ -38,15 +38,15 @@ class AvatarInfo extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  UserImage(imageName: userMutual.users.first.image,),
+                  UserImage(imageName: userMutual.users.image?? '',),
                   UserEstimates(estimates: userMutual.estimates, sumEstimates: userMutual.sumEstimates,)
                 ],
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  UserName(username: userMutual.users.first.username),
-                  UserRegisteredDate(timeRegistered: userMutual.users.first.timeRegistered,),
+                  UserName(username: userMutual.users.username),
+                  UserRegisteredDate(timeRegistered: userMutual.users.timeRegistered,),
                   UserLastSeen(lastSeen: Jiffy(DateTime.now()).fromNow()),
                 ],
               ),

@@ -5,7 +5,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/request_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
 class Requests extends StatelessWidget {
   Requests({
@@ -14,13 +13,13 @@ class Requests extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
     return Consumer<RequestProvider>(builder: (context, requests, child) {
 
       print("Requests -> RequestProvider");
 
-      Provider.of<UserMutualProvider>(context, listen: false).getSession();
-      var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
-      requests.getUserRequestsList(_phone);
+
+      requests.getUserRequestsList(locale.phone);
 
       return Scaffold(
         backgroundColor: const Color(0xffffffff),
@@ -111,19 +110,18 @@ class Requests extends StatelessWidget {
                           ),
                         ),
                         title:
-                            Provider.of<LocaleProvider>(context, listen: false)
-                                        .locale
-                                        .toString() !=
-                                    'en_US'
-                                ? Text('${requests.requests[i].category} .. ar',
+                        locale.locale.toString() != 'en_US'
+                                ?
+                        Text(
+                            '${requests.requests[i].category} .. ar',
                                     style: CustomTextStyle(
-
                                       fontSize: 20,
                                       color: Color(0xff000000),
                                     ).getTextStyle())
-                                : Text('${requests.requests[i].category} .. en',
+                                :
+                        Text(
+                            '${requests.requests[i].category} .. en',
                                     style: CustomTextStyle(
-
                                       fontSize: 20,
                                       color: Color(0xff000000),
                                     ).getTextStyle())),

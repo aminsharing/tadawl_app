@@ -3,11 +3,14 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class TwoWeeksSwitch extends StatelessWidget {
-  const TwoWeeksSwitch({Key key}) : super(key: key);
+  const TwoWeeksSwitch({
+    Key key,
+    @required this.isMainPage
+  }) : super(key: key);
+  final bool isMainPage;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,7 @@ class TwoWeeksSwitch extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          Consumer<MainPageProvider>(builder: (context, searchDrawer, child) {
+          Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
             return FlutterSwitch(
               activeColor: const Color(0xff00cccc),
               width: 40.0,
@@ -40,58 +43,21 @@ class TwoWeeksSwitch extends StatelessWidget {
               showOnOff: false,
               onToggle: (val) {
                 searchDrawer.setIsTwoWeekSearchDrawer(val);
-                Provider.of<MenuProvider>(context, listen: false)
-                    .setFilterSearchDrawer(searchDrawer.isTwoWeeksAgoSearchDrawer ? 2 : null);
-                Provider.of<MenuProvider>(context, listen: false)
-                    .getAdsInfo(
-                  context,
-                  searchDrawer.idCategorySearch,
-                  searchDrawer.selectedCategory,
-                  searchDrawer.minPriceSearchDrawer,
-                  searchDrawer.maxPriceSearchDrawer,
-                  searchDrawer.minSpaceSearchDrawer,
-                  searchDrawer.maxSpaceSearchDrawer,
-                  searchDrawer.selectedTypeAqarSearchDrawer,
-                  searchDrawer.interfaceSelectedSearchDrawer,
-                  searchDrawer.selectedPlanSearchDrawer,
-                  searchDrawer.ageOfRealEstateSelectedSearchDrawer,
-                  searchDrawer.selectedApartmentsSearchDrawer,
-                  searchDrawer.floorSelectedSearchDrawer,
-                  searchDrawer.selectedLoungesSearchDrawer,
-                  searchDrawer.selectedRoomsSearchDrawer,
-                  searchDrawer.storesSelectedSearchDrawer,
-                  searchDrawer.streetWidthSelectedSearchDrawer,
-                  searchDrawer.selectedToiletsSearchDrawer,
-                  searchDrawer.treesSelectedSearchDrawer,
-                  searchDrawer.wellsSelectedSearchDrawer,
-                  searchDrawer.bool_feature1SearchDrawer.toString(),
-                  searchDrawer.bool_feature2SearchDrawer.toString(),
-                  searchDrawer.bool_feature3SearchDrawer.toString(),
-                  searchDrawer.bool_feature4SearchDrawer.toString(),
-                  searchDrawer.bool_feature5SearchDrawer.toString(),
-                  searchDrawer.bool_feature6SearchDrawer.toString(),
-                  searchDrawer.bool_feature7SearchDrawer.toString(),
-                  searchDrawer.bool_feature8SearchDrawer.toString(),
-                  searchDrawer.bool_feature9SearchDrawer.toString(),
-                  searchDrawer.bool_feature10SearchDrawer
-                      .toString(),
-                  searchDrawer.bool_feature11SearchDrawer
-                      .toString(),
-                  searchDrawer.bool_feature12SearchDrawer
-                      .toString(),
-                  searchDrawer.bool_feature13SearchDrawer
-                      .toString(),
-                  searchDrawer.bool_feature14SearchDrawer
-                      .toString(),
-                  searchDrawer.bool_feature15SearchDrawer
-                      .toString(),
-                  searchDrawer.bool_feature16SearchDrawer
-                      .toString(),
-                  searchDrawer.bool_feature17SearchDrawer
-                      .toString(),
-                  searchDrawer.bool_feature18SearchDrawer
-                      .toString(),
-                );
+                if(isMainPage){
+                  if(val){
+                    searchDrawer.setFilter(2);
+                  }else{
+                    searchDrawer.setFilter(null);
+                  }
+                  searchDrawer.getAdsList(context);
+                }else{
+                  if(val){
+                    searchDrawer.setMenuFilter(2);
+                  }else{
+                    searchDrawer.setMenuFilter(null);
+                  }
+                  searchDrawer.getMenuList(context);
+                }
               },
             );
           }),

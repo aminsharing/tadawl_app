@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/add_ads/category_screen.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 
 
 class InitScreen extends StatelessWidget {
-  const InitScreen({Key key}) : super(key: key);
+  InitScreen({Key key}) : super(key: key);
 
+  final AddAdProvider addAdProvider = AddAdProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +21,8 @@ class InitScreen extends StatelessWidget {
         title: Center(
           widthFactor: 1.5,
           child: Text(
-            AppLocalizations
-                .of(context)
-                .addAdsCond,
+            AppLocalizations.of(context).addAdsCond,
             style: CustomTextStyle(
-
               fontSize: 20,
               color: const Color(0xffffffff),
             ).getTextStyle(),
@@ -66,7 +66,12 @@ class InitScreen extends StatelessWidget {
           TextButton(
             onPressed: () {
               // addAds.setCurrentStageAddAds(1);
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CategoryScreen()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
+                  ChangeNotifierProvider<AddAdProvider>(
+                    create: (_) => addAdProvider,
+                    child: CategoryScreen(addAdProvider),
+                  ),
+              ));
             },
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 30, 0, 30),

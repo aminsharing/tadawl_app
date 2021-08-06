@@ -41,8 +41,6 @@ class OfficesVRProvider extends ChangeNotifier{
   bool _serviceEnabled;
   PermissionStatus _permissionGranted;
 
-
-
   void setButtonClicked(int state) {
     _buttonClicked = state;
     notifyListeners();
@@ -87,14 +85,7 @@ class OfficesVRProvider extends ChangeNotifier{
           office_cordinates_lat, office_cordinates_lng, image);
     });
 
-    var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
 
-    userMutual.getAvatarList(phone);
-    userMutual.getUserAdsList(phone);
-    userMutual.getEstimatesInfo(phone);
-    userMutual.getSumEstimatesInfo(phone);
-    userMutual.checkOfficeInfo(phone);
-    userMutual.setUserPhone(phone);
 
     Future.delayed(Duration(seconds: 0), () {
       Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(2);

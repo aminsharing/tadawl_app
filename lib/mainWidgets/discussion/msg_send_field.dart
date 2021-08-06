@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/message_model.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
 class MsgSendField extends StatelessWidget {
   MsgSendField({Key key, @required this.phone_user}) : super(key: key);
@@ -13,9 +13,9 @@ class MsgSendField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
     var mediaQuery = MediaQuery.of(context);
-    Provider.of<UserMutualProvider>(context, listen: false).getSession();
-    var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
+
 
     return Align(
       alignment: Alignment.bottomCenter,
@@ -96,7 +96,7 @@ class MsgSendField extends StatelessWidget {
                                   null,
                                   mainChat.messageController.text,
                                   phone_user,
-                                  _phone,
+                                  locale.phone,
                                   MessType.TEXT,
                                 );
                               },
@@ -142,7 +142,7 @@ class MsgSendField extends StatelessWidget {
                                       null,
                                       mainChat.messageController.text,
                                       phone_user,
-                                      _phone,
+                                      locale.phone,
                                       MessType.TEXT
                                   );
                                 }
@@ -169,10 +169,10 @@ class MsgSendField extends StatelessWidget {
                                 mainChat.startRecorder();
                               },
                               onTapUp: (value){
-                                mainChat.stopRecorder(false, phone_user, _phone, context);
+                                mainChat.stopRecorder(false, phone_user, locale.phone, context);
                               },
                               onHorizontalDragStart: (value){
-                                mainChat.stopRecorder(true, phone_user, _phone, context);
+                                mainChat.stopRecorder(true, phone_user, locale.phone, context);
                               },
                               child: Icon(mainChat.recordIcon ?? Icons.mic,
                                 color: Color(0xff00cccc),

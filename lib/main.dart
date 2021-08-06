@@ -3,16 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/adv_fee_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/l10n/l10n.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/general/home.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/provider/NotificationProvider.dart';
@@ -40,12 +34,12 @@ class MyApp extends StatelessWidget {
           // ChangeNotifierProvider<GeneralProvider>(create: (_) => GeneralProvider()),
 
           /// a2 Ads Provider
-          ChangeNotifierProvider<AdPageProvider>(create: (_) => AdPageProvider()),
-          ChangeNotifierProvider<AddAdProvider>(create: (_) => AddAdProvider()),
-          ChangeNotifierProvider<AdvFeeProvider>(create: (_) => AdvFeeProvider()),
+          // ChangeNotifierProvider<AdPageProvider>(create: (_) => AdPageProvider()),
+          // ChangeNotifierProvider<AddAdProvider>(create: (_) => AddAdProvider()),
+          // ChangeNotifierProvider<AdvFeeProvider>(create: (_) => AdvFeeProvider()),
           // ChangeNotifierProvider<AqarVRProvider>(create: (_) => AqarVRProvider()),
-          ChangeNotifierProvider<MainPageProvider>(create: (_) => MainPageProvider()),
-          ChangeNotifierProvider<MenuProvider>(create: (_) => MenuProvider()),
+          // ChangeNotifierProvider<MainPageProvider>(create: (_) => MainPageProvider()),
+          // ChangeNotifierProvider<MenuProvider>(create: (_) => MenuProvider()),
           ChangeNotifierProvider<MutualProvider>(create: (_) => MutualProvider()),
           // ChangeNotifierProvider<SearchAdsProvider>(create: (_) => SearchAdsProvider()),
           // ChangeNotifierProvider<SpecialOffersProvider>(create: (_) => SpecialOffersProvider()),
@@ -62,7 +56,7 @@ class MyApp extends StatelessWidget {
           // ChangeNotifierProvider<MyAccountProvider>(create: (_) => MyAccountProvider()),
           // ChangeNotifierProvider<OfficesVRProvider>(create: (_) => OfficesVRProvider()),
           // ChangeNotifierProvider<TransferFormProvider>(create: (_) => TransferFormProvider()),
-          ChangeNotifierProvider<UserMutualProvider>(create: (_) => UserMutualProvider()),
+          // ChangeNotifierProvider<UserMutualProvider>(create: (_) => UserMutualProvider()),
 
           /// this added
           // ChangeNotifierProvider<MapProvider>(create: (_) => MapProvider()),

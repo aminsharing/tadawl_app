@@ -8,6 +8,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/mainWidgets/open_images.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/open_image_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/update_img_vid_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 import 'package:video_player/video_player.dart';
@@ -34,7 +35,7 @@ class UpdateImgVed extends StatelessWidget {
       // data = ModalRoute.of(context).settings.arguments;
       // var _id_description = data['id_description'];
       //updateImgVed.randomPosition(200);
-      Provider.of<AdPageProvider>(context, listen: false).getImagesAdsPageInfo(context, _idDescription);
+      Provider.of<MutualProvider>(context, listen: false).getImagesAdsPageList(context, _idDescription);
 
       return Scaffold(
         appBar: AppBar(
@@ -77,7 +78,7 @@ class UpdateImgVed extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              if (Provider.of<AdPageProvider>(context, listen: false).image.isNotEmpty)
+              if (Provider.of<MutualProvider>(context, listen: false).adsPageImages.isNotEmpty)
                 Column(
                   children: [
                     Padding(
@@ -101,7 +102,7 @@ class UpdateImgVed extends StatelessWidget {
                               width: mediaQuery.size.width,
                               height: mediaQuery.size.height * 0.3,
                               child: PageView.builder(
-                                itemCount: Provider.of<AdPageProvider>(context, listen: false).image.length,
+                                itemCount: Provider.of<MutualProvider>(context, listen: false).adsPageImages.length,
                                 itemBuilder: (context, position) {
                                   return Stack(
                                     children: [
@@ -109,23 +110,20 @@ class UpdateImgVed extends StatelessWidget {
                                         onTap: () {
                                           Navigator.push(
                                               context,
-                                              MaterialPageRoute(builder: (context) => OpenImages()));
-                                          // Navigator.pushNamed(
-                                          //     context, '/main/open_images',
-                                          //     arguments: {
-                                          //       'id_description': Provider.of<AdPageProvider>(context, listen: false)
-                                          //           .image[position]
-                                          //           .idDescription,
-                                          //     });
+                                              MaterialPageRoute(builder: (context) =>
+                                                  ChangeNotifierProvider<OpenImageProvider>(
+                                                    create: (_) => OpenImageProvider(Provider.of<MutualProvider>(context, listen: false).idDescription),
+                                                    child: OpenImages(),
+                                                  )
+                                              ));
                                         },
                                         child: PinchZoomImage(
                                           image: CachedNetworkImage(
-                                placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-                                errorWidget: (context, url, error) => Icon(Icons.error),
-                                            imageUrl: 'https://tadawl.com.sa/API/assets/images/ads/${Provider.of<AdPageProvider>(context, listen: false).image[position].ads_image}',
+                                            placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                            errorWidget: (context, url, error) => Icon(Icons.error),
+                                            imageUrl: 'https://tadawl-store.com/API/assets/images/ads/${Provider.of<MutualProvider>(context, listen: false).adsPageImages[position].ads_image}',
                                             width: mediaQuery.size.width,
-                                            height:
-                                                mediaQuery.size.height * 0.3,
+                                            height: mediaQuery.size.height * 0.3,
                                             fit: BoxFit.cover,
                                           ),
                                           zoomedBackgroundColor: Color.fromRGBO(
@@ -147,7 +145,7 @@ class UpdateImgVed extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               image: DecorationImage(
                                                 image: const CachedNetworkImageProvider(
-                                                    'https://tadawl.com.sa/API/assets/images/logo22.png'),
+                                                    'https://tadawl-store.com/API/assets/images/logo22.png'),
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
@@ -185,7 +183,7 @@ class UpdateImgVed extends StatelessWidget {
                                         ),
                                       );
                                     },
-                                    itemCount: Provider.of<AdPageProvider>(context, listen: false).image.length,
+                                    itemCount: Provider.of<MutualProvider>(context, listen: false).adsPageImages.length,
                                   )),
                             ),
                           ),
@@ -243,7 +241,7 @@ class UpdateImgVed extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               image: DecorationImage(
                                                 image: const CachedNetworkImageProvider(
-                                                    'https://tadawl.com.sa/API/assets/images/logo22.png'),
+                                                    'https://tadawl-store.com/API/assets/images/logo22.png'),
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
@@ -470,7 +468,7 @@ class UpdateImgVed extends StatelessWidget {
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image: const CachedNetworkImageProvider(
-                                      'https://tadawl.com.sa/API/assets/images/logo22.png'),
+                                      'https://tadawl-store.com/API/assets/images/logo22.png'),
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -523,7 +521,7 @@ class UpdateImgVed extends StatelessWidget {
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image: const CachedNetworkImageProvider(
-                                      'https://tadawl.com.sa/API/assets/images/logo22.png'),
+                                      'https://tadawl-store.com/API/assets/images/logo22.png'),
                                   fit: BoxFit.cover,
                                 ),
                               ),

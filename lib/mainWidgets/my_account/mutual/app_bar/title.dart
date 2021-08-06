@@ -4,7 +4,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyAccountTitle extends StatelessWidget {
   const MyAccountTitle({Key key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Text(

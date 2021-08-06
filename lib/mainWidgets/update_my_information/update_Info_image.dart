@@ -28,15 +28,15 @@ class UpdateInfoImage extends StatelessWidget {
                     image: DecorationImage(
                         image: userMutual.imageUpdateProfile == null
                             ?
-                        userMutual.users.isEmpty
+                        userMutual.users == null
                             ?
                         const AssetImage('assets/images/avatar.png')
                             :
-                        (userMutual.users.first.image??'').isEmpty
+                        (userMutual.users.image??'').isEmpty
                             ?
                         const AssetImage('assets/images/avatar.png')
                             :
-                        CachedNetworkImageProvider('https://tadawl.com.sa/API/assets/images/avatar/${userMutual.users.first.image}')
+                        CachedNetworkImageProvider('https://tadawl-store.com/API/assets/images/avatar/${userMutual.users.image}')
                             :
                         FileImage(userMutual.imageUpdateProfile),
                         fit: BoxFit.contain,

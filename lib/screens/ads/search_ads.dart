@@ -145,7 +145,6 @@ class _SearchAdsState extends State<SearchAds> {
                                 Text(
                                   AppLocalizations.of(context).search,
                                   style: CustomTextStyle(
-
                                     fontSize: 20,
                                     color: const Color(0xff3f9d28),
                                   ).getTextStyle(),

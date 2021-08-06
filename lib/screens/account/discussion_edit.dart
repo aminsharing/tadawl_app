@@ -8,9 +8,9 @@ import 'package:tadawl_app/mainWidgets/custom_drawer.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/discussion_main.dart';
 
 class DiscussionEdit extends StatelessWidget {
@@ -50,6 +50,7 @@ class DiscussionEdit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
     return Consumer<MsgProvider>(builder: (context, convEdit, child) {
 
       print("DiscussionEdit -> MsgProvider");
@@ -162,7 +163,7 @@ class DiscussionEdit extends StatelessWidget {
                                                           0, 0, 0, 0),
                                                   child: Icon(
                                                     Icons.navigate_before_rounded,
-                                                    color: convEdit.conv[i].phone_user_sender == Provider.of<UserMutualProvider>(context, listen: false).phone
+                                                    color: convEdit.conv[i].phone_user_sender == locale.phone
                                                         ? Color(0xff00cccc)
                                                         : Color(0xffffffff),
                                                     size: 40,
@@ -192,7 +193,7 @@ class DiscussionEdit extends StatelessWidget {
 
                                                         fontSize: 12,
                                                         // color: Color(0xff00cccc),
-                                                        color: convEdit.conv[i].phone_user_sender == Provider.of<UserMutualProvider>(context, listen: false).phone
+                                                        color: convEdit.conv[i].phone_user_sender == locale.phone
                                                             ? Color(0xff00cccc)
                                                             : Color(0xffffffff),
                                                       ).getTextStyle(),
@@ -218,7 +219,7 @@ class DiscussionEdit extends StatelessWidget {
                                                               fontSize: 8,
                                                               // color:
                                                               //     Color(0xff848282),
-                                                                  color: convEdit.conv[i].phone_user_sender == Provider.of<UserMutualProvider>(context, listen: false).phone
+                                                                  color: convEdit.conv[i].phone_user_sender == locale.phone
                                                                       ? Color(0xff848282)
                                                                       : Color(0xffffffff),
                                                             ).getTextStyle(),
@@ -234,7 +235,7 @@ class DiscussionEdit extends StatelessWidget {
                                                         fontSize: 12,
                                                         // color: Color(0xff848282),
                                                         color:
-                                                        convEdit.conv[i].phone_user_sender == Provider.of<UserMutualProvider>(context, listen: false).phone
+                                                        convEdit.conv[i].phone_user_sender == locale.phone
                                                             ? Color(0xff848282)
                                                             : Color(0xffffffff),
                                                       ).getTextStyle(),
@@ -245,7 +246,7 @@ class DiscussionEdit extends StatelessWidget {
                                             ),
                                             decoration: BoxDecoration(
                                                 // color: Colors.white,
-                                                color: convEdit.conv[i].phone_user_sender == Provider.of<UserMutualProvider>(context, listen: false).phone
+                                                color: convEdit.conv[i].phone_user_sender == locale.phone
                                                     ? Colors.grey[100]
                                                     : Color(0xff00cccc),
                                                 border: Border.all(color: Colors.grey),

@@ -56,8 +56,7 @@ class UpdateLocationProvider extends ChangeNotifier{
           var addresses = await Geocoder.google(
               'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
               language: 'ar')
-              .findAddressesFromCoordinates(
-              Coordinates(location.latitude, location.longitude));
+              .findAddressesFromCoordinates(Coordinates(location.latitude, location.longitude));
           if (addresses.isNotEmpty) {
             _adss_city = '${addresses.first.locality.toString()}';
             _adss_neighborhood = '${addresses.first.subLocality.toString()}';

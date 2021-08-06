@@ -124,7 +124,7 @@ class AdsList extends StatelessWidget {
                                     image: DecorationImage(
                                       fit: BoxFit.cover,
                                       image: CachedNetworkImageProvider(
-                                          'https://tadawl.com.sa/API/assets/images/ads/' +
+                                          'https://tadawl-store.com/API/assets/images/ads/' +
                                               userMutual.userAds[i]
                                                   .ads_image ??
                                               ''),
@@ -144,7 +144,7 @@ class AdsList extends StatelessWidget {
                                       decoration: BoxDecoration(
                                         image: DecorationImage(
                                           image: const CachedNetworkImageProvider(
-                                              'https://tadawl.com.sa/API/assets/images/logo22.png'),
+                                              'https://tadawl-store.com/API/assets/images/logo22.png'),
                                           fit: BoxFit.cover,
                                         ),
                                       ),

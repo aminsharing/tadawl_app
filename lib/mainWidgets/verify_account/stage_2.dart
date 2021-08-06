@@ -6,19 +6,19 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/change_pass_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
-import 'package:tadawl_app/screens/ads/main_page.dart';
+import 'package:tadawl_app/screens/general/home.dart';
 
 class Stage2 extends StatelessWidget {
-  Stage2({Key key}) : super(key: key);
+  Stage2(this.currentPhone ,{Key key}) : super(key: key);
+  final String currentPhone;
   final GlobalKey<FormState> _formVerAccountKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
-    Provider.of<UserMutualProvider>(context, listen: false).getSession();
-    var _phone = Provider.of<UserMutualProvider>(context, listen: false).phone;
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -118,10 +118,11 @@ class Stage2 extends StatelessWidget {
                   return;
                 }
                 _formVerAccountKey.currentState.save();
-                var url = 'https://www.tadawl.com.sa/API/api_app/login/config_pass.php';
+                // var url = 'https://www.tadawl.com.sa/API/api_app/login/config_pass.php';
+                var url = 'https://www.tadawl-store.com/API/api_app/login/config_pass.php';
                 var response = await http.post(url, body: {
                   'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
-                  'phone': _phone,
+                  'phone': currentPhone,
                   'password': Provider.of<ChangePassProvider>(context, listen: false).newPass,
                   'rePassword': Provider.of<ChangePassProvider>(context, listen: false).reNewPass,
                 });
@@ -154,14 +155,15 @@ class Stage2 extends StatelessWidget {
                       backgroundColor: Colors.green,
                       textColor: Colors.white,
                       fontSize: 15.0);
-
-                  await Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            MainPage()),
-                    ModalRoute.withName('/MainPage')
-                  );
+                  await Provider.of<ChangePassProvider>(context, listen: false).saveSession(currentPhone).then((value) async{
+                    await Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                Home()),
+                        ModalRoute.withName('/Home')
+                    );
+                  });
                 }
               },
               child: Padding(

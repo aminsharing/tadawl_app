@@ -8,59 +8,70 @@ import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/provider/ads_provider/update_img_vid_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/update_location_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
-import 'package:tadawl_app/provider/user_provider/favourite_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/account/login.dart';
-import 'package:tadawl_app/screens/ads/menu.dart';
 import 'package:tadawl_app/screens/ads/update_details.dart';
 import 'package:tadawl_app/screens/ads/update_images_video.dart';
 import 'package:tadawl_app/screens/ads/update_location.dart';
+import 'package:tadawl_app/screens/general/home.dart';
 import 'package:video_player/video_player.dart';
 
 class AdPageProvider extends ChangeNotifier{
+  AdPageProvider(){
+    print("AdPageProvider init");
+  }
+
   VideoPlayerController _videoControllerAdsPage;
   Future<void> _initializeFutureVideoPlyerAdsPage;
   ChewieController _chewieControllerAdsPage;
-
   bool _busyAdsPage = false;
   final bool _waitAdsPage = false;
   int _currentControllerPageAdsPage = 0;
   final PageController _controllerAdsPage = PageController();
-  int _is_favAdsPage;
-  final TextEditingController _priceControllerUpdate = TextEditingController();
-  final TextEditingController _spaceControllerUpdate = TextEditingController();
-  final TextEditingController _descControllerUpdate = TextEditingController();
-  final TextEditingController _meterPriceControllerUpdate = TextEditingController();
-  List _imageData = [];
-  final List<AdsModel> _image = [];
+  bool _is_favAdsPage;
   final List<AdsModel> _AdsUpdateLoc = [];
   List _AdsUpdateLocData = [];
-  List _AdsDataUpdateDetails = [];
-  final List<AdsModel> _adsUpdateDetails = [];
   final Set<Marker> _markersUpdateLoc = {};
-  String _totalPricUpdatee;
-  String _detailsAqarUpdate;
-  int _meterPriceUpdate;
-  String _totalSpaceUpdate;
+  final ScrollController _scrollController = ScrollController();
+  int _expendedListCount = 4;
 
+  @override
+  void dispose() {
+    print("AdPageProvider dispose");
+    clearFav();
+    if (_videoControllerAdsPage != null) {
+      stopVideoAdsPage();
+    }
+    _scrollController.dispose();
+    clearExpendedListCount();
+    super.dispose();
+  }
+
+  void setExpendedListCount(int val){
+    _expendedListCount = val;
+    notifyListeners();
+  }
+
+  void clearExpendedListCount(){
+    _expendedListCount = 4;
+  }
 
   void choiceAction(BuildContext context, String choice, String idDescription) {
-    if (choice == 'تعديل الصور والفيديو' ||
-        choice == 'Update Images and Videos') {
+    if (choice == 'تعديل الصور والفيديو' || choice == 'Update Images and Videos') {
       if(_videoControllerAdsPage != null) {
         _videoControllerAdsPage.pause();
       }
       Navigator.push(context, MaterialPageRoute(builder: (context) =>
           ChangeNotifierProvider<UpdateImgVedProvider>(
             create: (_) => UpdateImgVedProvider(),
-            child: UpdateImgVed(idDescription),
+            child: ChangeNotifierProvider<AdPageProvider>.value(
+              value: AdPageProvider(),
+              child: UpdateImgVed(idDescription),
+            )
           )
       ));
-      // Navigator.pushNamed(context, '/main/update_ads_img_ved', arguments: {
-      //   'id_description': idDescription,
-      // });
-    } else if (choice == 'تعديل الموقع' || choice == 'Update Location') {
+    }
+    else if (choice == 'تعديل الموقع' || choice == 'Update Location') {
       if(_videoControllerAdsPage != null) {
         _videoControllerAdsPage.pause();
       }
@@ -70,19 +81,14 @@ class AdPageProvider extends ChangeNotifier{
             child: UpdateLocation(idDescription),
           )
           ));
-      // Navigator.pushNamed(context, '/main/update_location', arguments: {
-      //   'id_description': idDescription,
-      // });
-    } else if (choice == 'تعديل التفاصيل' || choice == 'Update Details') {
+    }
+    else if (choice == 'تعديل التفاصيل' || choice == 'Update Details') {
       if(_videoControllerAdsPage != null) {
         _videoControllerAdsPage.pause();
       }
-      Navigator.push(context, MaterialPageRoute(builder: (context) =>
-          UpdateDetails(idDescription)));
-      // Navigator.pushNamed(context, '/main/update_datails', arguments: {
-      //   'id_description': idDescription,
-      // });
-    } else if (choice == 'حذف الإعلان' || choice == 'Delete Ad') {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateDetails(idDescription)));
+    }
+    else if (choice == 'حذف الإعلان' || choice == 'Delete Ad') {
       onDeletePressed(context, idDescription);
     }
   }
@@ -126,20 +132,7 @@ class AdPageProvider extends ChangeNotifier{
     //notifyListeners();
   }
 
-  void getImagesAdsPageInfo(BuildContext context, String id_description) async {
-    Future.delayed(Duration(milliseconds: 0), () {
-      _image.clear();
-      Api()
-          .getImagesAdsPageFunc(id_description)
-          .then((value) {
-        _imageData = value;
-        _imageData.forEach((element) {
-          _image.add(AdsModel.adsImage(element));
-        });
-        notifyListeners();
-      });
-    });
-  }
+
 
   void getAdsPageInfo(BuildContext context, String id_description) async {
     Future.delayed(Duration(milliseconds: 0), () {
@@ -161,26 +154,7 @@ class AdPageProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void getAdsPageInfoUpdateDetails(BuildContext context, String id_description) async {
-    Future.delayed(Duration(milliseconds: 0), () {
-      _adsUpdateDetails.clear();
-      Api().getAdsPageFunc(id_description).then((value) {
-        _AdsDataUpdateDetails = value;
-        _AdsDataUpdateDetails.forEach((element) {
-          _adsUpdateDetails.add(AdsModel.adsUpdateDetails(element));
-        });
-        if (_adsUpdateDetails.isNotEmpty) {
-          _priceControllerUpdate..text = _adsUpdateDetails.first.price;
-          _spaceControllerUpdate..text = _adsUpdateDetails.first.space;
-          _meterPriceControllerUpdate..text = (int.tryParse(_adsUpdateDetails.first.price) ~/ int.tryParse(_adsUpdateDetails.first.space)).toString();
-          _meterPriceUpdate = int.parse(_meterPriceControllerUpdate.text);
-          _descControllerUpdate..text = _adsUpdateDetails.first.description;
-        }
-        notifyListeners();
-        // Provider.of<UpdateDetailsProvider>(context, listen: false).update();
-      });
-    });
-  }
+
 
   void clearFav(){
     _is_favAdsPage = null;
@@ -205,7 +179,6 @@ class AdPageProvider extends ChangeNotifier{
         content: Text(
           'هل أنت متأكد من حذف الإعلان؟',
           style: CustomTextStyle(
-
             fontSize: 15,
             color: const Color(0xff000000),
           ).getTextStyle(),
@@ -215,58 +188,14 @@ class AdPageProvider extends ChangeNotifier{
           GestureDetector(
             onTap: () {
               deleteAdsFunc(context, idDescription);
-              // Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
-              // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
-              // Provider.of<MainPageProvider>(context, listen: false)
-              //     .getAdsList(
-              //     context,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null,
-              //     null);
-              // Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
               Navigator.pushAndRemoveUntil(context,
-              MaterialPageRoute(builder: (context) => Menu()),
-              ModalRoute.withName('/Menu')
+              MaterialPageRoute(builder: (context) => Home()),
+              ModalRoute.withName('/Home')
               );
             },
             child: Text(
               'نعم',
               style: CustomTextStyle(
-
                 fontSize: 15,
                 color: const Color(0xff000000),
               ).getTextStyle(),
@@ -294,10 +223,11 @@ class AdPageProvider extends ChangeNotifier{
   }
 
   void changeAdsFavState(BuildContext context, int fav, String idDescription) async {
-    if(Provider.of<UserMutualProvider>(context, listen: false).phone != null){
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
+    if(locale.phone != null){
       Future.delayed(Duration(milliseconds: 0), () {
-        Api().changeAdsFavStateFunc(idDescription, Provider.of<UserMutualProvider>(context, listen: false).phone).then((value) {
-          _is_favAdsPage = fav;
+        Api().changeAdsFavStateFunc(idDescription, locale.phone).then((value) {
+          _is_favAdsPage = fav == 1;
           notifyListeners();
         });
         // Provider.of<FavouriteProvider>(context, listen: false).getUserAdsFavList(Provider.of<UserMutualProvider>(context, listen: false).phone);
@@ -317,58 +247,14 @@ class AdPageProvider extends ChangeNotifier{
   // }
 
   void setMarker(BuildContext context) async {
-    if (Provider.of<MainPageProvider>(context, listen: false).ads.isNotEmpty) {
-      _markersUpdateLoc.add(Marker(
-        markerId: MarkerId(_AdsUpdateLoc.first.lat),
-        position: LatLng(double.parse(_AdsUpdateLoc.first.lat),
-            double.parse(_AdsUpdateLoc.first.lng)),
-      ));
-    }
+    _markersUpdateLoc.add(Marker(
+      markerId: MarkerId(_AdsUpdateLoc.first.lat),
+      position: LatLng(double.parse(_AdsUpdateLoc.first.lat),
+          double.parse(_AdsUpdateLoc.first.lng)),
+    ));
   }
 
-  void setOnSavedTotalPriceUpdate(String value) {
-    _totalPricUpdatee = value;
-    _priceControllerUpdate..text = value;
-    notifyListeners();
-  }
 
-  void setOnSavedDetailsUpdate(String value) {
-    _detailsAqarUpdate = value;
-    _descControllerUpdate..text = value;
-    notifyListeners();
-  }
-
-  void setOnChangedSpaceUpdate(String value) {
-    if (_meterPriceUpdate != null) {
-      _priceControllerUpdate
-        ..text = (double.parse(value) * double.parse('$_meterPriceUpdate'))
-            .toString();
-    }
-    _totalSpaceUpdate = value;
-    notifyListeners();
-  }
-
-  void setOnSavedSpaceUpdate(String value) {
-    _totalSpaceUpdate = value;
-    _spaceControllerUpdate..text = '$value';
-    notifyListeners();
-  }
-
-  void setOnChangedMeterPriceUpdate(String value) {
-    if (_totalSpaceUpdate != null) {
-      _priceControllerUpdate
-        ..text =
-        (double.parse(value) * double.parse(_totalSpaceUpdate)).toString();
-    }
-    _meterPriceUpdate = int.parse(value);
-    notifyListeners();
-  }
-
-  void setOnSavedMeterPriceUpdate(String value) {
-    _meterPriceUpdate = int.parse(value);
-    _meterPriceControllerUpdate..text = '$value';
-    notifyListeners();
-  }
 
   void deleteAdsFunc(BuildContext context, String idDescription) async {
     Future.delayed(Duration(milliseconds: 0), () {
@@ -389,23 +275,10 @@ class AdPageProvider extends ChangeNotifier{
   bool get waitAdsPage => _waitAdsPage;
   int get currentControllerPageAdsPage => _currentControllerPageAdsPage;
   PageController get controllerAdsPage => _controllerAdsPage;
-  int get is_favAdsPage => _is_favAdsPage;
-
+  bool get is_favAdsPage => _is_favAdsPage;
   List<AdsModel> get AdsUpdateLoc => _AdsUpdateLoc;
   Set<Marker> get markersUpdateLoc => _markersUpdateLoc;
-  TextEditingController get priceControllerUpdate => _priceControllerUpdate;
-  TextEditingController get spaceControllerUpdate => _spaceControllerUpdate;
-  TextEditingController get descControllerUpdate => _descControllerUpdate;
-  List<AdsModel> get adsUpdateDetails => _adsUpdateDetails;
-  List<AdsModel> get image => _image;
-  String get totalPricUpdatee => _totalPricUpdatee;
-  String get detailsAqarUpdate => _detailsAqarUpdate;
-  int get meterPriceUpdate => _meterPriceUpdate;
-  String get totalSpaceUpdate => _totalSpaceUpdate;
-  TextEditingController get meterPriceControllerUpdate => _meterPriceControllerUpdate;
-
-
-
-
+  ScrollController get scrollController => _scrollController;
+  int get expendedListCount => _expendedListCount;
 
 }

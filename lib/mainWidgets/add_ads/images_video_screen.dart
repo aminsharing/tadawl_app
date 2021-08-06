@@ -13,8 +13,8 @@ import 'package:tadawl_app/provider/map_provider.dart';
 
 
 class ImagesVideoScreen extends StatelessWidget {
-  const ImagesVideoScreen({Key key}) : super(key: key);
-
+  const ImagesVideoScreen(this.addAdProvider,{Key key}) : super(key: key);
+  final AddAdProvider addAdProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +177,7 @@ class ImagesVideoScreen extends StatelessWidget {
                                       decoration: BoxDecoration(
                                         image: DecorationImage(
                                           image: const CachedNetworkImageProvider(
-                                              'https://tadawl.com.sa/API/assets/images/logo22.png'),
+                                              'https://tadawl-store.com/API/assets/images/logo22.png'),
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -417,7 +417,7 @@ class ImagesVideoScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 image: const CachedNetworkImageProvider(
-                                    'https://tadawl.com.sa/API/assets/images/logo22.png'),
+                                    'https://tadawl-store.com/API/assets/images/logo22.png'),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -521,10 +521,13 @@ class ImagesVideoScreen extends StatelessWidget {
                   // addAds.setCurrentStageAddAds(4);
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) =>
-                          ChangeNotifierProvider<MapProvider>(
-                            create: (_) => MapProvider(),
-                            child: LocationScreen(),
-                          )
+                      ChangeNotifierProvider<AddAdProvider>.value(
+                        value: addAdProvider,
+                        child: ChangeNotifierProvider<MapProvider>(
+                          create: (_) => MapProvider(),
+                          child: LocationScreen(addAdProvider),
+                        ),
+                      )
                       ));
                 },
                 child: Padding(

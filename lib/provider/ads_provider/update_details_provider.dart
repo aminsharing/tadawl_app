@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/models/BFModel.dart';
 import 'package:tadawl_app/models/CategoryModel.dart';
 import 'package:tadawl_app/models/QFModel.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
-import 'package:tadawl_app/screens/ads/main_page.dart';
+import 'package:tadawl_app/screens/general/home.dart';
 
 class UpdateDetailsProvider extends ChangeNotifier{
+  UpdateDetailsProvider(){
+    getCategoryeInfoUpdate();
+  }
+
+
   final List<bool> _typeAqarUpdate = List.generate(3, (_) => false);
   final List<bool> _familyUpdate = List.generate(2, (_) => false);
   final List<bool> _planUpdate = List.generate(3, (_) => false);
@@ -51,7 +56,16 @@ class UpdateDetailsProvider extends ChangeNotifier{
   int _selectedPlanUpdate = 0;
   int _selectedFamilyUpdate = 0;
   int _selectedTypeAqarUpdate = 0;
-
+  List _AdsDataUpdateDetails = [];
+  final List<AdsModel> _adsUpdateDetails = [];
+  final TextEditingController _priceControllerUpdate = TextEditingController();
+  final TextEditingController _spaceControllerUpdate = TextEditingController();
+  final TextEditingController _descControllerUpdate = TextEditingController();
+  final TextEditingController _meterPriceControllerUpdate = TextEditingController();
+  int _meterPriceUpdate;
+  String _totalPricUpdatee;
+  String _detailsAqarUpdate;
+  String _totalSpaceUpdate;
 
   void getAdsUpdateInfo(List<BFModel> _adsBF, List<QFModel> _adsQF, String _interface, String _idTypeAqar, String _plan) {
     _interfaceSelectedUpdate = _interfaceSelectedUpdate ?? _interface;
@@ -96,7 +110,7 @@ class UpdateDetailsProvider extends ChangeNotifier{
     
   }
 
-  void getCategoryeInfoUpdate(BuildContext context) async {
+  void getCategoryeInfoUpdate() async {
     Future.delayed(Duration(milliseconds: 0), () {
       _categoryUpdate.clear();
       Api().getCategoryFunc().then((value) {
@@ -322,6 +336,71 @@ class UpdateDetailsProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  void setOnSavedTotalPriceUpdate(String value) {
+    _totalPricUpdatee = value;
+    _priceControllerUpdate..text = value;
+    notifyListeners();
+  }
+
+  void setOnSavedDetailsUpdate(String value) {
+    _detailsAqarUpdate = value;
+    _descControllerUpdate..text = value;
+    notifyListeners();
+  }
+
+  void setOnChangedSpaceUpdate(String value) {
+    if (_meterPriceUpdate != null) {
+      _priceControllerUpdate
+        ..text = (double.parse(value) * double.parse('$_meterPriceUpdate'))
+            .toString();
+    }
+    _totalSpaceUpdate = value;
+    notifyListeners();
+  }
+
+  void setOnSavedSpaceUpdate(String value) {
+    _totalSpaceUpdate = value;
+    _spaceControllerUpdate..text = '$value';
+    notifyListeners();
+  }
+
+  void setOnChangedMeterPriceUpdate(String value) {
+    if (_totalSpaceUpdate != null) {
+      _priceControllerUpdate
+        ..text =
+        (double.parse(value) * double.parse(_totalSpaceUpdate)).toString();
+    }
+    _meterPriceUpdate = int.parse(value);
+    notifyListeners();
+  }
+
+  void setOnSavedMeterPriceUpdate(String value) {
+    _meterPriceUpdate = int.parse(value);
+    _meterPriceControllerUpdate..text = '$value';
+    notifyListeners();
+  }
+
+  void getAdsPageInfoUpdateDetails(BuildContext context, String id_description) async {
+    Future.delayed(Duration(milliseconds: 0), () {
+      _adsUpdateDetails.clear();
+      Api().getAdsPageFunc(id_description).then((value) {
+        _AdsDataUpdateDetails = value;
+        _AdsDataUpdateDetails.forEach((element) {
+          _adsUpdateDetails.add(AdsModel.adsUpdateDetails(element));
+        });
+        if (_adsUpdateDetails.isNotEmpty) {
+          _priceControllerUpdate..text = _adsUpdateDetails.first.price;
+          _spaceControllerUpdate..text = _adsUpdateDetails.first.space;
+          _meterPriceControllerUpdate..text = (int.tryParse(_adsUpdateDetails.first.price) ~/ int.tryParse(_adsUpdateDetails.first.space)).toString();
+          _meterPriceUpdate = int.parse(_meterPriceControllerUpdate.text);
+          _descControllerUpdate..text = _adsUpdateDetails.first.description;
+        }
+        notifyListeners();
+        // Provider.of<UpdateDetailsProvider>(context, listen: false).update();
+      });
+    });
+  }
+
   void updateDetails(
       BuildContext context,
       String id_description,
@@ -412,14 +491,14 @@ class UpdateDetailsProvider extends ChangeNotifier{
 
 
     Future.delayed(Duration(seconds: 0), () {
-      Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
+      // Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
       Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
-      Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
-      Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
+      // Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
+      // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => MainPage()),
-          ModalRoute.withName('/MainPage')
+          MaterialPageRoute(builder: (context) => Home()),
+          ModalRoute.withName('/Home')
       );
     });
   }
@@ -466,7 +545,14 @@ class UpdateDetailsProvider extends ChangeNotifier{
   int get selectedPlanUpdate => _selectedPlanUpdate;
   int get selectedFamilyUpdate => _selectedFamilyUpdate;
   int get selectedTypeAqarUpdate => _selectedTypeAqarUpdate;
-
-
+  TextEditingController get priceControllerUpdate => _priceControllerUpdate;
+  TextEditingController get spaceControllerUpdate => _spaceControllerUpdate;
+  TextEditingController get descControllerUpdate => _descControllerUpdate;
+  List<AdsModel> get adsUpdateDetails => _adsUpdateDetails;
+  int get meterPriceUpdate => _meterPriceUpdate;
+  TextEditingController get meterPriceControllerUpdate => _meterPriceControllerUpdate;
+  String get totalPricUpdatee => _totalPricUpdatee;
+  String get detailsAqarUpdate => _detailsAqarUpdate;
+  String get totalSpaceUpdate => _totalSpaceUpdate;
 
 }

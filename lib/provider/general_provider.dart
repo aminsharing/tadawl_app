@@ -3,10 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
-import 'package:tadawl_app/screens/ads/main_page.dart';
 import 'package:http/http.dart' as http;
+import 'package:tadawl_app/screens/general/home.dart';
 
 class Item {
   Item({this.expandedValue, this.headerValue, this.isExpanded = false});
@@ -125,7 +124,16 @@ List<Item> generatedItems() {
 }
 
 class GeneralProvider extends ChangeNotifier {
- // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  GeneralProvider(){
+    print("GeneralProvider init");
+  }
+
+  @override
+  void dispose() {
+    print("GeneralProvider dispose");
+    super.dispose();
+  }
+
   String _name, _mobile, _title, _details;
 
   final List<Item> _data = generatedItems();
@@ -145,9 +153,8 @@ class GeneralProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> sendForm(BuildContext context, String name, String mobile,
-      String title, String details) async {
-    var url = 'https://tadawl.com.sa/API/api_app/contactUs/contactForm.php';
+  Future<void> sendForm(BuildContext context, String name, String mobile, String title, String details) async {
+    var url = 'https://tadawl-store.com/API/api_app/contactUs/contactForm.php';
     var data = {
       'name': name,
       'mobile': mobile,
@@ -159,13 +166,14 @@ class GeneralProvider extends ChangeNotifier {
       await Fluttertoast.showToast(
           msg: 'تم إرسال النموذج بنجاح، سيتم التواصل معك بأقرب فرصة.',
           toastLength: Toast.LENGTH_SHORT);
-      Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
+      // Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
       Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
-      Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
-      Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
-      await Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => MainPage()),
+      // Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
+      // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
+      await Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
+          ModalRoute.withName('/Home')
       );
     } else {
       await Fluttertoast.showToast(

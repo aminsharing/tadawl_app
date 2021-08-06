@@ -38,15 +38,15 @@ class UpdateInfoTextField extends StatelessWidget {
             labelText: labelText,
           ),
           initialValue:
-          fieldType == FieldType.username ? userMutual.users.first.username ?? ''
+          fieldType == FieldType.username ? userMutual.users.username ?? ''
               :
-          fieldType == FieldType.email ? userMutual.users.first.email ?? ''
+          fieldType == FieldType.email ? userMutual.users.email ?? ''
               :
-          fieldType == FieldType.about ? userMutual.users.first.about ?? ''
+          fieldType == FieldType.about ? userMutual.users.about ?? ''
               :
-          fieldType == FieldType.companyName ? userMutual.users.first.company_name ?? ''
+          fieldType == FieldType.companyName ? userMutual.users.company_name ?? ''
               :
-          fieldType == FieldType.officeTypeName ? userMutual.users.first.office_name ?? ''
+          fieldType == FieldType.officeTypeName ? userMutual.users.office_name ?? ''
               :
           '',
           style: CustomTextStyle(

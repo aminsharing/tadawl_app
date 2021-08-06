@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tadawl_app/mainWidgets/constans.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 class ChooseCategory extends StatelessWidget {
@@ -23,7 +24,7 @@ class ChooseCategory extends StatelessWidget {
               child: DropdownButtonHideUnderline(
                 child: ButtonTheme(
                   alignedDropdown: true,
-                  child: Consumer<MainPageProvider>(builder: (context, searchDrawer, child) {
+                  child: Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
                     return DropdownButton<String>(
                       hint: Text(
                         AppLocalizations.of(context).chooseCategory,
@@ -44,9 +45,9 @@ class ChooseCategory extends StatelessWidget {
                       items:
                       (Provider.of<LocaleProvider>(context, listen: false).locale.toString() != 'en_US'
                           ?
-                      searchDrawer.categories
+                      categoriesCons()
                               :
-                      searchDrawer.enCategories).map((Map map) {
+                      enCategoriesCons()).map((Map map) {
                         return DropdownMenuItem<String>(
                           value: map['id_category'].toString(),
                           child: Row(
@@ -55,7 +56,6 @@ class ChooseCategory extends StatelessWidget {
                                 child: Text(
                                   map['name'],
                                   style: CustomTextStyle(
-
                                     fontSize: 15,
                                     color:
                                     const Color(0xff00cccc),

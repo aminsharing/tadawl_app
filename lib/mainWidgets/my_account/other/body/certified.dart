@@ -11,11 +11,11 @@ class Certified extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserMutualProvider>(builder: (context, userMutual, child) {
-      if(userMutual.avatars.isEmpty){
+      if(userMutual.avatars == null){
         return Center(child: CircularProgressIndicator());
       }
-      if (userMutual.offices.isNotEmpty) {
-        return CertifiedOffice(state: userMutual.offices.first.state,);
+      if (userMutual.offices != null) {
+        return CertifiedOffice(state: userMutual.offices.state,);
       } else {
         return Padding(
           padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
