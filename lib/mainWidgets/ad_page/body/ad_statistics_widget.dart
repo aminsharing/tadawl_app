@@ -49,8 +49,8 @@ class AdStatisticsWidget extends StatelessWidget {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     var mediaQuery = MediaQuery.of(context);
     return Consumer<MutualProvider>(builder: (context, mutualProv, child) {
-      if (mutualProv.adsUser.isNotEmpty) {
-        if (mutualProv.adsUser.first.phone == locale.phone) {
+      if (mutualProv.adsUser != null) {
+        if (mutualProv.adsUser.phone == locale.phone) {
           return Column(
             children: [
               Padding(

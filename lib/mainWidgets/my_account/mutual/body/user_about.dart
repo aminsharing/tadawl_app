@@ -30,13 +30,16 @@ class UserAbout extends StatelessWidget {
           const EdgeInsets.fromLTRB(20, 0, 20, 0),
           child: Container(
             width: mediaQuery.size.width - 40,
-            child: Text(
-              about ?? '',
-              style: CustomTextStyle(
-                fontSize: 13,
-                color: const Color(0xff989696),
-              ).getTextStyle(),
-              //textAlign: TextAlign.right,
+            height: 78,
+            child: SingleChildScrollView(
+              child: Text(
+                about ?? '',
+                style: CustomTextStyle(
+                  fontSize: 13,
+                  color: const Color(0xff989696),
+                ).getTextStyle(),
+                //textAlign: TextAlign.right,
+              ),
             ),
           ),
         ),

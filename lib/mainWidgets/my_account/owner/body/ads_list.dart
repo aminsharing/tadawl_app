@@ -9,7 +9,6 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 
 class AdsList extends StatelessWidget {
@@ -19,13 +18,13 @@ class AdsList extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     var mediaQuery = MediaQuery.of(context);
-    return Consumer2<MyAccountProvider, UserMutualProvider>(builder: (context, avatar, userMutual, child) {
+    return Consumer<MyAccountProvider>(builder: (context, avatar, child) {
       print("AdsList owner -> MyAccountProvider");
-      print("AdsList owner -> UserMutualProvider");
-      print("UserMutualProvider avatars ${userMutual.avatars}");
-      print("UserMutualProvider users ${userMutual.users}");
-      print("UserMutualProvider offices ${userMutual.offices}");
-      print("UserMutualProvider userAds ${userMutual.userAds}");
+      print("AdsList owner -> avatarProvider");
+      print("avatarProvider avatars ${avatar.avatars}");
+      print("avatarProvider users ${avatar.users}");
+      print("avatarProvider offices ${avatar.offices}");
+      print("avatarProvider userAds ${avatar.userAds}");
       return Column(
         children: [
           Padding(
@@ -95,21 +94,21 @@ class AdsList extends StatelessWidget {
           if (avatar.selectedNav == 0)
             Column(
               children: [
-                if (userMutual.userAds.isNotEmpty)
+                if (avatar.userAds.isNotEmpty)
                   Container(
-                    height: userMutual.countUserAds() == avatar.expendedListCount ? avatar.expendedListCount * ((mediaQuery.size.height*.2)+15) : (avatar.expendedListCount * (mediaQuery.size.height*.2)) - 40,
+                    height: avatar.countUserAds() == avatar.expendedListCount ? avatar.expendedListCount * ((mediaQuery.size.height*.2)+15) : (avatar.expendedListCount * (mediaQuery.size.height*.2)) - 40,
                     child: ListView.builder(
-                      itemCount: userMutual.countUserAds() > avatar.expendedListCount-1 ? avatar.expendedListCount : userMutual.countUserAds(),
+                      itemCount: avatar.countUserAds() > avatar.expendedListCount-1 ? avatar.expendedListCount : avatar.countUserAds(),
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, i){
-                        if(i != userMutual.countUserAds() -1){
+                        if(i != avatar.countUserAds() -1){
                           if(i == avatar.expendedListCount-1){
                             return GestureDetector(
                               onTap: (){
-                                if(userMutual.countUserAds() < avatar.expendedListCount){
+                                if(avatar.countUserAds() < avatar.expendedListCount){
                                   avatar.setExpendedListCount(avatar.expendedListCount+5);
                                 }else{
-                                  avatar.setExpendedListCount(userMutual.countUserAds());
+                                  avatar.setExpendedListCount(avatar.countUserAds());
                                 }
                               },
                               child: Padding(
@@ -123,8 +122,8 @@ class AdsList extends StatelessWidget {
                           onPressed: () {
                             Provider.of<MutualProvider>(context, listen: false)
                                 .getAllAdsPageInfo(
-                                context, userMutual.userAds[i].idDescription);
-                            Provider.of<MutualProvider>(context, listen: false).getSimilarAdsList(context, userMutual.userAds[i].idCategory, userMutual.userAds[i].idDescription);
+                                context, avatar.userAds[i].idDescription);
+                            Provider.of<MutualProvider>(context, listen: false).getSimilarAdsList(context, avatar.userAds[i].idCategory, avatar.userAds[i].idDescription);
                             Future.delayed(Duration(seconds: 0), () {
                               Navigator.push(
                                 context,
@@ -168,7 +167,7 @@ class AdsList extends StatelessWidget {
                                         fit: BoxFit.cover,
                                         image: CachedNetworkImageProvider(
                                             'https://tadawl-store.com/API/assets/images/ads/' +
-                                                userMutual.userAds[i]
+                                                avatar.userAds[i]
                                                     .ads_image ??
                                                 ''),
                                       ),
@@ -199,7 +198,7 @@ class AdsList extends StatelessWidget {
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceBetween,
                                   children: [
-                                    if (userMutual.userAds[i].idSpecial == '1')
+                                    if (avatar.userAds[i].idSpecial == '1')
                                       Padding(
                                         padding: const EdgeInsets.fromLTRB(
                                             10, 5, 10, 5),
@@ -217,15 +216,15 @@ class AdsList extends StatelessWidget {
                                           ?
                                       CircularProgressIndicator()
                                           :
-                                      DateTime.now().difference(DateTime.parse(userMutual.userAds[i].timeUpdated)).inMinutes - 180 > 60
+                                      DateTime.now().difference(DateTime.parse(avatar.userAds[i].timeUpdated)).inMinutes - 180 > 60
                                           ?
                                       TextButton(
                                         onPressed: () {
                                           Provider.of<MutualProvider>(context, listen: false).setNumber(i);
                                           // Provider.of<FavouriteProvider>(context, listen: false).update();
-                                          Provider.of<MutualProvider>(context, listen: false).updateAds(context, userMutual.userAds[i].idDescription).then((value) {
+                                          Provider.of<MutualProvider>(context, listen: false).updateAds(context, avatar.userAds[i].idDescription).then((value) {
                                             if(value){
-                                              userMutual.getUserAdsList(locale.phone);
+                                              avatar.getUserAdsList(locale.phone);
                                               // Provider.of<FavouriteProvider>(context, listen: false).update();
                                             }
                                           });
@@ -266,7 +265,7 @@ class AdsList extends StatelessWidget {
                                         onPressed: (){
                                           Fluttertoast.showToast(
                                               msg:
-                                              'ستتمكن من التحديث بعد ${24-(DateTime.now().difference(DateTime.parse(userMutual.userAds[i].timeUpdated)).inMinutes - 180)} دقيقة',
+                                              'ستتمكن من التحديث بعد ${24-(DateTime.now().difference(DateTime.parse(avatar.userAds[i].timeUpdated)).inMinutes - 180)} دقيقة',
                                               toastLength: Toast.LENGTH_SHORT,
                                               gravity: ToastGravity.BOTTOM,
                                               timeInSecForIosWeb: 1,
@@ -303,7 +302,7 @@ class AdsList extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    if (userMutual.userAds[i].video.isNotEmpty)
+                                    if (avatar.userAds[i].video.isNotEmpty)
                                       Padding(
                                         padding: const EdgeInsets.fromLTRB(
                                             15, 5, 15, 5),
@@ -330,7 +329,7 @@ class AdsList extends StatelessWidget {
                                             const EdgeInsets.fromLTRB(
                                                 5, 0, 5, 0),
                                             child: Text(
-                                              userMutual.userAds[i].title,
+                                              avatar.userAds[i].title,
                                               style: CustomTextStyle(
 
                                                 fontSize: 13,
@@ -351,7 +350,7 @@ class AdsList extends StatelessWidget {
                                             const EdgeInsets.fromLTRB(
                                                 0, 0, 0, 0),
                                             child: Text(
-                                              userMutual.userAds[i].price,
+                                              avatar.userAds[i].price,
                                               style: CustomTextStyle(
 
                                                 fontSize: 15,
@@ -388,7 +387,7 @@ class AdsList extends StatelessWidget {
                                             const EdgeInsets.fromLTRB(
                                                 5, 0, 15, 0),
                                             child: Text(
-                                              userMutual.userAds[i].space,
+                                              avatar.userAds[i].space,
                                               style: CustomTextStyle(
 
                                                 fontSize: 15,
@@ -422,13 +421,13 @@ class AdsList extends StatelessWidget {
                                           mainAxisAlignment:
                                           MainAxisAlignment.end,
                                           children: [
-                                            if (userMutual.userAds[i].ads_city !=
+                                            if (avatar.userAds[i].ads_city !=
                                                 null ||
-                                                userMutual.userAds[i]
+                                                avatar.userAds[i]
                                                     .ads_neighborhood !=
                                                     null)
                                               Text(
-                                                '${userMutual.userAds[i].ads_city} - ${userMutual.userAds[i].ads_neighborhood}',
+                                                '${avatar.userAds[i].ads_city} - ${avatar.userAds[i].ads_neighborhood}',
                                                 style: CustomTextStyle(
 
                                                   fontSize: 8,

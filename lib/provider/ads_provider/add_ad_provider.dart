@@ -740,7 +740,7 @@ class AddAdProvider extends ChangeNotifier{
     await Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => Home()),
-      ModalRoute.withName('/Home')
+            (route) => false
     );
   }
 

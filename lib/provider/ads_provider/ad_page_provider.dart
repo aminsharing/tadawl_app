@@ -29,8 +29,7 @@ class AdPageProvider extends ChangeNotifier{
   int _currentControllerPageAdsPage = 0;
   final PageController _controllerAdsPage = PageController();
   bool _is_favAdsPage;
-  final List<AdsModel> _AdsUpdateLoc = [];
-  List _AdsUpdateLocData = [];
+  AdsModel _AdsUpdateLoc;
   final Set<Marker> _markersUpdateLoc = {};
   final ScrollController _scrollController = ScrollController();
   int _expendedListCount = 4;
@@ -122,7 +121,7 @@ class AdPageProvider extends ChangeNotifier{
 
   void setVideoAdsPage(String video) {
     _videoControllerAdsPage = VideoPlayerController.network(
-        'https://tadawl.com.sa/API/assets/videos/$video');
+        'https://tadawl-store.com/API/assets/videos/$video');
     _initializeFutureVideoPlyerAdsPage = _videoControllerAdsPage.initialize();
     _chewieControllerAdsPage = ChewieController(
       videoPlayerController: _videoControllerAdsPage,
@@ -136,12 +135,8 @@ class AdPageProvider extends ChangeNotifier{
 
   void getAdsPageInfo(BuildContext context, String id_description) async {
     Future.delayed(Duration(milliseconds: 0), () {
-      _AdsUpdateLoc.clear();
       Api().getAdsPageFunc(id_description).then((value) {
-        _AdsUpdateLocData = value;
-        _AdsUpdateLocData.forEach((element) {
-          _AdsUpdateLoc.add(AdsModel.adsUpdateLoc(element));
-        });
+        _AdsUpdateLoc = AdsModel.adsUpdateLoc(value);
         setMarker(context);
         notifyListeners();
       });
@@ -190,7 +185,7 @@ class AdPageProvider extends ChangeNotifier{
               deleteAdsFunc(context, idDescription);
               Navigator.pushAndRemoveUntil(context,
               MaterialPageRoute(builder: (context) => Home()),
-              ModalRoute.withName('/Home')
+                      (route) => false
               );
             },
             child: Text(
@@ -248,9 +243,9 @@ class AdPageProvider extends ChangeNotifier{
 
   void setMarker(BuildContext context) async {
     _markersUpdateLoc.add(Marker(
-      markerId: MarkerId(_AdsUpdateLoc.first.lat),
-      position: LatLng(double.parse(_AdsUpdateLoc.first.lat),
-          double.parse(_AdsUpdateLoc.first.lng)),
+      markerId: MarkerId(_AdsUpdateLoc.lat),
+      position: LatLng(double.parse(_AdsUpdateLoc.lat),
+          double.parse(_AdsUpdateLoc.lng)),
     ));
   }
 
@@ -276,7 +271,7 @@ class AdPageProvider extends ChangeNotifier{
   int get currentControllerPageAdsPage => _currentControllerPageAdsPage;
   PageController get controllerAdsPage => _controllerAdsPage;
   bool get is_favAdsPage => _is_favAdsPage;
-  List<AdsModel> get AdsUpdateLoc => _AdsUpdateLoc;
+  AdsModel get AdsUpdateLoc => _AdsUpdateLoc;
   Set<Marker> get markersUpdateLoc => _markersUpdateLoc;
   ScrollController get scrollController => _scrollController;
   int get expendedListCount => _expendedListCount;

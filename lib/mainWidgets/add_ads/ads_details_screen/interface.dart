@@ -61,7 +61,7 @@ class Interface extends StatelessWidget {
                       ).getTextStyle(),
                       textAlign: TextAlign.center,
                     ),
-                    value: addAd.interfaceSelectedAddAds ?? (int.tryParse(mutualProv.adsPage.first.idInterface)?? '1').toString(),
+                    value: addAd.interfaceSelectedAddAds ?? (int.tryParse(mutualProv.adsPage.idInterface)?? '1').toString(),
                     onChanged: (String newValue) {
                       addAd.setInterfaceSelectedAddAds(newValue);
                     },

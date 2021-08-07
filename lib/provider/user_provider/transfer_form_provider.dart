@@ -97,7 +97,7 @@ class TransferFormProvider extends ChangeNotifier{
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => Home()),
-          ModalRoute.withName('/Home')
+              (route) => false
       );
     });
   }

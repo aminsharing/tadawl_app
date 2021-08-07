@@ -21,23 +21,25 @@ class BottomNavigationBarApp extends StatelessWidget {
   }) : super(key: key);
 
   /// This page to use in animations
-  final pages = [
-    DiscussionList(),
-    // TestXX(),
-    Login(),
-    ChangeNotifierProvider<MenuProvider>(
-      create: (_) => MenuProvider(),
-      child: ChangeNotifierProvider<SearchDrawerProvider>(
-        create: (_) => SearchDrawerProvider(),
-        child: Menu(),
-      ),
-    ),
-  ];
+  // final pages = [
+  //   DiscussionList(),
+  //   // TestXX(),
+  //   Login(),
+  //   ChangeNotifierProvider<MenuProvider>(
+  //     create: (_) => MenuProvider(),
+  //     child: ChangeNotifierProvider<SearchDrawerProvider>(
+  //       create: (_) => SearchDrawerProvider(),
+  //       child: Menu(),
+  //     ),
+  //   ),
+  // ];
 
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
-    final msgProv = Provider.of<MsgProvider>(context, listen: false);
+    final local = Provider.of<LocaleProvider>(context, listen: false);
+    final MsgProvider msgProvider = MsgProvider(local.phone, null);
+    // final msgProv = Provider.of<MsgProvider>(context, listen: false);
     // final menuProv = Provider.of<MenuProvider>(context, listen: false);
 
 
@@ -230,11 +232,17 @@ class BottomNavigationBarApp extends StatelessWidget {
                         // btmNav.setCurrentPage(3);
                         // CHANGED
                         // Provider.of<MsgProvider>(context, listen: false).getConvInfo(context, _phone);
-                        Navigator.push(context, _createRoute(0),);
+                        Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                            ChangeNotifierProvider<MsgProvider>(
+                              create: (_) => msgProvider,
+                              child: DiscussionList(msgProvider: msgProvider),
+                            )
+                        ),
+                        );
                       }else{
                         Navigator.push(
                           context,
-                          _createRoute(1),
+                          MaterialPageRoute(builder: (context) => Login(),)
                         );
                       }
                     },
@@ -250,37 +258,37 @@ class BottomNavigationBarApp extends StatelessWidget {
                           size: btmNav.currentPage == 3 ? 30 : 25,
                         ),
                             ),
-                            if(msgProv.unreadMsgs != 0)
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Container(
-                                  width: 15.0,
-                                  height: 15.0,
-                                  decoration:
-                                  BoxDecoration(
-                                      color: Colors
-                                          .red
-                                          .withOpacity(
-                                          0.8),
-                                      shape: BoxShape
-                                          .circle),
-                                  child: Center(
-                                    child: Text(
-                                      '${msgProv.unreadMsgs}',
-                                      style: TextStyle(
-                                        fontFamily:
-                                        'DINNext',
-                                        fontSize: 11,
-                                        color: Colors.white,
-                                        // color:
-                                        // convList.conv[i].phone_user_sender == _phone
-                                        //         ? Color(0xff848282)
-                                        //         : Color(0xffffffff),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                            // if(msgProv.unreadMsgs != 0)
+                            //   Align(
+                            //     alignment: Alignment.centerLeft,
+                            //     child: Container(
+                            //       width: 15.0,
+                            //       height: 15.0,
+                            //       decoration:
+                            //       BoxDecoration(
+                            //           color: Colors
+                            //               .red
+                            //               .withOpacity(
+                            //               0.8),
+                            //           shape: BoxShape
+                            //               .circle),
+                            //       child: Center(
+                            //         child: Text(
+                            //           '${msgProv.unreadMsgs}',
+                            //           style: TextStyle(
+                            //             fontFamily:
+                            //             'DINNext',
+                            //             fontSize: 11,
+                            //             color: Colors.white,
+                            //             // color:
+                            //             // convList.conv[i].phone_user_sender == _phone
+                            //             //         ? Color(0xff848282)
+                            //             //         : Color(0xffffffff),
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
                           ],
                         ),
                         Flexible(
@@ -314,7 +322,13 @@ class BottomNavigationBarApp extends StatelessWidget {
                         // mainPageProv.removeMarkers();
                         Navigator.pushReplacement(
                           context,
-                          _createRoute(2),
+                            MaterialPageRoute(builder: (context) => ChangeNotifierProvider<MenuProvider>(
+                              create: (_) => MenuProvider(),
+                              child: ChangeNotifierProvider<SearchDrawerProvider>(
+                                create: (_) => SearchDrawerProvider(),
+                                child: Menu(),
+                              ),
+                            ),)
                         );
                       }
                     },
@@ -360,9 +374,9 @@ class BottomNavigationBarApp extends StatelessWidget {
   //       transitionDuration: Duration(milliseconds: 500)
   //   );
   // }
-  PageTransition _createRoute(int i) {
-    return PageTransition(type: PageTransitionType.bottomToTop,
-        duration: Duration(milliseconds: 10),
-        child: pages[i]);
-  }
+  // PageTransition _createRoute(int i) {
+  //   return PageTransition(type: PageTransitionType.bottomToTop,
+  //       duration: Duration(milliseconds: 10),
+  //       child: pages[i]);
+  // }
 }

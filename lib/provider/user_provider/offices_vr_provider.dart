@@ -85,7 +85,14 @@ class OfficesVRProvider extends ChangeNotifier{
           office_cordinates_lat, office_cordinates_lng, image);
     });
 
+    // var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
 
+    // userMutual.getAvatarList(phone);
+    // userMutual.getUserAdsList(phone);
+    // userMutual.getEstimatesInfo(phone);
+    // userMutual.getSumEstimatesInfo(phone);
+    // userMutual.checkOfficeInfo(phone);
+    // userMutual.setUserPhone(phone);
 
     Future.delayed(Duration(seconds: 0), () {
       Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(2);
@@ -93,7 +100,7 @@ class OfficesVRProvider extends ChangeNotifier{
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => RealEstateOffices()),
-        ModalRoute.withName('/RealEstateOffices')
+              (route) => false
       );
     });
   }

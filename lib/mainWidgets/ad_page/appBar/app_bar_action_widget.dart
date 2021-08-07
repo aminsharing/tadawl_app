@@ -43,9 +43,9 @@ class AppBarActionWidget extends StatelessWidget {
     final adPageProv = Provider.of<AdPageProvider>(context, listen: false);
 
     return Consumer<MutualProvider>(builder: (context, mutualProv, _){
-        return mutualProv.adsUser.isNotEmpty
+        return mutualProv.adsUser != null
             ?
-        mutualProv.adsUser.first.phone == locale.phone
+        mutualProv.adsUser.phone == locale.phone
             ?
         Padding(
           padding: const EdgeInsets.all(15.0),

@@ -11,7 +11,7 @@ import 'package:tadawl_app/mainWidgets/Gist.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/OfficeModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 import 'package:tadawl_app/screens/account/my_account.dart';
 
 import 'locale_provider.dart';
@@ -81,6 +81,7 @@ class OfficeMarkerProvider extends ChangeNotifier{
             position: LatLng(double.parse(office.office_lat),
                 double.parse(office.office_lng)),
             onTap: () {
+              // TODO Changed To my account provider
               // var user = Provider.of<UserMutualProvider>(context, listen: false);
               // user.getAvatarList(office.phone_user);
               // user.getUserAdsList(office.phone_user);
@@ -88,35 +89,36 @@ class OfficeMarkerProvider extends ChangeNotifier{
               // user.getSumEstimatesInfo(office.phone_user);
               // user.checkOfficeInfo(office.phone_user);
               // user.setUserPhone(office.phone_user);
-              Future.delayed(Duration(seconds: 0), () {
-                final locale = Provider.of<LocaleProvider>(context, listen: false);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ChangeNotifierProvider<UserMutualProvider>(
-                              create: (_) => UserMutualProvider(locale.phone),
-                              child: MyAccount(),
-                            )
-                    ),
-                  );
-                // final locale = Provider.of<LocaleProvider>(context, listen: false);
-                // if (user.userPhone == locale.phone){
-                //   Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) =>
-                //             OwenAccount()),
-                //   );
-                // }else{
-                //   Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) =>
-                //             OtherAccount()),
-                //   );
-                // }
-              });
+              final locale = Provider.of<LocaleProvider>(context, listen: false);
+              final MyAccountProvider myAccountProvider = MyAccountProvider(office.phone_user);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        ChangeNotifierProvider<MyAccountProvider>(
+                          create: (_) => myAccountProvider,
+                          child: MyAccount(myAccountProvider: myAccountProvider, phone: locale.phone,),
+                        )
+                ),
+              );
+              // Future.delayed(Duration(seconds: 0), () {
+              //   final locale = Provider.of<LocaleProvider>(context, listen: false);
+              //   if (user.userPhone == locale.phone){
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //           builder: (context) =>
+              //               OwenAccount()),
+              //     );
+              //   }else{
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //           builder: (context) =>
+              //               OtherAccount()),
+              //     );
+              //   }
+              // });
             },
             icon: BitmapDescriptor.fromBytes(bmp)));
       });

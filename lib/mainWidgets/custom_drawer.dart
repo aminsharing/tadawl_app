@@ -11,7 +11,7 @@ import 'package:tadawl_app/provider/general_provider.dart';
 import 'package:tadawl_app/provider/l10n/l10n.dart';
 import 'package:tadawl_app/provider/request_provider.dart';
 import 'package:tadawl_app/provider/user_provider/favourite_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 import 'package:tadawl_app/screens/account/favourite.dart';
 import 'package:tadawl_app/screens/account/login.dart';
 import 'package:tadawl_app/screens/account/my_ads.dart';
@@ -49,7 +49,6 @@ class CustomDrawer extends StatelessWidget {
     var mediaQuery = MediaQuery.of(context);
     var locale = Provider.of<LocaleProvider>(context, listen: false);
     var _lang = locale.locale.toString();
-    final UserMutualProvider userMutualProvider = UserMutualProvider(locale.phone);
 
     return Scaffold(
       appBar: AppBar(
@@ -134,10 +133,7 @@ class CustomDrawer extends StatelessWidget {
             children: <Widget>[
               Column(
                 children: [
-                  ChangeNotifierProvider<UserMutualProvider>(
-                    create: (_) => userMutualProvider,
-                    child: CustomDrawerHeader(userMutualProvider: userMutualProvider),
-                  ),
+                  CustomDrawerHeader(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -149,10 +145,9 @@ class CustomDrawer extends StatelessWidget {
                       DrawerButton(
                           icon: Icons.library_books_rounded,
                           text: AppLocalizations.of(context).myAds,
-                          page: locale.phone != null
-                              ?
-                          ChangeNotifierProvider<UserMutualProvider>(
-                            create: (_) => UserMutualProvider(locale.phone),
+                          page: locale.phone != null ?
+                          ChangeNotifierProvider<MyAccountProvider>(
+                            create: (_) => MyAccountProvider(locale.phone),
                             child: MyAds(),
                           )
                               :

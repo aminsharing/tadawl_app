@@ -20,8 +20,12 @@ import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 
 class MsgProvider extends ChangeNotifier{
 
-  MsgProvider(){
+  MsgProvider(String _phone, String otherPhone){
     print("MsgProvider init");
+    print("MsgProvider _phone: $_phone otherPhone: $otherPhone");
+    getConvInfo(_phone).then((value) {
+      getUnreadMsgs(_phone, other_phone: otherPhone);
+    });
   }
 
   @override
@@ -56,7 +60,7 @@ class MsgProvider extends ChangeNotifier{
   int _unreadMsgs = 0;
 
 
-  Future<void> getConvInfo(BuildContext context, String _phone) async {
+  Future<void> getConvInfo(String _phone) async {
     if(_phone != null) {
       Future.delayed(Duration(milliseconds: 0), () async{
         if (_conv.isEmpty) {
@@ -76,7 +80,7 @@ class MsgProvider extends ChangeNotifier{
     }
   }
 
-  void getUnreadMsgs(BuildContext context, String _phone, {String other_phone}) {
+  void getUnreadMsgs(String _phone, {String other_phone}) {
     if(_phone != null) {
       Future.delayed(Duration(milliseconds: 0), () {
         Api().getUnreadMessagesFunc(_phone).then((value) {
@@ -97,7 +101,7 @@ class MsgProvider extends ChangeNotifier{
     }
   }
 
-  void setReadMsgs(BuildContext context, String _phone, String _other_phone, String unreadMsgs) {
+  void setReadMsgs(String _phone, String _other_phone, String unreadMsgs) {
     if(_phone != null) {
       Future.delayed(Duration(milliseconds: 0), () {
         Api().setReadMessagesFunc(_phone, _other_phone).then((value) {
@@ -107,7 +111,7 @@ class MsgProvider extends ChangeNotifier{
     }
   }
 
-  Future<void> getCommentUser(BuildContext context, String phone_user, String _phone) async {
+  Future<void> getCommentUser(String phone_user, String _phone) async {
 
     Future.delayed(Duration(milliseconds: 0), () async{
       if (_comment.isEmpty) {
@@ -146,7 +150,7 @@ class MsgProvider extends ChangeNotifier{
       Api().sendMessFunc(imagesList, voiceMsg, content, _phone, phone_user, msgType);
     });
     _messageController.clear();
-    Provider.of<MsgProvider>(context, listen: false).setIsTyping(false);
+    setIsTyping(false);
     FocusScope.of(context).requestFocus(FocusNode());
     Future.delayed(const Duration(seconds: 2), () {
       _scrollChatController.animateTo(0,
@@ -251,7 +255,8 @@ class MsgProvider extends ChangeNotifier{
       //   deleteFile('$randomName');
       //   notifyListeners();
       // });
-    }else{
+    }
+    else{
       await Record.stop().then((value) async{
         var temp = await getTemporaryDirectory();
         var newDir = Directory(temp.path + '/voiceChat');
@@ -281,7 +286,7 @@ class MsgProvider extends ChangeNotifier{
 
   void setUrlToPlay(String url, AudioPlayer player){
     _player = player;
-    _player.setUrl('https://tadawl.com.sa/API/assets/voices/$url');
+    _player.setUrl('https://tadawl-store.com/API/assets/voices/$url');
   }
 
   void play(AudioPlayer player) async {

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_rating_bar/flutter_simple_rating_bar.dart';
-import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/UserEstimateModel.dart';
-import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/estimateUser.dart';
 
 class UserEstimates extends StatelessWidget {
@@ -14,16 +11,12 @@ class UserEstimates extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = Provider.of<LocaleProvider>(context, listen: false);
     return TextButton(
       onPressed: () {
         Navigator.push(
             context,
             MaterialPageRoute(builder: (context) =>
-                ChangeNotifierProvider<UserMutualProvider>(
-                  create: (_) => UserMutualProvider(locale.phone),
-                  child: Estimate(),
-                )
+                Estimate()
             ));
       },
       child: Row(

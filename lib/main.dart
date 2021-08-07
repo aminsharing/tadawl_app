@@ -7,6 +7,7 @@ import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/l10n/l10n.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/general/home.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/provider/NotificationProvider.dart';
@@ -62,7 +63,7 @@ class MyApp extends StatelessWidget {
           // ChangeNotifierProvider<MapProvider>(create: (_) => MapProvider()),
           // ChangeNotifierProvider<OfficeMarkerProvider>(create: (_) => OfficeMarkerProvider()),
           // ChangeNotifierProvider<UserMarkersProvider>(create: (_) => UserMarkersProvider()),
-          ChangeNotifierProvider<MsgProvider>(create: (_) => MsgProvider()),
+          // ChangeNotifierProvider<MsgProvider>(create: (_) => MsgProvider()),
           ChangeNotifierProvider<BottomNavProvider>(create: (_) => BottomNavProvider()),
         ],
         builder: (context, child) {

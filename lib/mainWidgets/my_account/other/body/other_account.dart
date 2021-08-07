@@ -8,10 +8,15 @@ import 'package:tadawl_app/mainWidgets/my_account/other/body/ads_list.dart';
 import 'package:tadawl_app/mainWidgets/my_account/other/body/avatar_info.dart';
 import 'package:tadawl_app/mainWidgets/my_account/other/body/certified.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
+import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
 
 class OtherAccount extends StatelessWidget {
-  const OtherAccount({Key key}) : super(key: key);
+  const OtherAccount({
+    Key key,
+    @required this.myAccountProvider,
+  }) : super(key: key);
+  final MyAccountProvider myAccountProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -22,23 +27,28 @@ class OtherAccount extends StatelessWidget {
         toolbarHeight: 80.0,
         leadingWidth: 100,
         leading: Leading(),
-        title: MyAccountTitle(),
+        // title: MyAccountTitle(),
         actions: [
           AccountActions()
         ],
         backgroundColor: Color(0xff00cccc),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            AvatarInfo(),
-            About(),
-            Certified(),
-            ChangeNotifierProvider<MyAccountProvider>(
-              create: (_) => MyAccountProvider(),
-              child: AdsList(),
-            ),
-          ],
+      body:
+      // Provider.of<UserMutualProvider>(context, listen: true).wait
+      //     ?
+      // Center(child: CircularProgressIndicator(),)
+      //     :
+      SingleChildScrollView(
+        child: ChangeNotifierProvider<MyAccountProvider>.value(
+          value: myAccountProvider,
+          child: Column(
+            children: [
+              AvatarInfo(),
+              About(),
+              Certified(),
+              AdsList(),
+            ],
+          ),
         ),
       ),
     );

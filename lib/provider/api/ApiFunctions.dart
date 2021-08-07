@@ -6,9 +6,6 @@ import 'package:http/http.dart' as http;
 
 class Api {
   final String _token = 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@';
-  // ignore: sort_constructors_first
-  // Api(this.scaffoldKey);
-  // String BaseURL = 'https://www.tadawl.com.sa/API';
   String BaseURL = 'https://www.tadawl-store.com/API';
   Future<dynamic> getadsFunc() async {
     final response = await http.post(
@@ -463,7 +460,7 @@ class Api {
     }
   }
 
-  Future getUserInfoFunc( String Phone) async {
+  Future<dynamic> getUserInfoFunc( String Phone) async {
     var url = '$BaseURL/api_app/login/account_info.php';
     var response = await http.post(url, body: {
       'phone': Phone,

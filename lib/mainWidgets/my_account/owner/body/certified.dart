@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/mainWidgets/my_account/mutual/body/certified_office.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 import 'package:tadawl_app/screens/account/offices_Vr.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -12,7 +12,7 @@ class Certified extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
-    return Consumer<UserMutualProvider>(builder: (context, userMutual, child) {
+    return Consumer<MyAccountProvider>(builder: (context, userMutual, child) {
       if (userMutual.offices != null) {
         return CertifiedOffice(state: userMutual.offices.state,);
       } else {

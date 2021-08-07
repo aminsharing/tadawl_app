@@ -6,11 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/mainWidgets/my_account/other/body/other_account.dart';
-import 'package:tadawl_app/mainWidgets/my_account/owner/body/owen_account.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/change_phone_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/screens/general/home.dart';
 
 String patternPhone =
     r'(^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$)';
@@ -122,7 +120,7 @@ class ChangePhone extends StatelessWidget {
                       _changePhoneKey.currentState.save();
 
                       var url =
-                          'https://tadawl.com.sa/API/api_app/login/change_phone.php';
+                          'https://tadawl-store.com/API/api_app/login/change_phone.php';
                       var response = await http.post(url, body: {
                         'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
                         'oldPhone': locale.phone,
@@ -152,31 +150,50 @@ class ChangePhone extends StatelessWidget {
                                 textColor: Colors.white,
                                 fontSize: 15.0);
 
-                            var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
-                            userMutual.getAvatarList(changePhone.newPhone);
-                            userMutual.getUserAdsList(changePhone.newPhone);
-                            userMutual.getEstimatesInfo(changePhone.newPhone);
-                            userMutual.getSumEstimatesInfo(changePhone.newPhone);
-                            userMutual.checkOfficeInfo(changePhone.newPhone);
-                            userMutual.setUserPhone(changePhone.newPhone);
+                            // TODO Changed To my account provider
+                            // var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
+                            // userMutual.getAvatarList(changePhone.newPhone);
+                            // userMutual.getUserAdsList(changePhone.newPhone);
+                            // userMutual.getEstimatesInfo(changePhone.newPhone);
+                            // userMutual.getSumEstimatesInfo(changePhone.newPhone);
+                            // userMutual.checkOfficeInfo(changePhone.newPhone);
+                            // userMutual.setUserPhone(changePhone.newPhone);
 
-                            Future.delayed(Duration(seconds: 1), () {
-                              if (userMutual.userPhone == locale.phone){
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          OwenAccount()),
-                                );
-                              }else{
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          OtherAccount()),
-                                );
-                              }
-                            });
+                            // final MyAccountProvider myAccountProvider = MyAccountProvider(locale.phone);
+                            // await Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (context) =>
+                            //           ChangeNotifierProvider<MyAccountProvider>(
+                            //             create: (_) => myAccountProvider,
+                            //             child: MyAccount(myAccountProvider: myAccountProvider, phone: locale.phone,),
+                            //           )
+                            //   ),
+                            // );
+
+                            await Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Home()
+                                ), (route) => false);
+
+                            // Future.delayed(Duration(seconds: 1), () {
+                            //   if (userMutual.userPhone == locale.phone){
+                            //     Navigator.push(
+                            //       context,
+                            //       MaterialPageRoute(
+                            //           builder: (context) =>
+                            //               OwenAccount()),
+                            //     );
+                            //   }else{
+                            //     Navigator.push(
+                            //       context,
+                            //       MaterialPageRoute(
+                            //           builder: (context) =>
+                            //               OtherAccount()),
+                            //     );
+                            //   }
+                            // });
                           });
                         });
 

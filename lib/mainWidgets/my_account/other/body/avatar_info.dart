@@ -10,7 +10,7 @@ import 'package:tadawl_app/mainWidgets/my_account/mutual/body/user_name.dart';
 import 'package:tadawl_app/mainWidgets/my_account/mutual/body/user_registered_date.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AvatarInfo extends StatelessWidget {
@@ -20,15 +20,15 @@ class AvatarInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     var mediaQuery = MediaQuery.of(context);
-    Provider.of<UserMutualProvider>(context, listen: false).getUsersList(locale.phone);
+    // Provider.of<MyAccountProvider>(context, listen: false).getUsersList(locale.phone);
     return SizedBox(
       width: mediaQuery.size.width,
       height: 250,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<UserMutualProvider>(builder: (context, userMutual, child) {
-          userMutual.getAvatarList(userMutual.userPhone);
-          userMutual.getUserAdsList(userMutual.userPhone);
+        child: Consumer<MyAccountProvider>(builder: (context, userMutual, child) {
+          // userMutual.getAvatarList(userMutual.userPhone);
+          // userMutual.getUserAdsList(userMutual.userPhone);
 
 
           void sendEstimate() async {
@@ -37,12 +37,12 @@ class AvatarInfo extends StatelessWidget {
                   locale.phone, userMutual.userPhone, userMutual.rating, userMutual.commentRating);
             });
 
-            userMutual.getAvatarList(userMutual.userPhone ?? locale.phone);
-            userMutual.getUserAdsList(userMutual.userPhone ?? locale.phone);
-            userMutual.getEstimatesInfo(userMutual.userPhone ?? locale.phone);
-            userMutual.getSumEstimatesInfo(userMutual.userPhone ?? locale.phone);
-            userMutual.checkOfficeInfo(userMutual.userPhone ?? locale.phone);
-            userMutual.setUserPhone(userMutual.userPhone ?? locale.phone);
+            // userMutual.getAvatarList(userMutual.userPhone ?? locale.phone);
+            // userMutual.getUserAdsList(userMutual.userPhone ?? locale.phone);
+            // userMutual.getEstimatesInfo(userMutual.userPhone ?? locale.phone);
+            // userMutual.getSumEstimatesInfo(userMutual.userPhone ?? locale.phone);
+            // userMutual.checkOfficeInfo(userMutual.userPhone ?? locale.phone);
+            // userMutual.setUserPhone(userMutual.userPhone ?? locale.phone);
 
             // Future.delayed(Duration(seconds: 0), () {
             //   Navigator.push(context,

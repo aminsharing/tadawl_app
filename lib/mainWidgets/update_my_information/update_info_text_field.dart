@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 
 enum FieldType{
   username,
@@ -27,7 +27,7 @@ class UpdateInfoTextField extends StatelessWidget {
     var mediaQuery = MediaQuery.of(context);
     return SizedBox(
       width: mediaQuery.size.width * 0.8,
-      child: Consumer<UserMutualProvider>(builder: (context, userMutual, child) {
+      child: Consumer<MyAccountProvider>(builder: (context, userMutual, child) {
         return TextFormField(
           decoration: InputDecoration(
             suffixIcon: Icon(
@@ -59,7 +59,7 @@ class UpdateInfoTextField extends StatelessWidget {
           },
           onSaved: (String value) {
             //userUpdate.setUsernameController(value);
-            final userMutual = Provider.of<UserMutualProvider>(context, listen: false);
+            // final userMutual = Provider.of<UserMutualProvider>(context, listen: false);
             if(fieldType == FieldType.username){
               userMutual.setUsername(value);
             }else if(fieldType == FieldType.email){

@@ -118,7 +118,6 @@ class Stage2 extends StatelessWidget {
                   return;
                 }
                 _formVerAccountKey.currentState.save();
-                // var url = 'https://www.tadawl.com.sa/API/api_app/login/config_pass.php';
                 var url = 'https://www.tadawl-store.com/API/api_app/login/config_pass.php';
                 var response = await http.post(url, body: {
                   'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
@@ -161,7 +160,7 @@ class Stage2 extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) =>
                                 Home()),
-                        ModalRoute.withName('/Home')
+                            (route) => false
                     );
                   });
                 }

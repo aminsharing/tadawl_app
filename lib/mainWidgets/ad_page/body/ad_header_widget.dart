@@ -28,7 +28,7 @@ class AdHeaderWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                if (mutualProv.adsPage.first.idSpecial == '1')
+                if (mutualProv.adsPage.idSpecial == '1')
                   Padding(
                     padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
                     child: Icon(
@@ -38,7 +38,7 @@ class AdHeaderWidget extends StatelessWidget {
                     ),
                   ),
                 Text(
-                  mutualProv.adsPage.first.title ?? '',
+                  mutualProv.adsPage.title ?? '',
                   style: CustomTextStyle(
                     fontSize: 20,
                     color: const Color(0xff000000),
@@ -54,7 +54,7 @@ class AdHeaderWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  mutualProv.adsPage.first.price ?? '',
+                  mutualProv.adsPage.price ?? '',
                   style: CustomTextStyle(
                     fontSize: 20,
                     color: const Color(0xff00cccc),
@@ -72,15 +72,15 @@ class AdHeaderWidget extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                if(mutualProv.adsPage.first.idTypeRes != '0')
+                if(mutualProv.adsPage.idTypeRes != '0')
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
                     child: Text(
-                      mutualProv.adsPage.first.idTypeRes == '1' ?
+                      mutualProv.adsPage.idTypeRes == '1' ?
                       AppLocalizations.of(context).daily :
-                      mutualProv.adsPage.first.idTypeRes == '2'?
+                      mutualProv.adsPage.idTypeRes == '2'?
                       AppLocalizations.of(context).monthly :
-                      mutualProv.adsPage.first.idTypeRes == '3'?
+                      mutualProv.adsPage.idTypeRes == '3'?
                       AppLocalizations.of(context).annual : '',
                       style: CustomTextStyle(
                         fontSize: 20,
@@ -93,7 +93,7 @@ class AdHeaderWidget extends StatelessWidget {
               ],
             ),
           ),
-          if (mutualProv.adsPage.first.video.isNotEmpty)
+          if (mutualProv.adsPage.video.isNotEmpty)
             FutureBuilder(
                 future: adsPage.initializeFutureVideoPlyerAdsPage,
                 builder: (context, snapshot) {

@@ -56,8 +56,7 @@ class UpdateDetailsProvider extends ChangeNotifier{
   int _selectedPlanUpdate = 0;
   int _selectedFamilyUpdate = 0;
   int _selectedTypeAqarUpdate = 0;
-  List _AdsDataUpdateDetails = [];
-  final List<AdsModel> _adsUpdateDetails = [];
+  AdsModel _adsUpdateDetails;
   final TextEditingController _priceControllerUpdate = TextEditingController();
   final TextEditingController _spaceControllerUpdate = TextEditingController();
   final TextEditingController _descControllerUpdate = TextEditingController();
@@ -382,18 +381,14 @@ class UpdateDetailsProvider extends ChangeNotifier{
 
   void getAdsPageInfoUpdateDetails(BuildContext context, String id_description) async {
     Future.delayed(Duration(milliseconds: 0), () {
-      _adsUpdateDetails.clear();
       Api().getAdsPageFunc(id_description).then((value) {
-        _AdsDataUpdateDetails = value;
-        _AdsDataUpdateDetails.forEach((element) {
-          _adsUpdateDetails.add(AdsModel.adsUpdateDetails(element));
-        });
-        if (_adsUpdateDetails.isNotEmpty) {
-          _priceControllerUpdate..text = _adsUpdateDetails.first.price;
-          _spaceControllerUpdate..text = _adsUpdateDetails.first.space;
-          _meterPriceControllerUpdate..text = (int.tryParse(_adsUpdateDetails.first.price) ~/ int.tryParse(_adsUpdateDetails.first.space)).toString();
+        _adsUpdateDetails = AdsModel.adsUpdateDetails(value);
+        if (_adsUpdateDetails != null) {
+          _priceControllerUpdate..text = _adsUpdateDetails.price;
+          _spaceControllerUpdate..text = _adsUpdateDetails.space;
+          _meterPriceControllerUpdate..text = (int.tryParse(_adsUpdateDetails.price) ~/ int.tryParse(_adsUpdateDetails.space)).toString();
           _meterPriceUpdate = int.parse(_meterPriceControllerUpdate.text);
-          _descControllerUpdate..text = _adsUpdateDetails.first.description;
+          _descControllerUpdate..text = _adsUpdateDetails.description;
         }
         notifyListeners();
         // Provider.of<UpdateDetailsProvider>(context, listen: false).update();
@@ -498,7 +493,7 @@ class UpdateDetailsProvider extends ChangeNotifier{
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => Home()),
-          ModalRoute.withName('/Home')
+              (route) => false
       );
     });
   }
@@ -548,7 +543,7 @@ class UpdateDetailsProvider extends ChangeNotifier{
   TextEditingController get priceControllerUpdate => _priceControllerUpdate;
   TextEditingController get spaceControllerUpdate => _spaceControllerUpdate;
   TextEditingController get descControllerUpdate => _descControllerUpdate;
-  List<AdsModel> get adsUpdateDetails => _adsUpdateDetails;
+  AdsModel get adsUpdateDetails => _adsUpdateDetails;
   int get meterPriceUpdate => _meterPriceUpdate;
   TextEditingController get meterPriceControllerUpdate => _meterPriceControllerUpdate;
   String get totalPricUpdatee => _totalPricUpdatee;

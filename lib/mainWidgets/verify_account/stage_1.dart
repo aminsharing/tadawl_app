@@ -85,7 +85,6 @@ class Stage1 extends StatelessWidget {
                 }
                 _formVerAccountKey.currentState.save();
                 var url = 'https://www.tadawl-store.com/API/api_app/login/verifyAccount.php';
-                    // 'https://www.tadawl.com.sa/API/api_app/login/verifyAccount.php';
                 var response = await http.post(url, body: {
                   'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
                   'phone': currentPhone,
@@ -124,10 +123,10 @@ class Stage1 extends StatelessWidget {
 
                   // verifyAcc.setCurrentStage(2);
                   await Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                      ChangeNotifierProvider<ChangePassProvider>.value(
-                        value: changePassProvider,
-                        child: Stage2(currentPhone),
-                      )
+                  ChangeNotifierProvider<ChangePassProvider>.value(
+                    value: changePassProvider,
+                    child: Stage2(currentPhone),
+                  )
                   ));
                 }
               },

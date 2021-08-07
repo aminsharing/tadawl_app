@@ -87,7 +87,7 @@ class UpdateLocation extends StatelessWidget {
                       AppLocalizations
                           .of(context)
                           .city +
-                          ' ${updateLoc.ads_city ?? mutualProv.adsPage.first.ads_city}',
+                          ' ${updateLoc.ads_city ?? mutualProv.adsPage.ads_city}',
                       style: CustomTextStyle(
                         fontSize: 13,
                         color: const Color(0xff989696),
@@ -99,7 +99,7 @@ class UpdateLocation extends StatelessWidget {
                       AppLocalizations
                           .of(context)
                           .neighborhood +
-                          ' ${updateLoc.ads_neighborhood??mutualProv.adsPage.first.ads_neighborhood}',
+                          ' ${updateLoc.ads_neighborhood??mutualProv.adsPage.ads_neighborhood}',
                       style: CustomTextStyle(
 
                         fontSize: 13,
@@ -126,10 +126,10 @@ class UpdateLocation extends StatelessWidget {
                       initialCameraPosition: CameraPosition(
                           target: LatLng(
                               double.parse(
-                                  mutualProv.adsPage.first.lat ?? updateLoc.ads_cordinates_lat
+                                  mutualProv.adsPage.lat ?? updateLoc.ads_cordinates_lat
                               ),
                               double.parse(
-                                  mutualProv.adsPage.first.lng ?? updateLoc.ads_cordinates_lng
+                                  mutualProv.adsPage.lng ?? updateLoc.ads_cordinates_lng
                               ),
                           ),
                           zoom: 13),

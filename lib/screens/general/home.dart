@@ -16,7 +16,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     // final userMutualProv = Provider.of<UserMutualProvider>(context, listen: false);
     final notificationProv = Provider.of<NotificationProvider>(context, listen: false);
-    final msgProv = Provider.of<MsgProvider>(context, listen: false);
+    // final msgProv = Provider.of<MsgProvider>(context, listen: false);
     final locale = Provider.of<LocaleProvider>(context, listen: false);
 
 
@@ -36,10 +36,10 @@ class Home extends StatelessWidget {
       notificationProv.showNotification(locale.phone);
     });
 
-    msgProv.getUnreadMsgs(context, locale.phone);
-    Future.delayed(Duration(seconds: 1), () {
-      msgProv.getConvInfo(context, locale.phone);
-    });
+    // msgProv.getUnreadMsgs(context, locale.phone);
+    // Future.delayed(Duration(seconds: 1), () {
+    //   msgProv.getConvInfo(context, locale.phone);
+    // });
 
 
 

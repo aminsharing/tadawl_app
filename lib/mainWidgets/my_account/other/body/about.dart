@@ -4,7 +4,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/mainWidgets/my_account/mutual/body/user_about.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 import 'package:tadawl_app/screens/account/discussion_main.dart';
 import 'package:tadawl_app/screens/account/login.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -19,7 +19,7 @@ class About extends StatelessWidget {
     return SizedBox(
       width: mediaQuery.size.width,
       height: 200,
-      child: Consumer<UserMutualProvider>(builder: (context, userMutual, child) {
+      child: Consumer<MyAccountProvider>(builder: (context, userMutual, child) {
         if(userMutual.avatars == null){
           return Center(child: CircularProgressIndicator());
         }
@@ -28,16 +28,25 @@ class About extends StatelessWidget {
           children: [
             Padding(
               padding:
-              const EdgeInsets.fromLTRB(0, 30, 0, 30),
+              const EdgeInsets.fromLTRB(0, 10, 0, 10),
               child: TextButton(
                 onPressed: () {
                   if(locale.phone == null){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
                   }else{
-                    Provider.of<MsgProvider>(context, listen: false).setRecAvatarUserName(userMutual.avatars.username);
+                    // Provider.of<MsgProvider>(context, listen: false).setRecAvatarUserName(userMutual.avatars.username);
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Discussion(userMutual.userPhone)));
+                        MaterialPageRoute(builder: (context) =>
+                            ChangeNotifierProvider<MsgProvider>(
+                              create: (_) => MsgProvider(locale.phone, userMutual.userPhone),
+                              child: Discussion(
+                                userMutual.userPhone,
+                                username:userMutual.avatars.username,
+                              ),
+                            )
+                        ),
+                    );
                   }
                 },
                 child: Container(

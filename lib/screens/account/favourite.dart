@@ -25,7 +25,7 @@ class Favourite extends StatelessWidget {
       // Provider.of<MutualProvider>(context, listen: false).randomPosition(50);
       var mediaQuery = MediaQuery.of(context);
 
-      adsFav.getUserAdsFavList(locale.phone);
+      // adsFav.getUserAdsFavList(locale.phone);
 
       Future<Null> _refresh() async{
         adsFav.getUserAdsFavList(locale.phone);
@@ -125,7 +125,7 @@ class Favourite extends StatelessWidget {
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
                                     image: CachedNetworkImageProvider(
-                                        'https://tadawl.com.sa/API/assets/images/ads/' +
+                                        'https://tadawl-store.com/API/assets/images/ads/' +
                                             adsFav.userAdsFav[i]
                                                 .ads_image ??
                                             ''),
@@ -146,7 +146,7 @@ class Favourite extends StatelessWidget {
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
                                         image: const CachedNetworkImageProvider(
-                                            'https://tadawl.com.sa/API/assets/images/logo22.png'),
+                                            'https://tadawl-store.com/API/assets/images/logo22.png'),
                                         fit: BoxFit.cover,
                                       ),
                                     ),

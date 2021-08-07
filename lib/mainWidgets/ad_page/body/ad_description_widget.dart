@@ -31,8 +31,8 @@ class AdDescriptionWidget extends StatelessWidget {
                   ).getTextStyle(),
                   textAlign: TextAlign.center,
                 ),
-                if( mutualProv.adsUser.isNotEmpty)
-                  if( mutualProv.adsUser.first.phone == locale.phone)
+                if( mutualProv.adsUser != null)
+                  if( mutualProv.adsUser.phone == locale.phone)
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                       child: adsPage.busyAdsPage
@@ -41,16 +41,16 @@ class AdDescriptionWidget extends StatelessWidget {
                           :
                       TextButton(
                         onPressed: () {
-                          if(DateTime.now().difference(DateTime.parse(mutualProv.adsPage.first.timeUpdated)).inMinutes - 180 > 60){
+                          if(DateTime.now().difference(DateTime.parse(mutualProv.adsPage.timeUpdated)).inMinutes - 180 > 60){
                             adsPage.stopVideoAdsPage();
                             adsPage.updateAdsAdsPage(
                                 context,
-                                mutualProv.adsPage.first
+                                mutualProv.adsPage
                                     .idDescription);
                           }else{
                             Fluttertoast.showToast(
                                 msg:
-                                'ستتمكن من التحديث بعد ${24-(DateTime.now().difference(DateTime.parse(mutualProv.adsPage.first.timeUpdated)).inMinutes - 180)} دقيقة',
+                                'ستتمكن من التحديث بعد ${24-(DateTime.now().difference(DateTime.parse(mutualProv.adsPage.timeUpdated)).inMinutes - 180)} دقيقة',
                                 toastLength: Toast.LENGTH_SHORT,
                                 gravity: ToastGravity.BOTTOM,
                                 timeInSecForIosWeb: 1,
@@ -67,7 +67,7 @@ class AdDescriptionWidget extends StatelessWidget {
                                 5.0),
                             border: Border.all(
                                 width: 1.0,
-                                color: DateTime.now().difference(DateTime.parse(mutualProv.adsPage.first.timeUpdated)).inMinutes - 180 > 60?
+                                color: DateTime.now().difference(DateTime.parse(mutualProv.adsPage.timeUpdated)).inMinutes - 180 > 60?
                                 const Color(0xff3f9d28):
                                 Colors.grey
                             ),
@@ -77,7 +77,7 @@ class AdDescriptionWidget extends StatelessWidget {
                               AppLocalizations.of(context).updateAds,
                               style: CustomTextStyle(
                                 fontSize: 15,
-                                color: DateTime.now().difference(DateTime.parse(mutualProv.adsPage.first.timeUpdated)).inMinutes - 180 > 60?
+                                color: DateTime.now().difference(DateTime.parse(mutualProv.adsPage.timeUpdated)).inMinutes - 180 > 60?
                                 const Color(0xff3f9d28):
                                 Colors.grey,
                               ).getTextStyle(),
@@ -98,7 +98,7 @@ class AdDescriptionWidget extends StatelessWidget {
               children: <Widget>[
                 Flexible(
                   child: Text(
-                    mutualProv.adsPage.first.description ?? '',
+                    mutualProv.adsPage.description ?? '',
                     style: CustomTextStyle(
                       fontSize: 17,
                       color: const Color(0xff000000),

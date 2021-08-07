@@ -96,7 +96,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
                                     image: const CachedNetworkImageProvider(
-                                        'https://tadawl.com.sa/API/assets/images/logo22.png'),
+                                        'https://tadawl-store.com/API/assets/images/logo22.png'),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -275,7 +275,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                         decoration: BoxDecoration(
                                           image: DecorationImage(
                                             image: const CachedNetworkImageProvider(
-                                                'https://tadawl.com.sa/API/assets/images/logo22.png'),
+                                                'https://tadawl-store.com/API/assets/images/logo22.png'),
                                             fit: BoxFit.cover,
                                           ),
                                         ),

@@ -188,9 +188,7 @@ class Login extends StatelessWidget {
                               return;
                             }
                             _formLoginKey.currentState.save();
-                            var url =
-                                // 'https://www.tadawl.com.sa/API/api_app/login/login.php';
-                                'https://www.tadawl-store.com/API/api_app/login/login.php';
+                            var url = 'https://www.tadawl-store.com/API/api_app/login/login.php';
                             var response = await http.post(url, body: {
                               'phone': phone,
                               'password': password,
@@ -241,7 +239,7 @@ class Login extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => Home()),
-                                      ModalRoute.withName('/Home')
+                                          (route) => false
                                   );
                                 });
                               });
@@ -259,7 +257,7 @@ class Login extends StatelessWidget {
                               await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => VerifyAccount(phone)),
+                                    builder: (context) => VerifyAccount(currentPhone: phone,)),
                               );
 
                             }

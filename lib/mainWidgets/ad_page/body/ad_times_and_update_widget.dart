@@ -42,7 +42,7 @@ class AdTimesAndUpdateWidget extends StatelessWidget {
                 Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                     child: Text(
-                      Jiffy(DateTime.parse(mutualProv.adsPage.first.timeAdded ?? '').add(Duration(hours: 3)))
+                      Jiffy(DateTime.parse(mutualProv.adsPage.timeAdded ?? '').add(Duration(hours: 3)))
                           .fromNow(),
                       style: CustomTextStyle(
                         fontSize: 15,
@@ -72,7 +72,7 @@ class AdTimesAndUpdateWidget extends StatelessWidget {
                 Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                     child: Text(
-                      Jiffy(DateTime.parse(mutualProv.adsPage.first.timeUpdated ?? '')
+                      Jiffy(DateTime.parse(mutualProv.adsPage.timeUpdated ?? '')
                           .add(Duration(hours: 3)))
                           .fromNow(),
                       style: CustomTextStyle(

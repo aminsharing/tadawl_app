@@ -46,7 +46,7 @@ class AdLocationWidget extends StatelessWidget {
           ),
         ),
         Consumer2<AdPageProvider, MutualProvider>(builder: (context, adsPage, mutualProv, child) {
-          if (mutualProv.adsPage.isNotEmpty) {
+          if (mutualProv.adsPage != null) {
             return Container(
               width: mediaQuery.size.width,
               height: 300,
@@ -55,15 +55,15 @@ class AdLocationWidget extends StatelessWidget {
                   GoogleMap(
                     onTap: (value){
                       adsPage.stopVideoAdsPage();
-                      _openMap(double.parse(mutualProv.adsPage.first.lat),
-                          double.parse(mutualProv.adsPage.first.lng));
+                      _openMap(double.parse(mutualProv.adsPage.lat),
+                          double.parse(mutualProv.adsPage.lng));
                     },
                     initialCameraPosition: CameraPosition(
                         target: LatLng(
                             double.parse(
-                                mutualProv.adsPage.first.lat),
+                                mutualProv.adsPage.lat),
                             double.parse(
-                                mutualProv.adsPage.first.lng)),
+                                mutualProv.adsPage.lng)),
                         zoom: 15),
                     mapType: MapType.normal,
                     onMapCreated: _onMapCreated,

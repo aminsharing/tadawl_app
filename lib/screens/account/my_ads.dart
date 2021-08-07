@@ -7,7 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -19,7 +19,7 @@ class MyAds extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
-    return Consumer<UserMutualProvider>(builder: (context, myAds, child) {
+    return Consumer<MyAccountProvider>(builder: (context, myAds, child) {
 
       print("MyAds -> UserMutualProvider");
 
@@ -119,7 +119,7 @@ class MyAds extends StatelessWidget {
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
                                     image: CachedNetworkImageProvider(
-                                        'https://tadawl.com.sa/API/assets/images/ads/' +
+                                        'https://tadawl-store.com/API/assets/images/ads/' +
                                                 myAds.userAds[i].ads_image ??
                                             ''),
                                   ),
@@ -139,7 +139,7 @@ class MyAds extends StatelessWidget {
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
                                         image: const CachedNetworkImageProvider(
-                                            'https://tadawl.com.sa/API/assets/images/logo22.png'),
+                                            'https://tadawl-store.com/API/assets/images/logo22.png'),
                                         fit: BoxFit.cover,
                                       ),
                                     ),

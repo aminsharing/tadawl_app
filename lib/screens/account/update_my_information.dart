@@ -19,7 +19,7 @@ class UpdateMyInformation extends StatelessWidget {
   Widget build(BuildContext context) {
           return WillPopScope(
             onWillPop: () async{
-              Provider.of<UserMutualProvider>(context, listen: false).clearUpdatingInformation();
+              // Provider.of<UserMutualProvider>(context, listen: false).clearUpdatingInformation();
               return true;
             },
             child: Scaffold(
@@ -42,7 +42,7 @@ class UpdateMyInformation extends StatelessWidget {
                       // userMutual.getSumEstimatesInfo(context, userMutual.phone);
                       // userMutual.checkOfficeInfo(context, userMutual.phone);
                       // userMutual.getSession();
-                      Provider.of<UserMutualProvider>(context, listen: false).clearUpdatingInformation();
+                      // Provider.of<UserMutualProvider>(context, listen: false).clearUpdatingInformation();
                       Future.delayed(Duration(seconds: 1), () {
                         Navigator.pop(context);
                       });

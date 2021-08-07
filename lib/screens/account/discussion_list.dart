@@ -13,7 +13,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 class DiscussionList extends StatelessWidget {
   DiscussionList({
     Key key,
+    @required this.msgProvider,
   }) : super(key: key);
+  final MsgProvider msgProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -81,10 +83,10 @@ class DiscussionList extends StatelessWidget {
       var mediaQuery = MediaQuery.of(context);
       
       //convList.getConvInfo(context);
-      convList.getConvInfo(context, locale.phone);
+      // convList.getConvInfo(context, locale.phone);
 
       Future<Null> refreshPage()async{
-        await convList.getConvInfo(context, locale.phone);
+        await convList.getConvInfo(locale.phone);
         convList.update();
       }
 
@@ -131,7 +133,12 @@ class DiscussionList extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DiscussionEdit()),
+                      builder: (context) =>
+                          ChangeNotifierProvider<MsgProvider>.value(
+                            value: msgProvider,
+                            child: DiscussionEdit(),
+                          )
+                  ),
                 );
               },
             ),
@@ -149,15 +156,21 @@ class DiscussionList extends StatelessWidget {
               physics: AlwaysScrollableScrollPhysics(),
               itemBuilder: (context, i){
                 if (convList.conv[i].state_conv_sender != '0') {
-                  convList.getUnreadMsgs(context, locale.phone, other_phone: convList.conv[i].phone);
+                  convList.getUnreadMsgs(locale.phone, other_phone: convList.conv[i].phone);
                   return TextButton(
                     onPressed: () {
                       // convList.initScrollDown();
-                      convList.setReadMsgs(context, locale.phone, convList.conv[i].phone, convList.conv[i].unreadMsgs);
+                      convList.setReadMsgs(locale.phone, convList.conv[i].phone, convList.conv[i].unreadMsgs);
                       convList.setRecAvatarUserName(convList.conv[i].username);
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => Discussion(convList.conv[i].phone)));
+                          MaterialPageRoute(builder: (context) =>
+                          ChangeNotifierProvider<MsgProvider>.value(
+                            value: msgProvider,
+                            child: Discussion(convList.conv[i].phone),
+                          )
+
+                          ));
                     },
                     child: Container(
                       margin: EdgeInsets.only(
@@ -190,7 +203,7 @@ class DiscussionList extends StatelessWidget {
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
                                           image: CachedNetworkImageProvider(
-                                              'https://tadawl.com.sa/API/assets/images/avatar/${convList.conv[i].image ?? 'avatar.jpg'}'),
+                                              'https://tadawl-store.com/API/assets/images/avatar/${convList.conv[i].image ?? 'avatar.jpg'}'),
                                           fit: BoxFit.fill),
                                     ),
                                   ),

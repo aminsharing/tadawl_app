@@ -11,14 +11,12 @@ import 'package:tadawl_app/mainWidgets/ad_page/body/ad_statistics_widget.dart';
 import 'package:tadawl_app/mainWidgets/ad_page/body/ad_times_and_update_widget.dart';
 import 'package:tadawl_app/mainWidgets/ad_page/appBar/app_bar_action_widget.dart';
 import 'package:tadawl_app/mainWidgets/ad_page/appBar/app_bar_title_widget.dart';
-import 'package:tadawl_app/mainWidgets/ad_page/body/avatar_widget.dart';
+import 'package:tadawl_app/mainWidgets/ad_page/body/avatar_widget_helper.dart';
 import 'package:tadawl_app/mainWidgets/ad_page/body/network_coverage_widget.dart';
 import 'package:tadawl_app/mainWidgets/ad_page/body/similar_ad_widget.dart';
 //import 'package:tadawl_app/mainWidgets/openMap.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
-import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
 
 class AdPage extends StatelessWidget {
@@ -40,7 +38,6 @@ class AdPage extends StatelessWidget {
 
         print("AdPage -> AdPageProvider");
         print("AdPage -> MutualProvider");
-
 
 
         // if( mutualProv.adsPage.isNotEmpty){
@@ -88,7 +85,7 @@ class AdPage extends StatelessWidget {
               controller: adsPage.scrollController,
               dragStartBehavior: DragStartBehavior.down,
               children: [
-                if (mutualProv.adsPage.isNotEmpty)
+                if (mutualProv.adsPage != null)
                   Column(
                     children: [
                       AdHeaderWidget(),
@@ -102,10 +99,7 @@ class AdPage extends StatelessWidget {
                       AdDescriptionWidget(),
 // end description ...................
 //  avatar .............
-                      ChangeNotifierProvider<UserMutualProvider>(
-                        create: (_) => UserMutualProvider(mutualProv.adsPage.first.phone_faved_user),
-                        child: AvatarWidget(),
-                      ),
+                      AvatarWidgetHelper(phone: mutualProv.adsPage.phone_faved_user,),
 // end avatar .............
 //  statistics ads ........................
                       AdStatisticsWidget(),

@@ -69,8 +69,16 @@ class AccountActions extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(
                         10, 0, 10, 0),
                     child: Icon(
+                      choice == UserConstants.banAccount
+                          ?
+                      Icons.do_disturb_alt_rounded
+                          :
                       Icons.person_add,
-                      color: Color(0xff989898),
+                      color:choice == UserConstants.banAccount
+                          ?
+                      Color(0xffff0000)
+                          :
+                      Color(0xff989898),
                       size: 30,
                     ),
                   ),

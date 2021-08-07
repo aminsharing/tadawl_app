@@ -7,7 +7,7 @@ import 'package:tadawl_app/mainWidgets/my_account/mutual/body/user_last_seen.dar
 import 'package:tadawl_app/mainWidgets/my_account/mutual/body/user_name.dart';
 import 'package:tadawl_app/mainWidgets/my_account/mutual/body/user_registered_date.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 
 class AvatarInfo extends StatelessWidget {
   const AvatarInfo({Key key}) : super(key: key);
@@ -16,15 +16,15 @@ class AvatarInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     var mediaQuery = MediaQuery.of(context);
-    Provider.of<UserMutualProvider>(context, listen: false).getUsersList(locale.phone);
+    // Provider.of<MyAccountProvider>(context, listen: false).getUsersList(locale.phone);
     return SizedBox(
       width: mediaQuery.size.width,
       height: 250,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<UserMutualProvider>(builder: (context, userMutual, child) {
+        child: Consumer<MyAccountProvider>(builder: (context, userMutual, child) {
 
-          userMutual.getUserAdsList(locale.phone);
+          // userMutual.getUserAdsList(locale.phone);
           var _lang = locale.locale.toString();
           if (_lang != 'en_US') {
             Jiffy.locale('ar');
@@ -32,7 +32,11 @@ class AvatarInfo extends StatelessWidget {
           else if (_lang == 'en_US') {
             Jiffy.locale('en');
           }
-          return Row(
+          return userMutual.users == null
+              ?
+          Center(child: CircularProgressIndicator(),)
+              :
+            Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Column(

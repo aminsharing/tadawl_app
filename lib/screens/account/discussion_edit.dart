@@ -20,7 +20,7 @@ class DiscussionEdit extends StatelessWidget {
 
   Future _deleteConv(String phone_user_recipient, String phone_user_sender) async {
     var res = await http.post(
-        'https://www.tadawl.com.sa/API/api_app/conversations/delete_conv.php',
+        'https://tadawl-store.com/API/api_app/conversations/delete_conv.php',
         body: {
           'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
           'phone_user_recipient': phone_user_recipient,
@@ -176,7 +176,7 @@ class DiscussionEdit extends StatelessWidget {
                                                     shape: BoxShape.circle,
                                                     image: DecorationImage(
                                                         image: CachedNetworkImageProvider(
-                                                            'https://tadawl.com.sa/API/assets/images/avatar/${convEdit.conv[i].image ?? 'avatar.jpg'}'),
+                                                            'https://tadawl-store.com/API/assets/images/avatar/${convEdit.conv[i].image ?? 'avatar.jpg'}'),
                                                         fit: BoxFit.fill),
                                                   ),
                                                 ),

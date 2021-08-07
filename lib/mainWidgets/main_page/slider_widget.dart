@@ -115,8 +115,7 @@ class SliderWidget extends StatelessWidget {
                                                   }
                                                 },
                                                 child: Text(
-                                                  categoriesCons()[i]
-                                                  ['name'],
+                                                  categoriesCons()[i]['name'],
                                                   style: CustomTextStyle(
                                                     fontWeight: FontWeight.w400,
                                                     fontSize: 13,

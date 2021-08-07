@@ -190,13 +190,15 @@ class ChangePass extends StatelessWidget {
                               textColor: Colors.white,
                               fontSize: 15.0);
 
-                          var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
-                          userMutual.getAvatarList(locale.phone);
-                          userMutual.getUserAdsList(locale.phone);
-                          userMutual.getEstimatesInfo(locale.phone);
-                          userMutual.getSumEstimatesInfo(locale.phone);
-                          userMutual.checkOfficeInfo(locale.phone);
-                          userMutual.setUserPhone(locale.phone);
+                          // TODO Changed To my account provider
+                          // var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
+                          // userMutual.getAvatarList(locale.phone);
+                          // userMutual.getUserAdsList(locale.phone);
+                          // userMutual.getEstimatesInfo(locale.phone);
+                          // userMutual.getSumEstimatesInfo(locale.phone);
+                          // userMutual.checkOfficeInfo(locale.phone);
+                          //
+                          // userMutual.setUserPhone(locale.phone);
 
                           Future.delayed(Duration(seconds: 1), () {
                             // Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
@@ -204,7 +206,7 @@ class ChangePass extends StatelessWidget {
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(builder: (context) => Home()),
-                                ModalRoute.withName('/Home')
+                                    (route) => false
                             );
                           });
                         }

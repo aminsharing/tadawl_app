@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_simple_rating_bar/flutter_simple_rating_bar.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 
 class Estimate extends StatelessWidget {
   Estimate({
@@ -14,7 +13,7 @@ class Estimate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserMutualProvider>(builder: (context, estimateUser, child) {
+    return Consumer<MyAccountProvider>(builder: (context, estimateUser, child) {
 
       print("Estimate -> UserMutualProvider");
 
@@ -56,7 +55,6 @@ class Estimate extends StatelessWidget {
                               ' ${(double.parse(estimateUser.sumEstimates.sum_estimates) / estimateUser.countEstimates()).toDouble().toStringAsFixed(1)} '
                           : AppLocalizations.of(context).estimate,
                       style: CustomTextStyle(
-
                         fontSize: 25,
                         color: const Color(0xff00cccc),
                       ).getTextStyle(),

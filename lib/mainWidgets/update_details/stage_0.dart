@@ -59,13 +59,19 @@ class Stage0 extends StatelessWidget {
       body: Consumer<UpdateDetailsProvider>(builder: (context, updateDetails, _){
         print("Stage0 -> UpdateDetailsProvider");
         final mutualProv = Provider.of<MutualProvider>(context, listen: false);
-        updateDetails.getAdsUpdateInfo(mutualProv.adsBF, mutualProv.adsQF, mutualProv.adsPage.first.idInterface, mutualProv.adsPage.first.idTypeAqar, mutualProv.adsPage.first.idTypeRes);
-        if(updateDetails.adsUpdateDetails.isNotEmpty){
+        updateDetails.getAdsUpdateInfo(
+            mutualProv.adsBF,
+            mutualProv.adsQF,
+            mutualProv.adsPage.idInterface,
+            mutualProv.adsPage.idTypeAqar,
+            mutualProv.adsPage.idTypeRes
+        );
+        if(updateDetails.adsUpdateDetails != null){
           if(updateDetails.categoryUpdate.isNotEmpty){
             return ListView.builder(
               itemCount: updateDetails.categoryUpdate.length,
               itemBuilder: (context, i){
-                if (updateDetails.adsUpdateDetails.first.idCategory == updateDetails.categoryUpdate[i].id_category) {
+                if (updateDetails.adsUpdateDetails.idCategory == updateDetails.categoryUpdate[i].id_category) {
                   return TextButton(
                     onPressed: () {
                       updateDetails.updateCategoryDetails(

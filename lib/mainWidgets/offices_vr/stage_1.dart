@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/offices_vr_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
 class Stage1 extends StatelessWidget {
   const Stage1({
@@ -120,9 +119,7 @@ class Stage1 extends StatelessWidget {
                   if (officesVR.buttonClicked == null)
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
-                      child: ChangeNotifierProvider<UserMutualProvider>(
-                        create: (_) => UserMutualProvider(locale.phone),
-                        child: TextButton(
+                      child: TextButton(
                         onPressed: () async {
                           officesVR.setButtonClicked(1);
 
@@ -145,16 +142,7 @@ class Stage1 extends StatelessWidget {
                                   officeName,
                                   officesVR.office_cordinates_lat.toString(),
                                   officesVR.office_cordinates_lng.toString(),
-                                  imageOfficeVR).then((value) {
-                                var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
-
-                                userMutual.getAvatarList(locale.phone);
-                                userMutual.getUserAdsList(locale.phone);
-                                userMutual.getEstimatesInfo(locale.phone);
-                                userMutual.getSumEstimatesInfo(locale.phone);
-                                userMutual.checkOfficeInfo(locale.phone);
-                                userMutual.setUserPhone(locale.phone);
-                              });
+                                  imageOfficeVR);
                             }else{
                               await officesVR.sendOfficesVRInfo(
                                   context,
@@ -163,16 +151,7 @@ class Stage1 extends StatelessWidget {
                                   officeName,
                                   officesVR.initialCameraPosition.latitude.toString(),
                                   officesVR.initialCameraPosition.longitude.toString(),
-                                  imageOfficeVR).then((value) {
-                                var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
-
-                                userMutual.getAvatarList(locale.phone);
-                                userMutual.getUserAdsList(locale.phone);
-                                userMutual.getEstimatesInfo(locale.phone);
-                                userMutual.getSumEstimatesInfo(locale.phone);
-                                userMutual.checkOfficeInfo(locale.phone);
-                                userMutual.setUserPhone(locale.phone);
-                              });
+                                  imageOfficeVR);
                             }
                           }
                         },
@@ -197,7 +176,6 @@ class Stage1 extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ),
                       ),
                     ),
                   if (officesVR.buttonClicked == 1)

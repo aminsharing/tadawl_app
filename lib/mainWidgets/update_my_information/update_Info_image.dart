@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 
 class UpdateInfoImage extends StatelessWidget {
   const UpdateInfoImage({Key key}) : super(key: key);
@@ -12,7 +12,7 @@ class UpdateInfoImage extends StatelessWidget {
 
     return Padding(
         padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
-        child: Consumer<UserMutualProvider>(builder: (context, userMutual, child) {
+        child: Consumer<MyAccountProvider>(builder: (context, userMutual, child) {
           return TextButton(
             onPressed: () {
               userMutual.getImageUpdateProfile();

@@ -10,7 +10,6 @@ import 'package:tadawl_app/models/views_series.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 
 class MutualProvider extends ChangeNotifier{
@@ -24,14 +23,12 @@ class MutualProvider extends ChangeNotifier{
     super.dispose();
   }
 
-  final List<AdsModel> _AdsPage = [];
-  List _adsPageData = [];
+  AdsModel _AdsPage;
   final List<AdsModel> _AdsPageImages = [];
   List _adsPageImagesData = [];
   final List<AdsModel> _AdsSimilar = [];
   List _adsSimilarData = [];
-  final List<UserModel> _AdsUser = [];
-  List _adsUserData = [];
+  UserModel _AdsUser;
   final List<AdsModel> _AdsVR = [];
   List _adsVRData = [];
   final List<BFModel> _AdsBF = [];
@@ -89,17 +86,13 @@ class MutualProvider extends ChangeNotifier{
 
   void getAdsPageList(BuildContext context, String idDescription) {
     Future.delayed(Duration(milliseconds: 0), () {
-      _AdsPage.clear();
       getFavStatus(context);
       Api().getAdsPageFunc(idDescription).then((value) {
-        _adsPageData = value;
-        _adsPageData.forEach((element) {
-          _AdsPage.add(AdsModel.adsPage(element));
-        });
-        _qrData = 'https://store.tadawl.com.sa/${_AdsPage.first.idDescription}/ads';
-        if(_AdsPage.first.video.isNotEmpty) {
+        _AdsPage = AdsModel.adsPage(value);
+        _qrData = 'https://store.tadawl.com.sa/${_AdsPage.idDescription}/ads';
+        if(_AdsPage.video.isNotEmpty) {
           Provider.of<AdPageProvider>(context, listen: false).
-          setVideoAdsPage(_AdsPage.first.video);
+          setVideoAdsPage(_AdsPage.video);
         }
         notifyListeners();
       });
@@ -153,12 +146,8 @@ class MutualProvider extends ChangeNotifier{
 
   void getUserAdsPageInfo(BuildContext context, String idDescription) {
     Future.delayed(Duration(milliseconds: 0), () {
-      _AdsUser.clear();
       Api().getAdsPageFunc(idDescription).then((value) {
-        _adsUserData = value;
-        _adsUserData.forEach((element) {
-          _AdsUser.add(UserModel.adsUser(element));
-        });
+        _AdsUser = UserModel.adsUser(value);
         // Provider.of<UserMutualProvider>(context, listen: false).getEstimatesInfo(_AdsUser.first.phone);
         // Provider.of<UserMutualProvider>(context, listen: false).getSumEstimatesInfo(_AdsUser.first.phone);
         // // Provider.of<FavouriteProvider>(context, listen: false).update();
@@ -276,10 +265,10 @@ class MutualProvider extends ChangeNotifier{
 
   void updateViews(BuildContext context, String idDescription) async {
     Future.delayed(Duration(milliseconds: 0), () {
-      if (_AdsPage.isNotEmpty) {
-        var _viewsAds = double.parse(_AdsPage.first.views) + 1;
+      if (_AdsPage != null) {
+        var _viewsAds = double.parse(_AdsPage.views) + 1;
         Api().updateViewsFunc(
-            _AdsPage.first.idAds, _viewsAds.toString());
+            _AdsPage.idAds, _viewsAds.toString());
         getAdsPageList(context, idDescription);
       }
     });
@@ -314,10 +303,10 @@ class MutualProvider extends ChangeNotifier{
 
 
   String get qrData => _qrData;
-  List<AdsModel> get adsPage => _AdsPage;
+  AdsModel get adsPage => _AdsPage;
   List<AdsModel> get adsPageImages => _AdsPageImages;
   List<AdsModel> get adsSimilar => _AdsSimilar;
-  List<UserModel> get adsUser => _AdsUser;
+  UserModel get adsUser => _AdsUser;
   List<AdsModel> get adsVR => _AdsVR;
   List<BFModel> get adsBF => _AdsBF;
   List<QFModel> get adsQF => _AdsQF;

@@ -40,7 +40,6 @@ class ConversationModel extends ChangeNotifier {
   Future<void> sendMess(String Phone, String OtherPhone, String content) async {
     await http.post(
         'https://www.tadawl-store.com/API/api_app/conversations/send_mes.php',
-        // 'https://www.tadawl.com.sa/API/api_app/conversations/send_mes.php',
         body: {
           'phone': Phone,
           'other_phone': OtherPhone,

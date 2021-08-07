@@ -4,7 +4,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/mainWidgets/update_my_information/update_info_text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 
 class UpdateInfoMemType extends StatelessWidget {
   const UpdateInfoMemType(this._updateMyInfoKey,{Key key}) : super(key: key);
@@ -14,7 +14,7 @@ class UpdateInfoMemType extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     var mediaQuery = MediaQuery.of(context);
-    return Consumer<UserMutualProvider>(builder: (context, userMutual, child) {
+    return Consumer<MyAccountProvider>(builder: (context, userMutual, child) {
       if(!userMutual.membershipType.contains(true)){
         userMutual.updateMembershipType(int.tryParse(userMutual.users.id_mem), false);
       }

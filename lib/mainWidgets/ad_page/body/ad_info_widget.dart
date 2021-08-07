@@ -38,7 +38,7 @@ class AdInfoWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${mutualProv.adsPage.first.ads_city??'غير محدد'} - ${mutualProv.adsPage.first.ads_neighborhood??'غير محدد'}',
+                        '${mutualProv.adsPage.ads_city??'غير محدد'} - ${mutualProv.adsPage.ads_neighborhood??'غير محدد'}',
                         style: CustomTextStyle(
                           fontSize: 11,
                           color: Colors.grey,
@@ -46,7 +46,7 @@ class AdInfoWidget extends StatelessWidget {
                         textAlign: TextAlign.right,
                       ),
                       Text(
-                        '${mutualProv.adsPage.first.ads_road??'غير محدد'}',
+                        '${mutualProv.adsPage.ads_road??'غير محدد'}',
                         style: CustomTextStyle(
                           fontSize: 11,
                           color: Colors.grey,
@@ -70,8 +70,8 @@ class AdInfoWidget extends StatelessWidget {
               ],
             ),
           ),
-          if (mutualProv.adsUser.isNotEmpty)
-            if (mutualProv.adsUser.first.phone == locale.phone)
+          if (mutualProv.adsUser != null)
+            if (mutualProv.adsUser.phone == locale.phone)
               Padding(
                 padding: const EdgeInsets.fromLTRB(65, 15, 65, 0),
                 child: Container(
@@ -149,8 +149,8 @@ class AdInfoWidget extends StatelessWidget {
                 ],
               ),
             ),
-          if (mutualProv.adsUser.isNotEmpty)
-            if (mutualProv.adsUser.first.phone == locale.phone)
+          if (mutualProv.adsUser != null)
+            if (mutualProv.adsUser.phone == locale.phone)
               Padding(
                 padding: const EdgeInsets.fromLTRB(65, 15, 65, 0),
                 child: TextButton(
@@ -185,8 +185,8 @@ class AdInfoWidget extends StatelessWidget {
                   ),
                 ),
               ),
-          if (mutualProv.adsUser.isNotEmpty)
-            if (mutualProv.adsUser.first.phone == locale.phone)
+          if (mutualProv.adsUser != null)
+            if (mutualProv.adsUser.phone == locale.phone)
               Padding(
                 padding: const EdgeInsets.fromLTRB(65, 15, 65, 0),
                 child: TextButton(
@@ -280,7 +280,7 @@ class AdInfoWidget extends StatelessWidget {
               ),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-            child: SpaceTable(adsPage: mutualProv.adsPage.first,),
+            child: SpaceTable(adsPage: mutualProv.adsPage,),
 // space ......................
           ),
           Padding(
@@ -307,8 +307,8 @@ class AdInfoWidget extends StatelessWidget {
             child: Column(
               children: [
                 AdViewTable(
-                  views: mutualProv.adsPage.first.views,
-                  idDescription: mutualProv.adsPage.first.idDescription,
+                  views: mutualProv.adsPage.views,
+                  idDescription: mutualProv.adsPage.idDescription,
                 ),
               ],
             ),

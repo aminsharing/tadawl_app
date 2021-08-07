@@ -173,7 +173,7 @@ class GeneralProvider extends ChangeNotifier {
       await Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => Home()),
-          ModalRoute.withName('/Home')
+              (route) => false
       );
     } else {
       await Fluttertoast.showToast(

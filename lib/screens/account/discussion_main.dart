@@ -21,8 +21,10 @@ class Discussion extends StatelessWidget {
       this.phone_user,
       {
     Key key,
+        @required this.username,
   }) : super(key: key);
   final String phone_user;
+  final String username;
 
 
 
@@ -69,7 +71,7 @@ class Discussion extends StatelessWidget {
             },
           ),
           title: Text(
-            msgProv.recAvatarUserName,
+            username ?? 'Username',
             style: CustomTextStyle(
               fontSize: 15,
               color: const Color(0xffffffff),
@@ -114,8 +116,8 @@ class Discussion extends StatelessWidget {
               height: mediaQuery.size.height * 0.75,
               child: Consumer<MsgProvider>(builder: (context, mainChat, child) {
                 print("Discussion -> MsgProvider");
-                mainChat.getConvInfo(context, locale.phone);
-                mainChat.getCommentUser(context, phone_user, locale.phone);
+                mainChat.getConvInfo(locale.phone);
+                mainChat.getCommentUser(phone_user, locale.phone);
                 return StreamBuilder(
                   stream: mainChat.streamChatController.stream,
                   builder: (BuildContext context, AsyncSnapshot snapshot) {

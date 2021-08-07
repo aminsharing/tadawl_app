@@ -6,7 +6,7 @@ import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/change_pass_provider.dart';
 import 'package:tadawl_app/provider/user_provider/change_phone_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
+import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 import 'package:tadawl_app/screens/account/change_pass.dart';
 import 'package:tadawl_app/screens/account/change_phone.dart';
 import 'package:tadawl_app/screens/account/update_my_information.dart';
@@ -40,7 +40,11 @@ class EngConstants {
 
 
 class AccountActions extends StatelessWidget {
-  const AccountActions({Key key}) : super(key: key);
+  const AccountActions({
+    Key key,
+    @required this.myAccountProvider,
+  }) : super(key: key);
+  final MyAccountProvider myAccountProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -48,18 +52,17 @@ class AccountActions extends StatelessWidget {
     var _lang = locale.locale.toString();
 
     Future<void> choiceAction(String choice) async {
-      final userMutualProv = Provider.of<UserMutualProvider>(context, listen: false);
+      final myAccountProv = Provider.of<MyAccountProvider>(context, listen: false);
       // final mainPageProv = Provider.of<MainPageProvider>(context, listen: false);
       final bottomProv = Provider.of<BottomNavProvider>(context, listen: false);
       if (choice == 'تحديث معلوماتي' || choice == 'Update My Info') {
-        userMutualProv.setInitMembershipType();
+        myAccountProv.setInitMembershipType();
         await Navigator.push(context,
           MaterialPageRoute(builder: (context) =>
-              ChangeNotifierProvider<UserMutualProvider>(
-                create: (_) => UserMutualProvider(locale.phone),
-                child: UpdateMyInformation(),
-              )
-
+          ChangeNotifierProvider<MyAccountProvider>.value(
+            value: myAccountProvider,
+            child: UpdateMyInformation(),
+          )
           ),
         );
       } else if (choice == 'تغيير كلمة المرور' || choice == 'Change Password') {
@@ -82,7 +85,7 @@ class AccountActions extends StatelessWidget {
           ),
         );
       } else {
-        await userMutualProv.logout(context);
+        await myAccountProv.logout(context);
         await Fluttertoast.showToast(
             msg: 'تم تسجيل الخروج',
             toastLength: Toast.LENGTH_SHORT,
@@ -97,7 +100,7 @@ class AccountActions extends StatelessWidget {
         // mainPageProv.setInItMainPageDone(0);
         await Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (context) => Home()),
-          ModalRoute.withName('/Home')
+                (route) => false
         );
       }
     }
