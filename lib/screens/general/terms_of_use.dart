@@ -81,7 +81,6 @@ class TermsOfUse extends StatelessWidget {
                   ],
                 ),
                 Consumer<GeneralProvider>(builder: (context, terms, child) {
-                  print("TermsOfUse -> GeneralProvider");
                   return ExpansionPanelList(
                     expansionCallback: (int index, bool isExpanded) {
                       terms.setExpanded(index, isExpanded);

@@ -10,7 +10,7 @@ import 'package:tadawl_app/screens/ads/ad_page.dart';
 
 class UpdateLocationProvider extends ChangeNotifier{
   UpdateLocationProvider(){
-    print("UpdateLocationProvider init");
+    print('init UpdateLocationProvider');
     getLocPer().then((value) {
       getLoc();
     });
@@ -30,7 +30,7 @@ class UpdateLocationProvider extends ChangeNotifier{
 
   @override
   void dispose() {
-    print("UpdateLocationProvider dispose");
+    print('dispose UpdateLocationProvider');
     super.dispose();
   }
 
@@ -87,7 +87,6 @@ class UpdateLocationProvider extends ChangeNotifier{
 
   void handleCameraMoveUpdateLoc(CameraPosition position) async {
 
-    // TODO This changed remove comments
     // if (_markersUpdateLoc.isEmpty) {
     //   _markersUpdateLoc.add(Marker(
     //     markerId: MarkerId(position.target.toString()),

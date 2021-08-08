@@ -14,12 +14,12 @@ import 'package:tadawl_app/screens/ads/ad_page.dart';
 
 class MutualProvider extends ChangeNotifier{
   MutualProvider(){
-    print("MutualProvider init");
+    print('init MutualProvider');
   }
 
   @override
   void dispose(){
-    print("MutualProvider dispose");
+    print('dispose MutualProvider');
     super.dispose();
   }
 
@@ -103,11 +103,7 @@ class MutualProvider extends ChangeNotifier{
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     if(locale.phone != null){
       await Api().getFavStatusFunc(locale.phone, _idDescription).then((value) {
-        print("value: $value");
         _is_favAdsPageDB = value;
-        print("idDescription: $idDescription");
-        print("_phone: ${locale.phone}");
-        print("_is_favAdsPageDB: $_is_favAdsPageDB");
       });
     }
   }
@@ -207,7 +203,6 @@ class MutualProvider extends ChangeNotifier{
         _adsNavigationData.forEach((element) {
           _AdsNavigation.add(AdsModel.adsNavigation(element));
         });
-        // TODO ADDED
         notifyListeners();
       });
     });

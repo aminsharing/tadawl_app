@@ -99,7 +99,6 @@ class AvatarInfo extends StatelessWidget {
             if (userMutual.userPhone == locale.phone) {
               var number = '+${locale.phone}';
               await FlutterPhoneDirectCaller.callNumber(number).then((value) {
-                print("callNumberr value: $value");
                 if(value){
                   Future.delayed(Duration(seconds: 5), (){
                     _showRatingDialog();
@@ -109,7 +108,6 @@ class AvatarInfo extends StatelessWidget {
             } else {
               var number = '+${userMutual.userPhone}';
               await FlutterPhoneDirectCaller.callNumber(number).then((value) {
-                print("callNumberr value: $value");
                 if(value){
                   Future.delayed(Duration(seconds: 5), (){
                     _showRatingDialog();

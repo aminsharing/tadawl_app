@@ -8,7 +8,6 @@ class RegionsMap extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<RegionProvider>(builder: (context, region, child) {
 
-      print("RegionsMapp -> RegionProvider");
 
       void _onMapCreated(GoogleMapController controller) {
         controller.setMapStyle(Utils.mapStyle);

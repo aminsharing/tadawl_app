@@ -942,7 +942,6 @@ class Api {
   //   });
   // }
 
-  // TODO Complate send voice message and images
   Future sendMessFunc( List<File> imagesList, File voiceMsg, String content, String phone, String phone_user, String msgType) async {
     var uri = Uri.parse('$BaseURL/api_app/conversations/send_mes.php');
     var request = http.MultipartRequest('POST', uri);

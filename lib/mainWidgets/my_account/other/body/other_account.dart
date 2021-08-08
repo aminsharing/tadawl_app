@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/my_account/mutual/app_bar/leading.dart';
-import 'package:tadawl_app/mainWidgets/my_account/mutual/app_bar/title.dart';
 import 'package:tadawl_app/mainWidgets/my_account/other/app_bar/account_actions.dart';
 import 'package:tadawl_app/mainWidgets/my_account/other/body/about.dart';
 import 'package:tadawl_app/mainWidgets/my_account/other/body/ads_list.dart';
 import 'package:tadawl_app/mainWidgets/my_account/other/body/avatar_info.dart';
 import 'package:tadawl_app/mainWidgets/my_account/other/body/certified.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
 
 class OtherAccount extends StatelessWidget {

@@ -47,7 +47,6 @@ class OpenImages extends StatelessWidget {
         backgroundColor: Color(0xff00cccc),
       ),
       body: Consumer<OpenImageProvider>(builder: (context, images, child) {
-        print("OpenImages -> AdPageProvider");
         return ListView.separated(
           itemCount: images.image.length,
           itemBuilder: (context, i){

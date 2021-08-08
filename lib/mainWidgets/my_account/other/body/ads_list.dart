@@ -16,9 +16,6 @@ class AdsList extends StatelessWidget {
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
     return Consumer<MyAccountProvider>(builder: (context, avatar, child) {
-      print("AdsList other -> MyAccountProvider");
-      print("AdsList other -> avatarProvider");
-
       return Column(
         children: [
           Padding(

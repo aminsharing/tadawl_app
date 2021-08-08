@@ -60,7 +60,6 @@ class PaymentOfFees extends StatelessWidget {
         backgroundColor: const Color(0xffffffff),
         body: SingleChildScrollView(
           child: Consumer<AdvFeeProvider>(builder: (context, payFee, child) {
-            print("PaymentOfFees -> AdvFeeProvider");
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[

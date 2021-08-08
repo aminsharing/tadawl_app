@@ -17,13 +17,12 @@ class SliderWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
       child: Consumer<MainPageProvider>(builder: (context, mainPage, _){
-        print("SliderWidget -> MainPageProvider");
         return Row(
           mainAxisAlignment: _lang != 'en_US'
               ? MainAxisAlignment.end
               : MainAxisAlignment.start,
           children: [
-            if (mainPage.slider_state == 0)
+            if (!mainPage.slider_state)
               Container(
                 width: 80.0,
                 height: MediaQuery.of(context).size.height * 0.064,
@@ -40,7 +39,7 @@ class SliderWidget extends StatelessWidget {
                     children: [
                       TextButton(
                         onPressed: () {
-                          mainPage.setSliderState(1);
+                          mainPage.setSliderState(true);
                         },
                         child: Icon(
                             _lang != 'en_US'
@@ -53,7 +52,7 @@ class SliderWidget extends StatelessWidget {
                   ),
                 ),
               )
-            else if (mainPage.slider_state == 1)
+            else if (mainPage.slider_state)
               Container(
                 width: 100.0,
                 height: MediaQuery.of(context).size.height * 0.8,
@@ -65,10 +64,11 @@ class SliderWidget extends StatelessWidget {
                   color: const Color(0xff1f2835),
                 ),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     TextButton(
                       onPressed: () {
-                        mainPage.setSliderState(0);
+                        mainPage.setSliderState(false);
                       },
                       child: Icon(
                           _lang != 'en_US'
@@ -77,92 +77,44 @@ class SliderWidget extends StatelessWidget {
                           color: Color(0xff00cccc),
                           size: 30),
                     ),
-                    Expanded(
-                      child: SingleChildScrollView(
+                    Container(
+                      width: 100.0,
+                      height: MediaQuery.of(context).size.height * 0.72,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: const Color(0x00000000),
+                      ),
+                      child: ListView.builder(
+                        padding: EdgeInsets.zero,
                         scrollDirection: Axis.vertical,
-                        child: SizedBox(
-                          width: 100.0,
-                          height:
-                          MediaQuery.of(context).size.height * 0.8,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: 100.0,
-                                height:
-                                MediaQuery.of(context).size.height *
-                                    0.73,
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                  BorderRadius.circular(10.0),
-                                  color: const Color(0x00000000),
-                                ),
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.vertical,
-                                  child: Column(
-                                    children: [
-                                      if (_lang != 'en_US')
-                                        Column(
-                                          children: [
-                                            for (var i = 0; i < categoriesCons().length; i++)
-                                              TextButton(
-                                                onPressed: () {
-                                                  Provider.of<SearchDrawerProvider>(context, listen: false).setFilter(1);
-                                                  Provider.of<SearchDrawerProvider>(context, listen: false).setIdCategorySearch(categoriesCons()[i]['id_category']);
-                                                  Provider.of<SearchDrawerProvider>(context, listen: false).getAdsList(context);
-                                                  if(mainPage.showDiaogSearchDrawer){
-                                                    mainPage.setShowDiogFalse();
-                                                  }
-                                                },
-                                                child: Text(
-                                                  categoriesCons()[i]['name'],
-                                                  style: CustomTextStyle(
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 13,
-                                                    color: const Color(
-                                                        0xffffffff),
-                                                  ).getTextStyle(),
-                                                  textAlign:
-                                                  TextAlign.center,
-                                                ),
-                                              ),
-                                          ],
-                                        )
-                                      else
-                                        for (var i = 0; i < enCategoriesCons().length; i++)
-                                          Column(
-                                            children: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Provider.of<SearchDrawerProvider>(context, listen: false).setFilter(1);
-                                                  Provider.of<SearchDrawerProvider>(context, listen: false).setIdCategorySearch(enCategoriesCons()[i]['id_category']);
-                                                  Provider.of<SearchDrawerProvider>(context, listen: false).getAdsList(context);
-                                                  if(mainPage.showDiaogSearchDrawer){
-                                                    mainPage.setShowDiogFalse();
-                                                  }
-                                                },
-                                                child: Text(
-                                                  enCategoriesCons()[
-                                                  i]['name'],
-                                                  style: CustomTextStyle(
-                                                    fontWeight: FontWeight.w300,
-                                                    fontSize: 13,
-                                                    color: const Color(
-                                                        0xffffffff),
-                                                  ).getTextStyle(),
-                                                  textAlign:
-                                                  TextAlign.center,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        itemCount: categoriesCons().length,
+                        itemBuilder: (context, i){
+                          return TextButton(
+                            onPressed: () {
+                              Provider.of<SearchDrawerProvider>(context, listen: false).setFilter(1);
+                              Provider.of<SearchDrawerProvider>(context, listen: false).setIdCategorySearch(categoriesCons()[i]['id_category']);
+                              Provider.of<SearchDrawerProvider>(context, listen: false).getAdsList(context);
+                              if(mainPage.showDiaogSearchDrawer){
+                                mainPage.setShowDiogFalse();
+                              }
+                            },
+                            child: Text(
+                              _lang != 'en_US'
+                                  ?
+                              categoriesCons()[i]['name']
+                                  :
+                              enCategoriesCons()[i]['name'],
+                              style: CustomTextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 13,
+                                color: const Color(
+                                    0xffffffff),
+                              ).getTextStyle(),
+                              textAlign:
+                              TextAlign.center,
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ],

@@ -16,7 +16,6 @@ class Requests extends StatelessWidget {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     return Consumer<RequestProvider>(builder: (context, requests, child) {
 
-      print("Requests -> RequestProvider");
 
 
       requests.getUserRequestsList(locale.phone);

@@ -82,7 +82,6 @@ class Stage1 extends StatelessWidget {
           children: <Widget>[
 //...............................
             Consumer<UpdateDetailsProvider>(builder: (context, updateDetails, _){
-              print("Stage1 -> UpdateDetailsProvider");
               if (updateDetails.id_category_finalUpdate != null){
                 return Column(
                   children: [

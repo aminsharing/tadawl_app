@@ -21,7 +21,6 @@ class UpdateLocation extends StatelessWidget {
     final mutualProv = Provider.of<MutualProvider>(context, listen: false);
     return Consumer<UpdateLocationProvider>(builder: (context, updateLoc, child) {
 
-      print("UpdateLocation -> UpdateLocationProvider");
 
       var mediaQuery = MediaQuery.of(context);
       // ignore: omit_local_variable_types
@@ -135,7 +134,6 @@ class UpdateLocation extends StatelessWidget {
                           zoom: 13),
                       onMapCreated: _onMapCreated,
                       onCameraMove: (CameraPosition position) {
-                        // TODO This changed
                         updateLoc.handleCameraMoveUpdateLoc(position);
                       },
                     ),

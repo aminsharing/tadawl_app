@@ -29,7 +29,6 @@ class SearchField extends StatelessWidget {
           onSelected: (Place place) async {
             Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
             await place.geolocation.then((value) async{
-              print("geolocationnn: ${value.coordinates}");
               Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(CameraPosition(target: value.coordinates, zoom: 13));
               if(isMainPage){
                 Provider.of<MainPageProvider>(context, listen: false).animateToLocation(value.coordinates, 13);

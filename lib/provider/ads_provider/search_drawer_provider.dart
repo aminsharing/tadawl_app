@@ -9,12 +9,12 @@ import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 class SearchDrawerProvider extends ChangeNotifier{
 
   SearchDrawerProvider(){
-    print("SearchDrawerProvider init");
+    print('init SearchDrawerProvider');
   }
 
   @override
   void dispose() {
-    print("SearchDrawerProvider dispose");
+    print('dispose SearchDrawerProvider');
     super.dispose();
   }
 
@@ -367,7 +367,6 @@ class SearchDrawerProvider extends ChangeNotifier{
         Api().getadsFunc().then((value) {
           _AdsData = value;
           setMainAdsCount(_AdsData.length);
-          print("bbbbbbbbbbbbbbbbbbbbbb ${_AdsData.length}");
           Provider.of<MainPageProvider>(context, listen: false)
               .getAds(context ,_AdsData);
         });
@@ -380,7 +379,6 @@ class SearchDrawerProvider extends ChangeNotifier{
             .then((value) {
           _AdsData = value;
           setMainAdsCount(_AdsData.length);
-          print("bbbbbbbbbbbbbbbbbbbbbb 1 ${_AdsData.length}");
           Provider.of<MainPageProvider>(context, listen: false)
               .getAds(context ,_AdsData);
         });
@@ -392,7 +390,6 @@ class SearchDrawerProvider extends ChangeNotifier{
         Api().getFilterTwoWeeksAgoFunc().then((value) {
           _AdsData = value;
           setMainAdsCount(_AdsData.length);
-          print("bbbbbbbbbbbbbbbbbbbbbb 2 ${_AdsData.length}");
           Provider.of<MainPageProvider>(context, listen: false)
               .getAds(context ,_AdsData);
         });
@@ -441,7 +438,6 @@ class SearchDrawerProvider extends ChangeNotifier{
             _bool_feature18SearchDrawer.toString())
             .then((value) {
           _AdsData = value;
-          print("bbbbbbbbbbbbbbbbbbbbbb 4 ${_AdsData.length}");
           setMainAdsCount(_AdsData.length);
           Provider.of<MainPageProvider>(context, listen: false)
               .getAds(context ,_AdsData);

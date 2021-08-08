@@ -20,7 +20,6 @@ class Favourite extends StatelessWidget {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     return Consumer<FavouriteProvider>(builder: (context, adsFav, child) {
 
-      print("Favourite -> FavouriteProvider");
 
       // Provider.of<MutualProvider>(context, listen: false).randomPosition(50);
       var mediaQuery = MediaQuery.of(context);

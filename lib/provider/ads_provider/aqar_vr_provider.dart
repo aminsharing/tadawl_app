@@ -7,7 +7,12 @@ import 'package:tadawl_app/screens/ads/ad_page.dart';
 
 class AqarVRProvider extends ChangeNotifier{
   AqarVRProvider(){
-    print("AqarVRProvider init");
+    print('init AqarVRProvider');
+  }
+  @override
+  void dispose() {
+    print('dispose AqarVRProvider');
+    super.dispose();
   }
 
   File _imageAqarVR;

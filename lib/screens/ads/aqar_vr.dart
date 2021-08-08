@@ -67,7 +67,6 @@ class AqarVR extends StatelessWidget {
                   ),
                 ),
                 Consumer<AqarVRProvider>(builder: (context, aqarVR, child) {
-                  print("AqarVR -> AqarVRProvider");
                   return Column(
                     children: [
                       Padding(

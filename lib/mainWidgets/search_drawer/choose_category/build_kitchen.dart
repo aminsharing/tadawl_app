@@ -25,7 +25,6 @@ class BuildKitchen extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
-            print("BuildKitchen -> SearchDrawerProvider");
             return FlutterSwitch(
               activeColor: const Color(0xff00cccc),
               width: 40.0,

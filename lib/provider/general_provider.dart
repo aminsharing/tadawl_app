@@ -125,12 +125,12 @@ List<Item> generatedItems() {
 
 class GeneralProvider extends ChangeNotifier {
   GeneralProvider(){
-    print("GeneralProvider init");
+    print('init GeneralProvider');
   }
 
   @override
   void dispose() {
-    print("GeneralProvider dispose");
+    print('dispose GeneralProvider');
     super.dispose();
   }
 

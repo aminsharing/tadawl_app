@@ -18,7 +18,7 @@ import 'package:video_player/video_player.dart';
 
 class AdPageProvider extends ChangeNotifier{
   AdPageProvider(){
-    print("AdPageProvider init");
+    print('init AdPageProvider');
   }
 
   VideoPlayerController _videoControllerAdsPage;
@@ -36,7 +36,7 @@ class AdPageProvider extends ChangeNotifier{
 
   @override
   void dispose() {
-    print("AdPageProvider dispose");
+    print('dispose AdPageProvider');
     clearFav();
     if (_videoControllerAdsPage != null) {
       stopVideoAdsPage();

@@ -5,14 +5,14 @@ import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 class TodayAdsProvider extends ChangeNotifier{
 
   TodayAdsProvider(){
-    print("TodayAdsProvider init");
+    print('init TodayAdsProvider');
     initStateSelected();
     getTodayAdsList();
   }
 
   @override
   void dispose() {
-    print("TodayAdsProvider dispose");
+    print('dispose TodayAdsProvider');
     super.dispose();
   }
 

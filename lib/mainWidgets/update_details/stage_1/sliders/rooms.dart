@@ -10,7 +10,6 @@ class Rooms extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<UpdateDetailsProvider>(builder: (context, updateDetails, _) {
-      print("Rooms -> UpdateDetailsProvider");
       return Column(
         children: [
           Padding(

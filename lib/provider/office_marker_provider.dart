@@ -19,23 +19,25 @@ import 'locale_provider.dart';
 class OfficeMarkerProvider extends ChangeNotifier{
 
   OfficeMarkerProvider(){
-    print("init of OfficeMarkerProvider");
+    print('init OfficeMarkerProvider');
     aO();
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    print('dispose OfficeMarkerProvider');
+    _entry.remove();
+    _entry = null;
+    _markers.clear();
+    // _officesList.clear();
   }
 
   var _markers = <Marker>[];
   final List<OfficeModel> _officesList = [];
   OverlayEntry _entry;
 
-  @override
-  void dispose(){
-    super.dispose();
-    print("OfficeMarkerProvider dispose");
-    _entry.remove();
-    _entry = null;
-    _markers.clear();
-    // _officesList.clear();
-  }
+
 
   Widget _getMarkerWidget(String name) {
     return Container(
@@ -81,7 +83,6 @@ class OfficeMarkerProvider extends ChangeNotifier{
             position: LatLng(double.parse(office.office_lat),
                 double.parse(office.office_lng)),
             onTap: () {
-              // TODO Changed To my account provider
               // var user = Provider.of<UserMutualProvider>(context, listen: false);
               // user.getAvatarList(office.phone_user);
               // user.getUserAdsList(office.phone_user);
@@ -90,6 +91,7 @@ class OfficeMarkerProvider extends ChangeNotifier{
               // user.checkOfficeInfo(office.phone_user);
               // user.setUserPhone(office.phone_user);
               final locale = Provider.of<LocaleProvider>(context, listen: false);
+              // ignore: omit_local_variable_types
               final MyAccountProvider myAccountProvider = MyAccountProvider(office.phone_user);
               Navigator.push(
                 context,
@@ -179,7 +181,6 @@ class OfficeMarkerProvider extends ChangeNotifier{
     List<dynamic> value = await Api().getsOfficeFunc();
     value.forEach((element) {
       if(!a.contains(element['id_offices'])){
-        print("id_officess");
         _officesList.add(OfficeModel.offices(element));
       }
     });

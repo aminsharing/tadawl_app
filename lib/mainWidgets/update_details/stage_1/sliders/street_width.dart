@@ -10,7 +10,6 @@ class StreetWidth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<UpdateDetailsProvider>(builder: (context, updateDetails, _) {
-      print("StreetWidth -> UpdateDetailsProvider");
       return Column(
         children: [
           Padding(

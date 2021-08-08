@@ -18,7 +18,6 @@ class TransferForm extends StatelessWidget {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     return Consumer<TransferFormProvider>(builder: (context, transfer, child) {
 
-      print("TransferForm -> TransferFormProvider");
 
       var mediaQuery = MediaQuery.of(context);
 

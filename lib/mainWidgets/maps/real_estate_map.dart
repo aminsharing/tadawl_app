@@ -12,12 +12,10 @@ class RealEstateMap extends StatelessWidget {
     Provider.of<OfficeMarkerProvider>(context, listen: false).getOfficeListMap(context);
     return Consumer<OfficeMarkerProvider>(builder: (context, realEstate, child) {
 
-      print("RealEstateMap -> OfficeMarkerProvider");
 
       void _onMapCreated(GoogleMapController controller) {
         controller.setMapStyle(Utils.mapStyle);
       }
-      // TODO CHANGED Only if markers empty can call [getOfficeListMap()] fun
       // if(realEstate.markers.isEmpty){
       //   realEstate.getOfficeListMap(context, showOnMap: true);
       // }

@@ -35,11 +35,6 @@ class AdPage extends StatelessWidget {
     return ChangeNotifierProvider<AdPageProvider>(
       create: (_) => AdPageProvider(),
       child: Consumer2<AdPageProvider, MutualProvider>(builder: (context, adsPage, mutualProv, child) {
-
-        print("AdPage -> AdPageProvider");
-        print("AdPage -> MutualProvider");
-
-
         // if( mutualProv.adsPage.isNotEmpty){
         //   adsPage.getIsFav(context, mutualProv.adsPage.first.idDescription);
         // }

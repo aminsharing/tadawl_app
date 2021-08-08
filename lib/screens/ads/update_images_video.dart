@@ -27,7 +27,6 @@ class UpdateImgVed extends StatelessWidget {
     return Consumer<UpdateImgVedProvider>(builder: (context, updateImgVed, child) {
 
 
-      print("UpdateImgVed -> UpdateImgVedProvider");
 
       var mediaQuery = MediaQuery.of(context);
       // ignore: omit_local_variable_types

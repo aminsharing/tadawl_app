@@ -28,7 +28,6 @@ class Cellar extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           Consumer<UpdateDetailsProvider>(builder: (context, updateDetails, _) {
-            print("Cellar -> UpdateDetailsProvider");
             return FlutterSwitch(
               activeColor: const Color(0xff00cccc),
               width: 40.0,

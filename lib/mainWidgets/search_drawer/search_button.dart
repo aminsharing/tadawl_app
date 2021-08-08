@@ -16,8 +16,6 @@ class SearchButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
       child: Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
-        print("SearchButton -> MainPageProvider");
-        print("SearchButton -> MenuProvider");
         return TextButton(
           onPressed: () {
             // _searchDrawerKey.currentState.save();

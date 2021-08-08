@@ -21,7 +21,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyAccountProvider extends ChangeNotifier{
   MyAccountProvider(String _phone){
-    print("MyAccountProvider init");
+    print('init MyAccountProvider');
     initStateSelected();
     if(_phone != null){
       getEstimatesInfo(_phone);
@@ -36,7 +36,7 @@ class MyAccountProvider extends ChangeNotifier{
 
   @override
   void dispose() {
-    print("MyAccountProvider dispose");
+    print('dispose MyAccountProvider');
     clearExpendedListCount();
     clearUpdatingInformation();
     super.dispose();
@@ -237,7 +237,6 @@ class MyAccountProvider extends ChangeNotifier{
           _EstimateData.forEach((element) {
             _estimates.add(UserEstimateModel.estimates(element));
           });
-          // TODO ADDED
           // notifyListeners();
           // Provider.of<AdsProvider>(context,listen: false).update();
         });
@@ -249,7 +248,6 @@ class MyAccountProvider extends ChangeNotifier{
           _EstimateData.forEach((element) {
             _estimates.add(UserEstimateModel.estimates(element));
           });
-          // TODO ADDED
           // notifyListeners();
 
         });
@@ -285,7 +283,6 @@ class MyAccountProvider extends ChangeNotifier{
           _UserAdsData.forEach((element) {
             _userAds.add(AdsModel.ads(element));
           });
-          // TODO ADDED
           // notifyListeners();
         });
       } else {
@@ -295,7 +292,6 @@ class MyAccountProvider extends ChangeNotifier{
           _UserAdsData.forEach((element) {
             _userAds.add(AdsModel.ads(element));
           });
-          // TODO ADDED
           // notifyListeners();
         });
       }
@@ -306,14 +302,9 @@ class MyAccountProvider extends ChangeNotifier{
   Future<void> checkOfficeInfo( String Phone) async {
     Future.delayed(Duration(milliseconds: 0), () async{
       await Api().getOfficeCheckFunc(Phone).then((value) {
-        print("getOfficeCheckFunc(P: ${value.runtimeType}");
         if(value != null){
-          print("getOfficeCheckFunc(P 2: $value");
           _offices = OfficeModel.offices(value);
         }
-
-        // TODO ADDED
-        // notifyListeners();
       });
     });
   }

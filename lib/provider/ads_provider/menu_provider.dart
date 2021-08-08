@@ -4,11 +4,11 @@ import 'package:tadawl_app/models/AdsModel.dart';
 class MenuProvider extends ChangeNotifier{
 
   MenuProvider(){
-    print("MenuProvider init");
+    print('init MenuProvider');
   }
   @override
   void dispose() {
-    print("MenuProvider dispose");
+    print('dispose MenuProvider');
     PaintingBinding.instance.imageCache.clear();
     PaintingBinding.instance.imageCache.clearLiveImages();
     clearExpendedMenuListCount();
@@ -152,7 +152,6 @@ class MenuProvider extends ChangeNotifier{
   void getMenuAds(List<dynamic> _MenuAdsData){
     _MenuAds.clear();
     _MenuAdsData.forEach((element) {
-      print("getMenuAdsss");
       _MenuAds.add(AdsModel.ads(element));
     });
     notifyListeners();

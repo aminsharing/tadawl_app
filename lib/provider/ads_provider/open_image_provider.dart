@@ -4,13 +4,13 @@ import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 
 class OpenImageProvider extends ChangeNotifier{
   OpenImageProvider(String idDescription){
-    print("OpenImageProvider init");
+    print('init OpenImageProvider');
     getImagesAdsPageInfo(idDescription);
   }
 
   @override
   void dispose() {
-    print("OpenImageProvider dispose");
+    print('dispose OpenImageProvider');
     super.dispose();
   }
 

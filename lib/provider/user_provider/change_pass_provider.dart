@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangePassProvider extends ChangeNotifier{
   ChangePassProvider(){
-    print("ChangePassProvider init");
+    print('init ChangePassProvider');
   }
   String _newPass, _reNewPass;
   int _current_stage;
@@ -11,7 +11,7 @@ class ChangePassProvider extends ChangeNotifier{
 
   @override
   void dispose() {
-    print("ChangePassProvider dispose");
+    print('dispose ChangePassProvider');
     super.dispose();
   }
 

@@ -47,7 +47,7 @@ class UserEstimates extends StatelessWidget {
                 0, 0, 0, 0),
             child: RatingBar(
               rating: sumEstimates != null
-                  ?// TODO check if estimates count is true
+                  ?
               (double.parse(sumEstimates.sum_estimates ?? '0') / estimates.length).toDouble()
                   : 3,
               icon: Icon(

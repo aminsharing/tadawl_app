@@ -5,13 +5,13 @@ import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 class FavouriteProvider extends ChangeNotifier{
 
   FavouriteProvider(String _phone){
-    print("FavouriteProvider init");
+    print('init FavouriteProvider');
     getUserAdsFavList(_phone);
   }
 
   @override
   void dispose(){
-    print("FavouriteProvider dispose");
+    print('dispose FavouriteProvider');
     super.dispose();
   }
 
@@ -27,7 +27,6 @@ class FavouriteProvider extends ChangeNotifier{
           _UserAdsFavData.forEach((element) {
             _userAdsFav.add(AdsModel.ads(element));
           });
-          // TODO ADDED
           notifyListeners();
         });
       } else {
@@ -37,7 +36,6 @@ class FavouriteProvider extends ChangeNotifier{
           _UserAdsFavData.forEach((element) {
             _userAdsFav.add(AdsModel.ads(element));
           });
-          // TODO ADDED
           // notifyListeners();
         });
       }

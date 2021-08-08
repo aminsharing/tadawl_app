@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
@@ -38,6 +37,7 @@ class BottomNavigationBarApp extends StatelessWidget {
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
     final local = Provider.of<LocaleProvider>(context, listen: false);
+    // ignore: omit_local_variable_types
     final MsgProvider msgProvider = MsgProvider(local.phone, null);
     // final msgProv = Provider.of<MsgProvider>(context, listen: false);
     // final menuProv = Provider.of<MenuProvider>(context, listen: false);
@@ -51,7 +51,6 @@ class BottomNavigationBarApp extends StatelessWidget {
         width: mediaQuery.size.width,
         color: Color(0xff00cccc),
         child: Consumer<BottomNavProvider>(builder: (ctxt, btmNav, child){
-          print("BottomNavigationBarApp -> BottomNavProvider");
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[

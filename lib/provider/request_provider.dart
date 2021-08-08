@@ -5,7 +5,12 @@ import 'package:tadawl_app/provider/api/apiRequestsFunctions.dart';
 
 class RequestProvider extends ChangeNotifier {
   RequestProvider(){
-    print("RequestProvider init");
+    print('init RequestProvider');
+  }
+  @override
+  void dispose() {
+    print('dispose RequestProvider');
+    super.dispose();
   }
 
   final List<RequestModel> _requests = [];

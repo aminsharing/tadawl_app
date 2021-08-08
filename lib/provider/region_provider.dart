@@ -17,7 +17,7 @@ import 'locale_provider.dart';
 class RegionProvider extends ChangeNotifier {
 
   RegionProvider(){
-    print("RegionProvider init");
+    print('init RegionProvider');
   }
 
   var _markers = <Marker>[];
@@ -25,7 +25,7 @@ class RegionProvider extends ChangeNotifier {
 
   @override
   void dispose(){
-    print("RegionProvider dispose");
+    print('dispose RegionProvider');
     _entry.remove();
     _entry = null;
     _markers.clear();

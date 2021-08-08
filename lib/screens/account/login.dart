@@ -113,7 +113,6 @@ class Login extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
                       child: Consumer<LoginProvider>(builder: (context, login, child) {
-                        print("Login -> LoginProvider");
                         return ListTile(
                           leading: Icon(
                             Icons.vpn_key,

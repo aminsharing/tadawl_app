@@ -19,7 +19,6 @@ class Contact extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final contact = Provider.of<GeneralProvider>(context, listen: false);
-    print("Contact -> GeneralProvider");
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,

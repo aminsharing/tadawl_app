@@ -48,8 +48,6 @@ class Stage2 extends StatelessWidget {
       body: Form(
         key: _updateAdsKey,
         child: Consumer<UpdateDetailsProvider>(builder: (context, updateDetails, _){
-          print("Stage2 -> UpdateDetailsProvider");
-          print("Stage2 -> updateDetailsProvider");
           return SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,

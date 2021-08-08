@@ -12,6 +12,7 @@ class AvatarWidgetHelper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: omit_local_variable_types
     final MyAccountProvider myAccountProvider = MyAccountProvider(phone);
     return ChangeNotifierProvider<MyAccountProvider>(
       create: (_) => myAccountProvider,

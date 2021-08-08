@@ -10,7 +10,6 @@ class Wells extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<UpdateDetailsProvider>(builder: (context, updateDetails, _) {
-      print("Wells -> UpdateDetailsProvider");
       return Column(
         children: [
           Padding(

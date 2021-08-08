@@ -51,7 +51,6 @@ class Interface extends StatelessWidget {
               child: ButtonTheme(
                 alignedDropdown: true,
                 child: Consumer<AddAdProvider>(builder: (context, addAd, _) {
-                  print("Interface -> AddAdProvider");
                   return DropdownButton<String>(
                     hint: Text(
                       AppLocalizations.of(context).interface,

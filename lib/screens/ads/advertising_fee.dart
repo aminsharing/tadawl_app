@@ -21,7 +21,6 @@ class AdvertisingFee extends StatelessWidget {
       create: (_) => advFeeProvider,
       child: Consumer<AdvFeeProvider>(builder: (context, advFee, child) {
 
-        print("AdvertisingFee -> AdvFeeProvider");
 
         return WillPopScope(
           onWillPop: () async{

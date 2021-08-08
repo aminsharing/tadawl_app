@@ -16,7 +16,6 @@ class BuildRooms extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
-            print("BuildRooms -> SearchDrawerProvider");
             return ToggleButtons(
               children: <Widget>[
                 Padding(

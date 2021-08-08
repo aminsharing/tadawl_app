@@ -15,7 +15,6 @@ class Estimate extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MyAccountProvider>(builder: (context, estimateUser, child) {
 
-      print("Estimate -> UserMutualProvider");
 
       // ignore: omit_local_variable_types
       //Map data = {};

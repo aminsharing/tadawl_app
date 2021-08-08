@@ -19,12 +19,6 @@ class AdsList extends StatelessWidget {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     var mediaQuery = MediaQuery.of(context);
     return Consumer<MyAccountProvider>(builder: (context, avatar, child) {
-      print("AdsList owner -> MyAccountProvider");
-      print("AdsList owner -> avatarProvider");
-      print("avatarProvider avatars ${avatar.avatars}");
-      print("avatarProvider users ${avatar.users}");
-      print("avatarProvider offices ${avatar.offices}");
-      print("avatarProvider userAds ${avatar.userAds}");
       return Column(
         children: [
           Padding(

@@ -9,11 +9,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:location/location.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/CategoryModel.dart';
+import 'package:tadawl_app/models/RegionModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/screens/general/home.dart';
@@ -23,13 +25,16 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class AddAdProvider extends ChangeNotifier{
 
   AddAdProvider(){
-    print("AddAdProvider init");
+    print('init AddAdProvider');
     getCategoryeInfoAddAds();
+    getLocPer().then((value) {
+      getLoc();
+    });
   }
 
   @override
   void dispose() {
-    print("AddAdProvider dispose");
+    print('dispose AddAdProvider');
     clearChacheAddAds();
     super.dispose();
   }
@@ -90,15 +95,20 @@ class AddAdProvider extends ChangeNotifier{
   String _totalSpaceAddAds;
   String _detailsAqarAddAds;
   final List<bool> _planAddAds = List.generate(3, (_) => false);
-  int _selectedPlanAddAds = 0;
+  int _selectedPlanAddAds = -1;
   final List<bool> _familyAddAds = List.generate(2, (_) => false);
-  int _selectedFamilyAddAds = 0;
+  int _selectedFamilyAddAds = -1;
   final List<bool> _typeAqarAddAds = List.generate(3, (_) => false);
-  int _selectedTypeAqarAddAds = 0;
+  int _selectedTypeAqarAddAds = -1;
   List<File> _imagesListAddAds = [];
   int _currentControllerPageAddAds = 0;
   final PageController _controllerAddAds = PageController();
   int _userAdsCount;
+  final Location _location = Location();
+  LatLng _initialCameraPosition;
+  double _zoom;
+  bool _serviceEnabled;
+  PermissionStatus _permissionGranted;
 
 
 
@@ -147,11 +157,12 @@ class AddAdProvider extends ChangeNotifier{
     _ads_roadAddAds= null;
     _videoAddAds= null;
     _imagesListAddAds.clear();
-    _priceControllerAddAds.clear();
-    _spaceControllerAddAds.clear();
-    _meterPriceControllerAddAds.clear();
+    _priceControllerAddAds.dispose();
+    _spaceControllerAddAds.dispose();
+    _meterPriceControllerAddAds.dispose();
     _meterPriceAddAds = null;
-    _descControllerAddAds.clear();
+    _descControllerAddAds.dispose();
+    _controllerAddAds.dispose();
     _interfaceSelectedAddAds = '0';
     _typeAqarAddAds[0] = false;
     _typeAqarAddAds[1] = false;
@@ -198,6 +209,82 @@ class AddAdProvider extends ChangeNotifier{
     _AcceptedAddAds = state;
     notifyListeners();
   }
+
+
+
+  Future<void> getLocPer() async{
+    _permissionGranted = await _location.hasPermission().then((value) async{
+      if(value != PermissionStatus.granted){
+        await _location.requestPermission();
+      }else{
+        await _location.requestService().then((value) async{
+          _serviceEnabled = await _location.serviceEnabled();
+        });
+      }
+      return value;
+    });
+  }
+
+  Future<void> getLoc() async {
+    if(_permissionGranted == PermissionStatus.granted){
+      if(_serviceEnabled?? false){
+        await _location.getLocation().then((LocationData location) async{
+          _initialCameraPosition = LatLng(location.latitude, location.longitude);
+          _zoom = 17;
+          var addresses = await Geocoder.google(
+              'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
+              language: 'ar')
+              .findAddressesFromCoordinates(
+              Coordinates(location.latitude, location.longitude));
+          if (addresses.isNotEmpty) {
+            _ads_cityAddAds = '${addresses.first.locality.toString()}';
+            _ads_neighborhoodAddAds = '${addresses.first.subLocality.toString()}';
+            _ads_roadAddAds = '${addresses.first.thoroughfare.toString()}';
+          }
+          notifyListeners();
+        });
+      }
+      else {
+        _initialCameraPosition = cities.first.position;
+        _zoom = cities.first.zoom;
+        notifyListeners();
+      }
+    }
+    else if(_permissionGranted == PermissionStatus.denied){
+      _initialCameraPosition = cities.first.position;
+      _zoom = cities.first.zoom;
+      var addresses = await Geocoder.google(
+          'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
+          language: 'ar')
+          .findAddressesFromCoordinates(
+          Coordinates(_initialCameraPosition.latitude, _initialCameraPosition.longitude));
+      if (addresses.isNotEmpty) {
+        _ads_cityAddAds = '${addresses.first.locality.toString()}';
+        _ads_neighborhoodAddAds = '${addresses.first.subLocality.toString()}';
+        _ads_roadAddAds = '${addresses.first.thoroughfare.toString()}';
+      }
+      Future.delayed(Duration(seconds: 1), (){
+        notifyListeners();
+      });
+    }
+    if(_permissionGranted == PermissionStatus.deniedForever){
+      _initialCameraPosition = cities.first.position;
+      _zoom = cities.first.zoom;
+      var addresses = await Geocoder.google(
+          'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
+          language: 'ar')
+          .findAddressesFromCoordinates(
+          Coordinates(_initialCameraPosition.latitude, _initialCameraPosition.longitude));
+      if (addresses.isNotEmpty) {
+        _ads_cityAddAds = '${addresses.first.locality.toString()}';
+        _ads_neighborhoodAddAds = '${addresses.first.subLocality.toString()}';
+        _ads_roadAddAds = '${addresses.first.thoroughfare.toString()}';
+      }
+      // notifyListeners();
+    }
+  }
+
+
 
   void handleCameraMoveAddAds(CameraPosition position) async {
     if (_markersAddAds.isEmpty) {
@@ -810,4 +897,7 @@ class AddAdProvider extends ChangeNotifier{
   VideoPlayerController get videoControllerAddAds => _videoControllerAddAds;
   ChewieController get chewieControllerAddAds => _chewieControllerAddAds;
   File get videoAddAds => _videoAddAds;
+  Location get location => _location;
+  LatLng get initialCameraPosition => _initialCameraPosition;
+  double get zoom => _zoom;
 }

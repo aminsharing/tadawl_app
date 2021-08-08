@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangePhoneProvider extends ChangeNotifier {
   ChangePhoneProvider(){
-    print("ChangePhoneProvider init");
+    print('init ChangePhoneProvider');
   }
 
   String _newPhone;
@@ -12,7 +12,7 @@ class ChangePhoneProvider extends ChangeNotifier {
 
   @override
   void dispose() {
-    print("ChangePhoneProvider dispose");
+    print('dispose ChangePhoneProvider');
     super.dispose();
   }
 

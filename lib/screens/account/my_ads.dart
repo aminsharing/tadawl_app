@@ -21,7 +21,6 @@ class MyAds extends StatelessWidget {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     return Consumer<MyAccountProvider>(builder: (context, myAds, child) {
 
-      print("MyAds -> UserMutualProvider");
 
       var mediaQuery = MediaQuery.of(context);
       //var _phone = myAds.phone;

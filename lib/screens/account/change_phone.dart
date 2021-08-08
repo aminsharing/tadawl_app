@@ -26,7 +26,6 @@ class ChangePhone extends StatelessWidget {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     return Consumer<ChangePhoneProvider>(builder: (context, changePhone, child) {
 
-      print("ChangePhone -> ChangePhoneProvider");
 
       Widget _buildPhone() {
         return TextFormField(
@@ -150,7 +149,6 @@ class ChangePhone extends StatelessWidget {
                                 textColor: Colors.white,
                                 fontSize: 15.0);
 
-                            // TODO Changed To my account provider
                             // var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
                             // userMutual.getAvatarList(changePhone.newPhone);
                             // userMutual.getUserAdsList(changePhone.newPhone);

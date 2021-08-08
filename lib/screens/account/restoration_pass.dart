@@ -56,7 +56,6 @@ class RestorationPass extends StatelessWidget {
           key: _restorationPassKey,
           child: SingleChildScrollView(
             child: Consumer<ChangePhoneProvider>(builder: (context, restorationPass, child) {
-              print("RestorationPass -> ChangePhoneProvider");
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[

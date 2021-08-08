@@ -76,7 +76,6 @@ class Menu extends StatelessWidget {
             child: SearchDrawer(isMainPage: false,),
           ),
           body: Consumer<MenuProvider>(builder: (context, menu, child) {
-            print("Menu -> MenuProvider");
             // menu.setFilterSearchDrawer(null);
             // menu.setMenuMainFilterAds(1);
             return RefreshIndicator(

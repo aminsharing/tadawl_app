@@ -51,7 +51,6 @@ class ReviewAdsScreen extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Consumer<AddAdProvider>(builder: (context, addAds, child) {
-            print("ReviewAdsScreen -> AddAdProvider");
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -462,7 +461,6 @@ class ReviewAdsScreen extends StatelessWidget {
                                     .of(context)
                                     .single,
                                 style: CustomTextStyle(
-
                                   fontSize: 15,
                                   color: const Color(0xff989696),
                                 ).getTextStyle(),

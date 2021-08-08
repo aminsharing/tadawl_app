@@ -10,7 +10,6 @@ class Lounges extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<UpdateDetailsProvider>(builder: (context, updateDetails, _) {
-      print("Lounges -> UpdateDetailsProvider");
       return Column(
         children: [
           Padding(

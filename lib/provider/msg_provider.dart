@@ -11,7 +11,6 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 // import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:provider/provider.dart';
 import 'package:record/record.dart';
 import 'package:tadawl_app/models/ConvModel.dart';
 import 'package:tadawl_app/models/message_model.dart';
@@ -21,8 +20,8 @@ import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 class MsgProvider extends ChangeNotifier{
 
   MsgProvider(String _phone, String otherPhone){
-    print("MsgProvider init");
-    print("MsgProvider _phone: $_phone otherPhone: $otherPhone");
+    print('init MsgProvider');
+    print('MsgProvider _phone: $_phone otherPhone: $otherPhone');
     getConvInfo(_phone).then((value) {
       getUnreadMsgs(_phone, other_phone: otherPhone);
     });
@@ -30,7 +29,7 @@ class MsgProvider extends ChangeNotifier{
 
   @override
   void dispose() {
-    print("MsgProvider dispose");
+    print('dispose MsgProvider');
     super.dispose();
   }
 

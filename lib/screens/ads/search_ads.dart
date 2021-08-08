@@ -73,7 +73,6 @@ class _SearchAdsState extends State<SearchAds> {
                   ),
                 ),
                 Consumer<SearchAdsProvider>(builder: (context, searchFast, child) {
-                  print("SearchAds -> SearchAdsProvider");
                   return Column(
                     children: [
                       Padding(

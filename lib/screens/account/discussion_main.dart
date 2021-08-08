@@ -4,7 +4,6 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/mainWidgets/discussion/msg_body.dart';
 import 'package:tadawl_app/mainWidgets/discussion/msg_bottom_button.dart';
 import 'package:tadawl_app/mainWidgets/discussion/msg_receive_time.dart';
-import 'package:tadawl_app/mainWidgets/discussion/msg_send_field.dart';
 import 'package:tadawl_app/models/message_model.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
@@ -26,7 +25,7 @@ class Discussion extends StatelessWidget {
   final String phone_user;
   final String username;
 
-
+  final GlobalKey<FormState> _messageKey = GlobalKey<FormState>();
 
   void choiceAction(String choice) {}
 
@@ -37,26 +36,9 @@ class Discussion extends StatelessWidget {
     msgProv.initScrollDown();
 
 
+    var mediaQuery = MediaQuery.of(context);
 
-
-      var mediaQuery = MediaQuery.of(context);
-      // var phone_user;
-      // ignore: omit_local_variable_types
-      // Map data = {};
-
-
-      // data = ModalRoute
-      //     .of(context)
-      //     .settings
-      //     .arguments;
-      // phone_user = data['phone_user'];
-
-
-
-
-      //mainChat.initScrollDown();
-
-      return Scaffold(
+    return Scaffold(
         backgroundColor: const Color(0xffffffff),
         appBar: AppBar(
           leadingWidth: 70,
@@ -109,16 +91,15 @@ class Discussion extends StatelessWidget {
           ],
           backgroundColor: Color(0xff00cccc),
         ),
-        body: Stack(
-          children: <Widget>[
-            Container(
-              width: mediaQuery.size.width,
-              height: mediaQuery.size.height * 0.75,
-              child: Consumer<MsgProvider>(builder: (context, mainChat, child) {
-                print("Discussion -> MsgProvider");
-                mainChat.getConvInfo(locale.phone);
-                mainChat.getCommentUser(phone_user, locale.phone);
-                return StreamBuilder(
+        body: Consumer<MsgProvider>(builder: (context, mainChat, child) {
+          mainChat.getConvInfo(locale.phone);
+          mainChat.getCommentUser(phone_user, locale.phone);
+          return Stack(
+            children: <Widget>[
+              Container(
+                width: mediaQuery.size.width,
+                height: mediaQuery.size.height * 0.75,
+                child: StreamBuilder(
                   stream: mainChat.streamChatController.stream,
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.hasData) {
@@ -142,13 +123,186 @@ class Discussion extends StatelessWidget {
                     }
                     return Center(child: Text('Loading...'));
                   },
-                );
-              }),
-            ),
-            // list comments ..............................
-            MsgSendField(phone_user: phone_user,),
-          ],
-        ),
+                ),
+              ),
+              // list comments ..............................
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  height: 90,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Form(
+                          key: _messageKey,
+                          child: Container(
+                            width: mediaQuery.size.width,
+                            height: mediaQuery.size.height,
+                            decoration: BoxDecoration(
+                              color: const Color(0xfff2f2f2),
+                              border: Border.all(width: 1.0, color: const Color(0xfff2f2f2)),
+                            ),
+                            child: Container(
+                              margin: EdgeInsets.all(10.0),
+                              child: Consumer<MsgProvider>(builder: (context, mainChat, child) {
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    mainChat.isRecording
+                                        ?
+                                    Container(
+                                      width: mediaQuery.size.width * 0.7,
+                                      height: mediaQuery.size.height * 0.9,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20.0),
+                                          color: Colors.white70
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SizedBox(),
+                                          mainChat.recordLengthSec < 10 ?
+                                          mainChat.recordLengthMin < 10 ?
+                                          Text('0${mainChat.recordLengthMin}:0${mainChat.recordLengthSec}') :
+                                          Text('${mainChat.recordLengthMin}:0${mainChat.recordLengthSec}') :
+                                          Text('0${mainChat.recordLengthMin}:${mainChat.recordLengthSec}'),
+                                          SizedBox(),
+                                          SizedBox(),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                width: 50.0,
+                                                child: Icon(Icons.arrow_back_ios,
+                                                  color: Color(0xff00cccc),
+                                                  size: 30,
+                                                ),
+                                              ),
+                                              Text('اسحب للإلغاء')
+                                            ],
+                                          ),
+                                          SizedBox(),
+                                        ],
+                                      ),
+                                    )
+                                        :
+                                    Container(
+                                      width: mediaQuery.size.width * 0.7,
+                                      height: mediaQuery.size.height * 0.9,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20.0),
+                                          color: Colors.white70
+                                      ),
+                                      child: TextFormField(
+                                        onFieldSubmitted: (_) {
+                                          if (mainChat.messageController.text.isEmpty) {
+                                            return;
+                                          }
+                                          _messageKey.currentState.save();
+                                          mainChat.sendMess(
+                                            context,
+                                            [],
+                                            null,
+                                            mainChat.messageController.text,
+                                            phone_user,
+                                            locale.phone,
+                                            MessType.TEXT,
+                                          );
+                                        },
+                                        controller: mainChat.messageController,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                        ),
+                                        style: CustomTextStyle(
+                                          fontSize: 15,
+                                          color: const Color(0xff00cccc),
+                                        ).getTextStyle(),
+                                        keyboardType: TextInputType.text,
+                                        onSaved: (String value) {
+                                          mainChat.setMessageController(value);
+                                        },
+                                        onChanged: (value){
+                                          if(value.isEmpty){
+                                            mainChat.setIsTyping(false);
+                                          }
+                                          else{
+                                            mainChat.setIsTyping(true);
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.0,),
+                                    mainChat.isTyping
+                                        ?
+                                    Container(
+                                      height: 50.0,
+                                      width: 50.0,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black54,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          if(mainChat.messageController.text.isNotEmpty){
+                                            _messageKey.currentState.save();
+                                            mainChat.sendMess(
+                                                context,
+                                                [],
+                                                null,
+                                                mainChat.messageController.text,
+                                                phone_user,
+                                                locale.phone,
+                                                MessType.TEXT
+                                            );
+                                          }
+                                          if(mainChat.msgController.text.isNotEmpty){
+                                            // mainChat.sendText();
+                                          }
+                                        },
+                                        child: Icon(Icons.send_rounded,
+                                          color: Color(0xff00cccc),
+                                          size: 30,
+                                        ),
+                                      ),
+                                    )
+                                        :
+                                    Container(
+                                      height: 50.0,
+                                      width: 50.0,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black54,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: GestureDetector(
+                                        onTapDown: (value){
+                                          mainChat.startRecorder();
+                                        },
+                                        onTapUp: (value){
+                                          mainChat.stopRecorder(false, phone_user, locale.phone, context);
+                                        },
+                                        onHorizontalDragStart: (value){
+                                          mainChat.stopRecorder(true, phone_user, locale.phone, context);
+                                        },
+                                        child: Icon(mainChat.recordIcon ?? Icons.mic,
+                                          color: Color(0xff00cccc),
+                                          size: 30,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              // MsgSendField(phone_user: phone_user,),
+            ],
+          );
+        }),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: MsgBottomButton(),
       );

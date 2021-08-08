@@ -10,19 +10,18 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/Gist.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
-import 'package:tadawl_app/models/RegionModel.dart';
 import 'package:tadawl_app/provider/cache_markers_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 class MainPageProvider extends ChangeNotifier{
 
   MainPageProvider(){
-    print("MainPageProvider init");
+    print('init MainPageProvider');
   }
 
   @override
   void dispose() {
-    print("MainPageProvider dispose");
+    print('dispose MainPageProvider');
     if (_showDiaogSearchDrawer) {
       setShowDiogFalse();
     }
@@ -40,10 +39,10 @@ class MainPageProvider extends ChangeNotifier{
   bool _showDiaogSearchDrawer = false;
   final _markersMainPage = <Marker>[];
   AdsModel _SelectedAdsModelMainPage;
-  int _slider_state = 1;
+  bool _slider_state = true;
 
   GoogleMapController _mapControllerMainPAge;
-  CameraPosition _selectedArea = CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
+  // CameraPosition _selectedArea = CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
   final List<AdsModel> _Ads = [];
   bool _waitMainPage = false;
 
@@ -84,10 +83,10 @@ class MainPageProvider extends ChangeNotifier{
     );
   }
 
-  void setSelectedArea(CameraPosition val){
-    _selectedArea = val;
-    // notifyListeners();
-  }
+  // void setSelectedArea(CameraPosition val){
+  //   _selectedArea = val;
+  //   // notifyListeners();
+  // }
 
   void setMoveState(bool val){
     _isMove = val;
@@ -396,7 +395,7 @@ class MainPageProvider extends ChangeNotifier{
     }
   }
 
-  void setSliderState(int val) {
+  void setSliderState(bool val) {
     _slider_state = val;
     notifyListeners();
   }
@@ -408,7 +407,6 @@ class MainPageProvider extends ChangeNotifier{
   void getAds(BuildContext context,List<dynamic> _AdsData){
     _Ads.clear();
     _AdsData.forEach((element) {
-      print("id_description1");
       _Ads.add(AdsModel.ads(element));
     });
     spicificAreaAds2(context);
@@ -607,7 +605,7 @@ class MainPageProvider extends ChangeNotifier{
   GoogleMapController get mapControllerMainPAge => _mapControllerMainPAge;
   List<AdsModel> get ads => _Ads;
   // int get filterSearch => _filter;
-  int get slider_state => _slider_state;
+  bool get slider_state => _slider_state;
 
 
 

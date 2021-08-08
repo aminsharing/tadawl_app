@@ -8,19 +8,18 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/models/RegionModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 import 'package:tadawl_app/screens/account/real_estate_offices.dart';
 
 
 class OfficesVRProvider extends ChangeNotifier{
   OfficesVRProvider(){
-    print("OfficesVRProvider init");
+    print('init OfficesVRProvider');
     getLocPer().then((value) => getLoc());
   }
 
   @override
   void dispose(){
-    print("OfficesVRProvider dispose");
+    print('dispose OfficesVRProvider');
     super.dispose();
   }
 

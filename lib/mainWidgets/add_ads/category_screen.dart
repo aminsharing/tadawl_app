@@ -108,7 +108,6 @@ class CategoryScreen extends StatelessWidget {
             ),
           ),
           body: Consumer<AddAdProvider>(builder: (context, addAds, child) {
-            print("CategoryScreen -> AddAdProvider");
             return addAds.categoryAddAds.isNotEmpty
                 ?
             Padding(

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/mainWidgets/update_my_information/update_Info_image.dart';
 import 'package:tadawl_app/mainWidgets/update_my_information/update_info_mem_type.dart';
 import 'package:tadawl_app/mainWidgets/update_my_information/update_info_text_field.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
 
 class UpdateMyInformation extends StatelessWidget {

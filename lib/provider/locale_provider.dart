@@ -4,13 +4,13 @@ import 'package:tadawl_app/provider/l10n/l10n.dart';
 
 class LocaleProvider extends ChangeNotifier {
   LocaleProvider(){
-    print("LocaleProvider init");
+    print('init LocaleProvider');
     getSession();
   }
 
   @override
   void dispose() {
-    print("LocaleProvider dispose");
+    print('dispose LocaleProvider');
     super.dispose();
   }
 

@@ -53,7 +53,6 @@ class DiscussionEdit extends StatelessWidget {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     return Consumer<MsgProvider>(builder: (context, convEdit, child) {
 
-      print("DiscussionEdit -> MsgProvider");
 
       var mediaQuery = MediaQuery.of(context);
       //convEdit.getConvInfo(context);
@@ -139,7 +138,13 @@ class DiscussionEdit extends StatelessWidget {
                                             convEdit.setRecAvatarUserName(convEdit.conv[i].username);
                                             Navigator.push(
                                                 context,
-                                                MaterialPageRoute(builder: (context) => Discussion(convEdit.conv[i].phone)));
+                                                MaterialPageRoute(builder: (context) =>
+                                                    Discussion(
+                                                      convEdit.conv[i].phone,
+                                                      username: convEdit.conv[i].username,
+                                                    )
+                                                )
+                                            );
                                             // Navigator.pushNamed(
                                             //     context, '/main/discussion_main',
                                             //     arguments: {

@@ -10,7 +10,6 @@ class FamilyORSingle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<UpdateDetailsProvider>(builder: (context, updateDetails, _) {
-      print("FamilyORSingle -> UpdateDetailsProvider");
       return Padding(
         padding:
         const EdgeInsets.fromLTRB(20, 15, 20, 0),

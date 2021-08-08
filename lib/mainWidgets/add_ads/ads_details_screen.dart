@@ -118,7 +118,6 @@ class AdsDetailsScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Consumer<AddAdProvider>(builder: (context, addAds, child) {
-          print("AdsDetailsScreen -> AddAdProvider");
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[

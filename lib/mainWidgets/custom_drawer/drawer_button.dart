@@ -1,35 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 
 class DrawerButton extends StatelessWidget {
   const DrawerButton({
     Key key,
     @required this.icon,
     @required this.text,
-    @required this.page
+    @required this.onPressed
   }) : super(key: key);
   final IconData icon;
   final String text;
-  final page;
+  final Function onPressed;
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {
-        if(icon == Icons.library_books_rounded){
-        }else if(icon == Icons.business_rounded){
-          Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(2);
-        }
-        Navigator.push(
-          context,
-          PageTransition(type: PageTransitionType.bottomToTop,
-              duration: Duration(milliseconds: 10),
-              child: page),
-        );
-      },
+      onPressed: onPressed,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10.0),
         child: Container(

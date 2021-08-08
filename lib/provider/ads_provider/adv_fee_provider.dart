@@ -13,13 +13,13 @@ String _MadaRegexM = '5(0(4300|8160)|13213|2(1076|4(130|514)|9(415|741))|3(0906|
 class AdvFeeProvider extends ChangeNotifier{
 
   AdvFeeProvider(){
-    print("AdvFeeProvider init");
+    print('init AdvFeeProvider');
     initStateSelected();
   }
 
   @override
   void dispose() {
-    print("AdvFeeProvider dispose");
+    print('dispose AdvFeeProvider');
     super.dispose();
   }
 
@@ -131,7 +131,6 @@ class AdvFeeProvider extends ChangeNotifier{
         _CVVText.text.isNotEmpty) {
       _checkoutid = await _requestCheckoutId();
 
-      print("typeeee" + type);
       String transactionStatus;
       try {
         final result =
@@ -151,13 +150,13 @@ class AdvFeeProvider extends ChangeNotifier{
         });
         transactionStatus = '$result';
       } on PlatformException catch (e) {
-        transactionStatus = "${e.message}";
+        transactionStatus = '${e.message}';
       }
 
       if (transactionStatus != null ||
           transactionStatus == 'success' ||
           transactionStatus == 'SYNC') {
-        await getpaymentstatus();
+        await getPaymentStatus();
       } else {
         _resultText = transactionStatus;
         notifyListeners();
@@ -171,7 +170,6 @@ class AdvFeeProvider extends ChangeNotifier{
 
     _checkoutid = await _requestCheckoutId();
 
-    print("typeeee" + type);
     String transactionStatus;
     try {
       final result =
@@ -192,13 +190,13 @@ class AdvFeeProvider extends ChangeNotifier{
       });
       transactionStatus = '$result';
     } on PlatformException catch (e) {
-      transactionStatus = "${e.message}";
+      transactionStatus = '${e.message}';
     }
 
     if (transactionStatus != null ||
         transactionStatus == 'success' ||
         transactionStatus == 'SYNC') {
-      await getpaymentstatus();
+      await getPaymentStatus();
     } else {
       _resultText = transactionStatus;
       notifyListeners();
@@ -211,30 +209,30 @@ class AdvFeeProvider extends ChangeNotifier{
       _checkoutid = await _requestCheckoutId();
       print(_checkoutid);
 
-      var transactionStatus = "";
+      var transactionStatus = '';
       try {
         final result =
         await platform.invokeMethod('gethyperpayresponse', {
-          "type": "CustomUI",
-          "checkoutid": _checkoutid,
-          "mode": "TEST",
-          "card_number": _cardNumberText.text,
-          "holder_name": _cardHolderText.text,
-          "month": _expiryMonthText.text,
-          "year": _expiryYearText.text,
-          "cvv": _CVVText.text,
-          "STCPAY": "enabled"
+          'type': 'CustomUI',
+          'checkoutid': _checkoutid,
+          'mode': 'TEST',
+          'card_number': _cardNumberText.text,
+          'holder_name': _cardHolderText.text,
+          'month': _expiryMonthText.text,
+          'year': _expiryYearText.text,
+          'cvv': _CVVText.text,
+          'STCPAY': 'enabled'
         });
         transactionStatus = '$result';
       } on PlatformException catch (e) {
-        transactionStatus = "${e.message}";
+        transactionStatus = '${e.message}';
       }
 
       if (transactionStatus != null ||
-          transactionStatus == "success" ||
-          transactionStatus == "SYNC") {
+          transactionStatus == 'success' ||
+          transactionStatus == 'SYNC') {
         print(transactionStatus);
-        await getpaymentstatus();
+        await getPaymentStatus();
       } else {
         _resultText = transactionStatus;
         notifyListeners();
@@ -244,10 +242,10 @@ class AdvFeeProvider extends ChangeNotifier{
     }
   }
 
-  Future<void> getpaymentstatus() async {
+  Future<void> getPaymentStatus() async {
     var status;
-
-    String myUrl = "http://dev.hyperpay.com/hyperpay-demo/getpaymentstatus.php?id=$_checkoutid";
+    // ignore: omit_local_variable_types
+    String myUrl = 'http://dev.hyperpay.com/hyperpay-demo/getpaymentstatus.php?id=$_checkoutid';
     final response = await http.post(
       myUrl,
       headers: {'Accept': 'application/json'},
@@ -258,12 +256,13 @@ class AdvFeeProvider extends ChangeNotifier{
 
     print("payment_status: ${data["result"].toString()}");
 
-    _resultText = data["result"].toString();
+    _resultText = data['result'].toString();
   }
 
   Future<String> _requestCheckoutId() async {
     var status;
-    String myUrl = "http://dev.hyperpay.com/hyperpay-demo/getcheckoutid.php";
+    // ignore: omit_local_variable_types
+    String myUrl = 'http://dev.hyperpay.com/hyperpay-demo/getcheckoutid.php';
 
     final response = await http.post(
       myUrl,
@@ -287,12 +286,12 @@ class AdvFeeProvider extends ChangeNotifier{
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: Text("Alert!"),
-          content: Text("Please fill all fields"),
+          title: Text('Alert!'),
+          content: Text('Please fill all fields'),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
-            FlatButton(
-              child: Text("Close"),
+            TextButton(
+              child: Text('Close'),
               onPressed: () {
                 Navigator.of(context).pop();
               },

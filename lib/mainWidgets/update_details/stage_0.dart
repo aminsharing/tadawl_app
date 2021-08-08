@@ -57,7 +57,6 @@ class Stage0 extends StatelessWidget {
         ),
       ), // updateDetails.categoryUpdate.length
       body: Consumer<UpdateDetailsProvider>(builder: (context, updateDetails, _){
-        print("Stage0 -> UpdateDetailsProvider");
         final mutualProv = Provider.of<MutualProvider>(context, listen: false);
         updateDetails.getAdsUpdateInfo(
             mutualProv.adsBF,
@@ -139,7 +138,13 @@ class Stage0 extends StatelessWidget {
                               .categoryUpdate[i].id_category),
                           updateDetails
                               .categoryUpdate[i].name);
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Stage1(_id_description)));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                          Stage1(
+                              _id_description,
+                            updateDetailsProvider: updateDetailsProvider,
+                          )
+                      )
+                      );
                       // updateDetails.setCurrentStageUpdateDetails(1);
                     },
                     child: Container(

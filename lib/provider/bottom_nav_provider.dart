@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 
 class BottomNavProvider extends ChangeNotifier{
   BottomNavProvider(){
-    print("BottomNavProvider init");
+    print('init BottomNavProvider');
   }
 
   @override
   void dispose() {
-    print("BottomNavProvider dispose");
+    print('dispose BottomNavProvider');
     super.dispose();
   }
 

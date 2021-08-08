@@ -15,7 +15,6 @@ class BuildPlan extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
-            print("BuildPlan -> SearchDrawerProvider");
             return ToggleButtons(
               children: <Widget>[
                 Padding(

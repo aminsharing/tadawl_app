@@ -27,8 +27,6 @@ class MapWidget extends StatelessWidget {
       child: Center(
         child: Consumer2<MainPageProvider, MapProvider>(
             builder: (context, mainPage, mapProv, _) {
-              print("MapWidget -> MainPageProvider");
-              print("MapWidget -> MapProvider");
               void _onMapCreated(GoogleMapController controller) {
                 controller.setMapStyle(Utils.mapStyle);
                 mainPage.setMapControllerMainPage(controller);

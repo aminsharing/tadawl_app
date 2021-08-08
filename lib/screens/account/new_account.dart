@@ -119,7 +119,6 @@ class NewAcount extends StatelessWidget {
                               width: 1.0, color: const Color(0xff00cccc)),
                         ),
                         child: Consumer<ChangePhoneProvider>(builder: (context, newAccount, child) {
-                          print("NewAcount -> ChangePhoneProvider");
                           return TextButton(
                             child: Center(
                               child: Text(

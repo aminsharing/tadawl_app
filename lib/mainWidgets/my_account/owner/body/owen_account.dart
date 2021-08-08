@@ -8,7 +8,6 @@ import 'package:tadawl_app/mainWidgets/my_account/owner/body/ads_list.dart';
 import 'package:tadawl_app/mainWidgets/my_account/owner/body/avatar_info.dart';
 import 'package:tadawl_app/mainWidgets/my_account/owner/body/certified.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
-import 'package:tadawl_app/provider/user_provider/user_mutual_provider.dart';
 
 class OwenAccount extends StatelessWidget {
   const OwenAccount({

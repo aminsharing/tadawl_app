@@ -43,7 +43,6 @@ class BuildWells extends StatelessWidget {
                   child: ButtonTheme(
                     alignedDropdown: true,
                     child: Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
-                      print("BuildWells -> SearchDrawerProvider");
                       return DropdownButton<String>(
                         hint: Text(
                           AppLocalizations.of(context).wells,

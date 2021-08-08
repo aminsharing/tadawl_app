@@ -22,7 +22,6 @@ class DiscussionList extends StatelessWidget {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     return Consumer<MsgProvider>(builder: (context, convList, child) {
 
-      print("DiscussionList -> MsgProvider");
 
       // Future<bool> _onBackPressed() {
       //   return showDialog(
@@ -167,7 +166,10 @@ class DiscussionList extends StatelessWidget {
                           MaterialPageRoute(builder: (context) =>
                           ChangeNotifierProvider<MsgProvider>.value(
                             value: msgProvider,
-                            child: Discussion(convList.conv[i].phone),
+                            child: Discussion(
+                              convList.conv[i].phone,
+                              username: convList.conv[i].username,
+                            ),
                           )
 
                           ));

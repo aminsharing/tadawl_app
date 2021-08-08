@@ -14,7 +14,6 @@ class TodayAds extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<TodayAdsProvider>(builder: (context, todayAds, child) {
 
-      print("TodayAds -> TodayAdsProvider");
 
       var mediaQuery = MediaQuery.of(context);
       //todayAds.getTodayAdsList(context);

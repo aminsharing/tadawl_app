@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/add_ads/ads_details_screen.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
-import 'package:tadawl_app/provider/map_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
@@ -15,6 +14,7 @@ class LocationScreen extends StatelessWidget {
 
   void _onMapCreated(GoogleMapController controller) {
     controller.setMapStyle(Utils.mapStyle);
+
   }
 
 
@@ -33,7 +33,6 @@ class LocationScreen extends StatelessWidget {
                       .of(context)
                       .confirmLocationPlace,
                   style: CustomTextStyle(
-
                     fontSize: 20,
                     color: const Color(0xff00cccc),
                   ).getTextStyle(),
@@ -45,7 +44,6 @@ class LocationScreen extends StatelessWidget {
                       .reLocationIn +
                       ' ( $ads_neighborhoodAddAds ) ',
                   style: CustomTextStyle(
-
                     fontSize: 17,
                     color: const Color(0xff000000),
                   ).getTextStyle(),
@@ -66,11 +64,8 @@ class LocationScreen extends StatelessWidget {
                         ));
                       },
                       child: Text(
-                        AppLocalizations
-                            .of(context)
-                            .yes,
+                        AppLocalizations.of(context).yes,
                         style: CustomTextStyle(
-
                           fontSize: 17,
                           color: const Color(0xff000000),
                         ).getTextStyle(),
@@ -113,7 +108,6 @@ class LocationScreen extends StatelessWidget {
                   .of(context)
                   .chooseLocation,
               style: CustomTextStyle(
-
                 fontSize: 20,
                 color: const Color(0xffffffff),
               ).getTextStyle(),
@@ -131,9 +125,7 @@ class LocationScreen extends StatelessWidget {
             },
           ),
         ),
-        body: Consumer2<AddAdProvider, MapProvider>(builder: (context, addAds, map, child) {
-          print("LocationScreen -> AddAdProvider");
-          print("LocationScreen -> MapProvider");
+        body: Consumer<AddAdProvider>(builder: (context, addAds, child) {
             return SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -144,12 +136,8 @@ class LocationScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          AppLocalizations
-                              .of(context)
-                              .city +
-                              '${addAds.ads_cityAddAds}',
+                          AppLocalizations.of(context).city + '${addAds.ads_cityAddAds}',
                           style: CustomTextStyle(
-
                             fontSize: 13,
                             color: const Color(0xff989696),
                           ).getTextStyle(),
@@ -157,10 +145,7 @@ class LocationScreen extends StatelessWidget {
                           textDirection: TextDirection.rtl,
                         ),
                         Text(
-                          AppLocalizations
-                              .of(context)
-                              .neighborhood +
-                              ' ${addAds.ads_neighborhoodAddAds}',
+                          AppLocalizations.of(context).neighborhood + ' ${addAds.ads_neighborhoodAddAds}',
                           style: CustomTextStyle(
                             fontSize: 13,
                             color: const Color(0xff989696),
@@ -171,6 +156,21 @@ class LocationScreen extends StatelessWidget {
                       ],
                     ),
                   ),
+                  (addAds.customCameraPositionAddAds ?? addAds.initialCameraPosition) == null
+                      ?
+                  Center(
+                    child: Container(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        backgroundColor: Color(0xff00cccc),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            Color(0xff1f2835)
+                          ),
+                        ),
+                      )
+                  )
+                      :
                   SizedBox(
                     height: 400,
                     child: Stack(
@@ -184,7 +184,7 @@ class LocationScreen extends StatelessWidget {
                           myLocationEnabled: true,
                           mapType: MapType.normal,
                           initialCameraPosition: CameraPosition(
-                              target: addAds.customCameraPositionAddAds ?? map.initialCameraPosition, zoom: 13),
+                              target: addAds.customCameraPositionAddAds ?? addAds.initialCameraPosition, zoom: 13),
                           onMapCreated: _onMapCreated,
                           onCameraMove: (CameraPosition position) {
                             addAds.handleCameraMoveAddAds(position);
@@ -203,8 +203,8 @@ class LocationScreen extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       if (addAds.ads_cordinatesAddAds == null) {
-                        if (map.initialCameraPosition != null) {
-                          addAds.setAdsCordinatesAddAds(map.initialCameraPosition);
+                        if (addAds.initialCameraPosition != null) {
+                          addAds.setAdsCordinatesAddAds(addAds.initialCameraPosition);
                         } else {
                           Fluttertoast.showToast(
                               msg: 'حرك الخريطة للوصول لموقع العقار المطلوب',

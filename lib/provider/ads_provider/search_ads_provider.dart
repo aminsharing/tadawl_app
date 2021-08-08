@@ -39,7 +39,6 @@ class SearchAdsProvider extends ChangeNotifier{
           });
           if (_key.isNotEmpty) {
             if (_key.first.phone == keySearch) {
-              // TODO Changed To my account provider
               // var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
               // userMutual
               //     .getAvatarList(_key.first.phone);
@@ -54,6 +53,7 @@ class SearchAdsProvider extends ChangeNotifier{
               // userMutual
               //     .setUserPhone(_key.first.phone);
               final locale = Provider.of<LocaleProvider>(context, listen: false);
+              // ignore: omit_local_variable_types
               final MyAccountProvider myAccountProvider = MyAccountProvider(locale.phone);
               Navigator.push(
                   context,

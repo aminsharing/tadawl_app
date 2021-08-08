@@ -43,7 +43,6 @@ class BuildStores extends StatelessWidget {
                   child: ButtonTheme(
                     alignedDropdown: true,
                     child: Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
-                      print("BuildStores -> SearchDrawerProvider");
                       return DropdownButton<String>(
                         hint: Text(
                           AppLocalizations.of(context).stores,

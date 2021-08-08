@@ -1,5 +1,6 @@
 import 'package:flutter/painting.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_drawer/custom_drawer_header.dart';
 import 'package:tadawl_app/mainWidgets/custom_drawer/drawer_button.dart';
@@ -7,8 +8,10 @@ import 'package:tadawl_app/mainWidgets/custom_drawer/nav_button.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/special_offers_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/today_ads_provider.dart';
+import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/general_provider.dart';
 import 'package:tadawl_app/provider/l10n/l10n.dart';
+import 'package:tadawl_app/provider/msg_provider.dart';
 import 'package:tadawl_app/provider/request_provider.dart';
 import 'package:tadawl_app/provider/user_provider/favourite_provider.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
@@ -140,18 +143,32 @@ class CustomDrawer extends StatelessWidget {
                       DrawerButton(
                           icon: Icons.add_outlined,
                           text: AppLocalizations.of(context).addAds,
-                          page: locale.phone != null ? AddAds() : Login(),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(type: PageTransitionType.bottomToTop,
+                                duration: Duration(milliseconds: 10),
+                                child: locale.phone != null ? AddAds() : Login(),),
+                          );
+                        },
                       ),
                       DrawerButton(
                           icon: Icons.library_books_rounded,
                           text: AppLocalizations.of(context).myAds,
-                          page: locale.phone != null ?
-                          ChangeNotifierProvider<MyAccountProvider>(
-                            create: (_) => MyAccountProvider(locale.phone),
-                            child: MyAds(),
-                          )
-                              :
-                          Login(),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(type: PageTransitionType.bottomToTop,
+                                duration: Duration(milliseconds: 10),
+                                child: locale.phone != null ?
+                                ChangeNotifierProvider<MyAccountProvider>(
+                                  create: (_) => MyAccountProvider(locale.phone),
+                                  child: MyAds(),
+                                )
+                                    :
+                                Login(),),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -161,20 +178,43 @@ class CustomDrawer extends StatelessWidget {
                       DrawerButton(
                           icon: Icons.message_rounded,
                           text: AppLocalizations.of(context).messages,
-                          page: locale.phone != null ? DiscussionList() : Login()
+                          onPressed: () {
+                            // ignore: omit_local_variable_types
+                            final MsgProvider msgProvider = MsgProvider(locale.phone, null);
+                            Navigator.push(
+                              context,
+                              PageTransition(type: PageTransitionType.bottomToTop,
+                                  duration: Duration(milliseconds: 10),
+                                  child: locale.phone != null
+                                      ?
+                                  ChangeNotifierProvider<MsgProvider>(
+                                    create: (_) => msgProvider,
+                                    child: DiscussionList(msgProvider: msgProvider),
+                                  )
+                                      :
+                                Login(),
+                              ),
+                            );
+                          },
                       ),
                       DrawerButton(
                           icon: Icons.star_border_outlined,
                           text: AppLocalizations.of(context).favourite,
-                          page:
-                          locale.phone != null
-                              ?
-                          ChangeNotifierProvider<FavouriteProvider>(
-                            create: (_) => FavouriteProvider(locale.phone),
-                            child: Favourite(),
-                          )
-                              :
-                          Login()
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(type: PageTransitionType.bottomToTop,
+                                duration: Duration(milliseconds: 10),
+                                child: locale.phone != null
+                                    ?
+                                ChangeNotifierProvider<FavouriteProvider>(
+                                  create: (_) => FavouriteProvider(locale.phone),
+                                  child: Favourite(),
+                                )
+                                    :
+                                Login(),),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -184,12 +224,26 @@ class CustomDrawer extends StatelessWidget {
                       DrawerButton(
                           icon: Icons.account_balance,
                           text: AppLocalizations.of(context).realEstateEmptying,
-                          page: RealEstateEmptyingService()
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(type: PageTransitionType.bottomToTop,
+                                duration: Duration(milliseconds: 10),
+                                child: RealEstateEmptyingService(),),
+                          );
+                        },
                       ),
                       DrawerButton(
                           icon: Icons.recent_actors_outlined,
                           text: AppLocalizations.of(context).leaseContracts,
-                          page: LeaseContracts()
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(type: PageTransitionType.bottomToTop,
+                                duration: Duration(milliseconds: 10),
+                                child: LeaseContracts(),),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -199,12 +253,26 @@ class CustomDrawer extends StatelessWidget {
                       DrawerButton(
                           icon: Icons.apartment_outlined,
                           text: AppLocalizations.of(context).exclusiveMarketing,
-                          page: ExclusiveMarketing()
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(type: PageTransitionType.bottomToTop,
+                                duration: Duration(milliseconds: 10),
+                                child: ExclusiveMarketing(),),
+                          );
+                        },
                       ),
                       DrawerButton(
                           icon: Icons.hotel,
                           text: AppLocalizations.of(context).contractConstruction,
-                          page: ConstructionContracting()
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(type: PageTransitionType.bottomToTop,
+                                duration: Duration(milliseconds: 10),
+                                child: ConstructionContracting(),),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -214,18 +282,32 @@ class CustomDrawer extends StatelessWidget {
                       DrawerButton(
                           icon: Icons.local_fire_department_rounded,
                           text: AppLocalizations.of(context).specialOffers,
-                          page: ChangeNotifierProvider<SpecialOffersProvider>(
-                            create: (_) => SpecialOffersProvider(),
-                            child: SpecialOffers(),
-                          )
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(type: PageTransitionType.bottomToTop,
+                                duration: Duration(milliseconds: 10),
+                                child: ChangeNotifierProvider<SpecialOffersProvider>(
+                                  create: (_) => SpecialOffersProvider(),
+                                  child: SpecialOffers(),
+                                ),),
+                          );
+                        },
                       ),
                       DrawerButton(
                           icon: Icons.calendar_today_outlined,
                           text: AppLocalizations.of(context).todayAds,
-                          page: ChangeNotifierProvider<TodayAdsProvider>(
-                            create: (_) => TodayAdsProvider(),
-                            child: TodayAds(),
-                          )
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(type: PageTransitionType.bottomToTop,
+                                duration: Duration(milliseconds: 10),
+                                child: ChangeNotifierProvider<TodayAdsProvider>(
+                                  create: (_) => TodayAdsProvider(),
+                                  child: TodayAds(),
+                                ),),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -235,26 +317,65 @@ class CustomDrawer extends StatelessWidget {
                       DrawerButton(
                           icon: Icons.payments_rounded,
                           text: AppLocalizations.of(context).advFees,
-                          page: AdvertisingFee(),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(type: PageTransitionType.bottomToTop,
+                                duration: Duration(milliseconds: 10),
+                                child: AdvertisingFee(),),
+                          );
+                        },
                       ),
                       DrawerButton(
                           icon: Icons.notifications_rounded,
                           text: AppLocalizations.of(context).requests,
-                          page: locale.phone != null
-                              ?
-                          ChangeNotifierProvider<RequestProvider>(
-                            create: (_) => RequestProvider(),
-                            child: Requests(),
-                          )
-                              :
-                          Login()),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(type: PageTransitionType.bottomToTop,
+                                duration: Duration(milliseconds: 10),
+                                child: locale.phone != null
+                                    ?
+                                ChangeNotifierProvider<RequestProvider>(
+                                  create: (_) => RequestProvider(),
+                                  child: Requests(),
+                                )
+                                    :
+                                Login(),),
+                          );
+                        },
+                      ),
+
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      DrawerButton(icon: Icons.credit_card_rounded, text: AppLocalizations.of(context).couponRequest, page: CouponRequest()),
-                      DrawerButton(icon: Icons.business_rounded, text: AppLocalizations.of(context).reMenu, page: RealEstateOffices()),
+                      DrawerButton(
+                          icon: Icons.credit_card_rounded,
+                          text: AppLocalizations.of(context).couponRequest,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(type: PageTransitionType.bottomToTop,
+                                duration: Duration(milliseconds: 10),
+                                child: CouponRequest(),),
+                          );
+                        },
+                      ),
+                      DrawerButton(
+                          icon: Icons.business_rounded,
+                          text: AppLocalizations.of(context).reMenu,
+                          onPressed: (){
+                            Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(2);
+                            Navigator.push(
+                              context,
+                              PageTransition(type: PageTransitionType.bottomToTop,
+                                  duration: Duration(milliseconds: 10),
+                                  child: RealEstateOffices()),
+                            );
+                          },
+                      ),
                     ],
                   ),
                 ],

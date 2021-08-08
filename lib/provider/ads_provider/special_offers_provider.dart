@@ -4,13 +4,13 @@ import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 
 class SpecialOffersProvider extends ChangeNotifier{
   SpecialOffersProvider(){
-    print("SpecialOffersProvider init");
+    print('init SpecialOffersProvider');
     getAdsSpecialList();
   }
 
   @override
   void dispose() {
-    print("SpecialOffersProvider dispose");
+    print('dispose SpecialOffersProvider');
     super.dispose();
   }
 

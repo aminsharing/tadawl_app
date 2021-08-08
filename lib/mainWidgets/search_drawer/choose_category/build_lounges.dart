@@ -32,7 +32,6 @@ class BuildLounges extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
-              print("BuildLounges -> SearchDrawerProvider");
               return ToggleButtons(
                 children: <Widget>[
                   Padding(

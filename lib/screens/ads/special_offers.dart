@@ -17,7 +17,6 @@ class SpecialOffers extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<SpecialOffersProvider>(builder: (context, specialAds, child) {
 
-      print("SpecialOffers -> SpecialOffersProvider");
 
       var mediaQuery = MediaQuery.of(context);
       //specialAds.getAdsSpecialList(context);

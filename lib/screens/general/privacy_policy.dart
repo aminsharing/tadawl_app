@@ -81,7 +81,6 @@ class PrivacyPolicy extends StatelessWidget {
                   ],
                 ),
                 Consumer<GeneralProvider>(builder: (context, privacyPolicy, child) {
-                  print("PrivacyPolicy -> GeneralProvider");
                   return ExpansionPanelList(
                     expansionCallback: (int index, bool isExpanded) {
                       privacyPolicy.setExpanded(index, isExpanded);

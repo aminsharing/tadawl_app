@@ -8,12 +8,12 @@ import 'package:tadawl_app/screens/general/home.dart';
 
 class TransferFormProvider extends ChangeNotifier{
   TransferFormProvider(){
-    print("TransferFormProvider init");
+    print('init TransferFormProvider');
   }
 
   @override
   void dispose() {
-    print("TransferFormProvider dispose");
+    print('dispose TransferFormProvider');
     super.dispose();
   }
 

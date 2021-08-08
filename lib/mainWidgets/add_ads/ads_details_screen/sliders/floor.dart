@@ -11,7 +11,6 @@ class Floor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<AddAdProvider>(builder: (context, addAd, _) {
-      print("Floor -> AddAdProvider");
       return Column(
         children: [
           Padding(

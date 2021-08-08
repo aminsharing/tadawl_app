@@ -197,7 +197,6 @@
 //           _EstimateData.forEach((element) {
 //             _estimates.add(UserEstimateModel.estimates(element));
 //           });
-//           // TODO ADDED
 //           // notifyListeners();
 //           // Provider.of<AdsProvider>(context,listen: false).update();
 //         });
@@ -209,7 +208,6 @@
 //           _EstimateData.forEach((element) {
 //             _estimates.add(UserEstimateModel.estimates(element));
 //           });
-//           // TODO ADDED
 //           // notifyListeners();
 //
 //         });
@@ -245,7 +243,6 @@
 //           _UserAdsData.forEach((element) {
 //             _userAds.add(AdsModel.ads(element));
 //           });
-//           // TODO ADDED
 //           // notifyListeners();
 //         });
 //       } else {
@@ -255,7 +252,6 @@
 //           _UserAdsData.forEach((element) {
 //             _userAds.add(AdsModel.ads(element));
 //           });
-//           // TODO ADDED
 //           // notifyListeners();
 //         });
 //       }
@@ -271,7 +267,6 @@
 //           _offices = OfficeModel.offices(value);
 //         }
 //
-//         // TODO ADDED
 //         // notifyListeners();
 //       });
 //     });

@@ -4,11 +4,11 @@ import 'package:dcache/dcache.dart';
 
 class CacheMarkerModel extends ChangeNotifier {
   CacheMarkerModel(){
-    print("CacheMarkerModel init");
+    print('init CacheMarkerModel');
   }
   @override
   void dispose() {
-    print("CacheMarkerModel dispose");
+    print('dispose CacheMarkerModel');
     super.dispose();
   }
 

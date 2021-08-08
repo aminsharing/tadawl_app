@@ -15,6 +15,7 @@ class CustomDrawerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
+    // ignore: omit_local_variable_types
     final MyAccountProvider myAccountProvider = MyAccountProvider(locale.phone);
     return ChangeNotifierProvider<MyAccountProvider>(
       create: (_) => myAccountProvider,
