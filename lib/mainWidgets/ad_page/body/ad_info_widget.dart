@@ -72,24 +72,29 @@ class AdInfoWidget extends StatelessWidget {
           ),
           if (mutualProv.adsUser != null)
             if (mutualProv.adsUser.phone == locale.phone)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(65, 15, 65, 0),
-                child: Container(
-                  width: mediaQuery.size.width,
-                  height: 40.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    border: Border.all(
-                        width: 1.0, color: const Color(0xffe6e600)),
-                  ),
-                  child: Center(
-                    child: Text(
-                      AppLocalizations.of(context).advUpgrade,
-                      style: CustomTextStyle(
-                        fontSize: 15,
-                        color: const Color(0xffe6e600),
-                      ).getTextStyle(),
-                      textAlign: TextAlign.center,
+              GestureDetector(
+                onTap: (){
+                  // TODO Add upgrade ads function
+                },
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(65, 15, 65, 0),
+                  child: Container(
+                    width: mediaQuery.size.width,
+                    height: 40.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      border: Border.all(
+                          width: 1.0, color: const Color(0xffe6e600)),
+                    ),
+                    child: Center(
+                      child: Text(
+                        AppLocalizations.of(context).advUpgrade,
+                        style: CustomTextStyle(
+                          fontSize: 15,
+                          color: const Color(0xffe6e600),
+                        ).getTextStyle(),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ),
@@ -135,8 +140,7 @@ class AdInfoWidget extends StatelessWidget {
                     )
                   else if (mutualProv.adsVR.first.state_aqar == '0')
                     Padding(
-                      padding:
-                      const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                       child: Text(
                         AppLocalizations.of(context).rule33,
                         style: CustomTextStyle(
@@ -185,99 +189,100 @@ class AdInfoWidget extends StatelessWidget {
                   ),
                 ),
               ),
-          if (mutualProv.adsUser != null)
-            if (mutualProv.adsUser.phone == locale.phone)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(65, 15, 65, 0),
-                child: TextButton(
-                  onPressed: () {
-                    adsPage.stopVideoAdsPage();
-                    return showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text(
-                          AppLocalizations.of(context).uniqueAdv,
-                          style: CustomTextStyle(
-                            fontSize: 20,
-                            color: const Color(0xff00cccc),
-                          ).getTextStyle(),
-                          textAlign: TextAlign.right,
-                        ),
-                        content: Text(
-                          AppLocalizations.of(context).rule34,
-                          style: CustomTextStyle(
-                            fontSize: 15,
-                            color: const Color(0xff000000),
-                          ).getTextStyle(),
-                          textAlign: TextAlign.right,
-                          textDirection: TextDirection.rtl,
-                        ),
-                        actions: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(
-                                5, 0, 20, 0),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) =>
-                                        ChangeNotifierProvider<AqarVRProvider>(
-                                          create: (_) => AqarVRProvider(),
-                                          child: AqarVR(),
-                                        )
-                                    ));
-                              },
-                              child: Text(
-                                AppLocalizations.of(context).reVR,
-                                style: CustomTextStyle(
-                                  fontSize: 15,
-                                  color: const Color(0xff00cccc),
-                                ).getTextStyle(),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 0, 5, 0),
-                            child: GestureDetector(
-                              onTap: () =>
-                                  Navigator.of(context).pop(false),
-                              child: Text(
-                                AppLocalizations.of(context).undo,
-                                style: CustomTextStyle(
-                                  fontSize: 15,
-                                  color: const Color(0xff000000),
-                                ).getTextStyle(),
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 40.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      border: Border.all(
-                          width: 1.0,
-                          color: const Color(0xff3f9d28)),
-                    ),
-                    child: Center(
-                      child: Text(
-                        AppLocalizations.of(context).makeUnique,
-                        style: CustomTextStyle(
-                          fontSize: 15,
-                          color: const Color(0xff3f9d28),
-                        ).getTextStyle(),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+          /// زر اجعل العقار فريداً
+          // if (mutualProv.adsUser != null)
+          //   if (mutualProv.adsUser.phone == locale.phone)
+          //     Padding(
+          //       padding: const EdgeInsets.fromLTRB(65, 15, 65, 0),
+          //       child: TextButton(
+          //         onPressed: () {
+          //           adsPage.stopVideoAdsPage();
+          //           return showDialog(
+          //             context: context,
+          //             builder: (context) => AlertDialog(
+          //               title: Text(
+          //                 AppLocalizations.of(context).uniqueAdv,
+          //                 style: CustomTextStyle(
+          //                   fontSize: 20,
+          //                   color: const Color(0xff00cccc),
+          //                 ).getTextStyle(),
+          //                 textAlign: TextAlign.right,
+          //               ),
+          //               content: Text(
+          //                 AppLocalizations.of(context).rule34,
+          //                 style: CustomTextStyle(
+          //                   fontSize: 15,
+          //                   color: const Color(0xff000000),
+          //                 ).getTextStyle(),
+          //                 textAlign: TextAlign.right,
+          //                 textDirection: TextDirection.rtl,
+          //               ),
+          //               actions: <Widget>[
+          //                 Padding(
+          //                   padding: const EdgeInsets.fromLTRB(
+          //                       5, 0, 20, 0),
+          //                   child: GestureDetector(
+          //                     onTap: () {
+          //                       Navigator.push(
+          //                           context,
+          //                           MaterialPageRoute(builder: (context) =>
+          //                               ChangeNotifierProvider<AqarVRProvider>(
+          //                                 create: (_) => AqarVRProvider(),
+          //                                 child: AqarVR(),
+          //                               )
+          //                           ));
+          //                     },
+          //                     child: Text(
+          //                       AppLocalizations.of(context).reVR,
+          //                       style: CustomTextStyle(
+          //                         fontSize: 15,
+          //                         color: const Color(0xff00cccc),
+          //                       ).getTextStyle(),
+          //                       textAlign: TextAlign.left,
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 Padding(
+          //                   padding: const EdgeInsets.fromLTRB(20, 0, 5, 0),
+          //                   child: GestureDetector(
+          //                     onTap: () =>
+          //                         Navigator.of(context).pop(false),
+          //                     child: Text(
+          //                       AppLocalizations.of(context).undo,
+          //                       style: CustomTextStyle(
+          //                         fontSize: 15,
+          //                         color: const Color(0xff000000),
+          //                       ).getTextStyle(),
+          //                       textAlign: TextAlign.right,
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           );
+          //         },
+          //         child: Container(
+          //           width: double.infinity,
+          //           height: 40.0,
+          //           decoration: BoxDecoration(
+          //             borderRadius: BorderRadius.circular(10.0),
+          //             border: Border.all(
+          //                 width: 1.0,
+          //                 color: const Color(0xff3f9d28)),
+          //           ),
+          //           child: Center(
+          //             child: Text(
+          //               AppLocalizations.of(context).makeUnique,
+          //               style: CustomTextStyle(
+          //                 fontSize: 15,
+          //                 color: const Color(0xff3f9d28),
+          //               ).getTextStyle(),
+          //               textAlign: TextAlign.center,
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     ),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: SpaceTable(adsPage: mutualProv.adsPage,),
@@ -308,7 +313,7 @@ class AdInfoWidget extends StatelessWidget {
               children: [
                 AdViewTable(
                   views: mutualProv.adsPage.views,
-                  idDescription: mutualProv.adsPage.idDescription,
+                  idDescription: mutualProv.adsPage.idAds,
                 ),
               ],
             ),

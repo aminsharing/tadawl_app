@@ -41,26 +41,46 @@ class OfficeMarkerProvider extends ChangeNotifier{
 
   Widget _getMarkerWidget(String name) {
     return Container(
+      height: 50.0,
       padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 3, vertical: 1.5),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: const Color(0xffffffff), width: 1),
-          color: const Color(0xff00cccc),
-          shape: BoxShape.rectangle,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Text(
-            name,
-            style: CustomTextStyle(
-              fontSize: 15,
-              color: const Color(0xffffffff),
-            ).getTextStyle(),
-            textAlign: TextAlign.center,
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 3, vertical: 1.5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                // border: Border.all(color: const Color(0xffffffff), width: 1),
+                color: const Color(0xff00cccc),
+                shape: BoxShape.rectangle,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(7.0),
+                child: Text(
+                  name,
+                  style: CustomTextStyle(
+                    fontSize: 12,
+                    color: const Color(0xffffffff),
+                  ).getTextStyle(),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
           ),
-        ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xff00cccc),
+                  shape: BoxShape.circle,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: Icon(Icons.home_work),
+                )),
+          ),
+        ],
       ),
     );
   }

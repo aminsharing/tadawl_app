@@ -10,8 +10,10 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/Gist.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
+import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/cache_markers_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
+import 'package:tadawl_app/screens/general/regions.dart';
 
 class MainPageProvider extends ChangeNotifier{
 
@@ -25,24 +27,25 @@ class MainPageProvider extends ChangeNotifier{
     if (_showDiaogSearchDrawer) {
       setShowDiogFalse();
     }
-    setRegionPosition(null);
     setInItMainPageDone(0);
-    removeMarkers();
+    if(_entry != null){
+      _entry.remove();
+    }
     super.dispose();
   }
 
   int _inItMainPageDone = 0;
   String _idCategorySearch;
-  CameraPosition _region_position;
   bool _isMove = false;
   int _adsOnMap = 1;
+  int _allAds = 0;
   bool _showDiaogSearchDrawer = false;
   final _markersMainPage = <Marker>[];
   AdsModel _SelectedAdsModelMainPage;
   bool _slider_state = true;
+  OverlayEntry _entry;
 
   GoogleMapController _mapControllerMainPAge;
-  // CameraPosition _selectedArea = CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
   final List<AdsModel> _Ads = [];
   bool _waitMainPage = false;
 
@@ -66,8 +69,8 @@ class MainPageProvider extends ChangeNotifier{
     }
     await _mapControllerMainPAge.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
-          target: LatLng(currentLocation.latitude, currentLocation.longitude),
-          zoom: 17,
+        target: LatLng(currentLocation.latitude, currentLocation.longitude),
+        zoom: 17,
       ),
     ),
     );
@@ -83,11 +86,6 @@ class MainPageProvider extends ChangeNotifier{
     );
   }
 
-  // void setSelectedArea(CameraPosition val){
-  //   _selectedArea = val;
-  //   // notifyListeners();
-  // }
-
   void setMoveState(bool val){
     _isMove = val;
   }
@@ -97,148 +95,159 @@ class MainPageProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void spicificAreaAds2(BuildContext context){
+  void specificAreaAds(BuildContext context, double zoom){
     if(_Ads.isNotEmpty){
-      if(_markersMainPage.isNotEmpty){
-        _markersMainPage.clear();
-      }
+      _allAds = _Ads.length;
+      closeAds(zoom);
       _Ads.forEach((element) {
-        // if(calculateArea(double.tryParse(element.lat) ?? 0.0, double.tryParse(element.lng) ?? 0.0, _selectedArea)){
-        //
-        // }
-        _adsOnMap++;
-        element.key = GlobalKey();
-        element.entry = OverlayEntry(
+        _entry = OverlayEntry(
             builder: (ctxt) {
               return _MarkerHelper(
                 markerWidgets: markerWidgets(ctxt, element),
                 callback: (bitmaps) {
                   _markersMainPage.add(mapBitmapsToMarkersMainPage(ctxt, bitmaps, element));
                   Future.delayed(Duration(seconds: 1), () {
+                    _adsOnMap = _markersMainPage.length;
                     notifyListeners();
                   });
                 },
-                markerKey: element.key,
+                markerKey: GlobalKey(),
               );
             },
             maintainState: true);
-        MarkerGenerator(element.entry).generate(context);
+        MarkerGenerator(_entry).generate(context);
       });
       Future.delayed(Duration(seconds: 4), () {
         if(_markersMainPage.isEmpty){
           _adsOnMap = 0;
           notifyListeners();
-          // removeMarkers();
-          // Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(1);
-          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Regions()));
+          Future.delayed(Duration(seconds: 1), (){
+            Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(1);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Regions()),
+            );
+          });
         }
       });
     }
   }
 
-  void spicificAreaAds3(BuildContext context, AdsModel element){
-    _adsOnMap++;
-    element.key = GlobalKey();
-    element.entry = OverlayEntry(
-        builder: (ctxt) {
-          return _MarkerHelper(
-            markerWidgets: markerWidgets(ctxt, element),
-            callback: (bitmaps) {
-              _markersMainPage.add(mapBitmapsToMarkersMainPage(ctxt, bitmaps, element));
-              Future.delayed(Duration(seconds: 1), () {
-                notifyListeners();
-              });
-            },
-            markerKey: element.key,
-          );
-        },
-        maintainState: true);
-    MarkerGenerator(element.entry).generate(context);
+  void closeAds(double zoom){
+    if(_Ads.isNotEmpty){
+      // ignore: omit_local_variable_types
+      for(int i = 0; i < _Ads.length; i++){
+        if(i < _Ads.length - 1){
+          // ignore: omit_local_variable_types
+          AdsModel firstAd = _Ads[i];
+          // ignore: omit_local_variable_types
+          AdsModel secondAd = _Ads[i+1];
+          if(calculateDistance(
+            LatLng(
+                double.tryParse(firstAd.lat),
+                double.tryParse(firstAd.lng)
+            ),
+            LatLng(
+                double.tryParse(secondAd.lat),
+                double.tryParse(secondAd.lng)
+            ),
+              zoom
+          )){
+
+            if(firstAd.idSpecial != '1'){
+              _Ads.remove(firstAd);
+              i--;
+            }else if(secondAd.idSpecial != '1'){
+              _Ads.remove(secondAd);
+              i--;
+            }
+          }
+        }
+      }
+    }
   }
 
   void clearAdsOnMap(){
     _adsOnMap = 1;
   }
 
-  void removeMarkers(){
-    if(_Ads.isNotEmpty){
-      _Ads.forEach((element) {
-        if(element.entry != null){
-          try{
-            element.entry.remove();
-            element.entry = null;
-            element.key = null;
-          }catch(e){
-            print('Overlay entry remove error: $e');
-          }
-        }
-      });
-      _markersMainPage.clear();
+  double getRadius(double val){
+    if(val >= 16){
+      return 0;
+    }else if(val <= 15 && val > 14){
+      return 0.2;
+    }else if(val <= 14 && val > 13){
+      return 1;
+    }else if(val <= 13 && val > 12){
+      return 2;
+    }else if(val <= 12 && val > 11){
+      return 2;
+    }else if(val <= 11 && val > 10){
+      return 3;
+    }else if(val <= 10 && val > 9){
+      return 4;
+    }else{
+      return 0;
     }
   }
 
-  bool calculateArea(double lat, double lng, CameraPosition selectedArea){
+  bool calculateDistance(LatLng firstAd, LatLng secondAd, double zoom){
     var p = 0.017453292519943295;
     var c = cos;
-    var a = 0.5 - c((lat - selectedArea.target.latitude) * p)/2 + c(selectedArea.target.latitude * p) * c(lat * p) * (1 - c((lng - selectedArea.target.longitude) * p))/2;
+    var a = 0.5 - c((firstAd.latitude - secondAd.latitude) * p)/2 + c(secondAd.latitude * p) * c(firstAd.latitude * p) * (1 - c((firstAd.longitude - secondAd.longitude) * p))/2;
     var calculateDistance = 12742 * asin(sqrt(a));
-    if(calculateDistance < (21.0 - (selectedArea.zoom+1))){
+    if(calculateDistance < getRadius(zoom)){
       return true;
     }else{
       return false;
     }
   }
 
-  void getUpdatedMarkerState2(BuildContext context, AdsModel ad){
-    var key = GlobalKey();
-    if(ad.entry != null){
-      ad.entry.remove();
-      ad.key = null;
-      ad.entry = null;
-      OverlayEntry newEntry;
-      ad.key = key;
-      newEntry = OverlayEntry(
+  void getUpdatedMarkerState(BuildContext context, AdsModel ad){
+    if(_entry != null){
+      _entry.remove();
+      _entry = OverlayEntry(
           builder: (ctxt) {
             return _MarkerHelper(
               markerWidgets: markerWidgets(ctxt, ad),
               callback: (bitmaps) {
                 _markersMainPage.add(mapBitmapsToMarkersMainPage(ctxt, bitmaps, ad));
               },
-              markerKey: ad.key,
+              markerKey: GlobalKey(),
             );
           },
           maintainState: true);
       var overlayState = Overlay.of(context);
-      overlayState.insert(newEntry);
-      ad.entry = newEntry;
+      overlayState.insert(_entry);
     }
   }
 
   Widget markerWidgets(BuildContext context, AdsModel c) {
+    final size = MediaQuery.of(context).size;
     return Provider.of<LocaleProvider>(context, listen: false).locale.toString() != 'en_US'
         ?
     c.idSpecial == '1'
         ?
-    getMarkerSpecialWidget(' ${arNumberFormat(int.parse(c.price))} ')
+    getMarkerSpecialWidget(' ${arNumberFormat(int.parse(c.price))} ', size)
         :
     Provider.of<CacheMarkerModel>(context, listen: false).getCache(context, c.idDescription) == c.idDescription
         ?
-    getMarkerViewedWidget(' ${arNumberFormat(int.parse(c.price))} ')
+    getMarkerViewedWidget(' ${arNumberFormat(int.parse(c.price))} ', size)
         :
-    getMarkerWidget(' ${arNumberFormat(int.parse(c.price))} ')
+    getMarkerWidget(' ${arNumberFormat(int.parse(c.price))} ', size)
         :
     c.idSpecial == '1'
         ?
-    getMarkerSpecialWidget(' ${numberFormat(int.parse(c.price))} ')
+    getMarkerSpecialWidget(' ${numberFormat(int.parse(c.price))} ', size)
         :
     Provider.of<CacheMarkerModel>(context, listen: false).getCache(context, c.idDescription) == c.idDescription
         ?
-    getMarkerViewedWidget(' ${numberFormat(int.parse(c.price))} ')
+    getMarkerViewedWidget(' ${numberFormat(int.parse(c.price))} ', size)
         :
-    getMarkerWidget(' ${numberFormat(int.parse(c.price))} ') ?? [];
+    getMarkerWidget(' ${numberFormat(int.parse(c.price))} ', size) ?? [];
   }
 
-  Widget getMarkerSpecialWidget(String name) {
+  Widget getMarkerSpecialWidget(String name, Size size) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       child: Container(
@@ -254,7 +263,7 @@ class MainPageProvider extends ChangeNotifier{
           child: Text(
             name,
             style: CustomTextStyle(
-              fontSize: 13,
+              fontSize: (12 + (size.width * .005)) > 18 ? 18 : (12 + (size.width * .005)),
               color: const Color(0xffffffff),
             ).getTextStyle(),
             textAlign: TextAlign.center,
@@ -264,7 +273,7 @@ class MainPageProvider extends ChangeNotifier{
     );
   }
 
-  Widget getMarkerViewedWidget(String name) {
+  Widget getMarkerViewedWidget(String name, Size size) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       child: Container(
@@ -280,7 +289,7 @@ class MainPageProvider extends ChangeNotifier{
           child: Text(
             name,
             style: CustomTextStyle(
-              fontSize: 13,
+              fontSize: (12 + (size.width * .005)) > 18 ? 18 : (12 + (size.width * .005)),
               color: const Color(0xffffffff),
             ).getTextStyle(),
             textAlign: TextAlign.center,
@@ -290,7 +299,7 @@ class MainPageProvider extends ChangeNotifier{
     );
   }
 
-  Widget getMarkerWidget(String name) {
+  Widget getMarkerWidget(String name, Size size) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       child: Container(
@@ -302,11 +311,11 @@ class MainPageProvider extends ChangeNotifier{
           shape: BoxShape.rectangle,
         ),
         child: Padding(
-          padding: const EdgeInsets.all(1.0),
+          padding: const EdgeInsets.all(2),
           child: Text(
             name,
             style: CustomTextStyle(
-              fontSize: 13,
+              fontSize: (12 + (size.width * .005)) > 18 ? 18 : (12 + (size.width * .005)),
               color: const Color(0xffffffff),
             ).getTextStyle(),
             textAlign: TextAlign.center,
@@ -370,7 +379,7 @@ class MainPageProvider extends ChangeNotifier{
           Provider.of<CacheMarkerModel>(context, listen: false).updateCache(context, ad.idDescription);
           setShowDiogTrue();
           _SelectedAdsModelMainPage = ad;
-          getUpdatedMarkerState2(context, ad);
+          getUpdatedMarkerState(context, ad);
         },
         icon: BitmapDescriptor.fromBytes(bmp));
   }
@@ -378,13 +387,6 @@ class MainPageProvider extends ChangeNotifier{
   void setShowDiogTrue() {
     _showDiaogSearchDrawer = true;
     notifyListeners();
-  }
-
-
-
-  void setRegionPosition(CameraPosition val) {
-    _region_position = val;
-    //notifyListeners();
   }
 
   int countAds() {
@@ -404,224 +406,53 @@ class MainPageProvider extends ChangeNotifier{
     _waitMainPage = val;
   }
 
-  void getAds(BuildContext context,List<dynamic> _AdsData){
+  void getAds(BuildContext context,List<dynamic> _AdsData, double zoom){
     _Ads.clear();
-    _AdsData.forEach((element) {
-      _Ads.add(AdsModel.ads(element));
-    });
-    spicificAreaAds2(context);
+    _markersMainPage.clear();
+    if(_entry != null){
+      try{
+        _entry.remove();
+      }catch(e){
+        print('Entry remove error: $e');
+      }
+    }
+    if(_AdsData.isNotEmpty){
+      _AdsData.forEach((element) {
+        print("Ads distance: ${element['distance']}");
+        _Ads.add(AdsModel.ads(element));
+      });
+      specificAreaAds(context, zoom);
+      notifyListeners();
+    }else{
+      _adsOnMap = 0;
+      notifyListeners();
+      Future.delayed(Duration(seconds: 1), (){
+        Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(1);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Regions()),
+        );
+      });
+    }
+
+  }
+
+  void update(){
     notifyListeners();
   }
 
-  // void getAdsList(BuildContext context) {
-  //   // ...... basic array ........
-  //   if (_filter == null) {
-  //     Future.delayed(Duration(milliseconds: 0), () {
-  //       List<String> a = <String>[];
-  //       _Ads.forEach((element) {
-  //         element.entry.remove();
-  //         a.add(element.idDescription);
-  //       });
-  //       _Ads.clear();
-  //       Api().getadsFunc().then((value) {
-  //         _AdsData = value;
-  //         print("aaaaaaaaaaaaaaaaaaaaaa ${a.length}");
-  //         print("bbbbbbbbbbbbbbbbbbbbbb ${_AdsData.length}");
-  //         _AdsData.forEach((element) {
-  //           // if(!a.contains(element['id_description'])){
-  //             print("id_description1");
-  //             _Ads.add(AdsModel.ads(element));
-  //           // }
-  //         });
-  //         spicificAreaAds2(context);
-  //         notifyListeners();
-  //       });
-  //     });
-  //   }
-  //   // ...... left slider category array ........
-  //   else if (_filter == 1) {
-  //     Future.delayed(Duration(milliseconds: 0), () {
-  //       List<String> a = <String>[];
-  //       _Ads.forEach((element) {
-  //         try{
-  //           element.entry.remove();
-  //         }catch(e){
-  //           print("Cannot remove Overlaye: $e");
-  //         }
-  //         a.add(element.idDescription);
-  //       });
-  //       _Ads.clear();
-  //       Api().getFilterAdsFunc(_idCategorySearch)
-  //           .then((value) {
-  //         _AdsData = value;
-  //         print("aaaaaaaaaaaaaaaaaaaaaa 1 ${a.length}");
-  //         print("bbbbbbbbbbbbbbbbbbbbbb 1 ${_AdsData.length}");
-  //         _AdsData.forEach((element) {
-  //           // if(!a.contains(element['id_description'])){
-  //             print("id_description2");
-  //             _Ads.add(AdsModel.ads(element));
-  //           // }
-  //         });
-  //         spicificAreaAds2(context);
-  //         notifyListeners();
-  //       });
-  //     });
-  //   }
-  //   // ...... two weeks ago array ........
-  // else if (_filter == 2 && _isTwoWeeksAgoSearchDrawer) {
-  //     Future.delayed(Duration(milliseconds: 0), () {
-  //       List<String> a = <String>[];
-  //       _Ads.forEach((element) {
-  //         element.entry.remove();
-  //         a.add(element.idDescription);
-  //       });
-  //       _Ads.clear();
-  //       Api().getFilterTwoWeeksAgoFunc().then((value) {
-  //         _AdsData = value;
-  //         print("aaaaaaaaaaaaaaaaaaaaaa 2 ${a.length}");
-  //         print("bbbbbbbbbbbbbbbbbbbbbb 2 ${_AdsData.length}");
-  //         _AdsData.forEach((element) {
-  //           // if(!a.contains(element['id_description'])){
-  //             print("id_description3");
-  //             _Ads.add(AdsModel.ads(element));
-  //           // }
-  //         });
-  //         spicificAreaAds2(context);
-  //         notifyListeners();
-  //       });
-  //     });
-  //   }
-  //   // ...... advanced search filter ........
-  //   else if (_filter == 4) {
-  //     Future.delayed(Duration(milliseconds: 0), () {
-  //       List<String> a = <String>[];
-  //       _Ads.forEach((element) {
-  //         element.entry.remove();
-  //         a.add(element.idDescription);
-  //       });
-  //       _Ads.clear();
-  //       Api()
-  //           .getAdvancedSearchFunc(
-  //           _selectedCategory,
-  //           _minPriceSearchDrawer,
-  //           _maxPriceSearchDrawer,
-  //           _minSpaceSearchDrawer,
-  //           _maxSpaceSearchDrawer,
-  //           _selectedTypeAqarSearchDrawer,
-  //           _interfaceSelectedSearchDrawer,
-  //           _selectedPlanSearchDrawer,
-  //           _ageOfRealEstateSelectedSearchDrawer,
-  //           _selectedApartmentsSearchDrawer,
-  //           _floorSelectedSearchDrawer,
-  //           _selectedLoungesSearchDrawer,
-  //           _selectedRoomsSearchDrawer,
-  //           _storesSelectedSearchDrawer,
-  //           _streetWidthSelectedSearchDrawer,
-  //           _selectedToiletsSearchDrawer,
-  //           _treesSelectedSearchDrawer,
-  //           _wellsSelectedSearchDrawer,
-  //           _bool_feature1SearchDrawer.toString(),
-  //           _bool_feature2SearchDrawer.toString(),
-  //           _bool_feature3SearchDrawer.toString(),
-  //           _bool_feature4SearchDrawer.toString(),
-  //           _bool_feature5SearchDrawer.toString(),
-  //           _bool_feature6SearchDrawer.toString(),
-  //           _bool_feature7SearchDrawer.toString(),
-  //           _bool_feature8SearchDrawer.toString(),
-  //           _bool_feature9SearchDrawer.toString(),
-  //           _bool_feature10SearchDrawer.toString(),
-  //           _bool_feature11SearchDrawer.toString(),
-  //           _bool_feature12SearchDrawer.toString(),
-  //           _bool_feature13SearchDrawer.toString(),
-  //           _bool_feature14SearchDrawer.toString(),
-  //           _bool_feature15SearchDrawer.toString(),
-  //           _bool_feature16SearchDrawer.toString(),
-  //           _bool_feature17SearchDrawer.toString(),
-  //           _bool_feature18SearchDrawer.toString())
-  //           .then((value) {
-  //         _AdsData = value;
-  //         print("aaaaaaaaaaaaaaaaaaaaaa 4 ${a.length}");
-  //         print("bbbbbbbbbbbbbbbbbbbbbb 4 ${_AdsData.length}");
-  //         _AdsData.forEach((element) {
-  //           // if(!a.contains(element['id_description'])){
-  //             print("id_description4");
-  //             _Ads.add(AdsModel.ads(element));
-  //           // }
-  //         });
-  //         spicificAreaAds2(context);
-  //         notifyListeners();
-  //       });
-  //     });
-  //   }
-  // }
-
   int get inItMainPageDone => _inItMainPageDone;
   String get idCategorySearch => _idCategorySearch;
-  // String get selectedCategory => _selectedCategory;
-  // String get minPriceSearchDrawer => _minPriceSearchDrawer;
-  // String get maxSpaceSearchDrawer => _maxSpaceSearchDrawer;
-  // String get minSpaceSearchDrawer => _minSpaceSearchDrawer;
-  // String get selectedLoungesSearchDrawer => _selectedLoungesSearchDrawer;
-  // String get selectedToiletsSearchDrawer => _selectedToiletsSearchDrawer;
-  // String get selectedRoomsSearchDrawer => _selectedRoomsSearchDrawer;
-  // String get selectedApartmentsSearchDrawer => _selectedApartmentsSearchDrawer;
-  // String get selectedPlanSearchDrawer => _selectedPlanSearchDrawer;
-  // String get storesSelectedSearchDrawer => _storesSelectedSearchDrawer;
-  // String get floorSelectedSearchDrawer => _floorSelectedSearchDrawer;
-  // String get selectedFamilyTypeSearchDrawer => _selectedFamilyTypeSearchDrawer;
-  // String get treesSelectedSearchDrawer => _treesSelectedSearchDrawer;
-  // String get wellsSelectedSearchDrawer => _wellsSelectedSearchDrawer;
-  // bool get isTwoWeeksAgoSearchDrawer => _isTwoWeeksAgoSearchDrawer;
-  // bool get bool_feature1SearchDrawer => _bool_feature1SearchDrawer;
-  // bool get bool_feature2SearchDrawer => _bool_feature2SearchDrawer;
-  // bool get bool_feature3SearchDrawer => _bool_feature3SearchDrawer;
-  // bool get bool_feature4SearchDrawer => _bool_feature4SearchDrawer;
-  // bool get bool_feature5SearchDrawer => _bool_feature5SearchDrawer;
-  // bool get bool_feature6SearchDrawer => _bool_feature6SearchDrawer;
-  // bool get bool_feature7SearchDrawer => _bool_feature7SearchDrawer;
-  // bool get bool_feature8SearchDrawer => _bool_feature8SearchDrawer;
-  // bool get bool_feature9SearchDrawer => _bool_feature9SearchDrawer;
-  // bool get bool_feature10SearchDrawer => _bool_feature10SearchDrawer;
-  // bool get bool_feature11SearchDrawer => _bool_feature11SearchDrawer;
-  // bool get bool_feature12SearchDrawer => _bool_feature12SearchDrawer;
-  // bool get bool_feature13SearchDrawer => _bool_feature13SearchDrawer;
-  // bool get bool_feature14SearchDrawer => _bool_feature14SearchDrawer;
-  // bool get bool_feature15SearchDrawer => _bool_feature15SearchDrawer;
-  // bool get bool_feature16SearchDrawer => _bool_feature16SearchDrawer;
-  // bool get bool_feature17SearchDrawer => _bool_feature17SearchDrawer;
-  // bool get bool_feature18SearchDrawer => _bool_feature18SearchDrawer;
-  // String get maxPriceSearchDrawer => _maxPriceSearchDrawer;
-  // String get selectedTypeAqarSearchDrawer => _selectedTypeAqarSearchDrawer;
-  // String get interfaceSelectedSearchDrawer => _interfaceSelectedSearchDrawer;
-  // String get streetWidthSelectedSearchDrawer => _streetWidthSelectedSearchDrawer;
-  // String get ageOfRealEstateSelectedSearchDrawer => _ageOfRealEstateSelectedSearchDrawer;
-  CameraPosition get region_position => _region_position;
   bool get isMove => _isMove;
   bool get showDiaogSearchDrawer => _showDiaogSearchDrawer;
   List<Marker> get markersMainPage => _markersMainPage;
   AdsModel get SelectedAdsModelMainPage => _SelectedAdsModelMainPage;
   int get adsOnMap => _adsOnMap;
+  int get allAds => _allAds;
   bool get waitMainPage => _waitMainPage;
   GoogleMapController get mapControllerMainPAge => _mapControllerMainPAge;
   List<AdsModel> get ads => _Ads;
-  // int get filterSearch => _filter;
   bool get slider_state => _slider_state;
-
-
-
-
-  /// Start Mutual get with Search Drawer
-  // List<bool> get planSearchDrawer => _planSearchDrawer;
-  // List<bool> get loungesSearchDrawer => _loungesSearchDrawer;
-  // List<bool> get toiletsSearchDrawer => _toiletsSearchDrawer;
-  // List<bool> get roomsSearchDrawer => _roomsSearchDrawer;
-  // List<bool> get apartmentsSearchDrawer => _apartmentsSearchDrawer;
-  // List<bool> get familyTypeSearchDrawer => _familyTypeSearchDrawer;
-  // List<bool> get typeAqarSearchDrawer => _typeAqarSearchDrawer;
-
-/// End Mutual get with Search Drawer
-
-
 
 }
 
@@ -633,8 +464,9 @@ class _MarkerHelper extends StatefulWidget {
   final Widget markerWidgets;
   final Function(Uint8List) callback;
   final GlobalKey markerKey;
+
   // ignore: sort_constructors_first
-  const _MarkerHelper({Key key, this.markerWidgets, this.callback, @required this.markerKey})
+  const _MarkerHelper({Key key, this.markerKey, this.markerWidgets, this.callback})
       : super(key: key);
   @override
   _MarkerHelperState createState() => _MarkerHelperState();

@@ -21,81 +21,6 @@ class ImagesVideoScreen extends StatelessWidget {
     var _lang = provider.locale.toString();
     var mediaQuery = MediaQuery.of(context);
 
-    Future<bool> _onVidPressed() {
-      return showDialog(
-        context: context,
-        builder: (context) =>
-            AlertDialog(
-              title: Text(
-                AppLocalizations
-                    .of(context)
-                    .addVed,
-                style: CustomTextStyle(
-
-                  fontSize: 20,
-                  color: const Color(0xff00cccc),
-                ).getTextStyle(),
-                textAlign: TextAlign.right,
-              ),
-              content: Text(
-                AppLocalizations
-                    .of(context)
-                    .vidHint,
-                style: CustomTextStyle(
-
-                  fontSize: 17,
-                  color: const Color(0xff000000),
-                ).getTextStyle(),
-                textAlign: TextAlign.right,
-              ),
-              actions: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Provider.of<AddAdProvider>(context, listen: false).getCameraVideo(context);
-                      Navigator.of(context).pop(false);
-                    },
-                    child: Text(
-                      AppLocalizations
-                          .of(context)
-                          .fromCamera,
-                      style: CustomTextStyle(
-
-                        fontSize: 13,
-                        color: const Color(0xff000000),
-                      ).getTextStyle(),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Provider.of<AddAdProvider>(context, listen: false)
-                          .getGalleryVideo(context);
-                      Navigator.of(context).pop(false);
-                    },
-                    child: Text(
-                      AppLocalizations
-                          .of(context)
-                          .fromGallery,
-                      style: CustomTextStyle(
-
-                        fontSize: 13,
-                        color: const Color(0xff000000),
-                      ).getTextStyle(),
-                      textAlign: TextAlign.right,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-      ) ??
-          false;
-    }
-
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
@@ -126,6 +51,79 @@ class ImagesVideoScreen extends StatelessWidget {
         ),
       ),
       body: Consumer<AddAdProvider>(builder: (context, addAds, child) {
+        Future<bool> _onVidPressed() {
+          return showDialog(
+            context: context,
+            builder: (context) =>
+                AlertDialog(
+                  title: Text(
+                    AppLocalizations
+                        .of(context)
+                        .addVed,
+                    style: CustomTextStyle(
+
+                      fontSize: 20,
+                      color: const Color(0xff00cccc),
+                    ).getTextStyle(),
+                    textAlign: TextAlign.right,
+                  ),
+                  content: Text(
+                    AppLocalizations
+                        .of(context)
+                        .vidHint,
+                    style: CustomTextStyle(
+
+                      fontSize: 17,
+                      color: const Color(0xff000000),
+                    ).getTextStyle(),
+                    textAlign: TextAlign.right,
+                  ),
+                  actions: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
+                      child: GestureDetector(
+                        onTap: () {
+                          addAds.getCameraVideo(context);
+                          Navigator.of(context).pop(false);
+                        },
+                        child: Text(
+                          AppLocalizations
+                              .of(context)
+                              .fromCamera,
+                          style: CustomTextStyle(
+
+                            fontSize: 13,
+                            color: const Color(0xff000000),
+                          ).getTextStyle(),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
+                      child: GestureDetector(
+                        onTap: () {
+                          addAds.getGalleryVideo(context);
+                          Navigator.of(context).pop(false);
+                        },
+                        child: Text(
+                          AppLocalizations
+                              .of(context)
+                              .fromGallery,
+                          style: CustomTextStyle(
+
+                            fontSize: 13,
+                            color: const Color(0xff000000),
+                          ).getTextStyle(),
+                          textAlign: TextAlign.right,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+          ) ??
+              false;
+        }
         return SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

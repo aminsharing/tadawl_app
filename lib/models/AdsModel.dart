@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 
 class AdsModel {
   String idDescription;
@@ -34,8 +33,8 @@ class AdsModel {
   String state_aqar;
   String vr_id_description;
   bool isClicked;
-  OverlayEntry entry;
-  GlobalKey key;
+  // OverlayEntry entry;
+  // GlobalKey key;
   // ignore: sort_constructors_first
   AdsModel(
       {this.idDescription,
@@ -71,8 +70,9 @@ class AdsModel {
       this.state_aqar,
       this.vr_id_description,
       this.isClicked,
-      this.entry,
-      this.key});
+      // this.entry,
+      // this.key
+      });
 
 
   // ignore: sort_constructors_first
@@ -92,20 +92,20 @@ class AdsModel {
     idInterface = json['id_interface'];
     idAdderRelation = json['id_adder_relation'];
     idMarketerRelation = json['id_marketer_relation'];
-    idAdsImages = json['id'];
+    idAdsImages = json['image_id'];
     ads_image = json['ads_image'];
-    idAds = json['id'];
+    idAds = json['ads_id'];
     title = json['title'];
     timeAdded = json['timeAdded'];
     timeUpdated = json['timeUpdated'];
     views = json['views'];
     idSpecial = json['id_special'];
     idCategory = json['id_category'];
-    idUser = json['id_user'];
+    idUser = json['user_id'];
     idCity = json['id_city'];
     id_fav = json['id_fav'];
     isFav = json['isFav'];
-    id_ads = json['id'];
+    id_ads = json['ads_id'];
     phone_faved_user = json['phone_faved_user'];
     state_aqar = json['state_aqar'];
     vr_id_description = json['vr_id_description'];
@@ -114,7 +114,7 @@ class AdsModel {
   // ignore: sort_constructors_first
   AdsModel.ads(Map<String, dynamic> json) {
     idDescription = json['id_description'];
-    idUser = json['id_user'];
+    idUser = json['user_id'];
     price = json['price'];
     lat = json['lat'];
     lng = json['lng'];
@@ -128,10 +128,10 @@ class AdsModel {
     idSpecial = json['id_special'];
     video = json['video'];
     timeAdded = json['timeAdded'];
-    idAds = json['id'];
+    idAds = json['ads_id'];
     id_fav = json['id_fav'];
     isFav = json['isFav'];
-    id_ads = json['id'];
+    id_ads = json['ads_id'];
     phone_faved_user = json['phone_faved_user'];
     timeUpdated = json['timeUpdated'];
     idCategory = json['id_category'];
@@ -139,9 +139,9 @@ class AdsModel {
 
   // ignore: sort_constructors_first
   AdsModel.adsPage(Map<String, dynamic> json) {
-    idAds= json['id'];
+    idAds= json['ads_id'];
     idDescription= json['id_description'];
-    idUser= json['id_user'];
+    idUser= json['user_id'];
     lat= json['lat'];
     lng= json['lng'];
     ads_city= json['ads_city'];
@@ -169,7 +169,7 @@ class AdsModel {
 
   // ignore: sort_constructors_first
   AdsModel.adsPageImages(Map<String, dynamic> json) {
-    idAdsImages = json['id'];
+    idAdsImages = json['image_id'];
     idDescription = json['id_description'];
     ads_image = json['ads_image'];
     idCategory = json['id_category'];
@@ -189,7 +189,7 @@ class AdsModel {
 
   // ignore: sort_constructors_first
   AdsModel.adsImage(Map<String, dynamic> json) {
-    idAdsImages = json['id'];
+    idAdsImages = json['image_id'];
     idDescription = json['id_description'];
     ads_image = json['ads_image'];
   }
@@ -202,7 +202,7 @@ class AdsModel {
 
   // ignore: sort_constructors_first
   AdsModel.adsUpdateDetails(Map<String, dynamic> json) {
-    idAds = json['id'];
+    idAds = json['ads_id'];
     idDescription = json['id_description'];
     space = json['space'];
     price = json['price'];
@@ -233,20 +233,20 @@ class AdsModel {
     data['id_interface'] = idInterface;
     data['id_adder_relation'] = idAdderRelation;
     data['id_marketer_relation'] = idMarketerRelation;
-    data['id'] = idAdsImages;
+    data['image_id'] = idAdsImages;
     data['ads_image'] = ads_image;
-    data['id'] = idAds;
+    data['ads_id'] = idAds;
     data['title'] = title;
     data['timeAdded'] = timeAdded;
     data['timeUpdated'] = timeUpdated;
     data['views'] = views;
     data['id_special'] = idSpecial;
     data['id_category'] = idCategory;
-    data['id_user'] = idUser;
+    data['user_id'] = idUser;
     data['id_city'] = idCity;
     data['id_fav'] = id_fav;
     data['isFav'] = isFav;
-    data['id'] = id_ads;
+    data['ads_id'] = id_ads;
     data['phone_faved_user'] = phone_faved_user;
     data['state_aqar'] = state_aqar;
     data['vr_id_description'] = vr_id_description;

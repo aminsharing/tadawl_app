@@ -5,6 +5,7 @@ import 'package:search_map_place/search_map_place.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 
 class SearchField extends StatelessWidget {
   const SearchField({
@@ -29,7 +30,7 @@ class SearchField extends StatelessWidget {
           onSelected: (Place place) async {
             Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
             await place.geolocation.then((value) async{
-              Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(CameraPosition(target: value.coordinates, zoom: 13));
+              Provider.of<LocaleProvider>(context, listen: false).currentArea = CameraPosition(target: value.coordinates, zoom: 13);
               if(isMainPage){
                 Provider.of<MainPageProvider>(context, listen: false).animateToLocation(value.coordinates, 13);
               }

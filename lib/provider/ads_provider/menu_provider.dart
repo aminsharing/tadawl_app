@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
+import 'package:tadawl_app/provider/bottom_nav_provider.dart';
+import 'package:tadawl_app/screens/general/regions.dart';
 
 class MenuProvider extends ChangeNotifier{
 
@@ -19,6 +22,7 @@ class MenuProvider extends ChangeNotifier{
   final List<AdsModel> _MenuAds = [];
   final ScrollController _menuController = ScrollController();
   int _expendedMenuListCount = 20;
+  bool _noAdsInRegion = false;
   // int _filterSearchDrawer;
   // int _menuMainFilterAds;
   // int _menuFilter;
@@ -149,18 +153,35 @@ class MenuProvider extends ChangeNotifier{
   //   // }
   // }
 
-  void getMenuAds(List<dynamic> _MenuAdsData){
+  void getMenuAds(BuildContext context, List<dynamic> _MenuAdsData){
     _MenuAds.clear();
     _MenuAdsData.forEach((element) {
       _MenuAds.add(AdsModel.ads(element));
     });
-    notifyListeners();
+    Future.delayed(Duration(seconds: 3), (){
+      if(_MenuAds.isEmpty){
+        _noAdsInRegion = true;
+        notifyListeners();
+        Future.delayed(Duration(seconds: 1), (){
+          Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(1);
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Regions()),
+          );
+        });
+      }else{
+        _noAdsInRegion = false;
+        notifyListeners();
+      }
+    });
+    // notifyListeners();
   }
 
   // bool get waitMenu => _waitMenu;
   List<AdsModel> get menuAds => _MenuAds;
   ScrollController get menuController => _menuController;
   int get expendedMenuListCount => _expendedMenuListCount;
+  bool get noAdsInRegion => _noAdsInRegion;
   // int get filterSearchDrawer => _filterSearchDrawer;
   // int get menuMainFilterAds => _menuMainFilterAds;
   // int get menuFilterSearch => _menuFilter;

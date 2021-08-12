@@ -8,6 +8,7 @@ import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/bottom_nav_provider.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/map_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -36,85 +37,21 @@ class MapWidget extends StatelessWidget {
                 //     CameraPosition(target: mapProv.initialCameraPosition,
                 //         zoom: mapProv.zoom));
               }
-              // if (mainPage.inItMainPageDone == 0) {
-              //   mainPage.setIdCategorySearch('0');
-              //   Provider.of<MenuProvider>(context, listen: false)
-              //       .setFilterSearchDrawer(1);
-              //   Provider.of<MenuProvider>(context, listen: false)
-              //       .setMenuMainFilterAds(2);
-              //   Provider.of<MenuProvider>(context, listen: false)
-              //       .getAdsInfo(
-              //       context,
-              //       mainPage.idCategorySearch,
-              //       mainPage.selectedCategory,
-              //       mainPage.minPriceSearchDrawer,
-              //       mainPage.maxPriceSearchDrawer,
-              //       mainPage.minSpaceSearchDrawer,
-              //       mainPage.maxSpaceSearchDrawer,
-              //       mainPage.selectedTypeAqarSearchDrawer,
-              //       mainPage.interfaceSelectedSearchDrawer,
-              //       mainPage.selectedPlanSearchDrawer,
-              //       mainPage.ageOfRealEstateSelectedSearchDrawer,
-              //       mainPage.selectedApartmentsSearchDrawer,
-              //       mainPage.floorSelectedSearchDrawer,
-              //       mainPage.selectedLoungesSearchDrawer,
-              //       mainPage.selectedRoomsSearchDrawer,
-              //       mainPage.storesSelectedSearchDrawer,
-              //       mainPage.streetWidthSelectedSearchDrawer,
-              //       mainPage.selectedToiletsSearchDrawer,
-              //       mainPage.treesSelectedSearchDrawer,
-              //       mainPage.wellsSelectedSearchDrawer,
-              //       mainPage.bool_feature1SearchDrawer.toString(),
-              //       mainPage.bool_feature2SearchDrawer.toString(),
-              //       mainPage.bool_feature3SearchDrawer.toString(),
-              //       mainPage.bool_feature4SearchDrawer.toString(),
-              //       mainPage.bool_feature5SearchDrawer.toString(),
-              //       mainPage.bool_feature6SearchDrawer.toString(),
-              //       mainPage.bool_feature7SearchDrawer.toString(),
-              //       mainPage.bool_feature8SearchDrawer.toString(),
-              //       mainPage.bool_feature9SearchDrawer.toString(),
-              //       mainPage.bool_feature10SearchDrawer.toString(),
-              //       mainPage.bool_feature11SearchDrawer.toString(),
-              //       mainPage.bool_feature12SearchDrawer.toString(),
-              //       mainPage.bool_feature13SearchDrawer.toString(),
-              //       mainPage.bool_feature14SearchDrawer.toString(),
-              //       mainPage.bool_feature15SearchDrawer.toString(),
-              //       mainPage.bool_feature16SearchDrawer.toString(),
-              //       mainPage.bool_feature17SearchDrawer.toString(),
-              //       mainPage.bool_feature18SearchDrawer.toString(),
-              //       showOnMap: true
-              //   );
-              //   mainPage.setInItMainPageDone(1);
-              // }
               return Stack(
                 children: [
-                  // mainPage.initialCameraPosition != null ?
-                  // mapProv.getLoc();
-                  // TODO ADDED [Listener]
                   Listener(
                     onPointerMove: (move) {
-                      // print("move.distance ${move.size}");
                       mainPage.setMoveState(true);
                     },
                     onPointerUp: (move){
-                      if (mainPage.showDiaogSearchDrawer) {
-                        mainPage.setShowDiogFalse();
+                      if(mainPage.isMove){
+                        if(mainPage.showDiaogSearchDrawer){
+                          mainPage.setShowDiogFalse();
+                        }
+                        Provider.of<SearchDrawerProvider>(context, listen: false).getAdsList(context);
+                        mainPage.setMoveState(false);
                       }
                     },
-                    // onPointerUp: (move){
-                    //   if(mainPage.isMove){
-                    //     if(mainPage.showDiaogSearchDrawer){
-                    //       mainPage.setShowDiogFalse();
-                    //     }
-                    //     mainPage
-                    //         .getAdsList(
-                    //         context, mainPage.idCategorySearch, null, null, null, null, null, null, null, null, null, null,
-                    //         null, null, null, null, null, null, null, null, null, null, null, null,
-                    //         null, null, null, null, null, null, null, null, null, null, null, null,
-                    //         null, null);
-                    //     mainPage.setMoveState(false);
-                    //   }
-                    // },
                     child:
                     (_region_position??mapProv.initialCameraPosition) == null
                         ?
@@ -141,9 +78,7 @@ class MapWidget extends StatelessWidget {
                             mainPage.setShowDiogFalse();
                           }
                         },
-                        initialCameraPosition: _region_position ??
-                            CameraPosition(target: mapProv.initialCameraPosition,
-                                zoom: mapProv.zoom),
+                        initialCameraPosition: _region_position ?? CameraPosition(target: mapProv.initialCameraPosition, zoom: mapProv.zoom),
                         mapType: MapType.normal,
                         onMapCreated: _onMapCreated,
                         markers: mainPage.markersMainPage.toSet(),
@@ -153,11 +88,11 @@ class MapWidget extends StatelessWidget {
                         zoomControlsEnabled: false,
                         scrollGesturesEnabled: true,
                         rotateGesturesEnabled: true,
-                        onCameraMove: (Cameraposioion) {
-                          // mainPage.getSelectedAreaAds(context, Cameraposioion);
-                          // mainPage.setCurrentCameraView(Cameraposioion);
-                          // mainPage.setSelectedArea(Cameraposioion);
-                          if (Cameraposioion.zoom <= 5) {
+                        onCameraMove: (cameraPosition) {
+                          final locale = Provider.of<LocaleProvider>(context, listen: false);
+                          locale.currentArea = cameraPosition;
+
+                          if (cameraPosition.zoom <= 5) {
                             Provider.of<BottomNavProvider>(context, listen: false)
                                 .setCurrentPage(1);
                             Navigator.pushReplacement(
@@ -166,20 +101,6 @@ class MapWidget extends StatelessWidget {
                                   builder: (context) => Regions()),
                             );
                           }
-                          // mainPage.updateInfoWindow(
-                          //     context,
-                          //     mainPage.mapControllerMainPAge,
-                          //     mainPage.SelectedAdsModelMainPage != null || mainPage.SelectedAdsModelMainPage != null
-                          //         ?
-                          //     LatLng(
-                          //         double.parse(mainPage
-                          //             .SelectedAdsModelMainPage.lat),
-                          //         double.parse(mainPage
-                          //             .SelectedAdsModelMainPage.lng))
-                          //         :
-                          //     LatLng(24.6313982,46.7247288),
-                          //     250,
-                          //     170);
                         },
                       ),
                     ),
@@ -188,14 +109,8 @@ class MapWidget extends StatelessWidget {
                   mainPage.showDiaogSearchDrawer
                       ?
                   Positioned(
-                    bottom: MediaQuery
-                        .of(context)
-                        .size
-                        .height * .2,
-                    left: MediaQuery
-                        .of(context)
-                        .size
-                        .width * .1,
+                    bottom: MediaQuery.of(context).size.height * .2,
+                    left: MediaQuery.of(context).size.width * .1,
                     child: Visibility(
                       visible: mainPage.showDiaogSearchDrawer,
                       child: Container(
@@ -368,12 +283,8 @@ class MapWidget extends StatelessWidget {
                                               ),
                                             ],
                                           ),
-                                          if (mainPage.SelectedAdsModelMainPage
-                                              .ads_city !=
-                                              null ||
-                                              mainPage.SelectedAdsModelMainPage
-                                                  .ads_neighborhood !=
-                                                  null)
+                                          if (mainPage.SelectedAdsModelMainPage.ads_city != null ||
+                                              mainPage.SelectedAdsModelMainPage.ads_neighborhood != null)
                                             Flexible(
                                               child: Text(
                                                 '${mainPage
@@ -437,17 +348,30 @@ class MapWidget extends StatelessWidget {
                     ),
                   )
                       :
-                  Container()
-
-                  //Center(
-                  //               child: Text(
-                  //                 AppLocalizations.of(context).noAdsAvailable,
-                  //                 style: CustomTextStyle(
-                  //                   fontSize: 15,
-                  //                   color: Colors.white
-                  //                 ).getTextStyle(),
-                  //               ),
-                  //             )
+                  Container(),
+                  if(mainPage.adsOnMap != 0 && mainPage.allAds != 0)
+                    Padding(
+                    padding: const EdgeInsets.only(bottom: 30.0),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * .6,
+                        height: 30.0,
+                        decoration: BoxDecoration(
+                          color: Colors.black26,
+                          borderRadius: BorderRadius.circular(20.0)
+                        ),
+                        child: Center(
+                            child: Text(
+                              '${mainPage.adsOnMap != 1 ? mainPage.adsOnMap : 0} من ${mainPage.allAds} إعلان. قرب أكثر لجميع الإعلانات ',
+                            style: CustomTextStyle(
+                              color: Colors.white.withOpacity(0.9),
+                              fontSize: 11
+                            ).getTextStyle(),)
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               );
             }),

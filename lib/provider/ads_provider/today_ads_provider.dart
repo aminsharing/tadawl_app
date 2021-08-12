@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 
 class TodayAdsProvider extends ChangeNotifier{
 
-  TodayAdsProvider(){
+  TodayAdsProvider(BuildContext context){
     print('init TodayAdsProvider');
     initStateSelected();
-    getTodayAdsList();
+    getTodayAdsList(context);
   }
 
   @override
@@ -33,13 +35,13 @@ class TodayAdsProvider extends ChangeNotifier{
     }
   }
 
-  void updateSelected5(int index) {
+  void updateSelected5(BuildContext context, int index) {
     for (var buttonIndex5 = 0;
     buttonIndex5 < _isSelected5.length;
     buttonIndex5++) {
       if (buttonIndex5 == index) {
         _isSelected5[buttonIndex5] = true;
-        getTodayAdsList();
+        getTodayAdsList(context);
         _filterCity = buttonIndex5 + 1;
       } else {
         _isSelected5[buttonIndex5] = false;
@@ -52,10 +54,12 @@ class TodayAdsProvider extends ChangeNotifier{
     _isSelected5[0] = true;
   }
 
-  void getTodayAdsList() {
+  void getTodayAdsList(BuildContext context) {
     Future.delayed(Duration(milliseconds: 0), () {
       _TodayAds.clear();
-      Api().getadsFunc().then((value) {
+      final locale = Provider.of<LocaleProvider>(context, listen: false);
+      print(locale.currentArea.zoom);
+      Api().getadsFunc(locale.currentArea.target, locale.currentArea.zoom.toString()).then((value) {
         _TodayAdsData = value;
         _TodayAdsData.forEach((element) {
           var now = DateTime.now();

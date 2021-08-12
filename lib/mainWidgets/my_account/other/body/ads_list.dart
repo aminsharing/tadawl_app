@@ -1,11 +1,10 @@
-import 'dart:math';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:tadawl_app/mainWidgets/ad_button.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 
@@ -14,6 +13,7 @@ class AdsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
     var mediaQuery = MediaQuery.of(context);
     return Consumer<MyAccountProvider>(builder: (context, avatar, child) {
       return Column(
@@ -47,241 +47,50 @@ class AdsList extends StatelessWidget {
           Column(
             children: [
               if (avatar.userAds.isNotEmpty)
-                Container(
-                  height: avatar.countUserAds() > 3 ? avatar.countUserAds() == avatar.expendedListCount ? avatar.expendedListCount * 165.0 : (avatar.expendedListCount * 150.0) - 50 : avatar.countUserAds() * 165.0,
-                  child: ListView.builder(
-                    itemCount: avatar.countUserAds() > avatar.expendedListCount-1 ? avatar.expendedListCount : avatar.countUserAds(),
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, i){
-                      if(i != avatar.countUserAds() -1){
-                        if(i == avatar.expendedListCount-1){
-                          return GestureDetector(
-                            onTap: (){
-                              if(avatar.countUserAds() < avatar.expendedListCount){
-                                avatar.setExpendedListCount(avatar.expendedListCount+5);
-                              }else{
-                                avatar.setExpendedListCount(avatar.countUserAds());
-                              }
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(50, 5, 50, 5),
-                              child: Icon(Icons.expand_more, size: 35,),
-                            ),
-                          );
-                        }
-                      }
+                Directionality(
+                  textDirection: locale.locale.toString() != 'en_US'
+                      ?
+                  TextDirection.ltr
+                      :
+                  TextDirection.rtl,
+                  child: Container(
+                    height: avatar.countUserAds() * (mediaQuery.size.width*.43),
+                    child: ListView.separated(
+                      itemCount: avatar.countUserAds(),
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, i){
+                        return AdButton(
+                          onPressed: () {
+                            Provider.of<MutualProvider>(context, listen: false)
+                                .getAllAdsPageInfo(
+                                context, avatar.userAds[i].idDescription);
+                            Provider.of<MutualProvider>(context, listen: false).getSimilarAdsList(context, avatar.userAds[i].idCategory, avatar.userAds[i].idDescription);
 
-                      return TextButton(
-                        onPressed: () {
-                          Provider.of<MutualProvider>(context, listen: false)
-                              .getAllAdsPageInfo(
-                              context, avatar.userAds[i].idDescription);
-                          Provider.of<MutualProvider>(context, listen: false).getSimilarAdsList(context, avatar.userAds[i].idCategory, avatar.userAds[i].idDescription);
-
-                          Future.delayed(Duration(seconds: 0), () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AdPage()),
-                            );
-                          });
-                        },
-                        child: Container(
-                          width: mediaQuery.size.width,
-                          height: 150.0,
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color(0xffa6a6a6),
-                                offset: const Offset(
-                                  0.0,
-                                  0.0,
-                                ),
-                                blurRadius: 7.0,
-                                spreadRadius: 2.0,
-                              ), //BoxShadow
-                              BoxShadow(
-                                color: Colors.white,
-                                offset: const Offset(0.0, 0.0),
-                                blurRadius: 0.0,
-                                spreadRadius: 0.0,
-                              ), //BoxShadow
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Stack(children: [
-                                Container(
-                                  width: 180.0,
-                                  height: 150.0,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: CachedNetworkImageProvider(
-                                          'https://tadawl-store.com/API/assets/images/ads/' +
-                                              avatar.userAds[i]
-                                                  .ads_image ??
-                                              ''),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(
-                                      Random().nextInt(50).toDouble(),
-                                      Random().nextInt(50).toDouble(),
-                                      5, 5),
-                                  child: Opacity(
-                                    opacity: 0.7,
-                                    child: Container(
-                                      width: 50.0,
-                                      height: 50.0,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: const CachedNetworkImageProvider(
-                                              'https://tadawl-store.com/API/assets/images/logo22.png'),
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ]),
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.start,
-                                      children: [
-                                        if (avatar.userAds[i].idSpecial ==
-                                            '1')
-                                          Padding(
-                                            padding:
-                                            const EdgeInsets.fromLTRB(
-                                                5, 0, 10, 0),
-                                            child: Icon(
-                                              Icons.verified,
-                                              color: Color(0xffe6e600),
-                                              size: 30,
-                                            ),
-                                          ),
-                                        Text(
-                                          avatar.userAds[i].title,
-                                          style: CustomTextStyle(
-
-                                            fontSize: 20,
-                                            color: const Color(0xff000000),
-                                          ).getTextStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          avatar.userAds[i].price,
-                                          style: CustomTextStyle(
-
-                                            fontSize: 15,
-                                            color: const Color(0xff00cccc),
-                                          ).getTextStyle(),
-                                        ),
-                                        Padding(
-                                          padding:
-                                          const EdgeInsets.fromLTRB(
-                                              0, 0, 5, 0),
-                                          child: Text(
-                                            AppLocalizations.of(context)
-                                                .rial,
-                                            style: CustomTextStyle(
-
-                                              fontSize: 15,
-                                              color:
-                                              const Color(0xff00cccc),
-                                            ).getTextStyle(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          avatar.userAds[i].space,
-                                          style: CustomTextStyle(
-
-                                            fontSize: 15,
-                                            color: const Color(0xff000000),
-                                          ).getTextStyle(),
-                                        ),
-                                        Padding(
-                                          padding:
-                                          const EdgeInsets.fromLTRB(
-                                              0, 0, 5, 0),
-                                          child: Text(
-                                            AppLocalizations.of(context).m2,
-                                            style: CustomTextStyle(
-
-                                              fontSize: 15,
-                                              color:
-                                              const Color(0xff000000),
-                                            ).getTextStyle(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          5, 0, 10, 0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                        children: [
-                                          if (avatar
-                                              .userAds[i].video.isNotEmpty)
-                                            Padding(
-                                              padding:
-                                              const EdgeInsets.fromLTRB(
-                                                  0, 0, 5, 0),
-                                              child: Icon(
-                                                Icons.videocam_outlined,
-                                                color: Color(0xff00cccc),
-                                                size: 30,
-                                              ),
-                                            ),
-                                          if (avatar.userAds[i].ads_city !=
-                                              null ||
-                                              avatar.userAds[i]
-                                                  .ads_neighborhood !=
-                                                  null)
-                                            Text(
-                                              '${avatar.userAds[i].ads_city} - ${avatar.userAds[i].ads_neighborhood}',
-                                              style: CustomTextStyle(
-
-                                                fontSize: 8,
-                                                color:
-                                                const Color(0xff000000),
-                                              ).getTextStyle(),
-                                              textAlign: TextAlign.right,
-                                            ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
+                            Future.delayed(Duration(seconds: 0), () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AdPage()),
+                              );
+                            });
+                          },
+                          ads_image: avatar.userAds[i].ads_image,
+                          title: avatar.userAds[i].title,
+                          idSpecial: avatar.userAds[i].idSpecial,
+                          price: avatar.userAds[i].price,
+                          space: avatar.userAds[i].space,
+                          ads_city: avatar.userAds[i].ads_city,
+                          ads_neighborhood: avatar.userAds[i].ads_neighborhood,
+                          ads_road: avatar.userAds[i].ads_road,
+                          video: avatar.userAds[i].video,
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return Divider(
+                          color: const Color(0xff212a37),
+                        );
+                      },
+                    ),
                   ),
                 )
               else

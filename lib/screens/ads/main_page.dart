@@ -15,7 +15,6 @@ import 'package:tadawl_app/mainWidgets/bottom_navigation_bar.dart';
 import 'package:tadawl_app/mainWidgets/custom_drawer.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
-import 'package:tadawl_app/provider/locale_provider.dart';
 //import 'package:tadawl_app/provider/user_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/provider/map_provider.dart';
@@ -25,7 +24,8 @@ class MainPage extends StatelessWidget {
   final CameraPosition _region_position;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final mainPageProvider = MainPageProvider();
+
+  final MainPageProvider mainPageProvider = MainPageProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -84,13 +84,6 @@ class MainPage extends StatelessWidget {
       ) ?? false;
     }
 
-    //var _phone = Provider.of<UserProvider>(context, listen: false).phone;
-    //mainPage.randomPosition(50);
-
-    var _lang = Provider.of<LocaleProvider>(context, listen: false).locale.toString();
-
-
-
     return ChangeNotifierProvider<MainPageProvider>(
       create: (_) => mainPageProvider,
       child: ChangeNotifierProvider<SearchDrawerProvider>(
@@ -109,48 +102,31 @@ class MainPage extends StatelessWidget {
             body: Stack(
               children: <Widget>[
                 ChangeNotifierProvider<MapProvider>(
-                  create: (_) => MapProvider(),
+                  create: (_) => MapProvider(context),
                   child: MapWidget(_region_position),
                 ),
                 // map ....................................
                 SliderWidget(),
                 // slider ....................................
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(100, 50, 20, 0),
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: 50,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: const Color(0x00000000),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: _lang != 'en_US'
-                              ? MainAxisAlignment.start
-                              : MainAxisAlignment.end,
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                // _scaffoldKey.currentState.openDrawer();
-                                _scaffoldKey.currentState.openEndDrawer();
-                              },
-                              child: Container(
-                                width: 50,
-                                height: 50.0,
-                                decoration: BoxDecoration(
-                                  color: Color(0xff00cccc),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  Icons.search_rounded,
-                                  color: Color(0xffffffff),
-                                ),
-                              ),
-                            ),
-                          ],
+                Positioned(
+                  top: 30.0,
+                  right: 20.0,
+                  child: TextButton(
+                    onPressed: () {
+                      // _scaffoldKey.currentState.openDrawer();
+                      _scaffoldKey.currentState.openEndDrawer();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: const Color(0xff2d3872), width: 1),
+                        shape: BoxShape.circle,
+                        color: const Color(0xff1f2835),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.search_rounded,
+                          color: Color(0xffffffff),
                         ),
                       ),
                     ),

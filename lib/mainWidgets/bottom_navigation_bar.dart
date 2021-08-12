@@ -19,37 +19,21 @@ class BottomNavigationBarApp extends StatelessWidget {
     Key key,
   }) : super(key: key);
 
-  /// This page to use in animations
-  // final pages = [
-  //   DiscussionList(),
-  //   // TestXX(),
-  //   Login(),
-  //   ChangeNotifierProvider<MenuProvider>(
-  //     create: (_) => MenuProvider(),
-  //     child: ChangeNotifierProvider<SearchDrawerProvider>(
-  //       create: (_) => SearchDrawerProvider(),
-  //       child: Menu(),
-  //     ),
-  //   ),
-  // ];
-
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
     final local = Provider.of<LocaleProvider>(context, listen: false);
     // ignore: omit_local_variable_types
     final MsgProvider msgProvider = MsgProvider(local.phone, null);
-    // final msgProv = Provider.of<MsgProvider>(context, listen: false);
-    // final menuProv = Provider.of<MenuProvider>(context, listen: false);
 
 
 
     return Scaffold(
-      backgroundColor: const Color(0xffffffff),
+      backgroundColor: Colors.transparent,
       body: Container(
         height: mediaQuery.size.height * 0.11,
         width: mediaQuery.size.width,
-        color: Color(0xff00cccc),
+        color: const Color(0xff212a37),
         child: Consumer<BottomNavProvider>(builder: (ctxt, btmNav, child){
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -57,17 +41,25 @@ class BottomNavigationBarApp extends StatelessWidget {
                 Expanded(
                   child: TextButton(
                     onPressed: () {
-
                       // Scaffold.of(context).openEndDrawer();
                       Scaffold.of(context).openDrawer();
                       // Provider.of<AdsProvider>(context, listen: false).update();
                     },
                     child: Column(
                       children: [
-                        Icon(
-                          Icons.add_circle_outline,
-                          color: Color(0xffffffff),
-                          size: 25,
+                        Container(
+                          decoration: BoxDecoration(
+                            color: const Color(0xff1f2835),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Icon(
+                              Icons.add_circle_outline,
+                              color: Color(0xffffffff),
+                              size: 25,
+                            ),
+                          ),
                         ),
                         Text(
                           AppLocalizations.of(context).myAccount,
@@ -88,19 +80,7 @@ class BottomNavigationBarApp extends StatelessWidget {
                       if(btmNav.currentPage == 0){
                         // mainPageProv.animateLocation(context);
                       }else{
-                        // mainPageProv.removeMarkers();
                         btmNav.setCurrentPage(0);
-                        // CHANGED: To disappear diog if it shown
-                        // if (mainPageProv.showDiaogSearchDrawer) {
-                        //   mainPageProv.setShowDiogFalse();
-                        // }
-                        // CHANGED: To clear expended menu list count
-                        // menuProv.clearExpendedMenuListCount();
-                        // CHANGED: To reset region position
-                        // mainPageProv.setRegionPosition(null);
-                        // CHANGED: To reload ads markers on map
-                        // mainPageProv.setInItMainPageDone(0);
-                        // CHANGED: To get current position before go to main page
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (context) => MainPage(null)),
@@ -109,10 +89,20 @@ class BottomNavigationBarApp extends StatelessWidget {
                     },
                     child: Column(
                       children: [
-                        Icon(
-                          Icons.location_on,
-                          color: btmNav.currentPage == 0 ? Colors.black45 : Color(0xffffffff),
-                          size: btmNav.currentPage == 0 ? 30 : 25,
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0xff2d3872), width: 1),
+                            color: btmNav.currentPage == 0 ? const Color(0xff04B404) : const Color(0xff1f2835),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Icon(
+                              Icons.location_on,
+                              color: Color(0xffffffff),
+                              size: 24,
+                            ),
+                          ),
                         ),
                         Text(
                           AppLocalizations
@@ -121,7 +111,7 @@ class BottomNavigationBarApp extends StatelessWidget {
                           style: CustomTextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 12,
-                            color: btmNav.currentPage == 0 ? Colors.black45 : Color(0xffffffff),
+                            color: btmNav.currentPage == 0 ? const Color(0xff04B404) :  Color(0xffffffff),
                           ).getTextStyle(),
                           textAlign: TextAlign.center,
                         ),
@@ -134,13 +124,6 @@ class BottomNavigationBarApp extends StatelessWidget {
                     onPressed: () {
                       if(btmNav.currentPage != 1){
                         btmNav.setCurrentPage(1);
-                        // CHANGED: To disappear diog if it shown
-                        // if (mainPageProv.showDiaogSearchDrawer) {
-                        //   mainPageProv.setShowDiogFalse();
-                        // }
-                        // CHANGED: To clear expended menu list count
-                        // menuProv.clearExpendedMenuListCount();
-                        // mainPageProv.removeMarkers();
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (context) => Regions()),
@@ -149,10 +132,20 @@ class BottomNavigationBarApp extends StatelessWidget {
                     },
                     child: Column(
                       children: [
-                        Icon(
-                          Icons.map,
-                          color: btmNav.currentPage == 1 ? Colors.black45 : Color(0xffffffff),
-                          size: btmNav.currentPage == 1 ? 30 : 25,
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0xff2d3872), width: 1),
+                            color: btmNav.currentPage == 1 ? const Color(0xff04B404) : const Color(0xff1f2835),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Icon(
+                              Icons.map,
+                              color: Color(0xffffffff),
+                              size: 24,
+                            ),
+                          ),
                         ),
                         Text(
                           AppLocalizations
@@ -161,7 +154,7 @@ class BottomNavigationBarApp extends StatelessWidget {
                           style: CustomTextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 12,
-                            color: btmNav.currentPage == 1 ? Colors.black45 : Color(0xffffffff),
+                            color: btmNav.currentPage == 1 ? const Color(0xff04B404) : Color(0xffffffff),
                           ).getTextStyle(),
                           textAlign: TextAlign.center,
                         ),
@@ -174,16 +167,6 @@ class BottomNavigationBarApp extends StatelessWidget {
                     onPressed: () async{
                       if(btmNav.currentPage != 2){
                         btmNav.setCurrentPage(2);
-                        // CHANGED: To disappear diog if it shown
-                        // if (mainPageProv
-                        //     .showDiaogSearchDrawer) {
-                        //   mainPageProv
-                        //       .setShowDiogFalse();
-                        // }
-                        // CHANGED: To clear expended menu list count
-                        // menuProv.clearExpendedMenuListCount();
-                        // CHANGED: To clear office markers from map
-                        // mainPageProv.removeMarkers();
                         await Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -193,10 +176,20 @@ class BottomNavigationBarApp extends StatelessWidget {
                     },
                     child: Column(
                       children: [
-                        Icon(
-                          Icons.home_work,
-                          color: btmNav.currentPage == 2 ? Colors.black45 : Color(0xffffffff),
-                          size: btmNav.currentPage == 2 ? 30 : 25,
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0xff2d3872), width: 1),
+                            color: btmNav.currentPage == 2 ? const Color(0xff04B404) : const Color(0xff1f2835),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Icon(
+                              Icons.home_work,
+                              color: Color(0xffffffff),
+                              size: 24,
+                            ),
+                          ),
                         ),
                         Flexible(
                           child: Text(
@@ -206,7 +199,7 @@ class BottomNavigationBarApp extends StatelessWidget {
                             style: CustomTextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 12,
-                              color: btmNav.currentPage == 2 ? Colors.black45 : Color(0xffffffff),
+                              color: btmNav.currentPage == 2 ? const Color(0xff04B404) : Color(0xffffffff),
                             ).getTextStyle(),
                             textAlign: TextAlign.center,
                           ),
@@ -218,19 +211,8 @@ class BottomNavigationBarApp extends StatelessWidget {
                 Expanded(
                   child: TextButton(
                     onPressed: () {
-                      // CHANGED: To disappear diog if it shown
-                      // if (mainPageProv.showDiaogSearchDrawer) {
-                      //   mainPageProv.setShowDiogFalse();
-                      // }
-                      // CHANGED: To clear ads markers from map
-                      // mainPageProv.removeMarkers();
-                      // CHANGED: To clear expended menu list count
-                      // menuProv.clearExpendedMenuListCount();
                       final locale = Provider.of<LocaleProvider>(context, listen: false);
                       if(locale.phone != null) {
-                        // btmNav.setCurrentPage(3);
-                        // CHANGED
-                        // Provider.of<MsgProvider>(context, listen: false).getConvInfo(context, _phone);
                         Navigator.push(context, MaterialPageRoute(builder: (context) =>
                             ChangeNotifierProvider<MsgProvider>(
                               create: (_) => msgProvider,
@@ -251,11 +233,21 @@ class BottomNavigationBarApp extends StatelessWidget {
                           children: [
                             Align(
                               alignment: Alignment.center,
-                              child: Icon(
-                                Icons.message_rounded,
-                                color: btmNav.currentPage == 3 ? Colors.black45 : Color(0xffffffff),
-                          size: btmNav.currentPage == 3 ? 30 : 25,
-                        ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: const Color(0xff2d3872), width: 1),
+                                  color: btmNav.currentPage == 3 ? const Color(0xff04B404) : const Color(0xff1f2835),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Icon(
+                                    Icons.message_rounded,
+                                    color: Color(0xffffffff),
+                                    size: 24,
+                                  ),
+                                ),
+                              ),
                             ),
                             // if(msgProv.unreadMsgs != 0)
                             //   Align(
@@ -298,7 +290,7 @@ class BottomNavigationBarApp extends StatelessWidget {
                             style: CustomTextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 12,
-                              color: btmNav.currentPage == 3 ? Colors.black45 : Color(0xffffffff),
+                              color: btmNav.currentPage == 3 ? const Color(0xff04B404) : Color(0xffffffff),
                             ).getTextStyle(),
                             textAlign: TextAlign.center,
                           ),
@@ -312,13 +304,6 @@ class BottomNavigationBarApp extends StatelessWidget {
                     onPressed: () {
                       if(btmNav.currentPage != 4){
                         btmNav.setCurrentPage(4);
-                        // CHANGED: To disappear diog if it shown
-                        // if (mainPageProv.showDiaogSearchDrawer) {
-                        //   mainPageProv.setShowDiogFalse();
-                        // }
-                        // CHANGED: To clear expended menu list count
-                        // menuProv.clearExpendedMenuListCount();
-                        // mainPageProv.removeMarkers();
                         Navigator.pushReplacement(
                           context,
                             MaterialPageRoute(builder: (context) => ChangeNotifierProvider<MenuProvider>(
@@ -333,17 +318,27 @@ class BottomNavigationBarApp extends StatelessWidget {
                     },
                     child: Column(
                       children: [
-                        Icon(
-                          Icons.menu,
-                          color: btmNav.currentPage == 4 ? Colors.black45 : Color(0xffffffff),
-                          size: btmNav.currentPage == 4 ? 30 : 25,
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: const Color(0xff2d3872), width: 1),
+                            color: btmNav.currentPage == 4 ? const Color(0xff04B404) : const Color(0xff1f2835),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Icon(
+                              Icons.menu,
+                              color: Color(0xffffffff),
+                              size: 24,
+                            ),
+                          ),
                         ),
                         Text(
                           AppLocalizations.of(context).menu,
                           style: CustomTextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 12,
-                            color: btmNav.currentPage == 4 ? Colors.black45 : Color(0xffffffff),
+                            color: btmNav.currentPage == 4 ? const Color(0xff04B404) : Color(0xffffffff),
                           ).getTextStyle(),
                           textAlign: TextAlign.center,
                         ),
@@ -358,24 +353,4 @@ class BottomNavigationBarApp extends StatelessWidget {
       ),
     );
   }
-
-  //  this function make animations of routes
-  // Route _createRoute(int i) {
-  //   return PageRouteBuilder(
-  //       pageBuilder: (context, animation, secondaryAnimation) => pages[i],
-  //       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-  //
-  //         return FadeTransition(
-  //           opacity: animation,
-  //           child: child,
-  //         );
-  //       },
-  //       transitionDuration: Duration(milliseconds: 500)
-  //   );
-  // }
-  // PageTransition _createRoute(int i) {
-  //   return PageTransition(type: PageTransitionType.bottomToTop,
-  //       duration: Duration(milliseconds: 10),
-  //       child: pages[i]);
-  // }
 }

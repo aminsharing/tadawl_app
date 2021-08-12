@@ -8,6 +8,8 @@ import 'package:tadawl_app/mainWidgets/my_account/other/body/avatar_info.dart';
 import 'package:tadawl_app/mainWidgets/my_account/other/body/certified.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 
+import 'office_location.dart';
+
 
 class OtherAccount extends StatelessWidget {
   const OtherAccount({
@@ -29,7 +31,7 @@ class OtherAccount extends StatelessWidget {
         actions: [
           AccountActions()
         ],
-        backgroundColor: Color(0xff00cccc),
+        backgroundColor: const Color(0xff00cccc),
       ),
       body:
       // Provider.of<UserMutualProvider>(context, listen: true).wait
@@ -43,6 +45,8 @@ class OtherAccount extends StatelessWidget {
             children: [
               AvatarInfo(),
               About(),
+              OfficeLocation(),
+              SizedBox(height: 10.0,),
               Certified(),
               AdsList(),
             ],

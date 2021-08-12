@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:tadawl_app/mainWidgets/custom_drawer.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
@@ -22,63 +21,6 @@ class DiscussionList extends StatelessWidget {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     return Consumer<MsgProvider>(builder: (context, convList, child) {
 
-
-      // Future<bool> _onBackPressed() {
-      //   return showDialog(
-      //     context: context,
-      //     builder: (context) => AlertDialog(
-      //       title: Text(
-      //         AppLocalizations.of(context).closeApp,
-      //         style: CustomTextStyle(
-      //           fontSize: 20,
-      //           color: const Color(0xff00cccc),
-      //         ).getTextStyle(),
-      //         textAlign: TextAlign.right,
-      //       ),
-      //       content: Text(
-      //         AppLocalizations.of(context).areYouSureCloseApp,
-      //         style: CustomTextStyle(
-      //
-      //           fontSize: 17,
-      //           color: const Color(0xff000000),
-      //         ).getTextStyle(),
-      //         textAlign: TextAlign.right,
-      //       ),
-      //       actions: <Widget>[
-      //         GestureDetector(
-      //           onTap: () => SystemNavigator.pop(),
-      //           child: Padding(
-      //             padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
-      //             child: Text(
-      //               AppLocalizations.of(context).yes,
-      //               style: CustomTextStyle(
-      //                 fontSize: 17,
-      //                 color: const Color(0xff000000),
-      //               ).getTextStyle(),
-      //               textAlign: TextAlign.left,
-      //             ),
-      //           ),
-      //         ),
-      //         GestureDetector(
-      //           onTap: () => Navigator.of(context).pop(false),
-      //           child: Padding(
-      //             padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
-      //             child: Text(
-      //               AppLocalizations.of(context).no,
-      //               style: CustomTextStyle(
-      //                 fontSize: 17,
-      //                 color: const Color(0xff000000),
-      //               ).getTextStyle(),
-      //               textAlign: TextAlign.right,
-      //             ),
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ) ??
-      //       false;
-      // }
-
       var mediaQuery = MediaQuery.of(context);
       
       //convList.getConvInfo(context);
@@ -91,27 +33,24 @@ class DiscussionList extends StatelessWidget {
 
       return Scaffold(
         backgroundColor: const Color(0xffffffff),
-        drawer: Drawer(
-          child: CustomDrawer(),
-        ),
+        // drawer: Drawer(
+        //   child: CustomDrawer(),
+        // ),
         appBar: AppBar(
           centerTitle: true,
           toolbarHeight: 65.0,
           leadingWidth: 100,
           backgroundColor: const Color(0xff00cccc),
-          leading: Padding(
-            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-            child: IconButton(
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: Color(0xffffffff),
-                size: 40,
-              ),
-              onPressed: () {
-                //mainChat.closeStreamChat();
-                Navigator.pop(context);
-              },
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Color(0xffffffff),
+              size: 40,
             ),
+            onPressed: () {
+              //mainChat.closeStreamChat();
+              Navigator.pop(context);
+            },
           ),
           title: Text(
             AppLocalizations.of(context).messages,

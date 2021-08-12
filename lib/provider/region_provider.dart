@@ -105,11 +105,7 @@ class RegionProvider extends ChangeNotifier {
             markerId: MarkerId(city.name),// d46d1
             position: city.position,
             onTap: () {
-              // Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
-              // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
-              // Provider.of<MainPageProvider>(context, listen: false).clearAdsOnMap();
-              // Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(CameraPosition(target: city.position, zoom: city.zoom));
-              // Provider.of<MainPageProvider>(context, listen: false).setSelectedArea(CameraPosition(target: city.position, zoom: city.zoom));
+              Provider.of<LocaleProvider>(context, listen: false).currentArea = CameraPosition(target: city.position, zoom: city.zoom);
               Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
                 Navigator.pushReplacement(
                   context,

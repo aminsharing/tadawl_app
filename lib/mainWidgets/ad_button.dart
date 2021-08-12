@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'custom_text_style.dart';
 
 class AdButton extends StatelessWidget {
@@ -16,7 +17,11 @@ class AdButton extends StatelessWidget {
     @required this.space,
     @required this.ads_city,
     @required this.ads_neighborhood,
+    @required this.ads_road,
     @required this.video,
+    this.timeUpdated,
+    this.updateBtn = false,
+    this.updateBtnPressed,
   }) : super(key: key);
   final Function onPressed;
   final String ads_image;
@@ -26,7 +31,11 @@ class AdButton extends StatelessWidget {
   final String space;
   final String ads_city;
   final String ads_neighborhood;
+  final String ads_road;
   final String video;
+  final String timeUpdated;
+  final bool updateBtn;
+  final Function updateBtnPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -35,34 +44,14 @@ class AdButton extends StatelessWidget {
       onPressed: onPressed,
       child: Container(
         width: mediaQuery.size.width,
-        height: 150.0,
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Color(0xff8d8d8d),
-              offset: const Offset(
-                0.0,
-                0.0,
-              ),
-              blurRadius: 0.0,
-              spreadRadius: 1.0,
-            ), //BoxShadow
-            BoxShadow(
-              color: Colors.white,
-              offset: const Offset(0.0, 0.0),
-              blurRadius: 0.0,
-              spreadRadius: 0.0,
-            ), //BoxShadow
-          ],
-        ),
+        height: mediaQuery.size.width*.34,
         child: Row(
-          mainAxisAlignment:
-          MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Stack(children: [
               Container(
-                width: 180.0,
-                height: 150.0,
+                width: mediaQuery.size.width*.34,
+                height: mediaQuery.size.width*.34,
                 child: CachedNetworkImage(
                   placeholder: (_, url) => Center(
                       child: CircularProgressIndicator()),
@@ -93,125 +82,181 @@ class AdButton extends StatelessWidget {
                 ),
               ),
             ]),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment:
-                MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment.start,
-                    children: [
-                      Text(title,
-                        style: CustomTextStyle(
-                          fontSize: 20,
+            if (idSpecial == '1')
+              Padding(
+                padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
+                child: Icon(
+                  Icons.verified,
+                  color:
+                  Color(0xffe6e600),
+                  size: 30,
+                ),
+              ),
+            if(updateBtn)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                    10, 5, 10, 5),
+                child:
+                DateTime.now().difference(DateTime.parse(timeUpdated)).inMinutes - 180 > 60
+                    ?
+                TextButton(
+                  onPressed: updateBtnPressed,
+                  child: Container(
+                    width: mediaQuery.size.width *
+                        0.15,
+                    height: 35.0,
+                    decoration: BoxDecoration(
+                      borderRadius:
+                      BorderRadius.circular(
+                          5.0),
+                      border: Border.all(
+                          width: 1.0,
                           color: const Color(
-                              0xff000000),
+                              0xff3f9d28)),
+                    ),
+                    child: Center(
+                      child: Text(
+                        AppLocalizations.of(
+                            context)
+                            .updateAds,
+                        style:
+                        CustomTextStyle(
+
+                          fontSize: 15,
+                          color: const Color(
+                              0xff3f9d28),
+                        ).getTextStyle(),
+                        textAlign:
+                        TextAlign.center,
+                      ),
+                    ),
+                  ),
+                )
+                    :
+                TextButton(
+                  onPressed: (){
+                    Fluttertoast.showToast(
+                        msg:
+                        'ستتمكن من التحديث بعد ${60-(DateTime.now().difference(DateTime.parse(timeUpdated)).inMinutes - 180)} دقيقة',
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        textColor: Colors.white,
+                        fontSize: 15.0);
+                  },
+                  child: Container(
+                    width: mediaQuery.size.width *
+                        0.15,
+                    height: 35.0,
+                    decoration: BoxDecoration(
+                      borderRadius:
+                      BorderRadius.circular(
+                          5.0),
+                      border: Border.all(
+                          width: 1.0,
+                          color: Colors.grey),
+                    ),
+                    child: Center(
+                      child: Text(
+                        AppLocalizations.of(
+                            context)
+                            .updateAds,
+                        style:
+                        CustomTextStyle(
+
+                          fontSize: 15,
+                          color: Colors.grey,
+                        ).getTextStyle(),
+                        textAlign:
+                        TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(title??'',
+                  style: CustomTextStyle(
+                    fontSize: 20,
+                    color: const Color(
+                        0xff000000),
+                  ).getTextStyle(),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                      child: Text(
+                        AppLocalizations.of(context).rial,
+                        style: CustomTextStyle(
+                          fontSize: 15,
+                          color: const Color(0xff00cccc),
                         ).getTextStyle(),
                       ),
-                      if (idSpecial == '1')
+                    ),
+                    Text(
+                      price,
+                      style: CustomTextStyle(
+                        fontSize: 15,
+                        color: const Color(0xff00cccc),
+                      ).getTextStyle(),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10.0,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                      child: Text(
+                        AppLocalizations.of(context).m2,
+                        style: CustomTextStyle(
+                          fontSize: 15,
+                          color: const Color(0xff000000),
+                        ).getTextStyle(),
+                      ),
+                    ),
+                    Text(
+                      space,
+                      style: CustomTextStyle(
+                        fontSize: 15,
+                        color: const Color(0xff000000),
+                      ).getTextStyle(),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10.0,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      if (ads_city != null)
+                        Text(
+                          '$ads_city ${ads_neighborhood != null ? '-' + ads_neighborhood : ''} ${ads_road != null ? '-' + ads_road : ''}',
+                          style: CustomTextStyle(
+                            fontSize: 10,
+                            color: const Color(0xff000000),
+                          ).getTextStyle(),
+                        ),
+                      if (video != null && video.isNotEmpty)
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
+                          padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
                           child: Icon(
-                            Icons.verified,
-                            color:
-                            Color(0xffe6e600),
+                            Icons.videocam_outlined,
+                            color: Color(0xff00cccc),
                             size: 30,
                           ),
                         ),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        price,
-                        style: CustomTextStyle(
-                          fontSize: 15,
-                          color: const Color(
-                              0xff00cccc),
-                        ).getTextStyle(),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                        child: Text(
-                          AppLocalizations.of(context).rial,
-                          style: CustomTextStyle(
-                            fontSize: 15,
-                            color: const Color(
-                                0xff00cccc),
-                          ).getTextStyle(),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        space,
-                        style: CustomTextStyle(
-                          fontSize: 15,
-                          color: const Color(
-                              0xff000000),
-                        ).getTextStyle(),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets
-                            .fromLTRB(0, 0, 5, 0),
-                        child: Text(
-                          AppLocalizations.of(
-                              context)
-                              .m2,
-                          style:
-                          CustomTextStyle(
-
-                            fontSize: 15,
-                            color: const Color(
-                                0xff000000),
-                          ).getTextStyle(),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding:
-                    const EdgeInsets.fromLTRB(
-                        5, 0, 10, 0),
-                    child: Row(
-                      mainAxisAlignment:
-                      MainAxisAlignment.end,
-                      children: [
-                        if (ads_city != null || ads_neighborhood != null)
-                          Text(
-                            '$ads_city - $ads_neighborhood',
-                            style: CustomTextStyle(
-                              fontSize: 10,
-                              color: const Color(
-                                  0xff000000),
-                            ).getTextStyle(),
-                          ),
-                        if (video.isNotEmpty)
-                          Padding(
-                            padding:
-                            const EdgeInsets
-                                .fromLTRB(
-                                0, 0, 5, 0),
-                            child: Icon(
-                              Icons.videocam_outlined,
-                              color:
-                              Color(0xff00cccc),
-                              size: 30,
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),

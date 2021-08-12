@@ -54,6 +54,7 @@ class Login extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
+          leadingWidth: 70,
           title: Text(
             AppLocalizations
                 .of(context)
@@ -64,7 +65,17 @@ class Login extends StatelessWidget {
             ).getTextStyle(),
             textAlign: TextAlign.center,
           ),
-          leading: Container(),
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Color(0xffffffff),
+              size: 40,
+            ),
+            onPressed: () {
+              //mainChat.closeStreamChat();
+              Navigator.pop(context);
+            },
+          ),
           backgroundColor: Color(0xff00cccc),
         ),
         backgroundColor: const Color(0xffffffff),
@@ -214,7 +225,7 @@ class Login extends StatelessWidget {
                                   textColor: Colors.white,
                                   fontSize: 15.0);
 
-                              await Navigator.push(
+                              await Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => NewAcount()),
@@ -318,7 +329,7 @@ class Login extends StatelessWidget {
                         ),
                         child: TextButton(
                           onPressed: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => NewAcount()),

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
+import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/change_phone_provider.dart';
 import 'package:tadawl_app/screens/general/home.dart';
@@ -168,7 +169,7 @@ class ChangePhone extends StatelessWidget {
                             //           )
                             //   ),
                             // );
-
+                            Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
                             await Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(

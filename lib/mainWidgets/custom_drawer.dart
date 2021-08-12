@@ -66,7 +66,7 @@ class CustomDrawer extends StatelessWidget {
               }else{
                 locale.setLocale(L10n.all.last);
               }
-              // Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
+              Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => Home()),
@@ -288,7 +288,7 @@ class CustomDrawer extends StatelessWidget {
                             PageTransition(type: PageTransitionType.bottomToTop,
                                 duration: Duration(milliseconds: 10),
                                 child: ChangeNotifierProvider<SpecialOffersProvider>(
-                                  create: (_) => SpecialOffersProvider(),
+                                  create: (_) => SpecialOffersProvider(context),
                                   child: SpecialOffers(),
                                 ),),
                           );
@@ -303,7 +303,7 @@ class CustomDrawer extends StatelessWidget {
                             PageTransition(type: PageTransitionType.bottomToTop,
                                 duration: Duration(milliseconds: 10),
                                 child: ChangeNotifierProvider<TodayAdsProvider>(
-                                  create: (_) => TodayAdsProvider(),
+                                  create: (_) => TodayAdsProvider(context),
                                   child: TodayAds(),
                                 ),),
                           );

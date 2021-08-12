@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:tadawl_app/models/RegionModel.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 
 
 
@@ -360,38 +363,67 @@ class SearchDrawerProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  String getRadius(double val){
+    if(val >= 21){
+      return '0.5';
+    }else if(val > 15 && val < 21){
+      return '1';
+    }else if(val <= 15 && val > 14){
+      return '2';
+    }else if(val <= 14 && val > 13){
+      return '3';
+    }else if(val <= 13 && val > 12){
+      return '4';
+    }else if(val <= 12 && val > 11){
+      return '7';
+    }else if(val <= 11 && val > 10){
+      return '22';
+    }else if(val <= 10 && val > 9){
+      return '25';
+    }else if(val <= 9 && val > 8){
+      return '30';
+    }else{
+      return '0';
+    }
+  }
+
   void getAdsList(BuildContext context) {
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
+    // ignore: omit_local_variable_types
+    CameraPosition area = locale.currentArea ?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
+
+    // print("zoomm: ${getRadius(area.zoom)}");
     // ...... basic array ........
     if (_filter == null) {
       Future.delayed(Duration(milliseconds: 0), () {
-        Api().getadsFunc().then((value) {
+        Api().getadsFunc(area.target, getRadius(area.zoom)).then((value) {
           _AdsData = value;
           setMainAdsCount(_AdsData.length);
           Provider.of<MainPageProvider>(context, listen: false)
-              .getAds(context ,_AdsData);
+              .getAds(context ,_AdsData, area.zoom);
         });
       });
     }
     // ...... left slider category array ........
     else if (_filter == 1) {
       Future.delayed(Duration(milliseconds: 0), () {
-        Api().getFilterAdsFunc(_idCategorySearch)
+        Api().getFilterAdsFunc(_idCategorySearch, area.target, getRadius(area.zoom))
             .then((value) {
           _AdsData = value;
           setMainAdsCount(_AdsData.length);
           Provider.of<MainPageProvider>(context, listen: false)
-              .getAds(context ,_AdsData);
+              .getAds(context ,_AdsData, area.zoom);
         });
       });
     }
     // ...... two weeks ago array ........
     else if (_filter == 2) {
       Future.delayed(Duration(milliseconds: 0), () {
-        Api().getFilterTwoWeeksAgoFunc().then((value) {
+        Api().getFilterTwoWeeksAgoFunc(area.target, getRadius(area.zoom)).then((value) {
           _AdsData = value;
           setMainAdsCount(_AdsData.length);
           Provider.of<MainPageProvider>(context, listen: false)
-              .getAds(context ,_AdsData);
+              .getAds(context ,_AdsData, area.zoom);
         });
       });
     }
@@ -440,32 +472,35 @@ class SearchDrawerProvider extends ChangeNotifier{
           _AdsData = value;
           setMainAdsCount(_AdsData.length);
           Provider.of<MainPageProvider>(context, listen: false)
-              .getAds(context ,_AdsData);
+              .getAds(context ,_AdsData, area.zoom);
         });
       });
     }
   }
 
   void getMenuList(BuildContext context) {
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
+    // ignore: omit_local_variable_types
+    CameraPosition area = locale.currentArea?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
     // ...... basic array & latest menu ads array ........
     if (_menuFilter == null) {
       Future.delayed(Duration(milliseconds: 0), () {
-        Api().filterUpToDateAdsFunc().then((value) {
+        Api().filterUpToDateAdsFunc(area.target, getRadius(area.zoom)).then((value) {
           _MenuAdsData = value;
           setMenuAdsCount(_MenuAdsData.length);
           Provider.of<MenuProvider>(context, listen: false)
-              .getMenuAds(_MenuAdsData);
+              .getMenuAds(context, _MenuAdsData);
         });
       });
     }
     // ...... two weeks ago menu array ........
     else if (_menuFilter == 2) {
       Future.delayed(Duration(milliseconds: 0), () {
-        Api().getFilterTwoWeeksAgoFunc().then((value) {
+        Api().getFilterTwoWeeksAgoFunc(area.target, getRadius(area.zoom)).then((value) {
           _MenuAdsData = value;
           setMenuAdsCount(_MenuAdsData.length);
           Provider.of<MenuProvider>(context, listen: false)
-              .getMenuAds(_MenuAdsData);
+              .getMenuAds(context, _MenuAdsData);
         });
       });
     }
@@ -515,7 +550,7 @@ class SearchDrawerProvider extends ChangeNotifier{
           _MenuAdsData = value;
           setMenuAdsCount(_MenuAdsData.length);
           Provider.of<MenuProvider>(context, listen: false)
-              .getMenuAds(_MenuAdsData);
+              .getMenuAds(context, _MenuAdsData);
         });
       });
     }

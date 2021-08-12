@@ -8,6 +8,7 @@ import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/provider/ads_provider/update_img_vid_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/update_location_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
+import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/account/login.dart';
 import 'package:tadawl_app/screens/ads/update_details.dart';
@@ -183,6 +184,7 @@ class AdPageProvider extends ChangeNotifier{
           GestureDetector(
             onTap: () {
               deleteAdsFunc(context, idDescription);
+              Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
               Navigator.pushAndRemoveUntil(context,
               MaterialPageRoute(builder: (context) => Home()),
                       (route) => false

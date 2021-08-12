@@ -89,7 +89,7 @@ class MutualProvider extends ChangeNotifier{
       getFavStatus(context);
       Api().getAdsPageFunc(idDescription).then((value) {
         _AdsPage = AdsModel.adsPage(value);
-        _qrData = 'https://store.tadawl.com.sa/${_AdsPage.idDescription}/ads';
+        _qrData = 'https://tadawl-store.com/${_AdsPage.idAds}/ads';
         if(_AdsPage.video.isNotEmpty) {
           Provider.of<AdPageProvider>(context, listen: false).
           setVideoAdsPage(_AdsPage.video);

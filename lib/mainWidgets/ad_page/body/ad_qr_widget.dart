@@ -70,7 +70,7 @@ class AdQRWidget extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          '${mutualProv.qrData}',
+                          '${mutualProv.qrData.split('/')[2]}/${mutualProv.qrData.split('/')[3]}',
                           style: CustomTextStyle(
 
                             fontSize: 12,

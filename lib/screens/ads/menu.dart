@@ -11,6 +11,7 @@ import 'package:tadawl_app/mainWidgets/search_drawer.dart';
 import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 
 class Menu extends StatelessWidget {
@@ -21,6 +22,7 @@ class Menu extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
+    var locale = Provider.of<LocaleProvider>(context, listen: false);
     Provider.of<MenuProvider>(context, listen: false).setScrollListener();
     Provider.of<SearchDrawerProvider>(context, listen: false).setMenuFilter(null);
     Provider.of<SearchDrawerProvider>(context, listen: false).getMenuList(context);
@@ -87,59 +89,87 @@ class Menu extends StatelessWidget {
                 // menu.setMenuMainFilterAds(1);
                 Provider.of<SearchDrawerProvider>(context, listen: false).getMenuList(context);
               },
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                child: menu.menuAds.isEmpty
+              child: Directionality(
+                textDirection: locale.locale.toString() != 'en_US'
                     ?
-                Padding(
-                  padding: const EdgeInsets.all(50.0),
-                  child: Center(
-                      child: Container(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          backgroundColor: Color(0xff00cccc),
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                              Color(0xff1f2835)),
-                        ),
-                      )),
-                ) // menu.countMenuAds()
+                TextDirection.ltr
                     :
-                Container(
-                  width: mediaQuery.size.width,
-                  height: mediaQuery.size.height*.72,
-                  child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    physics: AlwaysScrollableScrollPhysics(),
-                    controller: menu.menuController,
-                    // itemCount: menu.countMenuAds(),
-                    itemCount: menu.countMenuAds() > 20 ? menu.expendedMenuListCount : menu.countMenuAds(),
-                    itemBuilder: (context,i){
-                      return AdButton(
-                        ads_image: menu.menuAds[i].ads_image,
-                        title: menu.menuAds[i].title,
-                        idSpecial: menu.menuAds[i].idSpecial,
-                        price: menu.menuAds[i].price,
-                        space: menu.menuAds[i].space,
-                        ads_city: menu.menuAds[i].ads_city,
-                        ads_neighborhood: menu.menuAds[i].ads_neighborhood,
-                        video: menu.menuAds[i].video,
-                        onPressed: () {
-                          // menu.getIsFav(context);
-                          menu.clearExpendedMenuListCount();
-                          Provider.of<MutualProvider>(context, listen: false)
-                              .getAllAdsPageInfo(context, menu.menuAds[i].idDescription);
-                          Provider.of<MutualProvider>(context, listen: false)
-                              .getSimilarAdsList(context, menu.menuAds[i].idCategory, menu.menuAds[i].idDescription);
-                          Future.delayed(Duration(seconds: 0), () {
-                            Navigator.push(
-                              context,
-                              PageTransition(type: PageTransitionType.bottomToTop,duration: Duration(milliseconds: 10), child: AdPage()),
-                            );
-                          });
-                        },
-                      );
+                TextDirection.rtl,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child:
+                  menu.menuAds.isEmpty
+                      ?
+                  menu.noAdsInRegion
+                      ?
+                  Center(
+                    child: Text(
+                      AppLocalizations
+                          .of(context)
+                          .noAdsAvailableNear,
+                      style: CustomTextStyle(
+                          fontSize: 15,
+                          color: Colors.black
+                      ).getTextStyle(),
+                    ),
+                  )
+                      :
+                  Padding(
+                    padding: const EdgeInsets.all(50.0),
+                    child: Center(
+                        child: Container(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            backgroundColor: Color(0xff00cccc),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Color(0xff1f2835)),
+                          ),
+                        )),
+                  ) // menu.countMenuAds()
+                      :
+                  Container(
+                    width: mediaQuery.size.width,
+                    height: mediaQuery.size.height*.72,
+                    child: ListView.separated(
+                      scrollDirection: Axis.vertical,
+                      padding: EdgeInsets.zero,
+                      physics: AlwaysScrollableScrollPhysics(),
+                      controller: menu.menuController,
+                      itemCount: menu.countMenuAds(),
+                      // itemCount: menu.countMenuAds() > 20 ? menu.expendedMenuListCount : menu.countMenuAds(),
+                      itemBuilder: (context,i){
+                        return AdButton(
+                          ads_image: menu.menuAds[i].ads_image,
+                          title: menu.menuAds[i].title,
+                          idSpecial: menu.menuAds[i].idSpecial,
+                          price: menu.menuAds[i].price,
+                          space: menu.menuAds[i].space,
+                          ads_city: menu.menuAds[i].ads_city,
+                          ads_neighborhood: menu.menuAds[i].ads_neighborhood,
+                          ads_road: menu.menuAds[i].ads_road,
+                          video: menu.menuAds[i].video,
+                          onPressed: () {
+                            // menu.getIsFav(context);
+                            menu.clearExpendedMenuListCount();
+                            Provider.of<MutualProvider>(context, listen: false)
+                                .getAllAdsPageInfo(context, menu.menuAds[i].idDescription);
+                            Provider.of<MutualProvider>(context, listen: false)
+                                .getSimilarAdsList(context, menu.menuAds[i].idCategory, menu.menuAds[i].idDescription);
+                            Future.delayed(Duration(seconds: 0), () {
+                              Navigator.push(
+                                context,
+                                PageTransition(type: PageTransitionType.bottomToTop,duration: Duration(milliseconds: 10), child: AdPage()),
+                              );
+                            });
+                          },
+                        );
+                      }, separatorBuilder: (BuildContext context, int index) {
+                        return Divider(
+                          color: const Color(0xff212a37),
+                        );
                     },
+                    ),
                   ),
                 ),
               ),

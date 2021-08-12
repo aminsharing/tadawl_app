@@ -85,6 +85,7 @@ class SpaceTable extends StatelessWidget {
             ],
           ),
         if (
+            adsPage.idInterface != '11' &&
             adsPage.idInterface != '0' &&
             adsPage.idInterface != 'null')
           TableRow(

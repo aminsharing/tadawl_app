@@ -239,12 +239,9 @@ class AdsPriceScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: TextFormField(
-                      controller: addAds.descControllerAddAds ??
-                          TextEditingController(text: ''),
+                      controller: addAds.descControllerAddAds ?? TextEditingController(text: ''),
                       decoration: InputDecoration(
-                        labelText: AppLocalizations
-                            .of(context)
-                            .writeAdditionalDetailsHere,
+                        labelText: AppLocalizations.of(context).writeAdditionalDetailsHere,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(0.0),
@@ -252,11 +249,10 @@ class AdsPriceScreen extends StatelessWidget {
                         ),
                       ),
                       style: CustomTextStyle(
-
                         fontSize: 15,
                         color: const Color(0xff989696),
                       ).getTextStyle(),
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.multiline,
                       minLines: 5,
                       maxLines: 15,
                       validator: (String value) {

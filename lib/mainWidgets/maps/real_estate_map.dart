@@ -33,6 +33,7 @@ class RealEstateMap extends StatelessWidget {
               myLocationEnabled: true,
               myLocationButtonEnabled: true,
               zoomControlsEnabled: false,
+              zoomGesturesEnabled: true,
               onCameraMove: (cameraPosition) {
                 if (cameraPosition.zoom <= 5) {
                   Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(1);

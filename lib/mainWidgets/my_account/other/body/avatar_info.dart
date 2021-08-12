@@ -19,6 +19,13 @@ class AvatarInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
+    var _lang = locale.locale.toString();
+    if (_lang != 'en_US') {
+      Jiffy.locale('ar');
+    }
+    else if (_lang == 'en_US') {
+      Jiffy.locale('en');
+    }
     var mediaQuery = MediaQuery.of(context);
     // Provider.of<MyAccountProvider>(context, listen: false).getUsersList(locale.phone);
     return SizedBox(

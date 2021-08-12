@@ -6,14 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:provider/provider.dart';
 import 'package:tadawl_app/models/RegionModel.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 
 class MapProvider extends ChangeNotifier{
 
-  MapProvider(){
+  MapProvider(BuildContext context){
     print('init MapProvider');
     getLocPer().then((value) {
-      getLoc();
+      getLoc(context);
     });
   }
 
@@ -45,11 +47,13 @@ class MapProvider extends ChangeNotifier{
     });
   }
 
-  Future<void> getLoc() async {
+  Future<void> getLoc(BuildContext context) async {
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
     if(_permissionGranted == PermissionStatus.granted){
       if(_serviceEnabled?? false){
         await _location.getLocation().then((LocationData location) async{
           _initialCameraPosition = LatLng(location.latitude, location.longitude);
+          locale.currentArea = CameraPosition(target: _initialCameraPosition, zoom: _zoom);
           _zoom = 17;
           var addresses = await Geocoder.google(
               'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',

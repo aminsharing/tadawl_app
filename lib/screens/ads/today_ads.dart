@@ -104,7 +104,7 @@ class TodayAds extends StatelessWidget {
                         ),
                       ],
                       onPressed: (int index) {
-                        todayAds.updateSelected5(index);
+                        todayAds.updateSelected5(context,index);
                       },
                       isSelected: todayAds.isSelected5,
                       color: const Color(0xff00cccc),

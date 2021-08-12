@@ -381,6 +381,6 @@
     "bigFile": "The video file size is large",
     "bigFileHint": "Video file size larger than 30MB Try a smaller file size",
     "noAdsAvailable": "There are no ads available",
-    "noAdsAvailableNear": "There are no ads available in this area"
-
+    "noAdsAvailableNear": "There are no ads available in this area",
+    "officeLoc": "Location of office"
 }

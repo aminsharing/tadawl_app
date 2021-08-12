@@ -28,23 +28,28 @@ class NewAcount extends StatelessWidget {
           backgroundColor: const Color(0xffffffff),
           appBar: AppBar(
             centerTitle: true,
-            title: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: Text(
-                  AppLocalizations
-                      .of(context)
-                      .newAccount,
-                  style: CustomTextStyle(
-                    fontSize: 30,
-                    color: const Color(0xffffffff),
-                  ).getTextStyle(),
-                  textAlign: TextAlign.center,
-                ),
-              ),
+            leadingWidth: 70,
+            title: Text(
+              AppLocalizations
+                  .of(context)
+                  .newAccount,
+              style: CustomTextStyle(
+                fontSize: 30,
+                color: const Color(0xffffffff),
+              ).getTextStyle(),
+              textAlign: TextAlign.center,
             ),
-            leading: Text(''),
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Color(0xffffffff),
+                size: 40,
+              ),
+              onPressed: () {
+                //mainChat.closeStreamChat();
+                Navigator.pop(context);
+              },
+            ),
             backgroundColor: Color(0xff00cccc),
           ),
           body: Container(
@@ -222,7 +227,7 @@ class NewAcount extends StatelessWidget {
                         ),
                         child: TextButton(
                           onPressed: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(builder: (context) => Login()),
                             );

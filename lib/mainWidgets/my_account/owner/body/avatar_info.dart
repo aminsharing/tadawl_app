@@ -15,6 +15,13 @@ class AvatarInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
+    var _lang = locale.locale.toString();
+    if (_lang != 'en_US') {
+      Jiffy.locale('ar');
+    }
+    else if (_lang == 'en_US') {
+      Jiffy.locale('en');
+    }
     var mediaQuery = MediaQuery.of(context);
     // Provider.of<MyAccountProvider>(context, listen: false).getUsersList(locale.phone);
     return SizedBox(
@@ -23,15 +30,6 @@ class AvatarInfo extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Consumer<MyAccountProvider>(builder: (context, userMutual, child) {
-
-          // userMutual.getUserAdsList(locale.phone);
-          var _lang = locale.locale.toString();
-          if (_lang != 'en_US') {
-            Jiffy.locale('ar');
-          }
-          else if (_lang == 'en_US') {
-            Jiffy.locale('en');
-          }
           return userMutual.users == null
               ?
           Center(child: CircularProgressIndicator(),)

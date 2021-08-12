@@ -143,12 +143,12 @@ class AddAdProvider extends ChangeNotifier{
     _RoomsAddAds= 0;
     _ToiletsAddAds= 0;
     _LoungesAddAds= 0;
-    _selectedTypeAqarAddAds= 0;
-    _selectedFamilyAddAds= 0;
+    _selectedTypeAqarAddAds= -1;
+    _selectedFamilyAddAds= -1;
     _interfaceSelectedAddAds= null;
     _totalSpaceAddAds= null;
     _totalPricAddAds= null;
-    _selectedPlanAddAds= 0;
+    _selectedPlanAddAds= -1;
     _id_category_finalAddAds= 0;
     _ads_cordinates_latAddAds= 0;
     _ads_cordinates_lngAddAds= 0;
