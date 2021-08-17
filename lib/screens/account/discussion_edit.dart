@@ -88,22 +88,19 @@ class DiscussionEdit extends StatelessWidget {
           backgroundColor: Color(0xff00cccc),
         ),
         backgroundColor: const Color(0xffffffff),
-        endDrawer: Drawer(
-          child: CustomDrawer(),
-        ),
         body: SingleChildScrollView(
           child: Column(
             children: [
               Container(
                 width: mediaQuery.size.width,
-                height: mediaQuery.size.height * 0.75,
+                height: mediaQuery.size.height,
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
                       convEdit.conv.isNotEmpty
                           ? Column(
                               children: [
-                                for (int i = 0; i < convEdit.countConvs(); i++)
+                                for (int i = 0; i < convEdit.conv.length; i++)
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.start,
@@ -281,9 +278,6 @@ class DiscussionEdit extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: SizedBox(
-            height: mediaQuery.size.height * 0.11,
-            child: BottomNavigationBarApp()),
       );
   }
     );

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:tadawl_app/provider/bottom_nav_provider.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/general/home.dart';
 
 class TransferFormProvider extends ChangeNotifier{
@@ -17,7 +17,7 @@ class TransferFormProvider extends ChangeNotifier{
     super.dispose();
   }
 
-  final List<bool> _isSelected2 = List.generate(2, (_) => false);
+  final List<bool> _isSelected2 = List.generate(3, (_) => false);
   int _selectedNav2;
   int _radioValue1 = -1;
   File _imageInvoice;
@@ -90,10 +90,7 @@ class TransferFormProvider extends ChangeNotifier{
       String radioValue1,
       File imageInvoice) async {
     Future.delayed(Duration(seconds: 0), () {
-      // Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
-      Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
-      // Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
-      // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
+      Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => Home()),

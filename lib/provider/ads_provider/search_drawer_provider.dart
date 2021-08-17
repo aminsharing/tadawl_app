@@ -392,7 +392,6 @@ class SearchDrawerProvider extends ChangeNotifier{
     // ignore: omit_local_variable_types
     CameraPosition area = locale.currentArea ?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
 
-    // print("zoomm: ${getRadius(area.zoom)}");
     // ...... basic array ........
     if (_filter == null) {
       Future.delayed(Duration(milliseconds: 0), () {

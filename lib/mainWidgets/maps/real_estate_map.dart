@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/models/RegionModel.dart';
-import 'package:tadawl_app/provider/bottom_nav_provider.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/office_marker_provider.dart';
 import 'package:tadawl_app/screens/general/regions.dart';
 
 class RealEstateMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Provider.of<OfficeMarkerProvider>(context, listen: false).getOfficeListMap(context);
     return Consumer<OfficeMarkerProvider>(builder: (context, realEstate, child) {
 
 
@@ -36,7 +35,7 @@ class RealEstateMap extends StatelessWidget {
               zoomGesturesEnabled: true,
               onCameraMove: (cameraPosition) {
                 if (cameraPosition.zoom <= 5) {
-                  Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(1);
+                  Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(1);
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => Regions()),

@@ -7,7 +7,7 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/models/RegionModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
-import 'package:tadawl_app/provider/bottom_nav_provider.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/account/real_estate_offices.dart';
 
 
@@ -94,7 +94,7 @@ class OfficesVRProvider extends ChangeNotifier{
     // userMutual.setUserPhone(phone);
 
     Future.delayed(Duration(seconds: 0), () {
-      Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(2);
+      Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(2);
       _imageOfficeVR = null;
       Navigator.pushAndRemoveUntil(
         context,

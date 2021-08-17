@@ -9,8 +9,8 @@ import 'package:tadawl_app/provider/ads_provider/adv_fee_provider.dart';
 class PaymentOfFees extends StatelessWidget {
   PaymentOfFees({
     Key key,
-    this.price,
-    this.type
+    @required this.price,
+    @required this.type
   }) : super(key: key);
   final String price;
   final String type;

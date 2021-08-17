@@ -17,7 +17,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/CategoryModel.dart';
 import 'package:tadawl_app/models/RegionModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
-import 'package:tadawl_app/provider/bottom_nav_provider.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/general/home.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -820,7 +820,7 @@ class AddAdProvider extends ChangeNotifier{
         textColor: Colors.white,
         fontSize: 15.0);
     // Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
-    Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
+    Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
     // Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
     // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
 

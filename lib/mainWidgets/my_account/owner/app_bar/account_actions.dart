@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/change_pass_provider.dart';
 import 'package:tadawl_app/provider/user_provider/change_phone_provider.dart';
@@ -10,17 +9,20 @@ import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 import 'package:tadawl_app/screens/account/change_pass.dart';
 import 'package:tadawl_app/screens/account/change_phone.dart';
 import 'package:tadawl_app/screens/account/update_my_information.dart';
+import 'package:tadawl_app/screens/general/contact_wp.dart';
 import 'package:tadawl_app/screens/general/home.dart';
 
 class Constants {
   static const String updateMyInfo = 'تحديث معلوماتي';
   static const String changePass = 'تغيير كلمة المرور';
   static const String changePhone = 'تغيير رقم الجوال';
+  static const String help = 'المساعدة والدعم';
   static const String logout = 'تسجيل الخروج';
   static const List<String> choices = <String>[
     updateMyInfo,
     changePass,
     changePhone,
+    help,
     logout
   ];
 }
@@ -29,11 +31,13 @@ class EngConstants {
   static const String updateMyInfo = 'Update My Info';
   static const String changePass = 'Change Password';
   static const String changePhone = 'Change Phone';
+  static const String help = 'help';
   static const String logout = 'Logout';
   static const List<String> choices = <String>[
     updateMyInfo,
     changePass,
     changePhone,
+    help,
     logout
   ];
 }
@@ -54,7 +58,6 @@ class AccountActions extends StatelessWidget {
     Future<void> choiceAction(String choice) async {
       final myAccountProv = Provider.of<MyAccountProvider>(context, listen: false);
       // final mainPageProv = Provider.of<MainPageProvider>(context, listen: false);
-      final bottomProv = Provider.of<BottomNavProvider>(context, listen: false);
       if (choice == 'تحديث معلوماتي' || choice == 'Update My Info') {
         myAccountProv.setInitMembershipType();
         await Navigator.push(context,
@@ -65,7 +68,8 @@ class AccountActions extends StatelessWidget {
           )
           ),
         );
-      } else if (choice == 'تغيير كلمة المرور' || choice == 'Change Password') {
+      }
+      else if (choice == 'تغيير كلمة المرور' || choice == 'Change Password') {
         await Navigator.push(context,
           MaterialPageRoute(builder: (context) =>
               ChangeNotifierProvider<ChangePassProvider>(
@@ -75,7 +79,8 @@ class AccountActions extends StatelessWidget {
 
           ),
         );
-      } else if (choice == 'تغيير رقم الجوال' || choice == 'Change Phone') {
+      }
+      else if (choice == 'تغيير رقم الجوال' || choice == 'Change Phone') {
         await Navigator.push(context,
           MaterialPageRoute(builder: (context) =>
             ChangeNotifierProvider<ChangePhoneProvider>(
@@ -84,7 +89,15 @@ class AccountActions extends StatelessWidget {
             )
           ),
         );
-      } else {
+      }
+      else if (choice == 'المساعدة والدعم' || choice == 'help') {
+        await Navigator.push(context,
+          MaterialPageRoute(builder: (context) =>
+              ContactWp()
+          ),
+        );
+      }
+      else {
         await myAccountProv.logout(context);
         await Fluttertoast.showToast(
             msg: 'تم تسجيل الخروج',
@@ -95,7 +108,7 @@ class AccountActions extends StatelessWidget {
             textColor: Colors.white,
             fontSize: 15.0);
         // mainPageProv.removeMarkers();
-        bottomProv.setCurrentPage(0);
+        locale.setCurrentPage(0);
         // mainPageProv.setRegionPosition(null);
         // mainPageProv.setInItMainPageDone(0);
         await Navigator.pushAndRemoveUntil(context,
@@ -146,6 +159,10 @@ class AccountActions extends StatelessWidget {
                         choice == Constants.changePhone
                             ?
                         Icons.phone_enabled_rounded
+                            :
+                        choice == Constants.help
+                            ?
+                        Icons.support_rounded
                             :
                         Icons.exit_to_app_rounded,
                         color: choice == Constants.logout ? const Color(0xffff0000) : const Color(0xff989898),

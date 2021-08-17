@@ -15,17 +15,15 @@ import 'package:tadawl_app/mainWidgets/bottom_navigation_bar.dart';
 import 'package:tadawl_app/mainWidgets/custom_drawer.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
-//import 'package:tadawl_app/provider/user_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:tadawl_app/provider/map_provider.dart';
 
 class MainPage extends StatelessWidget {
   MainPage(this._region_position,{Key key}) : super(key: key);
   final CameraPosition _region_position;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   final MainPageProvider mainPageProvider = MainPageProvider();
+
 
   @override
   Widget build(BuildContext context) {
@@ -101,10 +99,7 @@ class MainPage extends StatelessWidget {
             ),
             body: Stack(
               children: <Widget>[
-                ChangeNotifierProvider<MapProvider>(
-                  create: (_) => MapProvider(context),
-                  child: MapWidget(_region_position),
-                ),
+                MapWidget(_region_position),
                 // map ....................................
                 SliderWidget(),
                 // slider ....................................

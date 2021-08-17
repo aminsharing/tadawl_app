@@ -1,4 +1,6 @@
 
+import 'package:flutter/material.dart';
+
 class AdsModel {
   String idDescription;
   String lat;
@@ -33,8 +35,8 @@ class AdsModel {
   String state_aqar;
   String vr_id_description;
   bool isClicked;
-  // OverlayEntry entry;
-  // GlobalKey key;
+  OverlayEntry entry;
+  GlobalKey key;
   // ignore: sort_constructors_first
   AdsModel(
       {this.idDescription,

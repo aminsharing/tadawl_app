@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
@@ -100,7 +102,7 @@ class About extends StatelessWidget {
                       TextButton(
                         onPressed: _launchURLTwitter,
                         child: Text(
-                          '@TADAWLAPP',
+                          '@1_TADAWL',
                           style: CustomTextStyle(
 
                             fontSize: 20,
@@ -132,12 +134,15 @@ class About extends StatelessWidget {
                     children: [
                       TextButton(
                         onPressed: () {
-                          Share.share('Tadawl App');
+                          if(Platform.isAndroid){
+                            Share.share('https://play.google.com/store/apps/details?id=com.tadawlapp.tadawl_app');
+                          }else if(Platform.isIOS){
+                            Share.share('https://apps.apple.com/sa/app/id1569963764');
+                          }
                         },
                         child: Text(
                           AppLocalizations.of(context).shareApp,
                           style: CustomTextStyle(
-
                             fontSize: 20,
                             color: const Color(0xff00cccc),
                           ).getTextStyle(),
@@ -150,7 +155,11 @@ class About extends StatelessWidget {
                           size: 40,
                         ),
                         onPressed: () {
-                          Share.share('Tadawl App');
+                          if(Platform.isAndroid){
+                            Share.share('https://play.google.com/store/apps/details?id=com.tadawlapp.tadawl_app');
+                          }else if(Platform.isIOS){
+                            Share.share('https://apps.apple.com/sa/app/id1569963764');
+                          }
                         },
                       ),
                     ],
@@ -185,13 +194,14 @@ class About extends StatelessWidget {
                     children: [
                       TextButton(
                         child: Container(
-                          width: 300.0,
-                          height: 300.0,
+                          width: 200.0,
+                          height: 200.0,
                           decoration: BoxDecoration(
-                            shape: BoxShape.circle,
+                            // shape: BoxShape.circle,
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(30.0),
                             image: DecorationImage(
-                              image: const AssetImage(
-                                  'assets/images/imgsnap.jpeg'),
+                              image: const AssetImage('assets/images/imgsnap.jpeg'),
                               fit: BoxFit.contain,
                             ),
                           ),
@@ -260,9 +270,8 @@ class About extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'v 1.0.0',
+                  'v 1.6.0',
                   style: CustomTextStyle(
-
                     fontSize: 10,
                     color: const Color(0xff707070),
                   ).getTextStyle(),
@@ -312,7 +321,7 @@ class About extends StatelessWidget {
 }
 
 void _launchURLTwitter() async {
-  const url = 'https://twitter.com/TADAWLAPP';
+  const url = 'https://twitter.com/1_TADAWL';
   if (await canLaunch(url)) {
     await launch(url);
   } else {

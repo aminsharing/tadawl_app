@@ -47,7 +47,8 @@ class StreetWidth extends StatelessWidget {
             value: addAd.StreetWidthAddAds,
             min: 0,
             max: 99,
-            divisions: 99,
+            divisions: 198,
+
             label: addAd.StreetWidthAddAds.floor().toString(),
             onChanged: (double value) {
               addAd.setStreetWidthAddAds(value);

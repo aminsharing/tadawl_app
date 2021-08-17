@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/mainWidgets/voice_player.dart';
+import 'package:tadawl_app/models/ConvModel.dart';
 import 'package:tadawl_app/models/message_model.dart';
 
 class MsgBody extends StatelessWidget {
@@ -11,13 +12,13 @@ class MsgBody extends StatelessWidget {
         Key key,
         @required this.msgs,
       }) : super(key: key);
-  final MessageModel msgs;
+  final ConvModel msgs;
   final String _phone;
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: msgs.phoneUserSender != _phone
+      mainAxisAlignment: msgs.phone_user_sender != _phone
           ?
       MainAxisAlignment.end
           :
@@ -26,30 +27,30 @@ class MsgBody extends StatelessWidget {
         Flexible(
           child: Container(
             margin: EdgeInsets.only(
-                right: msgs.phoneUserSender != _phone ? 100 : 20, /// 20
+                right: msgs.phone_user_sender != _phone ? 100 : 20, /// 20
                 bottom: 5,
                 top: 5,
-                left: msgs.phoneUserSender != _phone ? 20 : 100),/// 100
+                left: msgs.phone_user_sender != _phone ? 20 : 100),/// 100
             padding: EdgeInsets.all(13),
             child: msgs.msgType == MessType.VOICE
                 ?
-            VoicePlayer(voice: msgs.voice, player: AudioPlayer(),)
+            VoicePlayer(voice: msgs.voice, isLocal: msgs.isLocal,)
                 :
             Text(
-              msgs.comment,
-              textAlign: msgs.phoneUserSender != _phone ? TextAlign.left : TextAlign.right, /// right
+              msgs.comment??'',
+              textAlign: msgs.phone_user_sender != _phone ? TextAlign.left : TextAlign.right, /// right
               style: CustomTextStyle(
                   fontSize: 12,
                   color: Colors.black).getTextStyle(),
             ),
             decoration: BoxDecoration(
-              color: msgs.phoneUserSender != _phone ? Colors.blueGrey[100] : Color(0xff00cccc), ///
+              color: msgs.phone_user_sender != _phone ? Colors.blueGrey[100] : Color(0xff00cccc), ///
               borderRadius: BorderRadius.only(
                   topRight: /// topLeft
-                  msgs.phoneUserSender != _phone?
+                  msgs.phone_user_sender != _phone?
                   Radius.circular(15):
                   Radius.circular(0),
-                  topLeft: msgs.phoneUserSender != _phone ?
+                  topLeft: msgs.phone_user_sender != _phone ?
                   Radius.circular(0) :
                   Radius.circular(15),
                   bottomLeft:

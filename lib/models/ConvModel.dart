@@ -13,6 +13,9 @@ class ConvModel {
   String image;
   String phone;
   String unreadMsgs;
+  String msgType;
+  String voice;
+  bool isLocal;
   // ignore: sort_constructors_first
   ConvModel({
         this.id_conv,
@@ -28,7 +31,11 @@ class ConvModel {
         this.username,
         this.image,
         this.phone,
-        this.unreadMsgs});
+        this.voice,
+        this.msgType,
+        this.unreadMsgs,
+        this.isLocal,
+  });
   // ignore: sort_constructors_first
   ConvModel.fromJson(Map<String, dynamic> json) {
     id_conv = json['id_conv'];
@@ -44,6 +51,9 @@ class ConvModel {
     username = json['username'];
     image = json['image'];
     phone = json['phone'];
+    msgType = json['msg_type'];
+    voice = json['voice_comment'];
+    isLocal = false;
   }
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
@@ -60,6 +70,9 @@ class ConvModel {
     data['username'] = username;
     data['image'] = image;
     data['phone'] = phone;
+    data['msg_type'] = msgType;
+    data['voice'] = voice;
+    isLocal = false;
     return data;
   }
 }

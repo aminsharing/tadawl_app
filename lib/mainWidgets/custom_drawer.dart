@@ -8,7 +8,6 @@ import 'package:tadawl_app/mainWidgets/custom_drawer/nav_button.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/special_offers_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/today_ads_provider.dart';
-import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/general_provider.dart';
 import 'package:tadawl_app/provider/l10n/l10n.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
@@ -25,7 +24,7 @@ import 'package:tadawl_app/screens/ads/exclusive_marketing.dart';
 import 'package:tadawl_app/screens/ads/special_offers.dart';
 import 'package:tadawl_app/screens/ads/today_ads.dart';
 import 'package:tadawl_app/screens/general/about.dart';
-import 'package:tadawl_app/screens/general/contact.dart';
+import 'package:tadawl_app/screens/general/contact_wp.dart';
 import 'package:tadawl_app/screens/general/coupon_request.dart';
 import 'package:tadawl_app/screens/general/home.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
@@ -66,7 +65,7 @@ class CustomDrawer extends StatelessWidget {
               }else{
                 locale.setLocale(L10n.all.last);
               }
-              Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
+              locale.setCurrentPage(0);
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => Home()),
@@ -367,7 +366,7 @@ class CustomDrawer extends StatelessWidget {
                           icon: Icons.business_rounded,
                           text: AppLocalizations.of(context).reMenu,
                           onPressed: (){
-                            Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(2);
+                            locale.setCurrentPage(2);
                             Navigator.push(
                               context,
                               PageTransition(type: PageTransitionType.bottomToTop,
@@ -403,7 +402,7 @@ class CustomDrawer extends StatelessWidget {
                     text: AppLocalizations.of(context).contactUs,
                     page: ChangeNotifierProvider<GeneralProvider>(
                       create: (_) => GeneralProvider(),
-                      child: Contact(),
+                      child: ContactWp(),
                     ),
                   ),
                   NavButton(
@@ -437,7 +436,7 @@ void _launchURLSnapchat() async {
 }
 
 void _launchURLTwitter() async {
-  const url = 'https://twitter.com/TADAWLAPP';
+  const url = 'https://twitter.com/1_TADAWL';
   if (await canLaunch(url)) {
     await launch(url);
   } else {

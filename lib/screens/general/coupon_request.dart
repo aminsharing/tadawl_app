@@ -45,12 +45,6 @@ class CouponRequest extends StatelessWidget {
             fontSize: 20,
             color: const Color(0xffffffff),
           ).getTextStyle(),
-          // TextStyle(
-          //  fontFamily: 'DINNext',
-          //
-          //   fontSize: 20,
-          //   color: const Color(0xffffffff),
-          // ),
           textAlign: TextAlign.center,
         ),
         backgroundColor: Color(0xff00cccc),
@@ -69,7 +63,6 @@ class CouponRequest extends StatelessWidget {
                     child: Text(
                       AppLocalizations.of(context).couponDesc,
                       style: CustomTextStyle(
-
                         fontSize: 15,
                         color: const Color(0xff000000),
                       ).getTextStyle(),
@@ -84,7 +77,6 @@ class CouponRequest extends StatelessWidget {
                         Text(
                           AppLocalizations.of(context).watsappUs,
                           style: CustomTextStyle(
-
                             fontSize: 15,
                             color: const Color(0xff000000),
                           ).getTextStyle(),
@@ -97,8 +89,7 @@ class CouponRequest extends StatelessWidget {
                             height: 30.0,
                             decoration: BoxDecoration(
                               image: DecorationImage(
-                                image:
-                                    const AssetImage('assets/images/img15.png'),
+                                image: const AssetImage('assets/images/img15.png'),
                                 fit: BoxFit.contain,
                               ),
                             ),
@@ -109,7 +100,6 @@ class CouponRequest extends StatelessWidget {
                           child: Text(
                             '0552525000 ',
                             style: CustomTextStyle(
-
                               fontSize: 15,
                               color: const Color(0xff989696),
                             ).getTextStyle(),

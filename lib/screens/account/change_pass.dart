@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/change_pass_provider.dart';
 import 'package:tadawl_app/screens/general/home.dart';
@@ -189,19 +188,8 @@ class ChangePass extends StatelessWidget {
                               textColor: Colors.white,
                               fontSize: 15.0);
 
-                          // var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
-                          // userMutual.getAvatarList(locale.phone);
-                          // userMutual.getUserAdsList(locale.phone);
-                          // userMutual.getEstimatesInfo(locale.phone);
-                          // userMutual.getSumEstimatesInfo(locale.phone);
-                          // userMutual.checkOfficeInfo(locale.phone);
-                          //
-                          // userMutual.setUserPhone(locale.phone);
-
                           Future.delayed(Duration(seconds: 1), () {
-                            // Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
-                            // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
-                            Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
+                            locale.setCurrentPage(0);
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(builder: (context) => Home()),

@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/general/home.dart';
 
 class Item {
@@ -167,7 +167,7 @@ class GeneralProvider extends ChangeNotifier {
           msg: 'تم إرسال النموذج بنجاح، سيتم التواصل معك بأقرب فرصة.',
           toastLength: Toast.LENGTH_SHORT);
       // Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
-      Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
+      Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
       // Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
       // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
       await Navigator.pushAndRemoveUntil(

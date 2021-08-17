@@ -13,7 +13,6 @@ import 'package:tadawl_app/models/UserEstimateModel.dart';
 import 'package:tadawl_app/models/UserModel.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
-import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/account/login.dart';
 import 'package:tadawl_app/screens/general/home.dart';
@@ -465,7 +464,7 @@ class MyAccountProvider extends ChangeNotifier{
     clearUpdatingInformation();
     Future.delayed(Duration(seconds: 0), () {
       // Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
-      Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
+      Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
       // Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
       // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
       Navigator.pushAndRemoveUntil(

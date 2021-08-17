@@ -382,5 +382,7 @@
     "bigFileHint": "Video file size larger than 30MB Try a smaller file size",
     "noAdsAvailable": "There are no ads available",
     "noAdsAvailableNear": "There are no ads available in this area",
-    "officeLoc": "Location of office"
+    "officeLoc": "Location of office",
+    "upgradeAd": "Upgrade ad",
+    "contactUsDet": "For help and support, you can contact us through the support means below"
 }

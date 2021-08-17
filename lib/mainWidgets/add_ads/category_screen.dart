@@ -41,7 +41,6 @@ class CategoryScreen extends StatelessWidget {
                 actions: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      Provider.of<AddAdProvider>(context, listen: false).clearChacheAddAds();
                       Navigator.of(context).pop(true);
                     },
                     child: Padding(

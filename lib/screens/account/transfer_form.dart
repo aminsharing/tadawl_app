@@ -161,7 +161,6 @@ class TransferForm extends StatelessWidget {
                               child: Text(
                                 AppLocalizations.of(context).memSubs,
                                 style: CustomTextStyle(
-
                                   fontSize: 15,
                                 ).getTextStyle(),
                                 textAlign: TextAlign.center,
@@ -172,7 +171,16 @@ class TransferForm extends StatelessWidget {
                               child: Text(
                                 AppLocalizations.of(context).saleRentalFees,
                                 style: CustomTextStyle(
-
+                                  fontSize: 15,
+                                ).getTextStyle(),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text(
+                                AppLocalizations.of(context).upgradeAd,
+                                style: CustomTextStyle(
                                   fontSize: 15,
                                 ).getTextStyle(),
                                 textAlign: TextAlign.center,
@@ -312,6 +320,103 @@ class TransferForm extends StatelessWidget {
                                 ).getTextStyle(),
                                 textAlign: TextAlign.center,
                               ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                if (transfer.selectedNav2 == 2)
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        child: Theme(
+                          data: Theme.of(context).copyWith(
+                            unselectedWidgetColor: const Color(0xff8d8d8d),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Radio(
+                                    value: 6,
+                                    activeColor: Color(0xff00cccc),
+                                    groupValue: transfer.radioValue1,
+                                    onChanged: (int value) {
+                                      transfer.handleRadioValueChange1(6);
+                                    },
+                                  ),
+                                  Text(
+                                    '150 مشاهدة\n'
+                                        '50 SAR',
+                                    style: CustomTextStyle(
+
+                                      fontSize: 10,
+                                    ).getTextStyle(),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Radio(
+                                    value: 7,
+                                    activeColor: Color(0xff00cccc),
+                                    groupValue: transfer.radioValue1,
+                                    onChanged: (int value) {
+                                      transfer.handleRadioValueChange1(7);
+                                    },
+                                  ),
+                                  Text(
+                                    '300 مشاهدة\n'
+                                        '100 SAR',
+                                    style: CustomTextStyle(
+
+                                      fontSize: 10,
+                                    ).getTextStyle(),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Radio(
+                                    value: 8,
+                                    activeColor: Color(0xff00cccc),
+                                    groupValue: transfer.radioValue1,
+                                    onChanged: (int value) {
+                                      transfer.handleRadioValueChange1(8);
+                                    },
+                                  ),
+                                  Text(
+                                    '600 مشاهدة\n'
+                                        '170 SAR',
+                                    style: CustomTextStyle(
+
+                                      fontSize: 10,
+                                    ).getTextStyle(),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Radio(
+                                    value: 9,
+                                    activeColor: Color(0xff00cccc),
+                                    groupValue: transfer.radioValue1,
+                                    onChanged: (int value) {
+                                      transfer.handleRadioValueChange1(9);
+                                    },
+                                  ),
+                                  Text(
+                                    '1000 مشاهدة\n'
+                                        '250 SAR',
+                                    style: CustomTextStyle(
+
+                                      fontSize: 10,
+                                    ).getTextStyle(),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              )
                             ],
                           ),
                         ),

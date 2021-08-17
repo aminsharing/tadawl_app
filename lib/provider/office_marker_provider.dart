@@ -18,9 +18,11 @@ import 'locale_provider.dart';
 
 class OfficeMarkerProvider extends ChangeNotifier{
 
-  OfficeMarkerProvider(){
+  OfficeMarkerProvider(BuildContext context){
     print('init OfficeMarkerProvider');
-    aO();
+    aO().then((value) {
+      getOfficeListMap(context);
+    });
   }
 
   @override
@@ -103,13 +105,6 @@ class OfficeMarkerProvider extends ChangeNotifier{
             position: LatLng(double.parse(office.office_lat),
                 double.parse(office.office_lng)),
             onTap: () {
-              // var user = Provider.of<UserMutualProvider>(context, listen: false);
-              // user.getAvatarList(office.phone_user);
-              // user.getUserAdsList(office.phone_user);
-              // user.getEstimatesInfo(office.phone_user);
-              // user.getSumEstimatesInfo(office.phone_user);
-              // user.checkOfficeInfo(office.phone_user);
-              // user.setUserPhone(office.phone_user);
               final locale = Provider.of<LocaleProvider>(context, listen: false);
               // ignore: omit_local_variable_types
               final MyAccountProvider myAccountProvider = MyAccountProvider(office.phone_user);
@@ -123,86 +118,33 @@ class OfficeMarkerProvider extends ChangeNotifier{
                         )
                 ),
               );
-              // Future.delayed(Duration(seconds: 0), () {
-              //   final locale = Provider.of<LocaleProvider>(context, listen: false);
-              //   if (user.userPhone == locale.phone){
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //           builder: (context) =>
-              //               OwenAccount()),
-              //     );
-              //   }else{
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //           builder: (context) =>
-              //               OtherAccount()),
-              //     );
-              //   }
-              // });
             },
             icon: BitmapDescriptor.fromBytes(bmp)));
       });
       return markersList;
     }
-
     Future.delayed(Duration(milliseconds: 0), () {
-      // var a = <String>[];
-      // _officesList.forEach((element) {
-      //   a.add(element.id_offices);
-      // });
-      aO().then((value) {
-        _entry = OverlayEntry(
-            builder: (context) {
-              return _MarkerHelper(
-                markerWidgets: markerWidgets(),
-                callback: (bitmaps) {
-                  _markers = mapBitmapsToMarkers(bitmaps);
-                  notifyListeners();
-                },
-              );
-            },
-            maintainState: true);
-        MarkerGenerator(_entry).generate(context);
-        notifyListeners();
-      });
-
-      // if (_officesList.isEmpty) {
-      //   Api().getsOfficeFunc().then((value) {
-      //     _OfficeListData = value;
-      //     _OfficeListData.forEach((element) {
-      //       if(!a.contains(element['id_offices'])){
-      //         print("id_officess");
-      //         _officesList.add(OfficeModel.offices(element));
-      //       }
-      //     });
-      //     _entry = OverlayEntry(
-      //         builder: (context) {
-      //           return _MarkerHelper(
-      //             markerWidgets: markerWidgets(),
-      //             callback: (bitmaps) {
-      //               _markers = mapBitmapsToMarkers(bitmaps);
-      //             },
-      //           );
-      //         },
-      //         maintainState: true);
-      //     MarkerGenerator(_entry).generate(context);
-      //     notifyListeners();
-      //   });
+      _entry = OverlayEntry(
+          builder: (context) {
+            return _MarkerHelper(
+              markerWidgets: markerWidgets(),
+              callback: (bitmaps) {
+                _markers = mapBitmapsToMarkers(bitmaps);
+                notifyListeners();
+              },
+            );
+          },
+          maintainState: true);
+      MarkerGenerator(_entry).generate(context);
+      notifyListeners();
     });
   }
 
   Future aO() async {
-    var a = <String>[];
-    _officesList.forEach((element) {
-      a.add(element.id_offices);
-    });
     List<dynamic> value = await Api().getsOfficeFunc();
+    _officesList.clear();
     value.forEach((element) {
-      if(!a.contains(element['id_offices'])){
         _officesList.add(OfficeModel.offices(element));
-      }
     });
   }
 

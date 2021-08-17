@@ -7,9 +7,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
-import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/provider/map_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/screens/general/regions.dart';
@@ -20,22 +18,31 @@ class MapWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<SearchDrawerProvider>(context, listen: false).getAdsList(context);
+
+
+
+    if(_region_position != null){
+      final searchProv = Provider.of<SearchDrawerProvider>(context, listen: false);
+      searchProv.getAdsList(context);
+    }else{
+      final mainProv = Provider.of<MainPageProvider>(context, listen: false);
+      final searchProv = Provider.of<SearchDrawerProvider>(context, listen: false);
+      mainProv.getLocPer().then((value) {
+        mainProv.getLoc(context).then((value) {
+          searchProv.getAdsList(context);
+        });
+      });
+    }
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       color: Color(0xffffffff), //Color(0xff1f2835),
       child: Center(
-        child: Consumer2<MainPageProvider, MapProvider>(
-            builder: (context, mainPage, mapProv, _) {
+        child: Consumer<MainPageProvider>(
+            builder: (context, mainPage, _) {
               void _onMapCreated(GoogleMapController controller) {
                 controller.setMapStyle(Utils.mapStyle);
-                mainPage.setMapControllerMainPage(controller);
-              }
-              if (mapProv.initialCameraPosition != null) {
-                // mainPage.setSelectedArea(mainPage.region_position ??
-                //     CameraPosition(target: mapProv.initialCameraPosition,
-                //         zoom: mapProv.zoom));
+                mainPage.setMapControllerMainPage(context, controller);
               }
               return Stack(
                 children: [
@@ -48,12 +55,15 @@ class MapWidget extends StatelessWidget {
                         if(mainPage.showDiaogSearchDrawer){
                           mainPage.setShowDiogFalse();
                         }
-                        Provider.of<SearchDrawerProvider>(context, listen: false).getAdsList(context);
-                        mainPage.setMoveState(false);
+                        if(mainPage.zoomOutOfRange == 0){
+                          print("//////////////////////////////////////////////");
+                          Provider.of<SearchDrawerProvider>(context, listen: false).getAdsList(context);
+                          mainPage.setMoveState(false);
+                        }
                       }
                     },
                     child:
-                    (_region_position??mapProv.initialCameraPosition) == null
+                    (_region_position??mainPage.initialCameraPosition) == null
                         ?
                     Padding(
                       padding: const EdgeInsets.all(50.0),
@@ -78,7 +88,7 @@ class MapWidget extends StatelessWidget {
                             mainPage.setShowDiogFalse();
                           }
                         },
-                        initialCameraPosition: _region_position ?? CameraPosition(target: mapProv.initialCameraPosition, zoom: mapProv.zoom),
+                        initialCameraPosition: _region_position ?? CameraPosition(target: mainPage.initialCameraPosition, zoom: mainPage.zoom),
                         mapType: MapType.normal,
                         onMapCreated: _onMapCreated,
                         markers: mainPage.markersMainPage.toSet(),
@@ -93,13 +103,16 @@ class MapWidget extends StatelessWidget {
                           locale.currentArea = cameraPosition;
 
                           if (cameraPosition.zoom <= 5) {
-                            Provider.of<BottomNavProvider>(context, listen: false)
-                                .setCurrentPage(1);
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Regions()),
-                            );
+                            mainPage.zoomOutOfRange++;
+                            print("zoomOutOfRange: ${mainPage.zoomOutOfRange}");
+                            if(mainPage.zoomOutOfRange == 1){
+                              Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(1);
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Regions()),
+                              );
+                            }
                           }
                         },
                       ),

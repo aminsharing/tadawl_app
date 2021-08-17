@@ -43,11 +43,11 @@ class AdDescriptionWidget extends StatelessWidget {
                         onPressed: () {
                           if(DateTime.now().difference(DateTime.parse(mutualProv.adsPage.timeUpdated)).inMinutes - 180 > 60){
                             adsPage.stopVideoAdsPage();
-                            adsPage.updateAdsAdsPage(
-                                context,
-                                mutualProv.adsPage
-                                    .idDescription);
-                          }else{
+                            adsPage.updateAdsAdsPage(context, mutualProv.adsPage.idDescription).then((value) {
+                              mutualProv.getAllAdsPageInfo(context, mutualProv.adsPage.idDescription);
+                            });
+                          }
+                          else{
                             Fluttertoast.showToast(
                                 msg:
                                 'ستتمكن من التحديث بعد ${24-(DateTime.now().difference(DateTime.parse(mutualProv.adsPage.timeUpdated)).inMinutes - 180)} دقيقة',

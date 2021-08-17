@@ -7,8 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
+import 'package:tadawl_app/provider/user_provider/change_phone_provider.dart';
 import 'package:tadawl_app/provider/user_provider/login_provider.dart';
 import 'package:tadawl_app/screens/account/new_account.dart';
 import 'package:tadawl_app/screens/account/restoration_pass.dart';
@@ -228,7 +228,12 @@ class Login extends StatelessWidget {
                               await Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => NewAcount()),
+                                    builder: (context) =>
+                                        ChangeNotifierProvider<ChangePhoneProvider>(
+                                          create: (_) => ChangePhoneProvider(),
+                                          child: NewAcount(),
+                                        )
+                                ),
                               );
                             } else if (data == 'successful') {
                               await login.saveSession(phone).then((value) {
@@ -242,7 +247,7 @@ class Login extends StatelessWidget {
                                       textColor: Colors.white,
                                       fontSize: 15.0);
                                   // Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
-                                  Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
+                                  locale.setCurrentPage(0);
                                   // Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
                                   // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
                                   await Navigator.pushAndRemoveUntil(
@@ -332,7 +337,9 @@ class Login extends StatelessWidget {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => NewAcount()),
+                                  builder: (context) =>
+                                      NewAcount()
+                              ),
                             );
                           },
                           child: Center(

@@ -4,6 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/provider/region_provider.dart';
 
 class RegionsMap extends StatelessWidget {
+
+  // final Color geometry = Color(0xff242f3e);
+
+
   @override
   Widget build(BuildContext context) {
     return Consumer<RegionProvider>(builder: (context, region, child) {
@@ -19,6 +23,7 @@ class RegionsMap extends StatelessWidget {
       return WillPopScope(
         onWillPop: _onBackPressed,
         child: Scaffold(
+          backgroundColor: Color(0xff242f3e),
           body: Padding(
             padding: const EdgeInsets.all(0.0),
             child: GoogleMap(
@@ -49,7 +54,7 @@ class Utils {
     "elementType": "geometry",
     "stylers": [
       {
-        "color": "#242f3e"
+        "color": "#415d7f"
       }
     ]
   },
@@ -57,7 +62,7 @@ class Utils {
     "elementType": "labels.text.fill",
     "stylers": [
       {
-        "color": "#746855"
+        "visibility": "off"
       }
     ]
   },
@@ -65,7 +70,7 @@ class Utils {
     "elementType": "labels.text.stroke",
     "stylers": [
       {
-        "color": "#242f3e"
+        "visibility": "off"
       }
     ]
   },
@@ -79,37 +84,10 @@ class Utils {
     ]
   },
   {
-    "featureType": "administrative.locality",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#d59563"
-      }
-    ]
-  },
-  {
     "featureType": "poi",
     "stylers": [
       {
         "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.park",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#263c3f"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.park",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#6b9a76"
       }
     ]
   },
@@ -122,46 +100,10 @@ class Utils {
     ]
   },
   {
-    "featureType": "road.highway",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#746855"
-      }
-    ]
-  },
-  {
-    "featureType": "road.highway",
-    "elementType": "geometry.stroke",
-    "stylers": [
-      {
-        "color": "#1f2835"
-      }
-    ]
-  },
-  {
-    "featureType": "road.highway",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#f3d19c"
-      }
-    ]
-  },
-  {
     "featureType": "transit",
     "stylers": [
       {
         "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "transit.station",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#d59563"
       }
     ]
   },

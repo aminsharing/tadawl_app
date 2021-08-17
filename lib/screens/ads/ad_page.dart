@@ -53,24 +53,21 @@ class AdPage extends StatelessWidget {
             appBar: AppBar(
               centerTitle: true,
               actions: [AppBarActionWidget()],
-              leadingWidth: 100.0,
-              toolbarHeight: 100.0,
+              leadingWidth: 70.0,
+              toolbarHeight: 70.0,
               title: AppBarTitleWidget(),
-              leading: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back_ios,
-                    color: Color(0xffffffff),
-                    size: 40,
-                  ),
-                  onPressed: () {
-                    if (adsPage.videoControllerAdsPage != null) {
-                      adsPage.stopVideoAdsPage();
-                    }
-                    Navigator.pop(context);
-                  },
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Color(0xffffffff),
+                  size: 40,
                 ),
+                onPressed: () {
+                  if (adsPage.videoControllerAdsPage != null) {
+                    adsPage.stopVideoAdsPage();
+                  }
+                  Navigator.pop(context);
+                },
               ),
               backgroundColor: Color(0xff00cccc),
             ),

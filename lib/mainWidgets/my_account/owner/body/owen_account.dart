@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/my_account/mutual/app_bar/leading.dart';
 import 'package:tadawl_app/mainWidgets/my_account/mutual/app_bar/title.dart';
+import 'package:tadawl_app/mainWidgets/my_account/other/body/office_location.dart';
 import 'package:tadawl_app/mainWidgets/my_account/owner/app_bar/account_actions.dart';
 import 'package:tadawl_app/mainWidgets/my_account/owner/body/about.dart';
 import 'package:tadawl_app/mainWidgets/my_account/owner/body/ads_list.dart';
@@ -43,6 +44,8 @@ class OwenAccount extends StatelessWidget {
             children: [
               AvatarInfo(),
               About(),
+              OfficeLocation(),
+              SizedBox(height: 10.0,),
               Certified(),
               AdsList(),
             ],

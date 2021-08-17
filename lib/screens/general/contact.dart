@@ -1,3 +1,5 @@
+// this file has been remove and replace it by contact_wp.dart file
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/Gist.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/RegionModel.dart';
-import 'package:tadawl_app/provider/bottom_nav_provider.dart';
 import 'package:tadawl_app/screens/ads/main_page.dart';
 import 'locale_provider.dart';
 
@@ -26,7 +25,11 @@ class RegionProvider extends ChangeNotifier {
   @override
   void dispose(){
     print('dispose RegionProvider');
-    _entry.remove();
+    try{
+      _entry.remove();
+    }catch(e){
+      print('Region remove entry error: $e');
+    }
     _entry = null;
     _markers.clear();
     super.dispose();
@@ -106,7 +109,7 @@ class RegionProvider extends ChangeNotifier {
             position: city.position,
             onTap: () {
               Provider.of<LocaleProvider>(context, listen: false).currentArea = CameraPosition(target: city.position, zoom: city.zoom);
-              Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
+              Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => MainPage(CameraPosition(target: city.position, zoom: city.zoom))),
@@ -117,6 +120,13 @@ class RegionProvider extends ChangeNotifier {
       return markersList;
     }
 
+    if(_entry != null){
+      try{
+        _entry.remove();
+      }catch(e){
+        print("Error to remove region entry: $e");
+      }
+    }
     if(_lang == 'en_US'){
       _entry = OverlayEntry(
           builder: (context) {

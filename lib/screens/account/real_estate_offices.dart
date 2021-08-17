@@ -108,7 +108,7 @@ class RealEstateOffices extends StatelessWidget {
               color: Color(0xffffffff),
               child: Center(
                 child: ChangeNotifierProvider<OfficeMarkerProvider>(
-                  create: (_) => OfficeMarkerProvider(),
+                  create: (_) => OfficeMarkerProvider(context),
                   child: RealEstateMap(),
                 ),
               ),

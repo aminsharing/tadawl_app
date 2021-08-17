@@ -12,49 +12,24 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final userMutualProv = Provider.of<UserMutualProvider>(context, listen: false);
+    print("Homeee");
     final notificationProv = Provider.of<NotificationProvider>(context, listen: false);
     // final msgProv = Provider.of<MsgProvider>(context, listen: false);
     final locale = Provider.of<LocaleProvider>(context, listen: false);
 
-
-
-
-
-
-
-
-    locale.getSession();
-    // userMutualProv.getUsersList(locale.phone);
-
-
-
-    notificationProv.getNotificationsList(locale.phone);
-    Future.delayed(Duration(seconds: 5), () {
-      notificationProv.showNotification(locale.phone);
+    locale.getSession().then((value) {
+      if(value != null){
+        notificationProv.getNotificationsList(value);
+        Future.delayed(Duration(seconds: 5), () {
+          notificationProv.showNotification(value);
+        });
+      }
     });
 
     // msgProv.getUnreadMsgs(context, locale.phone);
     // Future.delayed(Duration(seconds: 1), () {
     //   msgProv.getConvInfo(context, locale.phone);
     // });
-
-
-
-    // Provider.of<AdsProvider>(context, listen: false).getAdsList(
-    //     context, null, null, null, null, null, null, null, null, null, null, null,
-    //     null, null, null, null, null, null, null, null, null, null, null, null,
-    //     null, null, null, null, null, null, null, null, null, null, null, null,
-    //     null, null);
-
-    
-    // Provider.of<MutualProvider>(context, listen: false).randomPosition(50);
-
-    // Provider.of<AdsProvider>(context, listen: false).setRegionPosition(null);
-    //
-    // Provider.of<AdsProvider>(context, listen: false).setInItMainPageDone(0);
-
-
 
     return Scaffold(
         backgroundColor: const Color(0xff1f2835),

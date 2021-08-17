@@ -6,14 +6,22 @@ import 'package:tadawl_app/models/CategoryModel.dart';
 import 'package:tadawl_app/models/QFModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
-import 'package:tadawl_app/provider/bottom_nav_provider.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/general/home.dart';
 
 class UpdateDetailsProvider extends ChangeNotifier{
-  UpdateDetailsProvider(){
-    getCategoryeInfoUpdate();
+  UpdateDetailsProvider(BuildContext context, String _id_description){
+    print('init UpdateDetailsProvider');
+    getCategoryeInfoUpdate().then((value) {
+      getAdsPageInfoUpdateDetails(context, _id_description);
+    });
   }
 
+  @override
+  void dispose() {
+    print('dispose UpdateDetailsProvider');
+    super.dispose();
+  }
 
   final List<bool> _typeAqarUpdate = List.generate(3, (_) => false);
   final List<bool> _familyUpdate = List.generate(2, (_) => false);
@@ -68,36 +76,99 @@ class UpdateDetailsProvider extends ChangeNotifier{
 
   void getAdsUpdateInfo(List<BFModel> _adsBF, List<QFModel> _adsQF, String _interface, String _idTypeAqar, String _plan) {
     _interfaceSelectedUpdate = _interfaceSelectedUpdate ?? _interface;
-    
-    _isYardUpdate = _isYardUpdate ?? bool.hasEnvironment(_adsBF[17].state);
-    _isFurnishedUpdate = _isFurnishedUpdate ?? bool.hasEnvironment(_adsBF[16].state);
-    _isKitchenUpdate = _isKitchenUpdate ?? bool.hasEnvironment(_adsBF[15].state);
-    _isAppendixUpdate = _isAppendixUpdate ?? bool.hasEnvironment(_adsBF[14].state);
-    _isCarEntranceUpdate = _isCarEntranceUpdate ?? bool.hasEnvironment(_adsBF[13].state);
-    _isElevatorUpdate = _isElevatorUpdate ?? bool.hasEnvironment(_adsBF[12].state);
-    _isConditionerUpdate = _isConditionerUpdate ?? bool.hasEnvironment(_adsBF[11].state);
-    _isHallStaircaseUpdate = _isHallStaircaseUpdate ?? bool.hasEnvironment(_adsBF[10].state);
-    _isDuplexUpdate = _isDuplexUpdate ?? bool.hasEnvironment(_adsBF[9].state);
-    _isDriverRoomUpdate = _isDriverRoomUpdate ?? bool.hasEnvironment(_adsBF[8].state);
-    _isSwimmingPoolUpdate = _isSwimmingPoolUpdate ?? bool.hasEnvironment(_adsBF[7].state);
-    _isMaidRoomUpdate = _isMaidRoomUpdate ?? bool.hasEnvironment(_adsBF[6].state);
-    _isVerseUpdate = _isVerseUpdate ?? bool.hasEnvironment(_adsBF[5].state);
-    _isCellarUpdate = _isCellarUpdate ?? bool.hasEnvironment(_adsBF[4].state);
-    _isFamilyPartitionUpdate = _isFamilyPartitionUpdate ?? bool.hasEnvironment(_adsBF[3].state);
-    _isAmusementParkUpdate = _isAmusementParkUpdate ?? bool.hasEnvironment(_adsBF[2].state);
-    _isVolleyballCourtUpdate = _isVolleyballCourtUpdate ?? bool.hasEnvironment(_adsBF[1].state);
-    _isFootballCourtUpdate = _isFootballCourtUpdate ?? bool.hasEnvironment(_adsBF[0].state);
+    _adsBF.forEach((element) {
+      switch(element.id_BFAT){
+        case '1':
+          _isFurnishedUpdate = _isFurnishedUpdate ?? bool.hasEnvironment(element.state);
+          break;
+        case '2':
+          _isKitchenUpdate = _isKitchenUpdate ?? bool.hasEnvironment(element.state);
+          break;
+        case '3':
+          _isFamilyPartitionUpdate = _isFamilyPartitionUpdate ?? bool.hasEnvironment(element.state);
+          break;
+        case '5':
+          _isCarEntranceUpdate = _isCarEntranceUpdate ?? bool.hasEnvironment(element.state);
+          break;
+        case '7':
+          _isElevatorUpdate = _isElevatorUpdate ?? bool.hasEnvironment(element.state);
+          break;
+        case '12':
+          _isAppendixUpdate = _isAppendixUpdate ?? bool.hasEnvironment(element.state);
+          break;
+        case '16':
+          _isCellarUpdate = _isCellarUpdate ?? bool.hasEnvironment(element.state);
+          break;
+        case '17':
+          _isYardUpdate = _isYardUpdate ?? bool.hasEnvironment(element.state);
+          break;
+        case '18':
+          _isDriverRoomUpdate = _isDriverRoomUpdate ?? bool.hasEnvironment(element.state);
+          break;
+        case '19':
+          _isMaidRoomUpdate = _isMaidRoomUpdate ?? bool.hasEnvironment(element.state);
+          break;
+        case '20':
+          _isSwimmingPoolUpdate = _isSwimmingPoolUpdate ?? bool.hasEnvironment(element.state);
+          break;
+        case '21':
+          _isFootballCourtUpdate = _isFootballCourtUpdate ?? bool.hasEnvironment(element.state);
+          break;
+        case '22':
+          _isVolleyballCourtUpdate = _isVolleyballCourtUpdate ?? bool.hasEnvironment(element.state);
+          break;
+        case '23':
+          _isAmusementParkUpdate = _isAmusementParkUpdate ?? bool.hasEnvironment(element.state);
+          break;
+        case '24':
+          _isVerseUpdate = _isVerseUpdate ?? bool.hasEnvironment(element.state);
+          break;
+        case '25':
+          _isDuplexUpdate = _isDuplexUpdate ?? bool.hasEnvironment(element.state);
+          break;
+        case '26':
+          _isHallStaircaseUpdate = _isHallStaircaseUpdate ?? bool.hasEnvironment(element.state);
+          break;
+        case '27':
+          _isConditionerUpdate = _isConditionerUpdate ?? bool.hasEnvironment(element.state);
+          break;
+      }
+    });
 
-    _LoungesUpdateUpdate = _LoungesUpdateUpdate ?? double.parse(_adsQF[9].quantity);
-    _ToiletsUpdateUpdate = _ToiletsUpdateUpdate ?? double.parse(_adsQF[8].quantity);
-    _RoomsUpdate = _RoomsUpdate ?? double.parse(_adsQF[7].quantity);
-    _AgeOfRealEstateUpdate = _AgeOfRealEstateUpdate ?? double.parse(_adsQF[6].quantity);
-    _ApartmentsUpdate = _ApartmentsUpdate ?? double.parse(_adsQF[5].quantity);
-    _StoresUpdate = _StoresUpdate ?? double.parse(_adsQF[4].quantity);
-    _WellsUpdate = _WellsUpdate ?? double.parse(_adsQF[3].quantity);
-    _TreesUpdate = _TreesUpdate ?? double.parse(_adsQF[2].quantity);
-    _FloorUpdate = _FloorUpdate ?? double.parse(_adsQF[1].quantity);
-    _StreetWidthUpdate = _StreetWidthUpdate ?? double.parse(_adsQF[0].quantity);
+    _adsQF.forEach((element) {
+      switch(element.id_QFAT){
+        case '7':
+          _LoungesUpdateUpdate = _LoungesUpdateUpdate ?? double.parse(element.quantity);
+          break;
+        case '8':
+          _ToiletsUpdateUpdate = _ToiletsUpdateUpdate ?? double.parse(element.quantity);
+          break;
+        case '9':
+          _RoomsUpdate = _RoomsUpdate ?? double.parse(element.quantity);
+          break;
+        case '10':
+          _FloorUpdate = _FloorUpdate ?? double.parse(element.quantity);
+          break;
+        case '11':
+          _AgeOfRealEstateUpdate = _AgeOfRealEstateUpdate ?? double.parse(element.quantity);
+          break;
+        case '12':
+          _ApartmentsUpdate = _ApartmentsUpdate ?? double.parse(element.quantity);
+          break;
+        case '13':
+          _StreetWidthUpdate = _StreetWidthUpdate ?? double.parse(element.quantity);
+          break;
+        case '14':
+          _TreesUpdate = _TreesUpdate ?? double.parse(element.quantity);
+          break;
+        case '15':
+          _WellsUpdate = _WellsUpdate ?? double.parse(element.quantity);
+          break;
+        case '16':
+          _StoresUpdate = _StoresUpdate ?? double.parse(element.quantity);
+          break;
+      }
+    });
 
     if(!typeAqarUpdate.contains(true)){
       setTyprAqarUpdate(int.parse(_idTypeAqar)-1, false);
@@ -109,10 +180,10 @@ class UpdateDetailsProvider extends ChangeNotifier{
     
   }
 
-  void getCategoryeInfoUpdate() async {
-    Future.delayed(Duration(milliseconds: 0), () {
+  Future<void> getCategoryeInfoUpdate() async {
+    Future.delayed(Duration(milliseconds: 0), () async{
       _categoryUpdate.clear();
-      Api().getCategoryFunc().then((value) {
+      await Api().getCategoryFunc().then((value) {
         _CategoryDataUpdate = value;
         _CategoryDataUpdate.forEach((element) {
           _categoryUpdate.add(CategoryModel.fromJson(element));
@@ -487,7 +558,7 @@ class UpdateDetailsProvider extends ChangeNotifier{
 
     Future.delayed(Duration(seconds: 0), () {
       // Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
-      Provider.of<BottomNavProvider>(context, listen: false).setCurrentPage(0);
+      Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
       // Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
       // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
       Navigator.pushAndRemoveUntil(

@@ -45,7 +45,7 @@ class Trees extends StatelessWidget {
             value: addAd.TreesAddAds,
             min: 0,
             max: 9999,
-            divisions: 9999,
+            divisions: 39996,
             label: addAd.TreesAddAds.floor()
                 .toString(),
             onChanged: (double value) {

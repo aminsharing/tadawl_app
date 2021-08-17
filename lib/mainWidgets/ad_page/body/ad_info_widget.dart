@@ -11,6 +11,7 @@ import 'package:tadawl_app/provider/ads_provider/aqar_vr_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/ads/aqar_vr.dart';
+import 'package:tadawl_app/screens/ads/upgrade_ad_screen.dart';
 import 'ad_info_widget/ad_qf_table.dart';
 
 class AdInfoWidget extends StatelessWidget {
@@ -75,6 +76,7 @@ class AdInfoWidget extends StatelessWidget {
               GestureDetector(
                 onTap: (){
                   // TODO Add upgrade ads function
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => UpgradeAdScreen()));
                 },
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(65, 15, 65, 0),
@@ -90,8 +92,9 @@ class AdInfoWidget extends StatelessWidget {
                       child: Text(
                         AppLocalizations.of(context).advUpgrade,
                         style: CustomTextStyle(
-                          fontSize: 15,
-                          color: const Color(0xffe6e600),
+                          fontSize: 16,
+                          color: const Color(0xff989696),
+                          // color: const Color(0xffe6e600),
                         ).getTextStyle(),
                         textAlign: TextAlign.center,
                       ),
@@ -180,8 +183,9 @@ class AdInfoWidget extends StatelessWidget {
                       child: Text(
                         AppLocalizations.of(context).reVR,
                         style: CustomTextStyle(
-                          fontSize: 15,
-                          color: const Color(0xff00cccc),
+                          fontSize: 16,
+                          color: const Color(0xff989696),
+                          // color: const Color(0xff00cccc),
                         ).getTextStyle(),
                         textAlign: TextAlign.center,
                       ),

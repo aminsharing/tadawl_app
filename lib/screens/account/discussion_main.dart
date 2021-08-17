@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/mainWidgets/discussion/msg_body.dart';
 import 'package:tadawl_app/mainWidgets/discussion/msg_bottom_button.dart';
 import 'package:tadawl_app/mainWidgets/discussion/msg_receive_time.dart';
+import 'package:tadawl_app/models/ConvModel.dart';
 import 'package:tadawl_app/models/message_model.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
@@ -21,9 +23,11 @@ class Discussion extends StatelessWidget {
       {
     Key key,
         @required this.username,
+
   }) : super(key: key);
   final String phone_user;
   final String username;
+
 
   final GlobalKey<FormState> _messageKey = GlobalKey<FormState>();
 
@@ -34,8 +38,10 @@ class Discussion extends StatelessWidget {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     final msgProv = Provider.of<MsgProvider>(context, listen: false);
     msgProv.initScrollDown();
+    msgProv.getConvInfo(locale.phone);
+    msgProv.getCommentUser(phone_user, locale.phone);
 
-
+    print("Date.Now(): ${DateTime.now().day}");
     var mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
@@ -92,28 +98,53 @@ class Discussion extends StatelessWidget {
           backgroundColor: Color(0xff00cccc),
         ),
         body: Consumer<MsgProvider>(builder: (context, mainChat, child) {
-          mainChat.getConvInfo(locale.phone);
-          mainChat.getCommentUser(phone_user, locale.phone);
           return Stack(
             children: <Widget>[
               Container(
                 width: mediaQuery.size.width,
                 height: mediaQuery.size.height * 0.75,
-                child: StreamBuilder(
+                child: StreamBuilder<List<ConvModel>>(
                   stream: mainChat.streamChatController.stream,
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  builder: (BuildContext context, AsyncSnapshot<List<ConvModel>> snapshot) {
                     if (snapshot.hasData) {
-                      List<MessageModel> msgsNo = snapshot.data.map<MessageModel>((document) {
-                        return MessageModel.fromJson(document);
-                      }).toList();
-                      var msgs = msgsNo.reversed.toList();
+
+                      // ignore: omit_local_variable_types
+                      List<ConvModel> msgs = snapshot.data.reversed.toList();
                       return ListView.builder(
                         controller: mainChat.scrollChatController,
                         reverse: true,
                         itemCount: msgs.length,
                         itemBuilder: (context, i){
+                          bool text = false;
+                          if(i < msgs.length -1){
+                            String firstNum = msgs[i].timeAdded.split(' ').first.split('-').last;
+                            String secondNum = msgs[i+1].timeAdded.split(' ').first.split('-').last;
+                            if(firstNum != secondNum) {
+                              print("msgs[i].timeAdded");
+                              text = true;
+                            }
+                          }
                           return Column(
                             children: [
+                              if(text)
+                                Container(
+                                  width: mediaQuery.size.width,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xfff2f2f2)
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                      child: Text(
+
+                                        "${DateFormat('yyyy-MM-dd').format(DateTime.parse(msgs[i].timeAdded),)}",
+                                        textAlign: TextAlign.center,
+                                        style: CustomTextStyle(
+                                          fontSize: 13,
+                                          color: const Color(0xffb1b1b1),
+                                        ).getTextStyle(),
+                                      ),
+                                    )
+                                ),
                               MsgBody(locale.phone, msgs: msgs[i]),
                               MsgReceiveTime(locale.phone, msgs: msgs[i]),
                             ],
@@ -214,14 +245,16 @@ class Discussion extends StatelessWidget {
                                         ),
                                         style: CustomTextStyle(
                                           fontSize: 15,
-                                          color: const Color(0xff00cccc),
+                                          // color: const Color(0xff00cccc),
                                         ).getTextStyle(),
-                                        keyboardType: TextInputType.text,
+                                        keyboardType: TextInputType.multiline,
+                                        minLines: 1,
+                                        maxLines: 30,
                                         onSaved: (String value) {
                                           mainChat.setMessageController(value);
                                         },
                                         onChanged: (value){
-                                          if(value.isEmpty){
+                                          if(mainChat.messageController.text.isEmpty){
                                             mainChat.setIsTyping(false);
                                           }
                                           else{
@@ -237,7 +270,7 @@ class Discussion extends StatelessWidget {
                                       height: 50.0,
                                       width: 50.0,
                                       decoration: BoxDecoration(
-                                        color: Colors.black54,
+                                        color: Colors.white,
                                         shape: BoxShape.circle,
                                       ),
                                       child: GestureDetector(
@@ -254,9 +287,6 @@ class Discussion extends StatelessWidget {
                                                 MessType.TEXT
                                             );
                                           }
-                                          if(mainChat.msgController.text.isNotEmpty){
-                                            // mainChat.sendText();
-                                          }
                                         },
                                         child: Icon(Icons.send_rounded,
                                           color: Color(0xff00cccc),
@@ -269,7 +299,7 @@ class Discussion extends StatelessWidget {
                                       height: 50.0,
                                       width: 50.0,
                                       decoration: BoxDecoration(
-                                        color: Colors.black54,
+                                        color: Colors.white,
                                         shape: BoxShape.circle,
                                       ),
                                       child: GestureDetector(

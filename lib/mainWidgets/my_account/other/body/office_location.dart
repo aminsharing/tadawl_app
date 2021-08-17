@@ -29,6 +29,8 @@ class OfficeLocation extends StatelessWidget {
     return Consumer<MyAccountProvider>(builder: (context, userMutual, child) {
       return userMutual.offices != null
           ?
+      userMutual.offices.state == '1'
+          ?
         Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -86,6 +88,8 @@ class OfficeLocation extends StatelessWidget {
           ),
         ],
       )
+          :
+      Container()
           :
       Container();
     });
