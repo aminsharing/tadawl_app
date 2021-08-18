@@ -17,11 +17,12 @@ class Home extends StatelessWidget {
     // final msgProv = Provider.of<MsgProvider>(context, listen: false);
     final locale = Provider.of<LocaleProvider>(context, listen: false);
 
-    locale.getSession().then((value) {
-      if(value != null){
-        notificationProv.getNotificationsList(value);
-        Future.delayed(Duration(seconds: 5), () {
-          notificationProv.showNotification(value);
+    locale.getSession().then((phone) async{
+      if(phone != null){
+        await notificationProv.getNotificationsList(phone).then((value) async{
+          Future.delayed(Duration(seconds: 5), ()async{
+            await notificationProv.showNotification(phone);
+          });
         });
       }
     });

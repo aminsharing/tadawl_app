@@ -9,23 +9,31 @@ import 'package:just_audio/just_audio.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'package:record/record.dart';
 import 'package:tadawl_app/models/ConvModel.dart';
 import 'package:tadawl_app/models/message_model.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 
 class MsgProvider extends ChangeNotifier{
 
-  MsgProvider(String _phone, String otherPhone, {this.adsId}){
+  MsgProvider(BuildContext context ,String _phone, {this.adsId}){
     print('init MsgProvider');
-    print('MsgProvider _phone: $_phone otherPhone: $otherPhone');
     if(adsId != null){
       _messageController.text = 'بخصوص الإعلان رقم\n'
           '$adsId';
       _isTyping = true;
     }
     getConvInfo(_phone).then((value) {
-      getUnreadMsgs(_phone, other_phone: otherPhone);
+      getUnreadMsgs(_phone).then((value) {
+        Provider.of<LocaleProvider>(context, listen: false).getUnreadMsgs(_phone).then((value) {
+          Provider.of<LocaleProvider>(context, listen: false).update();
+        });
+        Future.delayed(Duration(seconds: 1), (){
+          update();
+        });
+      });
     });
   }
 
@@ -34,6 +42,9 @@ class MsgProvider extends ChangeNotifier{
     print('dispose MsgProvider');
     deleteDir();
     _streamChatController.close();
+    if(_timer != null) {
+      _timer.cancel();
+    }
     super.dispose();
   }
 
@@ -51,59 +62,57 @@ class MsgProvider extends ChangeNotifier{
   Timer _timer;
   int _recordLengthMin = 0;
   int _recordLengthSec = 0;
+  int _recordDuration = 0;
   String _randomName;
   bool _isTyping = false;
   bool _isRecording = false;
   File _voiceMsg;
-  int _unreadMsgs = 0;
+
   bool _noMsgs = true;
 
 
   Future<void> getConvInfo(String _phone) async {
     if(_phone != null) {
       _conv.clear();
+      List<dynamic> value = await Api().getDiscListFunc(_phone);
+      value.forEach((element) {
+        _conv.add(ConvModel.fromJson(element));
+      });
+      Future.delayed(Duration(seconds: 3), () async{
+        if(_conv.isNotEmpty){
+          _noMsgs = false;
+        }else{
+          _noMsgs = true;
+        }
+      });
+      // notifyListeners();
+    }
+  }
+
+  Future<void> getUnreadMsgs(String _phone) async{
+    print("value: }");
+    if(_conv.isNotEmpty){
+      print("value: {");
+      _conv.forEach((element) async{
+        if(_phone != element.phone_user_sender){
+          await Api().getUnreadMessagesByUserFunc(_phone, element.phone_user_sender).then((value) {
+            element.unreadMsgs = value.toString();
+            print("**************************************");
+            print("value: $_phone");
+            print("value: ${element.phone_user_sender}");
+            print("value: ${element.unreadMsgs}");
+            print("***************************************");
+            // notifyListeners();
+          });
+        }
+      });
+    }
+  }
+
+  Future<void> setReadMsgs(String _phone, String _other_phone) async{
+    if(_phone != null) {
       Future.delayed(Duration(milliseconds: 0), () async{
-        List<dynamic> value = await Api().getDiscListFunc(_phone);
-        value.forEach((element) {
-          _conv.add(ConvModel.fromJson(element));
-        });
-        Future.delayed(Duration(seconds: 3), () async{
-          if(_conv.isNotEmpty){
-            _noMsgs = false;
-          }else{
-            _noMsgs = true;
-          }
-        });
-        notifyListeners();
-      });
-    }
-  }
-
-  void getUnreadMsgs(String _phone, {String other_phone}) {
-    if(_phone != null) {
-      Future.delayed(Duration(milliseconds: 0), () {
-        Api().getUnreadMessagesFunc(_phone).then((value) {
-          _unreadMsgs = 0;
-          if(other_phone != null){
-            if(_conv.isNotEmpty){
-              _conv.forEach((element) {
-                if(element.phone_user_recipient == _phone && element.phone_user_sender == other_phone){
-                  element.unreadMsgs = (value??0).toString();
-                }
-              });
-            }
-          }
-          _unreadMsgs = value;
-          // notifyListeners();
-        });
-      });
-    }
-  }
-
-  void setReadMsgs(String _phone, String _other_phone, String unreadMsgs) {
-    if(_phone != null) {
-      Future.delayed(Duration(milliseconds: 0), () {
-        Api().setReadMessagesFunc(_phone, _other_phone).then((value) {
+        await Api().setReadMessagesFunc(_phone, _other_phone).then((value) {
           notifyListeners();
         });
       });
@@ -163,6 +172,7 @@ class MsgProvider extends ChangeNotifier{
       String phone_user,
       String _phone,
       String msgType,
+      int msgDuration,
       {bool isAuto = true}) async {
     if(imagesList.isNotEmpty){
       print("imagesList.first.path.split('/').last: ${imagesList.first.path.split('/').last}");
@@ -181,13 +191,12 @@ class MsgProvider extends ChangeNotifier{
         username: _recAvatarUserName,
         image: '',
         phone: _phone,
-        voice: voiceMsg != null ? voiceMsg.path : '',
+        voice: voiceMsg != null ? voiceMsg.path.split('/').last : '',
         msgType: msgType,
+        duration: msgDuration,
         isLocal: true,
     )]);
-    Future.delayed(Duration(milliseconds: 0), () async{
-      await Api().sendMessFunc(imagesList, voiceMsg, content, _phone, phone_user, msgType).then((value) => notifyListeners());
-    });
+    await Api().sendMessFunc(imagesList, voiceMsg, content, _phone, phone_user, msgType, msgDuration).then((value) => notifyListeners());
     _messageController.clear();
     if(isAuto) {
       setIsTyping(false);
@@ -271,6 +280,7 @@ class MsgProvider extends ChangeNotifier{
   }
 
   void stopRecorder(bool delete, String phone_user, String _phone, BuildContext context) async{
+
     if(delete){
       await Record.stop().then((value) async{
         _isRecording = false;
@@ -280,23 +290,29 @@ class MsgProvider extends ChangeNotifier{
       });
     }
     else{
-      if(_recordLengthSec == 0){
-        await Fluttertoast.showToast(
-            msg: 'يجب ان تكون الرسالة الصوتية اكثر من ثانية',
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            fontSize: 15.0);
-        _isRecording = false;
-        _recordIcon = Icons.mic;
-        notifyListeners();
-      }else{
-        await Record.stop().then((value) async{
+      await Record.stop().then((value) async{
+        if(_recordLengthSec <= 1){
+          _isRecording = false;
+          _recordIcon = Icons.mic;
+          deleteFile('$randomName');
+          notifyListeners();
+          await Fluttertoast.showToast(
+              msg: 'يجب ان تكون الرسالة الصوتية اكثر من ثانية',
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.green,
+              textColor: Colors.white,
+              fontSize: 15.0);
+
+        }
+        else{
           var temp = await getTemporaryDirectory();
           var newDir = Directory(temp.path + '/voiceChat');
           _voiceMsg = await File(newDir.path + '/$randomName.m4a');
+          _isRecording = false;
+          _recordIcon = Icons.mic;
+          notifyListeners();
           await sendMess(
               context,
               [],
@@ -304,15 +320,15 @@ class MsgProvider extends ChangeNotifier{
               null,
               phone_user,
               _phone,
-              MessType.VOICE
+              MessType.VOICE,
+            _recordDuration,
           ).then((value) {
+            _recordDuration = -1;
             notifyListeners();
           });
-          _isRecording = false;
-          _recordIcon = Icons.mic;
-          notifyListeners();
-        });
-      }
+
+        }
+      });
       }
     stopTimer();
   }
@@ -355,6 +371,7 @@ class MsgProvider extends ChangeNotifier{
 
   void startTimer(){
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      _recordDuration++;
       if(recordLengthSec >= 59){
         _recordLengthMin++;
         _recordLengthSec = -1;
@@ -404,7 +421,8 @@ class MsgProvider extends ChangeNotifier{
         null,
         phone_user,
         _phone,
-        MessType.IMAGE
+        MessType.IMAGE,
+        null
     ).then((value) {
       notifyListeners();
     });
@@ -430,7 +448,7 @@ class MsgProvider extends ChangeNotifier{
   bool get isTyping => _isTyping;
   bool get isRecording => _isRecording;
   File get voiceMsg => _voiceMsg;
-  int get unreadMsgs => _unreadMsgs;
+
   bool get noMsgs => _noMsgs;
 
 

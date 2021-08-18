@@ -11,9 +11,11 @@ class VoicePlayer extends StatefulWidget {
   VoicePlayer({
     Key key,
     this.voice,
+    this.duration,
     this.isLocal,
   }) : super(key: key);
   final String voice;
+  final int duration;
   final bool isLocal;
 
 
@@ -111,11 +113,19 @@ class _VoicePlayerState extends State<VoicePlayer> {
                 if(snapshot.hasData){
                   _remaining = snapshot.data.duration - snapshot.data.position;
                 }
-                return _remaining == Duration.zero
+                return _player.playing
+                    ?
+                  _remaining == Duration.zero
                     ?
                     Text('')
                     :
-                Text(RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$').firstMatch("$_remaining")?.group(1) ?? '$_remaining');
+                Text(RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$').firstMatch("$_remaining")?.group(1) ?? '$_remaining')
+                    :
+                widget.duration == 0
+                    ?
+                Text('')
+                    :
+                Text(RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$').firstMatch("${Duration(seconds: widget.duration)}")?.group(1) ?? '');
               }
             ),
             _isLoading

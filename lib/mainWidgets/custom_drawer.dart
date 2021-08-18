@@ -179,7 +179,7 @@ class CustomDrawer extends StatelessWidget {
                           text: AppLocalizations.of(context).messages,
                           onPressed: () {
                             // ignore: omit_local_variable_types
-                            final MsgProvider msgProvider = MsgProvider(locale.phone, null);
+                            final MsgProvider msgProvider = MsgProvider(context, locale.phone);
                             Navigator.push(
                               context,
                               PageTransition(type: PageTransitionType.bottomToTop,

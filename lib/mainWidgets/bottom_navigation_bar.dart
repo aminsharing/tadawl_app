@@ -30,7 +30,7 @@ class BottomNavigationBarApp extends StatelessWidget {
       height: mediaQuery.size.height * 0.11,
       width: mediaQuery.size.width,
       color: const Color(0xff212a37),
-      child: Consumer<LocaleProvider>(builder: (ctxt, local, child){
+      child: Consumer<LocaleProvider>(builder: (context, local, child){
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -211,7 +211,7 @@ class BottomNavigationBarApp extends StatelessWidget {
                   final locale = Provider.of<LocaleProvider>(context, listen: false);
                   if(locale.phone != null) {
                     // ignore: omit_local_variable_types
-                    final MsgProvider msgProvider = MsgProvider(local.phone, null);
+                    final MsgProvider msgProvider = MsgProvider(context, local.phone);
                     Navigator.push(context, MaterialPageRoute(builder: (context) =>
                         ChangeNotifierProvider<MsgProvider>(
                           create: (_) => msgProvider,
@@ -249,37 +249,37 @@ class BottomNavigationBarApp extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // if(msgProv.unreadMsgs != 0)
-                        //   Align(
-                        //     alignment: Alignment.centerLeft,
-                        //     child: Container(
-                        //       width: 15.0,
-                        //       height: 15.0,
-                        //       decoration:
-                        //       BoxDecoration(
-                        //           color: Colors
-                        //               .red
-                        //               .withOpacity(
-                        //               0.8),
-                        //           shape: BoxShape
-                        //               .circle),
-                        //       child: Center(
-                        //         child: Text(
-                        //           '${msgProv.unreadMsgs}',
-                        //           style: TextStyle(
-                        //             fontFamily:
-                        //             'DINNext',
-                        //             fontSize: 11,
-                        //             color: Colors.white,
-                        //             // color:
-                        //             // convList.conv[i].phone_user_sender == _phone
-                        //             //         ? Color(0xff848282)
-                        //             //         : Color(0xffffffff),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
+                        if(local.unreadMsgs != 0)
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              width: 15.0,
+                              height: 15.0,
+                              decoration:
+                              BoxDecoration(
+                                  color: Colors
+                                      .red
+                                      .withOpacity(
+                                      0.8),
+                                  shape: BoxShape
+                                      .circle),
+                              child: Center(
+                                child: Text(
+                                  '${local.unreadMsgs}',
+                                  style: TextStyle(
+                                    fontFamily:
+                                    'DINNext',
+                                    fontSize: 11,
+                                    color: Colors.white,
+                                    // color:
+                                    // convList.conv[i].phone_user_sender == _phone
+                                    //         ? Color(0xff848282)
+                                    //         : Color(0xffffffff),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                       ],
                     ),
                     Flexible(

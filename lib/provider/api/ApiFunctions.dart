@@ -445,6 +445,20 @@ class Api {
     }
   }
 
+  Future<dynamic> getUnreadMessagesByUserFunc(String phone, String otherPhone) async {
+    var url = '$BaseURL/conversations/unreaded_messages_user.php';
+    var response = await http.post(url, body: {
+      'auth_key': _token,
+      'phone': phone,
+      'other_phone': otherPhone,
+    });
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      return '0';
+    }
+  }
+
   Future<dynamic> setReadMessagesFunc(
        String phone, String other_phone) async {
     var url = '$BaseURL/conversations/set_read_messages.php';
@@ -970,7 +984,7 @@ class Api {
   //   });
   // }
 
-  Future sendMessFunc( List<File> imagesList, File voiceMsg, String content, String phone, String phone_user, String msgType) async {
+  Future sendMessFunc(List<File> imagesList, File voiceMsg, String content, String phone, String phone_user, String msgType, int voiceDuration) async {
     var uri = Uri.parse('$BaseURL/conversations/send_mes.php');
     var request = http.MultipartRequest('POST', uri);
 
@@ -979,6 +993,7 @@ class Api {
     request.fields['other_phone'] = phone_user;
     request.fields['message'] = content ?? '';
     request.fields['msg_type'] = msgType;
+    request.fields['voice_duration'] = (voiceDuration??0).toString();
 
     if (voiceMsg != null) {
       var voice = await http.MultipartFile.fromPath('voice', voiceMsg.path);

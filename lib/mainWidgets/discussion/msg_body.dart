@@ -34,7 +34,7 @@ class MsgBody extends StatelessWidget {
             padding: EdgeInsets.all(13),
             child: msgs.msgType == MessType.VOICE
                 ?
-            VoicePlayer(voice: msgs.voice, isLocal: msgs.isLocal,)
+            VoicePlayer(voice: msgs.voice, isLocal: msgs.isLocal, duration: msgs.duration,)
                 :
             Text(
               msgs.comment??'',

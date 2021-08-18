@@ -5,7 +5,7 @@ import 'package:tadawl_app/provider/region_provider.dart';
 
 class RegionsMap extends StatelessWidget {
 
-  // final Color geometry = Color(0xff242f3e);
+  // final Color geometry = Color(0xff8d8f95);
 
 
   @override
@@ -54,7 +54,7 @@ class Utils {
     "elementType": "geometry",
     "stylers": [
       {
-        "color": "#415d7f"
+        "color": "#8d8f95"
       }
     ]
   },

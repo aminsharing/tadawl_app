@@ -60,7 +60,7 @@ class DiscussionList extends StatelessWidget {
                       builder: (context) =>
                           ChangeNotifierProvider<MsgProvider>.value(
                             value: msgProvider,
-                            child: DiscussionEdit(),
+                            child: DiscussionEdit(msgProvider: msgProvider),
                           )
                   ),
                 );
@@ -77,14 +77,21 @@ class DiscussionList extends StatelessWidget {
             itemCount: convList.conv.length,
             padding: EdgeInsets.zero,
             itemBuilder: (context, i){
-              if (convList.conv[i].state_conv_sender != '0') {
-                convList.getUnreadMsgs(locale.phone, other_phone: convList.conv[i].phone);
+              if (convList.conv[i].state_conv_sender != '0'){
                 return ConvBtn(
                     conv: convList.conv[i],
                     phone: locale.phone,
                     onPressed: () {
                       // convList.initScrollDown();
-                      convList.setReadMsgs(locale.phone, convList.conv[i].phone, convList.conv[i].unreadMsgs);
+                      convList.setReadMsgs(locale.phone, convList.conv[i].phone).then((value) {
+                        convList.getUnreadMsgs(locale.phone).then((value) {
+                          convList.update();
+                          locale.getUnreadMsgs(locale.phone);
+                          Future.delayed(Duration(seconds: 1), (){
+                            locale.update();
+                          });
+                        });
+                      });
                       convList.setRecAvatarUserName(convList.conv[i].username);
                       Navigator.push(context, MaterialPageRoute(builder: (context) =>
                       ChangeNotifierProvider<MsgProvider>.value(

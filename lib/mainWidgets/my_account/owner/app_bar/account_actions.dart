@@ -150,22 +150,24 @@ class AccountActions extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(
                           10, 0, 10, 0),
                       child: Icon(
-                        choice == Constants.updateMyInfo ?
-                        Icons.person_pin_rounded :
-                        choice == Constants.changePass
+                        choice == (_lang != 'en_US' ? Constants.updateMyInfo : EngConstants.updateMyInfo)
+                            ?
+                        Icons.person_pin_rounded
+                            :
+                        choice == (_lang != 'en_US' ? Constants.changePass : EngConstants.changePass)
                             ?
                         Icons.vpn_key_rounded
                             :
-                        choice == Constants.changePhone
+                        choice == (_lang != 'en_US' ? Constants.changePhone : EngConstants.changePhone)
                             ?
                         Icons.phone_enabled_rounded
                             :
-                        choice == Constants.help
+                        choice == (_lang != 'en_US' ? Constants.help : EngConstants.help)
                             ?
                         Icons.support_rounded
                             :
                         Icons.exit_to_app_rounded,
-                        color: choice == Constants.logout ? const Color(0xffff0000) : const Color(0xff989898),
+                        color: choice == (_lang != 'en_US' ? Constants.logout : EngConstants.logout) ? const Color(0xffff0000) : const Color(0xff989898),
                         size: 30,
                       ),
                     ),

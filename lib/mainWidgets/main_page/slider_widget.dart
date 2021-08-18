@@ -13,7 +13,8 @@ class SliderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _lang = Provider.of<LocaleProvider>(context, listen: false).locale.toString();
+    var locale = Provider.of<LocaleProvider>(context, listen: false);
+    var _lang = locale.locale.toString();
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
       child: Consumer<MainPageProvider>(builder: (context, mainPage, _){

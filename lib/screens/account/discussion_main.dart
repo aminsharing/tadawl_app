@@ -9,6 +9,7 @@ import 'package:tadawl_app/models/ConvModel.dart';
 import 'package:tadawl_app/models/message_model.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Constants {
   static const String banMessaging = 'حظر المراسلة';
@@ -38,10 +39,8 @@ class Discussion extends StatelessWidget {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     final msgProv = Provider.of<MsgProvider>(context, listen: false);
     msgProv.initScrollDown();
-    msgProv.getConvInfo(locale.phone);
     msgProv.getCommentUser(phone_user, locale.phone);
 
-    print("Date.Now(): ${DateTime.now().day}");
     var mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
@@ -107,7 +106,6 @@ class Discussion extends StatelessWidget {
                   stream: mainChat.streamChatController.stream,
                   builder: (BuildContext context, AsyncSnapshot<List<ConvModel>> snapshot) {
                     if (snapshot.hasData) {
-
                       // ignore: omit_local_variable_types
                       List<ConvModel> msgs = snapshot.data.reversed.toList();
                       return ListView.builder(
@@ -135,7 +133,14 @@ class Discussion extends StatelessWidget {
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                                       child: Text(
-
+                                          DateFormat('yyyy-MM-dd').format(DateTime.now()) == DateFormat('yyyy-MM-dd').format(DateTime.parse(msgs[i].timeAdded))
+                                            ?
+                                          AppLocalizations.of(context).today
+                                            :
+                                          DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 1))) == DateFormat('yyyy-MM-dd').format(DateTime.parse(msgs[i].timeAdded))
+                                              ?
+                                          AppLocalizations.of(context).yesterday
+                                              :
                                         "${DateFormat('yyyy-MM-dd').format(DateTime.parse(msgs[i].timeAdded),)}",
                                         textAlign: TextAlign.center,
                                         style: CustomTextStyle(
@@ -237,6 +242,7 @@ class Discussion extends StatelessWidget {
                                             phone_user,
                                             locale.phone,
                                             MessType.TEXT,
+                                            null
                                           );
                                         },
                                         controller: mainChat.messageController,
@@ -284,7 +290,8 @@ class Discussion extends StatelessWidget {
                                                 mainChat.messageController.text,
                                                 phone_user,
                                                 locale.phone,
-                                                MessType.TEXT
+                                                MessType.TEXT,
+                                              null
                                             );
                                           }
                                         },
@@ -304,9 +311,15 @@ class Discussion extends StatelessWidget {
                                       ),
                                       child: GestureDetector(
                                         onTapDown: (value){
+                                          print("onTapDown value: ${value.localPosition}");
                                           mainChat.startRecorder();
                                         },
                                         onTapUp: (value){
+                                          print("onTapUp value: ${value.localPosition}");
+                                          mainChat.stopRecorder(false, phone_user, locale.phone, context);
+                                        },
+                                        onTapCancel: (){
+                                          print("onTapCancel value:");
                                           mainChat.stopRecorder(false, phone_user, locale.phone, context);
                                         },
                                         onHorizontalDragStart: (value){

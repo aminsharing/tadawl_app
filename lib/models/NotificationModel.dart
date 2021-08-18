@@ -28,7 +28,7 @@ class NotificationModel {
     title = json['title'];
     body = json['body'];
     state = json['state'];
-    state = json['seen'];
+    seen = json['seen'];
   }
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};

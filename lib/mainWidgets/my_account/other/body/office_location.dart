@@ -61,11 +61,8 @@ class OfficeLocation extends StatelessWidget {
                         double.parse(userMutual.offices.office_lng));
                   },
                   initialCameraPosition: CameraPosition(
-                      target: LatLng(
-                          double.parse(
-                              userMutual.offices.office_lat),
-                          double.parse(
-                              userMutual.offices.office_lng)),
+                      target: LatLng(double.parse(userMutual.offices.office_lat),
+                          double.parse(userMutual.offices.office_lng)),
                       zoom: 15),
                   mapType: MapType.normal,
                   onMapCreated: _onMapCreated,
@@ -77,10 +74,16 @@ class OfficeLocation extends StatelessWidget {
                   zoomGesturesEnabled: false,
                 ),
                 Center(
-                  child: Icon(
-                    Icons.my_location_rounded,
-                    color: Color(0xff00cccc),
-                    size: 40,
+                  child: IconButton(
+                    onPressed: (){
+                      _openMap(double.parse(userMutual.offices.office_lat),
+                          double.parse(userMutual.offices.office_lng));
+                    },
+                    icon: Icon(
+                      Icons.my_location_rounded,
+                      color: Color(0xff00cccc),
+                      size: 40,
+                    ),
                   ),
                 ),
               ],

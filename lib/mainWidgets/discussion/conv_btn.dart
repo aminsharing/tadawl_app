@@ -22,12 +22,12 @@ class ConvBtn extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         // margin: EdgeInsets.only(right: 10, bottom: 5, top: 5, left: 10),
-        padding: EdgeInsets.only(top: 0, left: 13, right: 13, bottom: 13),
+        padding: EdgeInsets.only(top: 0, left: 13, right: 0, bottom: 13),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              flex: 1,
+              flex: 2,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -39,16 +39,18 @@ class ConvBtn extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                            image: CachedNetworkImageProvider(
-                                'https://tadawl-store.com/API/assets/images/avatar/${conv.image ?? 'avatar.jpg'}'),
+                            image: (conv.image??'').isNotEmpty
+                                ?
+                            CachedNetworkImageProvider('https://tadawl-store.com/API/assets/images/avatar/${conv.image ?? 'avatar.jpg'}')
+                                :
+                            AssetImage('assets/images/avatar.png'),
                             fit: BoxFit.fill),
                       ),
                     ),
                   ),
-                  SizedBox(width: 5.0,),
+                  SizedBox(width: 10.0,),
                   Column(
-                    mainAxisAlignment:
-                    MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -83,23 +85,6 @@ class ConvBtn extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    (DateTime.now().difference(DateTime.parse(conv.timeAdded)).inHours-3) < 1
-                        ?
-                    ''
-                        :
-                    '',
-                    style: CustomTextStyle(
-                      fontSize: 13,
-                      fontWeight:
-                      FontWeight.w300,
-                      color: Colors.green,
-                      // color:
-                      // conv.phone_user_sender == _phone
-                      //         ? Color(0xff848282)
-                      //         : Color(0xffffffff),
-                    ).getTextStyle(),
-                  ),
                   Column(
                     mainAxisAlignment:
                     MainAxisAlignment.start,
@@ -188,7 +173,7 @@ class ConvBtn extends StatelessWidget {
           ],
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+          // borderRadius: BorderRadius.all(Radius.circular(5.0)),
           border: Border.all(color: Colors.grey),
           color: conv.phone_user_sender == phone
               ? Colors.grey[100]

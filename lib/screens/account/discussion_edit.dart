@@ -16,7 +16,9 @@ import 'package:tadawl_app/screens/account/discussion_main.dart';
 class DiscussionEdit extends StatelessWidget {
   DiscussionEdit({
     Key key,
+    @required this.msgProvider,
   }) : super(key: key);
+  final MsgProvider msgProvider;
 
   Future _deleteConv(String phone_user_recipient, String phone_user_sender) async {
     var res = await http.post(
@@ -88,195 +90,181 @@ class DiscussionEdit extends StatelessWidget {
           backgroundColor: Color(0xff00cccc),
         ),
         backgroundColor: const Color(0xffffffff),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                width: mediaQuery.size.width,
-                height: mediaQuery.size.height,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      convEdit.conv.isNotEmpty
-                          ? Column(
-                              children: [
-                                for (int i = 0; i < convEdit.conv.length; i++)
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                          child: SizedBox(
-                                            // width: 50.0,
-                                            // height: 50.0,
-                                            child: IconButton(
-                                              icon: Icon(
-                                                Icons.remove_circle_rounded,
-                                                color: Color(0xffFF0000),
-                                                size: 50,
-                                              ),
-                                              onPressed: () {
-                                                _deleteConv(
-                                                    convEdit.conv[i].phone_user_recipient,
-                                                    convEdit.conv[i].phone_user_sender);
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 4,
-                                        child: TextButton(
-                                          onPressed: () {
-                                            convEdit.setRecAvatarUserName(convEdit.conv[i].username);
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(builder: (context) =>
-                                                    Discussion(
-                                                      convEdit.conv[i].phone,
-                                                      username: convEdit.conv[i].username,
-                                                    )
-                                                )
-                                            );
-                                            // Navigator.pushNamed(
-                                            //     context, '/main/discussion_main',
-                                            //     arguments: {
-                                            //       'phone_user': convEdit.conv[i].phone,
-                                            //     });
-                                          },
-                                          child: Container(
-                                            margin: EdgeInsets.only(
-                                                right: 10,
-                                                bottom: 5,
-                                                top: 5,
-                                                left: 10),
-                                            padding: EdgeInsets.all(13),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          0, 0, 0, 0),
-                                                  child: Icon(
-                                                    Icons.navigate_before_rounded,
-                                                    color: convEdit.conv[i].phone_user_sender == locale.phone
-                                                        ? Color(0xff00cccc)
-                                                        : Color(0xffffffff),
-                                                    size: 40,
-                                                  ),
-                                                ),
-                                                Container(
-                                                  width: 80,
-                                                  height: 80,
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                        image: CachedNetworkImageProvider(
-                                                            'https://tadawl-store.com/API/assets/images/avatar/${convEdit.conv[i].image ?? 'avatar.jpg'}'),
-                                                        fit: BoxFit.fill),
-                                                  ),
-                                                ),
-                                                Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      convEdit.conv[i].username ??
-                                                          'UserName',
-                                                      textAlign: TextAlign.right,
-                                                      style: CustomTextStyle(
-
-                                                        fontSize: 12,
-                                                        // color: Color(0xff00cccc),
-                                                        color: convEdit.conv[i].phone_user_sender == locale.phone
-                                                            ? Color(0xff00cccc)
-                                                            : Color(0xffffffff),
-                                                      ).getTextStyle(),
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.center,
-                                                      children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets
-                                                                  .fromLTRB(
-                                                              5, 0, 10, 0),
-                                                          child: Text(
-                                                            DateFormat('yyyy-MM-dd')
-                                                                .format(DateTime
-                                                                    .parse(convEdit.conv[i]
-                                                                        .timeAdded)), //hh:mm a
-                                                            textAlign:
-                                                                TextAlign.left,
-                                                            style:
-                                                                CustomTextStyle(
-
-                                                              fontSize: 8,
-                                                              // color:
-                                                              //     Color(0xff848282),
-                                                                  color: convEdit.conv[i].phone_user_sender == locale.phone
-                                                                      ? Color(0xff848282)
-                                                                      : Color(0xffffffff),
-                                                            ).getTextStyle(),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Text(
-                                                      convEdit.conv[i].comment,
-                                                      textAlign: TextAlign.right,
-                                                      style: CustomTextStyle(
-
-                                                        fontSize: 12,
-                                                        // color: Color(0xff848282),
-                                                        color:
-                                                        convEdit.conv[i].phone_user_sender == locale.phone
-                                                            ? Color(0xff848282)
-                                                            : Color(0xffffffff),
-                                                      ).getTextStyle(),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                            decoration: BoxDecoration(
-                                                // color: Colors.white,
-                                                color: convEdit.conv[i].phone_user_sender == locale.phone
-                                                    ? Colors.grey[100]
-                                                    : Color(0xff00cccc),
-                                                border: Border.all(color: Colors.grey),
-                                              borderRadius: BorderRadius.all(Radius.circular(5.0))
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                              ],
-                            )
-                          : Center(
-                              child: Text(
-                                AppLocalizations.of(context).noMessages,
-                                style: CustomTextStyle(
-
-                                  fontSize: 15,
-                                  color: Color(0xff848282),
-                                ).getTextStyle(),
-                              ),
-                            ),
-                    ],
+        body: Container(
+          width: mediaQuery.size.width,
+          height: mediaQuery.size.height,
+          child: ListView.builder(
+            itemCount: convEdit.conv.length,
+            itemBuilder: (context, i){
+            return convEdit.conv.isNotEmpty
+                ?
+            Row(
+              mainAxisAlignment:
+              MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding:
+                    const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: SizedBox(
+                      // width: 50.0,
+                      // height: 50.0,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.remove_circle_rounded,
+                          color: Color(0xffFF0000),
+                          size: 50,
+                        ),
+                        onPressed: () {
+                          _deleteConv(
+                              convEdit.conv[i].phone_user_recipient,
+                              convEdit.conv[i].phone_user_sender);
+                        },
+                      ),
+                    ),
                   ),
                 ),
+                Expanded(
+                  flex: 4,
+                  child: TextButton(
+                    onPressed: () {
+                      convEdit.setRecAvatarUserName(convEdit.conv[i].username);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) =>
+                          ChangeNotifierProvider<MsgProvider>.value(
+                            value: msgProvider,
+                            child: Discussion(
+                              convEdit.conv[i].phone,
+                              username: convEdit.conv[i].username,
+                            ),
+                          )
+                          )
+                      );
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          right: 10,
+                          bottom: 5,
+                          top: 5,
+                          left: 10),
+                      padding: EdgeInsets.all(13),
+                      child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding:
+                            const EdgeInsets.fromLTRB(
+                                0, 0, 0, 0),
+                            child: Icon(
+                              Icons.navigate_before_rounded,
+                              color: convEdit.conv[i].phone_user_sender == locale.phone
+                                  ? Color(0xff00cccc)
+                                  : Color(0xffffffff),
+                              size: 40,
+                            ),
+                          ),
+                          Container(
+                            width: 80,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: CachedNetworkImageProvider(
+                                      'https://tadawl-store.com/API/assets/images/avatar/${convEdit.conv[i].image ?? 'avatar.jpg'}'),
+                                  fit: BoxFit.fill),
+                            ),
+                          ),
+                          Column(
+                            mainAxisAlignment:
+                            MainAxisAlignment
+                                .spaceBetween,
+                            children: [
+                              Text(
+                                convEdit.conv[i].username ??
+                                    'UserName',
+                                textAlign: TextAlign.right,
+                                style: CustomTextStyle(
+
+                                  fontSize: 12,
+                                  // color: Color(0xff00cccc),
+                                  color: convEdit.conv[i].phone_user_sender == locale.phone
+                                      ? Color(0xff00cccc)
+                                      : Color(0xffffffff),
+                                ).getTextStyle(),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets
+                                        .fromLTRB(
+                                        5, 0, 10, 0),
+                                    child: Text(
+                                      DateFormat('yyyy-MM-dd')
+                                          .format(DateTime
+                                          .parse(convEdit.conv[i]
+                                          .timeAdded)), //hh:mm a
+                                      textAlign:
+                                      TextAlign.left,
+                                      style:
+                                      CustomTextStyle(
+
+                                        fontSize: 8,
+                                        // color:
+                                        //     Color(0xff848282),
+                                        color: convEdit.conv[i].phone_user_sender == locale.phone
+                                            ? Color(0xff848282)
+                                            : Color(0xffffffff),
+                                      ).getTextStyle(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                convEdit.conv[i].comment,
+                                textAlign: TextAlign.right,
+                                style: CustomTextStyle(
+
+                                  fontSize: 12,
+                                  // color: Color(0xff848282),
+                                  color:
+                                  convEdit.conv[i].phone_user_sender == locale.phone
+                                      ? Color(0xff848282)
+                                      : Color(0xffffffff),
+                                ).getTextStyle(),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                        // color: Colors.white,
+                          color: convEdit.conv[i].phone_user_sender == locale.phone
+                              ? Colors.grey[100]
+                              : Color(0xff00cccc),
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0))
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+                :
+            Center(
+              child: Text(
+                AppLocalizations.of(context).noMessages,
+                style: CustomTextStyle(
+                  fontSize: 15,
+                  color: Color(0xff848282),
+                ).getTextStyle(),
               ),
-            ],
-          ),
+            );
+          },)
         ),
       );
   }

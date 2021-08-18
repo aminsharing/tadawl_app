@@ -8,46 +8,31 @@ class NotificationProvider extends ChangeNotifier {
   final List<NotificationModel> _notifications = [];
   FlutterLocalNotificationsPlugin _localNotification;
 
-  Future<void> getNotificationsList( String phone) async {
+  Future<void> getNotificationsList(String phone) async {
     Future.delayed(Duration(milliseconds: 0), () async{
       if(phone != null) {
-        if (_notifications.isEmpty) {
-          List<dynamic> value = await ApiRequests().getNotificationsFunc(phone);
-          value.forEach((element) {
-            _notifications.add(NotificationModel.fromJson(element));
-          });
-        }
-        else {
-          List<dynamic> value = await ApiRequests().getNotificationsFunc(phone);
-          _notifications.clear();
-          value.forEach((element) {
-            _notifications.add(NotificationModel.fromJson(element));
-          });
-        }
+        _notifications.clear();
+        List<dynamic> value = await ApiRequests().getNotificationsFunc(phone);
+        value.forEach((element) {
+          _notifications.add(NotificationModel.fromJson(element));
+        });
       }
     });
   }
 
-  void changeNotificationState( String phone, String idNotification) {
-    Future.delayed(Duration(milliseconds: 0), () {
-        ApiRequests().changeNotificationStateFunc(phone, idNotification);
-    });
-  }
 
-  int countNotifications() {
-    if (_notifications.isNotEmpty) {
-      return _notifications.length;
-    } else {
-      return 0;
-    }
+
+  Future<void> changeNotificationState( String phone, String idNotification) async{
+    await ApiRequests().changeNotificationStateFunc(phone, idNotification);
   }
 
   Future showNotification( String phone) async {
     if (_notifications.isNotEmpty) {
-      for (var i = 0; i < countNotifications(); i++) {
-        if (_notifications[i].state == '1') {
-          if (_notifications[i].seen == '0') {
-            changeNotificationState(phone, _notifications[i].id_notification);
+      _notifications.forEach((notifications) async{
+        if (notifications.state == '1') {
+          if (notifications.seen == '0') {
+
+            await changeNotificationState(phone, notifications.id_notification);
             var androidDetails = AndroidNotificationDetails(
                 'ChannelId',
                 'Local Notification',
@@ -57,13 +42,14 @@ class NotificationProvider extends ChangeNotifier {
             var generalNotificationDetails =
             NotificationDetails(android: androidDetails, iOS: iosDetails);
             await _localNotification.show(
-                int.parse(_notifications[i].id_notification),
-                '${_notifications[i].title}',
-                '${_notifications[i].body}',
+                int.parse(notifications.id_notification),
+                '${notifications.title}',
+                '${notifications.body}',
                 generalNotificationDetails);
-          } else {}
+          }
+          else {}
         }
-      }
+      });
     }
 
     var androidInitialize = AndroidInitializationSettings('ic_launcher');

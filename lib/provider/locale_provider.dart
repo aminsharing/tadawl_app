@@ -14,6 +14,7 @@ class LocaleProvider extends ChangeNotifier {
     print('init LocaleProvider');
     getSession().then((value) {
       if(value != null){
+        getUnreadMsgs(value);
         Api().setLastSeenFunc(value);
       }
     });
@@ -33,6 +34,7 @@ class LocaleProvider extends ChangeNotifier {
   CameraPosition _currentArea;
   set currentArea(CameraPosition val) => _currentArea = val;
   int _currentPage = 0;
+  int _unreadMsgs = 0;
 
 
   void setLocale(Locale locale) {
@@ -43,6 +45,18 @@ class LocaleProvider extends ChangeNotifier {
 
   void setCurrentPage(int val){
     _currentPage = val;
+  }
+
+  void update(){
+    notifyListeners();
+  }
+
+  Future<void> getUnreadMsgs(String _phone) async{
+    if(_phone != null) {
+      await Api().getUnreadMessagesFunc(_phone).then((value) {
+        _unreadMsgs = value;
+      });
+    }
   }
 
   Future<String> getSession() async {
@@ -84,4 +98,5 @@ class LocaleProvider extends ChangeNotifier {
   String get phone => _phone;
   CameraPosition get currentArea => _currentArea;
   int get currentPage => _currentPage;
+  int get unreadMsgs => _unreadMsgs;
 }

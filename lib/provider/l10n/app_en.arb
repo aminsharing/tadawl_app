@@ -384,5 +384,7 @@
     "noAdsAvailableNear": "There are no ads available in this area",
     "officeLoc": "Location of office",
     "upgradeAd": "Upgrade ad",
-    "contactUsDet": "For help and support, you can contact us through the support means below"
+    "contactUsDet": "For help and support, you can contact us through the support means below",
+    "today": "Today",
+    "yesterday": "Yesterday"
 }

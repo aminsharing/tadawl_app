@@ -39,7 +39,7 @@ class About extends StatelessWidget {
                         context,
                         MaterialPageRoute(builder: (context) =>
                             ChangeNotifierProvider<MsgProvider>(
-                              create: (_) => MsgProvider(locale.phone, userMutual.userPhone),
+                              create: (_) => MsgProvider(context, locale.phone),
                               child: Discussion(
                                 userMutual.userPhone,
                                 username:userMutual.avatars.username,
