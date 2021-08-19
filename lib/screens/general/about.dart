@@ -9,7 +9,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:core';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class About extends StatelessWidget {
   About({
     Key key,
@@ -35,7 +34,17 @@ class About extends StatelessWidget {
           ),
         ),
         toolbarHeight: 80,
-        leading: Text(''),
+        leadingWidth: 70.0,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Color(0xffffffff),
+            size: 40,
+          ),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(

@@ -22,7 +22,7 @@ class MyAccount extends StatelessWidget {
           ?
       OwenAccount(myAccountProvider: myAccountProvider)
           :
-      OtherAccount(myAccountProvider: myAccountProvider),
+      OtherAccount(myAccountProvider: myAccountProvider, userPhone: Provider.of<MyAccountProvider>(context, listen: false).userPhone),
     );
   }
 }

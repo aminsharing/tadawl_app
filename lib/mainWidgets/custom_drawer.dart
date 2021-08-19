@@ -130,6 +130,7 @@ class CustomDrawer extends StatelessWidget {
         width: mediaQuery.size.width,
         height: mediaQuery.size.height,
         child: SingleChildScrollView(
+          physics: ClampingScrollPhysics(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[

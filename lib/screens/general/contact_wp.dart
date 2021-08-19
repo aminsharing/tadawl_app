@@ -45,7 +45,7 @@ class ContactWp extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+              padding: const EdgeInsets.fromLTRB(5, 15, 5, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[

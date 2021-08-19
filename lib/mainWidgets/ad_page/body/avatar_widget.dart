@@ -118,7 +118,7 @@ class AvatarWidget extends StatelessWidget {
                                           builder: (context) =>
                                           ChangeNotifierProvider<MyAccountProvider>.value(
                                             value: myAccountProvider,
-                                            child: Estimate(),
+                                            child: Estimate(myAccountProvider: myAccountProvider,),
                                           )
                                       ));
                                 },

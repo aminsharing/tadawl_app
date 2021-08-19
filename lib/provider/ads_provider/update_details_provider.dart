@@ -11,7 +11,6 @@ import 'package:tadawl_app/screens/general/home.dart';
 
 class UpdateDetailsProvider extends ChangeNotifier{
   UpdateDetailsProvider(BuildContext context, String _id_description){
-    print('init UpdateDetailsProvider');
     getCategoryeInfoUpdate().then((value) {
       getAdsPageInfoUpdateDetails(context, _id_description);
     });
@@ -19,7 +18,6 @@ class UpdateDetailsProvider extends ChangeNotifier{
 
   @override
   void dispose() {
-    print('dispose UpdateDetailsProvider');
     super.dispose();
   }
 

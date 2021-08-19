@@ -12,7 +12,6 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Homeee");
     final notificationProv = Provider.of<NotificationProvider>(context, listen: false);
     // final msgProv = Provider.of<MsgProvider>(context, listen: false);
     final locale = Provider.of<LocaleProvider>(context, listen: false);

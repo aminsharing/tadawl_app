@@ -9,6 +9,7 @@ class ChangePhoneProvider extends ChangeNotifier {
   String _newPhone;
   String _currentPhone;
   String _newAccountPhone;
+  String _verificationCode;
 
   @override
   void dispose() {
@@ -56,9 +57,15 @@ class ChangePhoneProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setVerCode(String verCode) {
+    _verificationCode = verCode;
+    notifyListeners();
+  }
+
+
 
   String get newPhone => _newPhone;
   String get currentPhone => _currentPhone;
   String get newAccountPhone => _newAccountPhone;
-
+  String get verificationCode => _verificationCode;
 }

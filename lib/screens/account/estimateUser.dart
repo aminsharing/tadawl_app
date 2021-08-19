@@ -9,7 +9,10 @@ import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 class Estimate extends StatelessWidget {
   Estimate({
     Key key,
+    @required this.myAccountProvider,
   }) : super(key: key);
+  final MyAccountProvider myAccountProvider;
+
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +54,7 @@ class Estimate extends StatelessWidget {
                     Text(
                       estimateUser.sumEstimates != null
                           ? AppLocalizations.of(context).estimate +
-                              ' ${(double.parse(estimateUser.sumEstimates.sum_estimates) / estimateUser.countEstimates()).toDouble().toStringAsFixed(1)} '
+                              ' ${(double.parse(estimateUser.sumEstimates.sum_estimates) / estimateUser.estimates.length).toDouble().toStringAsFixed(1)} '
                           : AppLocalizations.of(context).estimate,
                       style: CustomTextStyle(
                         fontSize: 25,
@@ -63,7 +66,7 @@ class Estimate extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          '(${estimateUser.countEstimates()}',
+                          '(${estimateUser.estimates.length}',
                           style: CustomTextStyle(
 
                             fontSize: 13,
@@ -75,7 +78,7 @@ class Estimate extends StatelessWidget {
                           RatingBar(
                             rating: (double.parse(estimateUser
                                         .sumEstimates.sum_estimates) /
-                                    estimateUser.countEstimates())
+                                    estimateUser.estimates.length)
                                 .toDouble(),
                             icon: Icon(
                               Icons.star,
@@ -175,7 +178,7 @@ class Estimate extends StatelessWidget {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        for (var i = 0; i < estimateUser.countEstimates(); i++)
+                        for (var i = 0; i < estimateUser.estimates.length; i++)
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                             child: Column(

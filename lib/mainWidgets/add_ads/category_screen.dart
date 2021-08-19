@@ -17,10 +17,10 @@ class CategoryScreen extends StatelessWidget {
     var provider = Provider.of<LocaleProvider>(context, listen: false);
     var _lang = provider.locale.toString();
 
-      Future<bool> _onBackPressed() {
+      Future<bool> _onBackPressed() async{
         return showDialog(
           context: context,
-          builder: (context2) =>
+          builder: (ctxt) =>
               AlertDialog(
                 title: Text(
                   'إلغاء نشر الإعلان',
@@ -39,12 +39,13 @@ class CategoryScreen extends StatelessWidget {
                   textAlign: TextAlign.right,
                 ),
                 actions: <Widget>[
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
-                      Navigator.of(context).pop(true);
+                      Navigator.of(ctxt).pop(true);
+                      Navigator.pop(context);
                     },
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+                      padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
                       child: Text(
                         'نعم',
                         style: CustomTextStyle(
@@ -56,10 +57,10 @@ class CategoryScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () => Navigator.of(context).pop(false),
+                  InkWell(
+                    onTap: () => Navigator.of(ctxt).pop(false),
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+                      padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
                       child: Text(
                         'لا',
                         style: CustomTextStyle(
@@ -81,7 +82,8 @@ class CategoryScreen extends StatelessWidget {
         onWillPop: _onBackPressed,
         child: Scaffold(
           appBar: AppBar(
-          centerTitle: true,
+            centerTitle: true,
+            leadingWidth: 70.0,
             backgroundColor: const Color(0xff00cccc),
             title: Center(
               widthFactor: 2.5,
@@ -116,6 +118,7 @@ class CategoryScreen extends StatelessWidget {
                 height: mediaQuery.size.height,
                 child: ListView.builder(
                   itemCount: addAds.categoryAddAds.length,
+                  physics: ClampingScrollPhysics(),
                   itemBuilder: (context, i){
                     if ('${addAds.id_category_finalAddAds}' ==
                         addAds.categoryAddAds[i].id_category) {

@@ -38,7 +38,6 @@ class MainPageProvider extends ChangeNotifier{
       setShowDiogFalse();
     }
     setInItMainPageDone(0);
-    removeEntry();
     super.dispose();
   }
 
@@ -406,7 +405,7 @@ class MainPageProvider extends ChangeNotifier{
           shape: BoxShape.rectangle,
         ),
         child: Padding(
-          padding: const EdgeInsets.all(2),
+          padding: const EdgeInsets.all(1.0),
           child: Text(
             name,
             style: CustomTextStyle(
@@ -466,7 +465,6 @@ class MainPageProvider extends ChangeNotifier{
     }
   }
 
-
   void setShowDiogTrue() {
     _showDiaogSearchDrawer = true;
     notifyListeners();
@@ -489,20 +487,7 @@ class MainPageProvider extends ChangeNotifier{
     _waitMainPage = val;
   }
 
-  void removeEntry(){
-    if(_Ads.isNotEmpty){
-      _Ads.forEach((element) {
-        try{
-          element.entry.remove();
-        }catch(e){
-          print('Entry remove error: $e');
-        }
-      });
-    }
-  }
-
   void getAds(BuildContext context,List<dynamic> _AdsData, double zoom){
-    removeEntry();
     try{
       _entry.remove();
     }catch(e){
@@ -512,7 +497,6 @@ class MainPageProvider extends ChangeNotifier{
     _markersMainPage.clear();
     if(_AdsData.isNotEmpty){
       _AdsData.forEach((element) {
-        print("Ads distance: ${element['distance']}");
         _Ads.add(AdsModel.ads(element));
       });
       if(_zoomOutOfRange == 0){
@@ -528,9 +512,6 @@ class MainPageProvider extends ChangeNotifier{
           notifyListeners();
         });
         Future.delayed(Duration(seconds: 5), (){
-          print("_markersMainPageee: ${_markersMainPage.length}");
-          print("_markersMainPageee: $_adsOnMap");
-          print("_markersMainPageee: $_allAds");
           if(_allAds == 0){
             try{
               Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(1);

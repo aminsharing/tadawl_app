@@ -42,7 +42,7 @@ class OwenAccount extends StatelessWidget {
         SingleChildScrollView(
           child: Column(
             children: [
-              AvatarInfo(),
+              AvatarInfo(myAccountProvider: myAccountProvider,),
               About(),
               OfficeLocation(),
               SizedBox(height: 10.0,),

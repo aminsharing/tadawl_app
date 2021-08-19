@@ -81,11 +81,13 @@ class AccountActions extends StatelessWidget {
         );
       }
       else if (choice == 'تغيير رقم الجوال' || choice == 'Change Phone') {
+        // ignore: omit_local_variable_types
+        final ChangePhoneProvider changePhoneProvider = ChangePhoneProvider();
         await Navigator.push(context,
           MaterialPageRoute(builder: (context) =>
             ChangeNotifierProvider<ChangePhoneProvider>(
-              create: (_) => ChangePhoneProvider(),
-              child: ChangePhone(),
+              create: (_) => changePhoneProvider,
+              child: ChangePhone(changePhoneProvider: changePhoneProvider,),
             )
           ),
         );

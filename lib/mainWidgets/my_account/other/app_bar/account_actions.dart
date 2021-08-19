@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rating_dialog/rating_dialog.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
+import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/general/contact_wp.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserConstants {
   static const String followAccount = 'متابعة';
   static const String help = 'المساعدة والدعم';
-  static const String banAccount = 'حظر المراسلة';
+  static const String rateUs = 'قيمنا';
+  static const String banAccount = 'حظر';
   static const List<String> choices = <String>[
     followAccount,
     help,
+    rateUs,
     banAccount,
   ];
 }
@@ -19,21 +23,56 @@ class UserConstants {
 class EngUserConstants {
   static const String followAccount = 'Follow';
   static const String help = 'help';
-  static const String banAccount = 'Ban Messaging';
+  static const String rateUs = 'Rate us';
+  static const String banAccount = 'Ban';
   static const List<String> choices = <String>[
     followAccount,
     help,
+    rateUs,
     banAccount,
   ];
 }
 
 class AccountActions extends StatelessWidget {
-  const AccountActions({Key key}) : super(key: key);
+  const AccountActions({Key key, @required this.userPhone}) : super(key: key);
+  final String userPhone;
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<LocaleProvider>(context, listen: false);
-    var _lang = provider.locale.toString();
+    var locale = Provider.of<LocaleProvider>(context, listen: false);
+    var _lang = locale.locale.toString();
+
+    void sendEstimate(String rating, String commentRating) async {
+      await Api().sendEstimateFunc(locale.phone, userPhone, rating, commentRating);
+    }
+
+    void _showRatingDialog() {
+      final _dialog = RatingDialog(
+        title: AppLocalizations.of(context).ratingDialog,
+        commentHint: AppLocalizations.of(context).ratingCommentHint,
+        message: AppLocalizations.of(context).ratingHint,
+        image: Container(
+          width: 100.0,
+          height: 100.0,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              image: const AssetImage('assets/images/avatar.png'),
+              fit: BoxFit.contain,
+            ),
+          ),
+        ),
+        submitButton: AppLocalizations.of(context).send,
+        onSubmitted: (response) {
+          sendEstimate(response.rating.toString(), response.comment.toString());
+        },
+      );
+      showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) => _dialog,
+      );
+    }
 
     Future<void> choiceAction2(String choice) async {
       if (choice == 'متابعة') {
@@ -43,6 +82,8 @@ class AccountActions extends StatelessWidget {
               ContactWp()
           ),
         );
+      }else if (choice == 'قيمنا' || choice == 'Rate us') {
+        _showRatingDialog();
       } else {}
     }
 
@@ -87,6 +128,10 @@ class AccountActions extends StatelessWidget {
                       choice == (_lang != 'en_US' ? UserConstants.help : EngUserConstants.help)
                           ?
                       Icons.support_rounded
+                          :
+                      choice == (_lang != 'en_US' ? UserConstants.rateUs : EngUserConstants.rateUs)
+                          ?
+                      Icons.thumb_up_rounded
                           :
                       Icons.person_add,
                       color:choice == (_lang != 'en_US' ? UserConstants.banAccount : EngUserConstants.banAccount)

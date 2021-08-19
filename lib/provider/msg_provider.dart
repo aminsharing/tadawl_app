@@ -90,19 +90,11 @@ class MsgProvider extends ChangeNotifier{
   }
 
   Future<void> getUnreadMsgs(String _phone) async{
-    print("value: }");
     if(_conv.isNotEmpty){
-      print("value: {");
       _conv.forEach((element) async{
         if(_phone != element.phone_user_sender){
           await Api().getUnreadMessagesByUserFunc(_phone, element.phone_user_sender).then((value) {
             element.unreadMsgs = value.toString();
-            print("**************************************");
-            print("value: $_phone");
-            print("value: ${element.phone_user_sender}");
-            print("value: ${element.unreadMsgs}");
-            print("***************************************");
-            // notifyListeners();
           });
         }
       });
@@ -174,9 +166,6 @@ class MsgProvider extends ChangeNotifier{
       String msgType,
       int msgDuration,
       {bool isAuto = true}) async {
-    if(imagesList.isNotEmpty){
-      print("imagesList.first.path.split('/').last: ${imagesList.first.path.split('/').last}");
-    }
     _streamChatController.add([..._comment, ConvModel(
         id_conv: '',
         phone_user_recipient: phone_user,
@@ -196,7 +185,10 @@ class MsgProvider extends ChangeNotifier{
         duration: msgDuration,
         isLocal: true,
     )]);
-    await Api().sendMessFunc(imagesList, voiceMsg, content, _phone, phone_user, msgType, msgDuration).then((value) => notifyListeners());
+    await Api().sendMessFunc(imagesList, voiceMsg, content, _phone, phone_user, msgType, msgDuration).then((value) {
+      getCommentUser(phone_user, _phone);
+      notifyListeners();
+    });
     _messageController.clear();
     if(isAuto) {
       setIsTyping(false);
@@ -439,7 +431,6 @@ class MsgProvider extends ChangeNotifier{
   bool get atBottom => _atBottom;
   List<ConvModel> get conv => _conv;
   List<File> get imagesListUpdate => _imagesListUpdate;
-
   IconData get recordIcon => _recordIcon;
   Timer get timer => _timer;
   int get recordLengthMin => _recordLengthMin;
@@ -448,11 +439,5 @@ class MsgProvider extends ChangeNotifier{
   bool get isTyping => _isTyping;
   bool get isRecording => _isRecording;
   File get voiceMsg => _voiceMsg;
-
   bool get noMsgs => _noMsgs;
-
-
-
-
-
 }

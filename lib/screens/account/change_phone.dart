@@ -5,10 +5,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tadawl_app/mainWidgets/change_phone/verify_phone.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/change_phone_provider.dart';
-import 'package:tadawl_app/screens/general/home.dart';
 
 String patternPhone =
     r'(^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$)';
@@ -17,7 +17,9 @@ RegExp regExpPhone = RegExp(patternPhone);
 class ChangePhone extends StatelessWidget {
   ChangePhone({
     Key key,
+    @required this.changePhoneProvider,
   }) : super(key: key);
+  final ChangePhoneProvider changePhoneProvider;
 
   final GlobalKey<FormState> _changePhoneKey = GlobalKey<FormState>();
 
@@ -121,11 +123,10 @@ class ChangePhone extends StatelessWidget {
                       var url =
                           'https://tadawl-store.com/API/api_app/login/change_phone.php';
                       var response = await http.post(url, body: {
-                        'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
+                        'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',//0550610804
                         'oldPhone': locale.phone,
                         'newPhone': changePhone.newPhone,
                       });
-
                       var data = json.decode(response.body);
 
                       if (data == 'error') {
@@ -138,62 +139,13 @@ class ChangePhone extends StatelessWidget {
                             textColor: Colors.white,
                             fontSize: 15.0);
                       } else if (data == 'successful') {
-                        await changePhone.saveSession(changePhone.newPhone).then((value) {
-                          locale.getSession().then((value) async{
-                            await Fluttertoast.showToast(
-                                msg: 'لقد تم تغيير رقم الجوال بنجاح',
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.CENTER,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.green,
-                                textColor: Colors.white,
-                                fontSize: 15.0);
+                        await Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                            ChangeNotifierProvider<ChangePhoneProvider>.value(
+                              value: changePhoneProvider,
+                              child: VerifyPhone(oldPhone: locale.phone, newPhone: changePhone.newPhone,) ,
+                            )
 
-                            // var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
-                            // userMutual.getAvatarList(changePhone.newPhone);
-                            // userMutual.getUserAdsList(changePhone.newPhone);
-                            // userMutual.getEstimatesInfo(changePhone.newPhone);
-                            // userMutual.getSumEstimatesInfo(changePhone.newPhone);
-                            // userMutual.checkOfficeInfo(changePhone.newPhone);
-                            // userMutual.setUserPhone(changePhone.newPhone);
-
-                            // final MyAccountProvider myAccountProvider = MyAccountProvider(locale.phone);
-                            // await Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) =>
-                            //           ChangeNotifierProvider<MyAccountProvider>(
-                            //             create: (_) => myAccountProvider,
-                            //             child: MyAccount(myAccountProvider: myAccountProvider, phone: locale.phone,),
-                            //           )
-                            //   ),
-                            // );
-                            locale.setCurrentPage(0);
-                            await Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Home()
-                                ), (route) => false);
-
-                            // Future.delayed(Duration(seconds: 1), () {
-                            //   if (userMutual.userPhone == locale.phone){
-                            //     Navigator.push(
-                            //       context,
-                            //       MaterialPageRoute(
-                            //           builder: (context) =>
-                            //               OwenAccount()),
-                            //     );
-                            //   }else{
-                            //     Navigator.push(
-                            //       context,
-                            //       MaterialPageRoute(
-                            //           builder: (context) =>
-                            //               OtherAccount()),
-                            //     );
-                            //   }
-                            // });
-                          });
-                        });
+                        ));
 
                       }
                     },

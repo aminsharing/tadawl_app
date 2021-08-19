@@ -25,7 +25,7 @@ class Favourite extends StatelessWidget {
       // adsFav.getUserAdsFavList(locale.phone);
 
       Future<Null> _refresh() async{
-        adsFav.getUserAdsFavList(locale.phone);
+        await adsFav.getUserAdsFavList(locale.phone);
         adsFav.update();
       }
 

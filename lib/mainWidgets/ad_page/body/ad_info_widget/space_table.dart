@@ -85,8 +85,9 @@ class SpaceTable extends StatelessWidget {
             ],
           ),
         if (
-            adsPage.idInterface != '11' &&
+            adsPage.idInterface != '12' &&
             adsPage.idInterface != '0' &&
+            adsPage.idInterface != '1' &&
             adsPage.idInterface != 'null')
           TableRow(
             decoration: BoxDecoration(
@@ -115,7 +116,7 @@ class SpaceTable extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 5, 5, 5),
                       child: Text(
-                        interfaces[int.tryParse(adsPage.idInterface)-1],
+                        interfaces[int.tryParse(adsPage.idInterface)-2],
                         style: CustomTextStyle(
                           fontSize: 15,
                           color: const Color(0xff989696),

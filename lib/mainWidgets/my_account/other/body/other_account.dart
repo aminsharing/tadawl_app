@@ -15,8 +15,10 @@ class OtherAccount extends StatelessWidget {
   const OtherAccount({
     Key key,
     @required this.myAccountProvider,
+    @required this.userPhone,
   }) : super(key: key);
   final MyAccountProvider myAccountProvider;
+  final String userPhone;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class OtherAccount extends StatelessWidget {
         leading: Leading(),
         // title: MyAccountTitle(),
         actions: [
-          AccountActions()
+          AccountActions(userPhone: userPhone)
         ],
         backgroundColor: const Color(0xff00cccc),
       ),
@@ -43,7 +45,7 @@ class OtherAccount extends StatelessWidget {
           value: myAccountProvider,
           child: Column(
             children: [
-              AvatarInfo(),
+              AvatarInfo(myAccountProvider: myAccountProvider),
               About(),
               OfficeLocation(),
               SizedBox(height: 10.0,),

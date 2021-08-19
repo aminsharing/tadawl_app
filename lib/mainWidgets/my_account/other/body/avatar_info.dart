@@ -14,7 +14,11 @@ import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AvatarInfo extends StatelessWidget {
-  const AvatarInfo({Key key}) : super(key: key);
+  const AvatarInfo({
+    Key key,
+    @required this.myAccountProvider,
+  }) : super(key: key);
+  final MyAccountProvider myAccountProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +153,11 @@ class AvatarInfo extends StatelessWidget {
                       ),
                     ),
                   ),
-                  UserEstimates(estimates: userMutual.estimates, sumEstimates: userMutual.sumEstimates,)
+                  UserEstimates(
+                    estimates: userMutual.estimates,
+                    sumEstimates: userMutual.sumEstimates,
+                    myAccountProvider: myAccountProvider,
+                  )
                 ],
               ),
               Column(

@@ -48,40 +48,43 @@ class AdButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Stack(children: [
-              Container(
-                width: mediaQuery.size.width*.34,
-                height: mediaQuery.size.width*.34,
-                child: CachedNetworkImage(
-                  placeholder: (_, url) => Center(
-                      child: CircularProgressIndicator()),
-                  errorWidget: (__ ,_, error) => Icon(Icons.error),
-                  imageUrl: 'https://tadawl-store.com/API/assets/images/ads/$ads_image',
-                  fit: BoxFit.cover,
+            Flexible(
+              flex: 1,
+              child: Stack(children: [
+                Container(
+                  width: mediaQuery.size.width*.34,
+                  height: mediaQuery.size.width*.34,
+                  child: CachedNetworkImage(
+                    placeholder: (_, url) => Center(
+                        child: CircularProgressIndicator()),
+                    errorWidget: (__ ,_, error) => Icon(Icons.error),
+                    imageUrl: 'https://tadawl-store.com/API/assets/images/ads/$ads_image',
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(
-                    Random().nextInt(50).toDouble(),
-                    Random().nextInt(50).toDouble(),
-                    5,
-                    5),
-                child: Opacity(
-                  opacity: 0.7,
-                  //opacity: 0.7,
-                  child: Container(
-                    width: 50.0,
-                    height: 50.0,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: const CachedNetworkImageProvider('https://tadawl-store.com/API/assets/images/logo22.png'),
-                        fit: BoxFit.cover,
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      Random().nextInt(50).toDouble(),
+                      Random().nextInt(50).toDouble(),
+                      5,
+                      5),
+                  child: Opacity(
+                    opacity: 0.7,
+                    //opacity: 0.7,
+                    child: Container(
+                      width: 50.0,
+                      height: 50.0,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: const CachedNetworkImageProvider('https://tadawl-store.com/API/assets/images/logo22.png'),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ]),
+              ]),
+            ),
             if (idSpecial == '1')
               Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
@@ -174,89 +177,92 @@ class AdButton extends StatelessWidget {
                   ),
                 ),
               ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(title??'',
-                  style: CustomTextStyle(
-                    fontSize: 20,
-                    color: const Color(
-                        0xff000000),
-                  ).getTextStyle(),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                      child: Text(
-                        AppLocalizations.of(context).rial,
+            Flexible(
+              flex: 2,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(title??'',
+                    style: CustomTextStyle(
+                      fontSize: 20,
+                      color: const Color(
+                          0xff000000),
+                    ).getTextStyle(),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                        child: Text(
+                          AppLocalizations.of(context).rial,
+                          style: CustomTextStyle(
+                            fontSize: 15,
+                            color: const Color(0xff00cccc),
+                          ).getTextStyle(),
+                        ),
+                      ),
+                      Text(
+                        price,
                         style: CustomTextStyle(
                           fontSize: 15,
                           color: const Color(0xff00cccc),
                         ).getTextStyle(),
                       ),
-                    ),
-                    Text(
-                      price,
-                      style: CustomTextStyle(
-                        fontSize: 15,
-                        color: const Color(0xff00cccc),
-                      ).getTextStyle(),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10.0,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                      child: Text(
-                        AppLocalizations.of(context).m2,
+                    ],
+                  ),
+                  SizedBox(height: 10.0,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                        child: Text(
+                          AppLocalizations.of(context).m2,
+                          style: CustomTextStyle(
+                            fontSize: 15,
+                            color: const Color(0xff000000),
+                          ).getTextStyle(),
+                        ),
+                      ),
+                      Text(
+                        space,
                         style: CustomTextStyle(
                           fontSize: 15,
                           color: const Color(0xff000000),
                         ).getTextStyle(),
                       ),
-                    ),
-                    Text(
-                      space,
-                      style: CustomTextStyle(
-                        fontSize: 15,
-                        color: const Color(0xff000000),
-                      ).getTextStyle(),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10.0,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      if (ads_city != null)
-                        Text(
-                          '$ads_city ${ads_neighborhood != null ? '-' + ads_neighborhood : ''} ${ads_road != null ? '-' + ads_road : ''}',
-                          style: CustomTextStyle(
-                            fontSize: 10,
-                            color: const Color(0xff000000),
-                          ).getTextStyle(),
-                        ),
-                      if (video != null && video.isNotEmpty)
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                          child: Icon(
-                            Icons.videocam_outlined,
-                            color: Color(0xff00cccc),
-                            size: 30,
-                          ),
-                        ),
                     ],
                   ),
-                ),
-              ],
+                  SizedBox(height: 10.0,),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        if (ads_city != null)
+                          Text(
+                            '$ads_city ${ads_neighborhood != null ? '-' + ads_neighborhood : ''} ${ads_road != null ? '-' + ads_road : ''}',
+                            style: CustomTextStyle(
+                              fontSize: 10,
+                              color: const Color(0xff000000),
+                            ).getTextStyle(),
+                          ),
+                        if (video != null && video.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                            child: Icon(
+                              Icons.videocam_outlined,
+                              color: Color(0xff00cccc),
+                              size: 30,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

@@ -1,7 +1,7 @@
 name: tadawl_app
 description: Real-Estate Tadawl App .
 publish_to: 'none'
-version: 1.6.1+24
+version: 1.6.3+25
 environment:
   sdk: ">=2.7.0 <3.0.0"
 dependencies:
@@ -47,10 +47,10 @@ dependencies:
   flutter_local_notifications:
   file_picker:
   chewie:
-  #flutter_automation:
+# flutter_automation:
   page_transition: ^1.1.7+6
   qr_flutter:
-  #flutter_video_compress:
+# flutter_video_compress:
   # This packages added
   record: ^1.0.3
   just_audio: ^0.6.15+1

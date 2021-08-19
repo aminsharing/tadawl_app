@@ -124,7 +124,7 @@ class RegionProvider extends ChangeNotifier {
       try{
         _entry.remove();
       }catch(e){
-        print("Error to remove region entry: $e");
+        print('Error to remove region entry: $e');
       }
     }
     if(_lang == 'en_US'){

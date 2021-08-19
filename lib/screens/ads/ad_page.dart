@@ -39,172 +39,127 @@ class AdPage extends StatelessWidget {
         // }
 
 
-
-
-        Future<Null> _refresh() async{
-          adsPage.update();
-        }
-
-        return RefreshIndicator(
-          onRefresh: _refresh,
-          child: Scaffold(
-            backgroundColor: const Color(0xffffffff),
-            key: _scaffoldKey,
-            appBar: AppBar(
-              centerTitle: true,
-              actions: [AppBarActionWidget()],
-              leadingWidth: 70.0,
-              toolbarHeight: 70.0,
-              title: AppBarTitleWidget(),
-              leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: Color(0xffffffff),
-                  size: 40,
-                ),
-                onPressed: () {
-                  if (adsPage.videoControllerAdsPage != null) {
-                    adsPage.stopVideoAdsPage();
-                  }
-                  Navigator.pop(context);
-                },
+        return Scaffold(
+          backgroundColor: const Color(0xffffffff),
+          key: _scaffoldKey,
+          appBar: AppBar(
+            centerTitle: true,
+            actions: [AppBarActionWidget()],
+            leadingWidth: 70.0,
+            toolbarHeight: 70.0,
+            title: AppBarTitleWidget(),
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Color(0xffffffff),
+                size: 40,
               ),
-              backgroundColor: Color(0xff00cccc),
+              onPressed: () {
+                if (adsPage.videoControllerAdsPage != null) {
+                  adsPage.stopVideoAdsPage();
+                }
+                Navigator.pop(context);
+              },
             ),
-            body: Stack(
-              children: [
-                Container(
-                  width: mediaQuery.size.width,
-                  height: mediaQuery.size.height,
-                  child: ListView(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    controller: adsPage.scrollController,
-                    dragStartBehavior: DragStartBehavior.down,
-                    children: [
-                      if (mutualProv.adsPage != null)
-                        Column(
-                          children: [
-                            AdHeaderWidget(),
-                            AdInfoWidget(),
+            backgroundColor: Color(0xff00cccc),
+          ),
+          body: Stack(
+            children: [
+              Container(
+                width: mediaQuery.size.width,
+                height: mediaQuery.size.height,
+                child: ListView(
+                  physics: ClampingScrollPhysics(),
+                  controller: adsPage.scrollController,
+                  dragStartBehavior: DragStartBehavior.down,
+                  children: [
+                    if (mutualProv.adsPage != null)
+                      Column(
+                        children: [
+                          AdHeaderWidget(),
+                          AdInfoWidget(),
 // ads add timestamp ....................
 // last update ads timestamp ....................
-                            AdTimesAndUpdateWidget(),
+                          AdTimesAndUpdateWidget(),
 // end ads add timestamp ....................
 // end last update ads timestamp ....................
 // description ...................
-                            AdDescriptionWidget(),
+                          AdDescriptionWidget(),
 // end description ...................
 //  avatar .............
-                            AvatarWidgetHelper(phone: mutualProv.adsPage.phone_faved_user,),
+                          AvatarWidgetHelper(phone: mutualProv.adsPage.phone_faved_user,),
 // end avatar .............
 //  statistics ads ........................
-                            AdStatisticsWidget(),
+                          AdStatisticsWidget(),
 //  end statistics ads ........................
 //  network coverage ...................
-                            NetworkCoverageWidget(),
+                          NetworkCoverageWidget(),
 // end network coverage ...................
 //  location .....................
-                            AdLocationWidget(),
+                          AdLocationWidget(),
 // end location .....................
 // qr share ..........................................
-                            AdQRWidget(),
+                          AdQRWidget(),
 // end qr share ..........................................
 //  similar ads ..............
-                            SimilarAdWidget(),
+                          SimilarAdWidget(),
 // end similar ads ..............
-                          ],
-                        )
-                      else
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Center(
-                            child: SizedBox(
-                              width: 30,
-                              height: 30,
-                              child: CircularProgressIndicator(
-                                backgroundColor: Color(0xff00cccc),
-                                valueColor:
-                                AlwaysStoppedAnimation<Color>(Color(0xffffffff)),
-                              ),
+                        ],
+                      )
+                    else
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Center(
+                          child: SizedBox(
+                            width: 30,
+                            height: 30,
+                            child: CircularProgressIndicator(
+                              backgroundColor: Color(0xff00cccc),
+                              valueColor:
+                              AlwaysStoppedAnimation<Color>(Color(0xffffffff)),
                             ),
                           ),
                         ),
-                    ],
-                  ),
+                      ),
+                  ],
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    width: mediaQuery.size.width,
-                    height: 65,
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Column(
-                        children: [
-                          if (mutualProv.adsNavigation.isNotEmpty)
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                for (var i = 0; i < mutualProv.adsNavigation.length; i++)
-                                  if (mutualProv.adsNavigation[i].idDescription == mutualProv.idDescription &&
-                                      mutualProv.adsNavigation[i].idDescription != mutualProv.adsNavigation.first.idDescription)
-                                    Container(
-                                      width: 50.0,
-                                      child: InkWell(
-                                        onTap: () {
-                                          adsPage.stopVideoAdsPage();
-                                          mutualProv.getAllAdsPageInfo(context, mutualProv.adsNavigation[i - 1].idDescription);
-                                          mutualProv.getSimilarAdsList(context, mutualProv.adsNavigation[i - 1].idCategory, mutualProv.adsNavigation[i - 1].idDescription);
-                                          Future.delayed(Duration(seconds: 0), () {
-                                            Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => AdPage()),
-                                            );
-                                          });
-                                        },
-                                        child: Transform.rotate(
-                                          angle: 180.0-45.0,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              border: Border.all(color: const Color(0xff2d3872), width: 1),
-                                              shape: BoxShape.circle,
-                                              color: const Color(0xff1f2835),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.symmetric(vertical: 5),
-                                              child: Icon(
-                                                Icons.arrow_forward_ios,
-                                                color: Color(0xffffffff),
-                                                size: 25,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                for (var i = 0; i < mutualProv.adsNavigation.length; i++)
-                                  if (mutualProv.adsNavigation[i].idDescription == mutualProv.idDescription &&
-                                      mutualProv.adsNavigation[i].idDescription != mutualProv.adsNavigation.last.idDescription)
-                                    Container(
-                                      width: 50.0,
-                                      child: InkWell(
-                                        onTap: () {
-                                          adsPage.stopVideoAdsPage();
-                                          mutualProv.getAllAdsPageInfo(context, mutualProv.adsNavigation[i + 1].idDescription);
-                                          mutualProv.getSimilarAdsList(context, mutualProv.adsNavigation[i + 1].idCategory, mutualProv.adsNavigation[i + 1].idDescription);
-
-                                          Future.delayed(Duration(seconds: 0), () {
-                                            Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => AdPage()),
-                                            );
-                                          });
-                                        },
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  width: mediaQuery.size.width,
+                  height: 65,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Column(
+                      children: [
+                        if (mutualProv.adsNavigation.isNotEmpty)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              for (var i = 0; i < mutualProv.adsNavigation.length; i++)
+                                if (mutualProv.adsNavigation[i].idDescription == mutualProv.idDescription &&
+                                    mutualProv.adsNavigation[i].idDescription != mutualProv.adsNavigation.first.idDescription)
+                                  Container(
+                                    width: 50.0,
+                                    child: InkWell(
+                                      onTap: () {
+                                        adsPage.stopVideoAdsPage();
+                                        mutualProv.getAllAdsPageInfo(context, mutualProv.adsNavigation[i - 1].idDescription);
+                                        mutualProv.getSimilarAdsList(context, mutualProv.adsNavigation[i - 1].idCategory, mutualProv.adsNavigation[i - 1].idDescription);
+                                        Future.delayed(Duration(seconds: 0), () {
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => AdPage()),
+                                          );
+                                        });
+                                      },
+                                      child: Transform.rotate(
+                                        angle: 180.0-45.0,
                                         child: Container(
                                           decoration: BoxDecoration(
                                             border: Border.all(color: const Color(0xff2d3872), width: 1),
@@ -212,7 +167,7 @@ class AdPage extends StatelessWidget {
                                             color: const Color(0xff1f2835),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.all(5.0),
+                                            padding: const EdgeInsets.symmetric(vertical: 5),
                                             child: Icon(
                                               Icons.arrow_forward_ios,
                                               color: Color(0xffffffff),
@@ -222,17 +177,53 @@ class AdPage extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                              ],
-                            )
-                          else
-                            Container(),
-                        ],
-                      ),
+                                  ),
+                              for (var i = 0; i < mutualProv.adsNavigation.length; i++)
+                                if (mutualProv.adsNavigation[i].idDescription == mutualProv.idDescription &&
+                                    mutualProv.adsNavigation[i].idDescription != mutualProv.adsNavigation.last.idDescription)
+                                  Container(
+                                    width: 50.0,
+                                    child: InkWell(
+                                      onTap: () {
+                                        adsPage.stopVideoAdsPage();
+                                        mutualProv.getAllAdsPageInfo(context, mutualProv.adsNavigation[i + 1].idDescription);
+                                        mutualProv.getSimilarAdsList(context, mutualProv.adsNavigation[i + 1].idCategory, mutualProv.adsNavigation[i + 1].idDescription);
+
+                                        Future.delayed(Duration(seconds: 0), () {
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => AdPage()),
+                                          );
+                                        });
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: const Color(0xff2d3872), width: 1),
+                                          shape: BoxShape.circle,
+                                          color: const Color(0xff1f2835),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Color(0xffffffff),
+                                            size: 25,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                            ],
+                          )
+                        else
+                          Container(),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       }),

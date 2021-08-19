@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
+import 'package:tadawl_app/models/RegionModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
@@ -61,7 +63,7 @@ class SpecialOffersProvider extends ChangeNotifier{
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsSpecial.clear();
       final locale = Provider.of<LocaleProvider>(context, listen: false);
-
+      locale.currentArea = locale.currentArea?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
       Api().getadsFunc(locale.currentArea.target, getRadius(locale.currentArea.zoom)).then((value) {
         _AdsSpecialData = value;
         _AdsSpecialData.forEach((element) {

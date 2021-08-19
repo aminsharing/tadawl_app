@@ -56,7 +56,6 @@ class MapWidget extends StatelessWidget {
                           mainPage.setShowDiogFalse();
                         }
                         if(mainPage.zoomOutOfRange == 0){
-                          print("//////////////////////////////////////////////");
                           Provider.of<SearchDrawerProvider>(context, listen: false).getAdsList(context);
                           mainPage.setMoveState(false);
                         }
@@ -104,7 +103,6 @@ class MapWidget extends StatelessWidget {
 
                           if (cameraPosition.zoom <= 5) {
                             mainPage.zoomOutOfRange++;
-                            print("zoomOutOfRange: ${mainPage.zoomOutOfRange}");
                             if(mainPage.zoomOutOfRange == 1){
                               Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(1);
                               Navigator.pushReplacement(

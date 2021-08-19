@@ -10,7 +10,11 @@ import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 
 class AvatarInfo extends StatelessWidget {
-  const AvatarInfo({Key key}) : super(key: key);
+  const AvatarInfo({
+    Key key,
+    @required this.myAccountProvider,
+  }) : super(key: key);
+  final MyAccountProvider myAccountProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +45,11 @@ class AvatarInfo extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   UserImage(imageName: userMutual.users.image?? '',),
-                  UserEstimates(estimates: userMutual.estimates, sumEstimates: userMutual.sumEstimates,)
+                  UserEstimates(
+                    estimates: userMutual.estimates,
+                    sumEstimates: userMutual.sumEstimates,
+                    myAccountProvider: myAccountProvider,
+                  )
                 ],
               ),
               Column(

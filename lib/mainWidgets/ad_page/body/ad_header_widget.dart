@@ -93,7 +93,7 @@ class AdHeaderWidget extends StatelessWidget {
               ],
             ),
           ),
-          if (mutualProv.adsPage.video.isNotEmpty)
+          if ((mutualProv.adsPage.video??'').isNotEmpty)
             FutureBuilder(
                 future: adsPage.initializeFutureVideoPlyerAdsPage,
                 builder: (context, snapshot) {

@@ -33,6 +33,7 @@ class AdsPriceScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
+          leadingWidth: 70.0,
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,

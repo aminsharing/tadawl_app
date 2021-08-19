@@ -113,12 +113,14 @@ class Discussion extends StatelessWidget {
                         reverse: true,
                         itemCount: msgs.length,
                         itemBuilder: (context, i){
+                          // ignore: omit_local_variable_types
                           bool text = false;
                           if(i < msgs.length -1){
+                            // ignore: omit_local_variable_types
                             String firstNum = msgs[i].timeAdded.split(' ').first.split('-').last;
+                            // ignore: omit_local_variable_types
                             String secondNum = msgs[i+1].timeAdded.split(' ').first.split('-').last;
                             if(firstNum != secondNum) {
-                              print("msgs[i].timeAdded");
                               text = true;
                             }
                           }
@@ -311,15 +313,12 @@ class Discussion extends StatelessWidget {
                                       ),
                                       child: GestureDetector(
                                         onTapDown: (value){
-                                          print("onTapDown value: ${value.localPosition}");
                                           mainChat.startRecorder();
                                         },
                                         onTapUp: (value){
-                                          print("onTapUp value: ${value.localPosition}");
                                           mainChat.stopRecorder(false, phone_user, locale.phone, context);
                                         },
                                         onTapCancel: (){
-                                          print("onTapCancel value:");
                                           mainChat.stopRecorder(false, phone_user, locale.phone, context);
                                         },
                                         onHorizontalDragStart: (value){

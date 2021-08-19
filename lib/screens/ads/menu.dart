@@ -87,7 +87,7 @@ class Menu extends StatelessWidget {
                 // menu.setFilterSearchDrawer(null);
                 // menu.setMenuFilter(null);
                 // menu.setMenuMainFilterAds(1);
-                Provider.of<SearchDrawerProvider>(context, listen: false).getMenuList(context);
+                await Provider.of<SearchDrawerProvider>(context, listen: false).getMenuList(context);
               },
               child: Directionality(
                 textDirection: locale.locale.toString() != 'en_US'
@@ -154,8 +154,7 @@ class Menu extends StatelessWidget {
                             menu.clearExpendedMenuListCount();
                             Provider.of<MutualProvider>(context, listen: false)
                                 .getAllAdsPageInfo(context, menu.menuAds[i].idDescription);
-                            Provider.of<MutualProvider>(context, listen: false)
-                                .getSimilarAdsList(context, menu.menuAds[i].idCategory, menu.menuAds[i].idDescription);
+                            Provider.of<MutualProvider>(context, listen: false).getSimilarAdsList(context, menu.menuAds[i].idCategory, menu.menuAds[i].idDescription);
                             Future.delayed(Duration(seconds: 0), () {
                               Navigator.push(
                                 context,

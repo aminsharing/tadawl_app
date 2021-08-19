@@ -44,11 +44,8 @@ class _VoicePlayerState extends State<VoicePlayer> {
     try{
       await file.writeAsBytes(response.bodyBytes);
     }catch(e){
-      print("File write error: $e");
+      print('File write error: $e');
     }
-
-
-    print("file.path: ${file.path}");
   }
   
   Future<void> initVoice() async{
@@ -66,13 +63,12 @@ class _VoicePlayerState extends State<VoicePlayer> {
     try {
       await _player.setFilePath('${tempPath.path}/${widget.voice}');
     } catch (e) {
-      print("Error loading audio source: $e");
+      print('Error loading audio source: $e');
     }
   }
 
   @override
   void initState(){
-    print('initState VoicePlayer');
     getVoicesFromUrl().then((value) {
       initVoice();
     });
@@ -83,7 +79,6 @@ class _VoicePlayerState extends State<VoicePlayer> {
 
   @override
   void dispose() {
-    print('dispose VoicePlayer');
     _player.dispose();
     super.dispose();
   }
@@ -109,6 +104,7 @@ class _VoicePlayerState extends State<VoicePlayer> {
             StreamBuilder<PositionData>(
               stream: _positionDataStream,
               builder: (context, snapshot) {
+                // ignore: omit_local_variable_types
                 Duration _remaining = Duration.zero;
                 if(snapshot.hasData){
                   _remaining = snapshot.data.duration - snapshot.data.position;
@@ -119,13 +115,13 @@ class _VoicePlayerState extends State<VoicePlayer> {
                     ?
                     Text('')
                     :
-                Text(RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$').firstMatch("$_remaining")?.group(1) ?? '$_remaining')
+                Text(RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$').firstMatch('$_remaining')?.group(1) ?? '$_remaining')
                     :
                 widget.duration == 0
                     ?
                 Text('')
                     :
-                Text(RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$').firstMatch("${Duration(seconds: widget.duration)}")?.group(1) ?? '');
+                Text(RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$').firstMatch('${Duration(seconds: widget.duration)}')?.group(1) ?? '');
               }
             ),
             _isLoading
