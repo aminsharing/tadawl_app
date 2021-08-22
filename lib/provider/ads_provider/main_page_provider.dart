@@ -253,18 +253,17 @@ class MainPageProvider extends ChangeNotifier{
           AdsModel firstAd = _Ads[i];
           // ignore: omit_local_variable_types
           AdsModel secondAd = _Ads[i+1];
-          if(calculateDistance(
-            LatLng(
-                double.tryParse(firstAd.lat),
-                double.tryParse(firstAd.lng)
-            ),
-            LatLng(
-                double.tryParse(secondAd.lat),
-                double.tryParse(secondAd.lng)
-            ),
+          // ignore: omit_local_variable_types
+          bool _isRemovable = calculateDistance(
+              LatLng(
+                  double.tryParse(firstAd.lat),
+                  double.tryParse(firstAd.lng)),
+              LatLng(
+                  double.tryParse(secondAd.lat),
+                  double.tryParse(secondAd.lng)),
               zoom
-          )){
-
+          );
+          if(_isRemovable){
             if(firstAd.idSpecial != '1'){
               _Ads.remove(firstAd);
               i--;

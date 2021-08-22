@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "100217631724",
+    "project_id": "tadawl-app-ffe65",
+    "storage_bucket": "tadawl-app-ffe65.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:100217631724:android:43d9ed20f819ff039a46c9",
+        "android_client_info": {
+          "package_name": "com.tadawlapp.tadawl_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "100217631724-rdbg6je84c2m14elc8oo3hotj29bm76f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsf4bt-wrfUYruUwI1IxeUd--ec08IeIs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "100217631724-rdbg6je84c2m14elc8oo3hotj29bm76f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

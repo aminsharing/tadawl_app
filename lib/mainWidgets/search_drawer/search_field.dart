@@ -23,7 +23,7 @@ class SearchField extends StatelessWidget {
           language: 'ar',
           hasClearButton: true,
           iconColor: Color(0xff00cccc),
-          placeType: PlaceType.cities,
+          placeType: PlaceType.geocode,
           placeholder: AppLocalizations.of(context).currentMapLocation,
           apiKey: 'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
           onSelected: (Place place) async {

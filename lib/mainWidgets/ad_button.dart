@@ -249,7 +249,7 @@ class AdButton extends StatelessWidget {
                               color: const Color(0xff000000),
                             ).getTextStyle(),
                           ),
-                        if (video != null && video.isNotEmpty)
+                        if ((video??'').isNotEmpty)
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
                             child: Icon(

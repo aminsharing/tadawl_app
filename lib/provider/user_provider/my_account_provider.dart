@@ -228,26 +228,28 @@ class MyAccountProvider extends ChangeNotifier{
     });
   }
 
-  Future<void> getEstimatesInfo( String Phone) async{
+  Future<void> getEstimatesInfo(String _Phone) async{
     Future.delayed(Duration(milliseconds: 0), () async{
       if (_estimates.isEmpty) {
-        await Api().getEstimates(Phone).then((value) {
+        await Api().getEstimates(_Phone).then((value) {
           _EstimateData = value;
           _EstimateData.forEach((element) {
             _estimates.add(UserEstimateModel.estimates(element));
           });
+          print("getEstimatesInfo: ${_estimates.length} phone $_Phone");
           // notifyListeners();
           // Provider.of<AdsProvider>(context,listen: false).update();
         });
       }
       else {
-        await Api().getEstimates(Phone).then((value) {
+        await Api().getEstimates(_Phone).then((value) {
           _EstimateData = value;
           _estimates.clear();
           _EstimateData.forEach((element) {
             _estimates.add(UserEstimateModel.estimates(element));
           });
-          // notifyListeners();
+          print("getEstimatesInfo: ${_estimates.length} phone $_Phone");
+          notifyListeners();
 
         });
       }
@@ -255,11 +257,12 @@ class MyAccountProvider extends ChangeNotifier{
     //notifyListeners();
   }
 
-  Future<void> getSumEstimatesInfo( String Phone) async{
+  Future<void> getSumEstimatesInfo(String _Phone) async{
     Future.delayed(Duration(milliseconds: 0), () async{
-      await Api().getSumEstimates(Phone).then((value) {
+      await Api().getSumEstimates(_Phone).then((value) {
         _sumEstimates = UserEstimateModel.sumEstimates(value);
-        // notifyListeners();
+        print("getSumEstimatesInfo: ${_sumEstimates.sum_estimates} phone $_Phone");
+        notifyListeners();
       });
     });
     //notifyListeners();

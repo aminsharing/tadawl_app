@@ -133,7 +133,8 @@ class DiscussionList extends StatelessWidget {
                     valueColor: AlwaysStoppedAnimation<Color>(
                         Color(0xff1f2835)),
                   ),
-                )),
+                ),
+            ),
           ),
         ),
       );

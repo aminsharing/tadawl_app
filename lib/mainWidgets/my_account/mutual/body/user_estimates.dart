@@ -57,7 +57,8 @@ class UserEstimates extends StatelessWidget {
             const EdgeInsets.fromLTRB(
                 0, 0, 0, 0),
             child: RatingBar(
-              rating: sumEstimates != null
+              rating:
+              sumEstimates != null
                   ?
               (double.parse(sumEstimates.sum_estimates ?? '0') / estimates.length).toDouble()
                   : 3,

@@ -152,8 +152,7 @@ class Menu extends StatelessWidget {
                           onPressed: () {
                             // menu.getIsFav(context);
                             menu.clearExpendedMenuListCount();
-                            Provider.of<MutualProvider>(context, listen: false)
-                                .getAllAdsPageInfo(context, menu.menuAds[i].idDescription);
+                            Provider.of<MutualProvider>(context, listen: false).getAllAdsPageInfo(context, menu.menuAds[i].idDescription);
                             Provider.of<MutualProvider>(context, listen: false).getSimilarAdsList(context, menu.menuAds[i].idCategory, menu.menuAds[i].idDescription);
                             Future.delayed(Duration(seconds: 0), () {
                               Navigator.push(

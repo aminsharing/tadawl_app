@@ -96,6 +96,8 @@ class DiscussionEdit extends StatelessWidget {
             itemBuilder: (context, i){
             return convEdit.conv.isNotEmpty
                 ?
+            convEdit.conv[i].state_conv_sender != '0'
+                ?
             Row(
               mainAxisAlignment:
               MainAxisAlignment.start,
@@ -170,8 +172,11 @@ class DiscussionEdit extends StatelessWidget {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                  image: CachedNetworkImageProvider(
-                                      'https://tadawl-store.com/API/assets/images/avatar/${convEdit.conv[i].image ?? 'avatar.jpg'}'),
+                                  image: (convEdit.conv[i].image??'').isNotEmpty
+                                      ?
+                                  CachedNetworkImageProvider('https://tadawl-store.com/API/assets/images/avatar/${convEdit.conv[i].image}')
+                                      :
+                                  AssetImage('assets/images/avatar.png'),
                                   fit: BoxFit.fill),
                             ),
                           ),
@@ -252,6 +257,8 @@ class DiscussionEdit extends StatelessWidget {
                 ),
               ],
             )
+                :
+            SizedBox()
                 :
             Center(
               child: Text(

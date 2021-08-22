@@ -947,8 +947,7 @@ class Api {
     request.fields['ads_cordinates_lat'] = ads_cordinates_lat.toString();
     request.fields['ads_cordinates_lng'] = ads_cordinates_lng.toString();
     request.fields['selectedAdderRelation'] = selectedAdderRelation.toString();
-    request.fields['selectedMarketerRelation'] =
-        selectedMarketerRelation.toString();
+    request.fields['selectedMarketerRelation'] = selectedMarketerRelation.toString();
     request.fields['_phone'] = phone.toString();
     request.fields['ads_city'] = ads_city.toString();
     request.fields['ads_neighborhood'] = ads_neighborhood.toString();

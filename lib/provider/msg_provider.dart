@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -48,6 +47,7 @@ class MsgProvider extends ChangeNotifier{
     super.dispose();
   }
 
+  final FocusNode myFocusNode = FocusNode();
   final String adsId;
   String _recAvatarUserName = 'Username';
   final StreamController<List<ConvModel>> _streamChatController = StreamController<List<ConvModel>>.broadcast();
@@ -56,7 +56,6 @@ class MsgProvider extends ChangeNotifier{
   bool _atBottom = false;
   final List<ConvModel> _conv = [];
   final List<ConvModel> _comment = [];
-  AudioPlayer _player;
   List<File> _imagesListUpdate = [];
   IconData _recordIcon;
   Timer _timer;
@@ -67,7 +66,6 @@ class MsgProvider extends ChangeNotifier{
   bool _isTyping = false;
   bool _isRecording = false;
   File _voiceMsg;
-
   bool _noMsgs = true;
 
 
@@ -122,38 +120,21 @@ class MsgProvider extends ChangeNotifier{
   }
 
   Future<void> getCommentUser(String phone_user, String _phone) async {
-
-    Future.delayed(Duration(milliseconds: 0), () async{
-      if (_comment.isEmpty) {
-        List<dynamic> value = await Api().getComments(_phone, phone_user);
-        value.forEach((element) {
-          _comment.add(ConvModel.fromJson(element));
-        });
-
-        // if(_streamChatSubscription.isPaused) {
-        //   _streamChatSubscription.resume();
-        //   _streamChatController.add(value);
-        //  } else {
-        _streamChatController.add(_comment);
-
-        //  }
-        // notifyListeners();
-      } else {
-        List<dynamic> value = await Api().getComments(_phone, phone_user);
-        _comment.clear();
-        value.forEach((element) {
-
-          _comment.add(ConvModel.fromJson(element));
-        });
-        //  if(_streamChatSubscription.isPaused) {
-        //   _streamChatSubscription.resume();
-        //   _streamChatController.add(value);
-        //  } else {
-        _streamChatController.add(_comment);
-        //  }
-        // notifyListeners();
-      }
-    });
+    if (_comment.isEmpty) {
+      List<dynamic> value = await Api().getComments(_phone, phone_user);
+      value.forEach((element) {
+        _comment.add(ConvModel.fromJson(element));
+      });
+      _streamChatController.add(_comment);
+    }
+    else {
+      List<dynamic> value = await Api().getComments(_phone, phone_user);
+      _comment.clear();
+      value.forEach((element) {
+        _comment.add(ConvModel.fromJson(element));
+      });
+      _streamChatController.add(_comment);
+    }
   }
 
   Future<void> sendMess(
@@ -166,6 +147,8 @@ class MsgProvider extends ChangeNotifier{
       String msgType,
       int msgDuration,
       {bool isAuto = true}) async {
+    print('msgDurationn: $msgDuration');
+    _messageController.clear();
     _streamChatController.add([..._comment, ConvModel(
         id_conv: '',
         phone_user_recipient: phone_user,
@@ -187,19 +170,23 @@ class MsgProvider extends ChangeNotifier{
     )]);
     await Api().sendMessFunc(imagesList, voiceMsg, content, _phone, phone_user, msgType, msgDuration).then((value) {
       getCommentUser(phone_user, _phone);
-      notifyListeners();
+      // notifyListeners();
+      if(msgType == MessType.TEXT){
+        myFocusNode.requestFocus();
+      }
     });
-    _messageController.clear();
+
+
     if(isAuto) {
       setIsTyping(false);
-      FocusScope.of(context).requestFocus(FocusNode());
+      // FocusScope.of(context).requestFocus(FocusNode());
       Future.delayed(const Duration(seconds: 2), () {
         _scrollChatController.animateTo(0,
             duration: Duration(seconds: 2), curve: Curves.easeIn);
       });
     }
     Future.delayed(const Duration(seconds: 2), () {
-      notifyListeners();
+      // notifyListeners();
     });
 
   }
@@ -251,11 +238,11 @@ class MsgProvider extends ChangeNotifier{
         await Record.start(
           path: newDir.path + '/$randomName.m4a',
           ).then((value) {
+          startTimer();
           _isRecording = true;
           _recordIcon = Icons.send_rounded;
           notifyListeners();
           });
-        startTimer();
       }else{
         await Fluttertoast.showToast(
             msg: 'يرجى اعطاء الإذن لتسجل الرسائل الصوتية',
@@ -272,12 +259,12 @@ class MsgProvider extends ChangeNotifier{
   }
 
   void stopRecorder(bool delete, String phone_user, String _phone, BuildContext context) async{
-
     if(delete){
       await Record.stop().then((value) async{
         _isRecording = false;
         _recordIcon = Icons.mic;
         deleteFile('$randomName');
+        stopTimer();
         notifyListeners();
       });
     }
@@ -287,6 +274,7 @@ class MsgProvider extends ChangeNotifier{
           _isRecording = false;
           _recordIcon = Icons.mic;
           deleteFile('$randomName');
+          stopTimer();
           notifyListeners();
           await Fluttertoast.showToast(
               msg: 'يجب ان تكون الرسالة الصوتية اكثر من ثانية',
@@ -296,7 +284,6 @@ class MsgProvider extends ChangeNotifier{
               backgroundColor: Colors.green,
               textColor: Colors.white,
               fontSize: 15.0);
-
         }
         else{
           var temp = await getTemporaryDirectory();
@@ -316,38 +303,13 @@ class MsgProvider extends ChangeNotifier{
             _recordDuration,
           ).then((value) {
             _recordDuration = -1;
+            stopTimer();
             notifyListeners();
           });
 
         }
       });
       }
-    stopTimer();
-  }
-
-  void setUrlToPlay(String url, AudioPlayer player, String assetPath){
-    _player = player;
-    _player.setUrl('https://tadawl-store.com/API/assets/voices/$url');
-    _player.setAsset(assetPath);
-  }
-
-  void play(AudioPlayer player) async {
-    _player = player;
-    if(_player.playing){
-      await _player.stop();
-    }
-    await _player.play().then((value) {
-      notifyListeners();
-    });
-  }
-
-  void stop(int index, AudioPlayer player) async{
-    _player = player;
-    if (_player != null) {
-      await _player.stop().then((value) {
-        notifyListeners();
-      });
-    }
   }
 
   void deleteFile(String path) async{
@@ -363,14 +325,15 @@ class MsgProvider extends ChangeNotifier{
 
   void startTimer(){
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      _recordDuration++;
       if(recordLengthSec >= 59){
         _recordLengthMin++;
         _recordLengthSec = -1;
       }
       _recordLengthSec++;
+      _recordDuration = recordLengthSec + (_recordLengthMin*60);
       notifyListeners();
     });
+
   }
 
   void stopTimer(){

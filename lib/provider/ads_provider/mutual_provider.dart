@@ -41,11 +41,7 @@ class MutualProvider extends ChangeNotifier{
   List _adsViewsData = [];
   String _qrData = 'https://play.google.com/store/apps/details?id=com.tadawlapp.tadawl_app';
   double leftMargin, topMargin;
-  // final Random _random = Random();
-  // double randdTop = 50;
-  // double randdLeft = 50;
   String _idDescription;
-
   int _number;
   bool _busy = false;
   bool _is_favAdsPageDB = false;
@@ -70,12 +66,9 @@ class MutualProvider extends ChangeNotifier{
 
   void sendEstimate(BuildContext context, String phone, String phoneEstimated, String rating, String comment, String idDescription) async {
     Future.delayed(Duration(milliseconds: 0), () {
-      Api()
-          .sendEstimateFunc(phone, phoneEstimated, rating, comment);
+      Api().sendEstimateFunc(phone, phoneEstimated, rating, comment);
     });
-    Provider.of<MutualProvider>(context, listen: false)
-        .getAllAdsPageSendEs(context, idDescription);
-
+    getAllAdsPageSendEs(context, idDescription);
     Future.delayed(Duration(seconds: 0), () {
       Navigator.pushReplacement(
         context,
@@ -90,7 +83,7 @@ class MutualProvider extends ChangeNotifier{
       Api().getAdsPageFunc(idDescription).then((value) {
         _AdsPage = AdsModel.adsPage(value);
         _qrData = 'https://tadawl-store.com/${_AdsPage.idAds}/ads';
-        if(_AdsPage.video.isNotEmpty) {
+        if((_AdsPage.video??'').isNotEmpty) {
           Provider.of<AdPageProvider>(context, listen: false).
           setVideoAdsPage(_AdsPage.video);
         }
@@ -111,8 +104,7 @@ class MutualProvider extends ChangeNotifier{
   void getImagesAdsPageList(BuildContext context, String idDescription) {
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsPageImages.clear();
-      Api()
-          .getImagesAdsPageFunc(idDescription)
+      Api().getImagesAdsPageFunc(idDescription)
           .then((value) {
         _adsPageImagesData = value;
         _adsPageImagesData.forEach((element) {
@@ -126,8 +118,7 @@ class MutualProvider extends ChangeNotifier{
   void getSimilarAdsList(BuildContext context, String idCategory, String idAds) {
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsSimilar.clear();
-      Api()
-          .getSimilarAdsFunc(idCategory, idAds)
+      Api().getSimilarAdsFunc(idCategory, idAds)
           .then((value) {
         _adsSimilarData = value;
         _adsSimilarData.forEach((element) {
@@ -144,10 +135,6 @@ class MutualProvider extends ChangeNotifier{
     Future.delayed(Duration(milliseconds: 0), () {
       Api().getAdsPageFunc(idDescription).then((value) {
         _AdsUser = UserModel.adsUser(value);
-        // Provider.of<UserMutualProvider>(context, listen: false).getEstimatesInfo(_AdsUser.first.phone);
-        // Provider.of<UserMutualProvider>(context, listen: false).getSumEstimatesInfo(_AdsUser.first.phone);
-        // // Provider.of<FavouriteProvider>(context, listen: false).update();
-        // Provider.of<UserMutualProvider>(context, listen: false).update();
       });
     });
   }
@@ -168,8 +155,7 @@ class MutualProvider extends ChangeNotifier{
   void getBFAdsPageList(BuildContext context, String idDescription) {
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsBF.clear();
-      Api()
-          .getBFAdsPageFunc(idDescription)
+      Api().getBFAdsPageFunc(idDescription)
           .then((value) {
         _adsBFData = value;
         _adsBFData.forEach((element) {
@@ -232,16 +218,6 @@ class MutualProvider extends ChangeNotifier{
     // notifyListeners();
   }
 
-  // void randomPosition(int number) {
-  //   var _randomLeft = _random.nextInt(number);
-  //   var _randomTop = _random.nextInt(number);
-  //   var _randLeft = _randomLeft.toDouble();
-  //   var _randTop = _randomTop.toDouble();
-  //   randdTop = _randTop;
-  //   randdLeft = _randLeft;
-  //   //notifyListeners();
-  // }
-
   int countAdsPageImages() {
     if (_AdsPageImages.isNotEmpty) {
       return _AdsPageImages.length;
@@ -290,10 +266,9 @@ class MutualProvider extends ChangeNotifier{
     setIdDescription(idDescription);
   }
 
-
-
-
-
+  void clearAdsUser(){
+    _AdsUser = null;
+  }
 
 
 
@@ -307,7 +282,6 @@ class MutualProvider extends ChangeNotifier{
   List<QFModel> get adsQF => _AdsQF;
   List<AdsModel> get adsNavigation => _AdsNavigation;
   List<ViewsSeriesModel> get adsViews => _AdsViews;
-
   String get idDescription => _idDescription;
   bool get busy => _busy;
   int get number => _number;

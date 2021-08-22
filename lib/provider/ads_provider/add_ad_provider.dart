@@ -109,7 +109,9 @@ class AddAdProvider extends ChangeNotifier{
   double _zoom;
   bool _serviceEnabled;
   PermissionStatus _permissionGranted;
-
+  GoogleMapController _mapController;
+  set mapController(GoogleMapController val) => _mapController = val;
+  GoogleMapController get mapController => _mapController;
 
 
   void clearChacheAddAds() {
@@ -167,6 +169,16 @@ class AddAdProvider extends ChangeNotifier{
     _typeAqarAddAds[0] = false;
     _typeAqarAddAds[1] = false;
     _typeAqarAddAds[2] = false;
+  }
+
+  void animateToLocation(LatLng position, double zoom) async{
+    await _mapController.animateCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(
+        target: LatLng(position.latitude, position.longitude),
+        zoom: zoom,
+      ),
+    ),
+    );
   }
 
   Future<int> getSession() async {
@@ -812,18 +824,14 @@ class AddAdProvider extends ChangeNotifier{
     });
 
     await Fluttertoast.showToast(
-        msg: 'تتم الآن مراجعة الإعلان',
+        msg: 'تم نشر الإعلان',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.green,
         textColor: Colors.white,
         fontSize: 15.0);
-    // Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
     Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
-    // Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
-    // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
-
     await Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => Home()),

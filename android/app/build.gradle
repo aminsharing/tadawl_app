@@ -24,6 +24,8 @@ if (flutterVersionName == null) {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
   def keystoreProperties = new Properties()
   def keystorePropertiesFile = rootProject.file('key.properties')
@@ -86,4 +88,5 @@ dependencies {
     implementation "androidx.browser:browser:1.3.0"
     implementation "com.google.android.material:material:1.4.0"
     implementation "com.google.android.gms:play-services-base:17.6.0"
+    implementation platform('com.google.firebase:firebase-bom:28.3.1')
 }

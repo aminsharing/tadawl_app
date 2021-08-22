@@ -76,10 +76,7 @@ class Estimate extends StatelessWidget {
                         ),
                         if (estimateUser.sumEstimates != null)
                           RatingBar(
-                            rating: (double.parse(estimateUser
-                                        .sumEstimates.sum_estimates) /
-                                    estimateUser.estimates.length)
-                                .toDouble(),
+                            rating: (double.parse(estimateUser.sumEstimates.sum_estimates) / estimateUser.estimates.length).toDouble(),
                             icon: Icon(
                               Icons.star,
                               size: 20,
