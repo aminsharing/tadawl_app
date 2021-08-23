@@ -13,6 +13,7 @@ import 'package:tadawl_app/mainWidgets/main_page/slider_widget.dart';
 import 'package:tadawl_app/mainWidgets/search_drawer.dart';
 import 'package:tadawl_app/mainWidgets/bottom_navigation_bar.dart';
 import 'package:tadawl_app/mainWidgets/custom_drawer.dart';
+import 'package:tadawl_app/mainWidgets/search_on_map.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -95,7 +96,7 @@ class MainPage extends StatelessWidget {
               child: CustomDrawer(),
             ),
             endDrawer: Drawer(
-              child: SearchDrawer(isMainPage: true,),
+              child: SearchDrawer(selectedPage: SelectedPage.mainPage,),
             ),
             body: Stack(
               children: <Widget>[

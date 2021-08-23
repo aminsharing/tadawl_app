@@ -38,7 +38,6 @@ class AdPage extends StatelessWidget {
         //   adsPage.getIsFav(context, mutualProv.adsPage.first.idDescription);
         // }
 
-        print("AdPageeee");
 
         return WillPopScope(
           onWillPop: () async{

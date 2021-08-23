@@ -236,7 +236,6 @@ class MyAccountProvider extends ChangeNotifier{
           _EstimateData.forEach((element) {
             _estimates.add(UserEstimateModel.estimates(element));
           });
-          print("getEstimatesInfo: ${_estimates.length} phone $_Phone");
           // notifyListeners();
           // Provider.of<AdsProvider>(context,listen: false).update();
         });
@@ -248,7 +247,6 @@ class MyAccountProvider extends ChangeNotifier{
           _EstimateData.forEach((element) {
             _estimates.add(UserEstimateModel.estimates(element));
           });
-          print("getEstimatesInfo: ${_estimates.length} phone $_Phone");
           notifyListeners();
 
         });
@@ -261,7 +259,6 @@ class MyAccountProvider extends ChangeNotifier{
     Future.delayed(Duration(milliseconds: 0), () async{
       await Api().getSumEstimates(_Phone).then((value) {
         _sumEstimates = UserEstimateModel.sumEstimates(value);
-        print("getSumEstimatesInfo: ${_sumEstimates.sum_estimates} phone $_Phone");
         notifyListeners();
       });
     });

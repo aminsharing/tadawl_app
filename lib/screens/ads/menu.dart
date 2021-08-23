@@ -8,6 +8,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/mainWidgets/search_drawer.dart';
+import 'package:tadawl_app/mainWidgets/search_on_map.dart';
 import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
@@ -75,7 +76,7 @@ class Menu extends StatelessWidget {
             child: CustomDrawer(),
           ),
           endDrawer: Drawer(
-            child: SearchDrawer(isMainPage: false,),
+            child: SearchDrawer(selectedPage: SelectedPage.menu,),
           ),
           body: Consumer<MenuProvider>(builder: (context, menu, child) {
             // menu.setFilterSearchDrawer(null);

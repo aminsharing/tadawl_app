@@ -169,7 +169,13 @@ class MsgProvider extends ChangeNotifier{
         isLocal: true,
     )]);
     await Api().sendMessFunc(imagesList, voiceMsg, content, _phone, phone_user, msgType, msgDuration).then((value) {
-      getCommentUser(phone_user, _phone);
+      getCommentUser(phone_user, _phone).then((value) {
+        getUnreadMsgs(_phone).then((value) {
+          Provider.of<LocaleProvider>(context, listen: false).getUnreadMsgs(_phone).then((value) {
+            Provider.of<LocaleProvider>(context, listen: false).update();
+          });
+        });
+      });
       // notifyListeners();
       if(msgType == MessType.TEXT){
         myFocusNode.requestFocus();

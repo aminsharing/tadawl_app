@@ -60,10 +60,10 @@ class MainPageProvider extends ChangeNotifier{
   bool _serviceEnabled;
   PermissionStatus _permissionGranted;
   OverlayEntry _entry;
-
   int _zoomOutOfRange = 0;
   set zoomOutOfRange(int val) => _zoomOutOfRange = val;
   int get zoomOutOfRange => _zoomOutOfRange;
+
 
   void setInItMainPageDone(int val) {
     _inItMainPageDone= val;
@@ -487,10 +487,12 @@ class MainPageProvider extends ChangeNotifier{
   }
 
   void getAds(BuildContext context,List<dynamic> _AdsData, double zoom){
-    try{
-      _entry.remove();
-    }catch(e){
-      print('Entry remove error: $e');
+    if(_entry != null){
+      try{
+        _entry.remove();
+      }catch(e){
+        print('Entry remove error: $e');
+      }
     }
     _Ads.clear();
     _markersMainPage.clear();

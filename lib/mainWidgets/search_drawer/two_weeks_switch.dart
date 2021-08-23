@@ -3,14 +3,15 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tadawl_app/mainWidgets/search_on_map.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class TwoWeeksSwitch extends StatelessWidget {
   const TwoWeeksSwitch({
     Key key,
-    @required this.isMainPage
+    @required this.selectedPage
   }) : super(key: key);
-  final bool isMainPage;
+  final SelectedPage selectedPage;
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +44,14 @@ class TwoWeeksSwitch extends StatelessWidget {
               showOnOff: false,
               onToggle: (val) {
                 searchDrawer.setIsTwoWeekSearchDrawer(val);
-                if(isMainPage){
+                if(selectedPage == SelectedPage.mainPage){
                   if(val){
                     searchDrawer.setFilter(2);
                   }else{
                     searchDrawer.setFilter(null);
                   }
                   searchDrawer.getAdsList(context);
-                }else{
+                }else if(selectedPage == SelectedPage.menu){
                   if(val){
                     searchDrawer.setMenuFilter(2);
                   }else{

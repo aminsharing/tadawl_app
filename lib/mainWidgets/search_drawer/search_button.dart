@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tadawl_app/mainWidgets/search_on_map.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class SearchButton extends StatelessWidget {
   const SearchButton({
     Key key,
-    @required this.isMainPage
+    @required this.selectedPage
   }) : super(key: key);
-  final bool isMainPage;
+  final SelectedPage selectedPage;
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +21,10 @@ class SearchButton extends StatelessWidget {
           onPressed: () {
             // _searchDrawerKey.currentState.save();
 
-            if(isMainPage){
+            if(selectedPage == SelectedPage.mainPage){
               searchDrawer.setFilter(4);
               searchDrawer.getAdsList(context);
-            }else{
+            }else if (selectedPage == SelectedPage.menu){
               searchDrawer.setMenuFilter(4);
               searchDrawer.getMenuList(context);
             }
@@ -55,7 +56,7 @@ class SearchButton extends StatelessWidget {
                     Center(
                       child: Text(
                         ' ${AppLocalizations.of(context).search}  ${
-                            (isMainPage ? searchDrawer.mainAdsCount : searchDrawer.menuAdsCount)??''
+                            (selectedPage == SelectedPage.mainPage ? searchDrawer.mainAdsCount : searchDrawer.menuAdsCount)??''
                         }  ${AppLocalizations.of(context).advertisement}  ',
                         style: CustomTextStyle(
                           fontSize: 12,

@@ -8,15 +8,16 @@ import 'package:tadawl_app/mainWidgets/search_drawer/search_button.dart';
 import 'package:tadawl_app/mainWidgets/search_drawer/search_field.dart';
 import 'package:tadawl_app/mainWidgets/search_drawer/search_filter.dart';
 import 'package:tadawl_app/mainWidgets/search_drawer/two_weeks_switch.dart';
+import 'package:tadawl_app/mainWidgets/search_on_map.dart';
 import 'package:tadawl_app/provider/ads_provider/search_ads_provider.dart';
 import 'package:tadawl_app/screens/ads/search_ads.dart';
 
 class SearchDrawer extends StatelessWidget {
   const SearchDrawer({
     Key key,
-    @required this.isMainPage
+    @required this.selectedPage
   }) : super(key: key);
-  final bool isMainPage;
+  final SelectedPage selectedPage;
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +35,15 @@ class SearchDrawer extends StatelessWidget {
               ),
             ),
             // top cyan bar .................................
-            SearchField(isMainPage: isMainPage,),
+            SearchField(selectedPage: selectedPage,),
             // choose location ..............................
             ChooseCategory(),
             // choose category ..............................
             SearchFilter(),
 
-            SearchButton(isMainPage: isMainPage,),
+            SearchButton(selectedPage: selectedPage,),
             // search button ................................
-            TwoWeeksSwitch(isMainPage: isMainPage,),
+            TwoWeeksSwitch(selectedPage: selectedPage,),
             // two weeks ago switch .........................
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 50, 20, 30),

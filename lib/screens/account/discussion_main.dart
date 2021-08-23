@@ -32,7 +32,9 @@ class Discussion extends StatelessWidget {
 
   final GlobalKey<FormState> _messageKey = GlobalKey<FormState>();
 
-  void choiceAction(String choice) {}
+  void choiceAction(String choice) {
+
+  }
 
   @override
   Widget build(BuildContext context) {

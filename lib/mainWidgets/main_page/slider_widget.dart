@@ -76,7 +76,8 @@ class SliderWidget extends StatelessWidget {
                               ? Icons.arrow_forward_ios_rounded
                               : Icons.arrow_back_ios_rounded,
                           color: Color(0xff00cccc),
-                          size: 30),
+                          size: 30,
+                      ),
                     ),
                     Container(
                       width: 100.0,

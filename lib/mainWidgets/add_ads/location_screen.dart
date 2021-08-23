@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:search_map_place/search_map_place.dart';
 import 'package:tadawl_app/mainWidgets/add_ads/ads_details_screen.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
+import 'package:tadawl_app/mainWidgets/search_on_map.dart';
 import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -135,24 +135,21 @@ class LocationScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(9.0),
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      child: SearchMapPlaceWidget(
-                        language: 'ar',
-                        hasClearButton: true,
-                        iconColor: Color(0xff00cccc),
-                        placeType: PlaceType.geocode,
-                        placeholder: AppLocalizations.of(context).trySearching,
-                        apiKey: 'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
-                        onSelected: (Place place) async {
-                          await place.geolocation.then((value) async{
-                            addAds.animateToLocation(value.coordinates, 13);
-                          });
-                        },
-                      ),
-                    ),
+                  SearchOnMap(
+                    selectedPage: SelectedPage.locationScreen,
+                    // SearchMapPlaceWidget(
+                    //   language: 'ar',
+                    //   hasClearButton: true,
+                    //   iconColor: Color(0xff00cccc),
+                    //   placeType: PlaceType.geocode,
+                    //   placeholder: AppLocalizations.of(context).trySearching,
+                    //   apiKey: 'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
+                    //   onSelected: (Place place) async {
+                    //     await place.geolocation.then((value) async{
+                    //       addAds.animateToLocation(value.coordinates, 13);
+                    //     });
+                    //   },
+                    // ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10, 15, 10, 0),
