@@ -21,7 +21,7 @@ class DrawerButton extends StatelessWidget {
         child: Container(
           width: 120,
           height: 78,
-          color: Color(0xff00cccc),
+          color: const Color(0xff1f2835),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -31,7 +31,7 @@ class DrawerButton extends StatelessWidget {
                   width: 30.0,
                   height: 30.0,
                   child: Icon(icon,
-                    color: Color(0xffffffff),
+                    color: const Color(0xff04B404),
                     size: 30,
                   ),
                 ),

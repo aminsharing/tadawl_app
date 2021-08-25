@@ -16,6 +16,7 @@ class ConvModel {
   String msgType;
   String voice;
   int duration;
+  bool isBlocked;
   bool isLocal;
   // ignore: sort_constructors_first
   ConvModel({
@@ -36,6 +37,7 @@ class ConvModel {
         this.duration,
         this.msgType,
         this.unreadMsgs,
+        this.isBlocked,
         this.isLocal,
   });
   // ignore: sort_constructors_first
@@ -55,6 +57,7 @@ class ConvModel {
     phone = json['phone'];
     msgType = json['msg_type'];
     voice = json['voice_comment'];
+    isBlocked = json['blocked'] == '1';
     duration = int.tryParse(json['voice_duration']??'0');
     isLocal = false;
   }

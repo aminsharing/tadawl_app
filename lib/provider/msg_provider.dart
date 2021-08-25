@@ -27,7 +27,7 @@ class MsgProvider extends ChangeNotifier{
     getConvInfo(_phone).then((value) {
       getUnreadMsgs(_phone).then((value) {
         Provider.of<LocaleProvider>(context, listen: false).getUnreadMsgs(_phone).then((value) {
-          Provider.of<LocaleProvider>(context, listen: false).update();
+          // Provider.of<LocaleProvider>(context, listen: false).update();
         });
         Future.delayed(Duration(seconds: 1), (){
           update();
@@ -101,10 +101,8 @@ class MsgProvider extends ChangeNotifier{
 
   Future<void> setReadMsgs(String _phone, String _other_phone) async{
     if(_phone != null) {
-      Future.delayed(Duration(milliseconds: 0), () async{
-        await Api().setReadMessagesFunc(_phone, _other_phone).then((value) {
-          notifyListeners();
-        });
+      await Api().setReadMessagesFunc(_phone, _other_phone).then((value) {
+        notifyListeners();
       });
     }
   }

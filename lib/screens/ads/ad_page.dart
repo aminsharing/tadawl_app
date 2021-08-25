@@ -67,7 +67,7 @@ class AdPage extends StatelessWidget {
                   Navigator.pop(context);
                 },
               ),
-              backgroundColor: Color(0xff00cccc),
+              backgroundColor: Color(0xff1f2835),
             ),
             body: Stack(
               children: [

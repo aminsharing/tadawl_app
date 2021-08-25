@@ -122,7 +122,9 @@ class MainPageProvider extends ChangeNotifier{
         if(_markersMainPage.isEmpty){
           if(_zoomOutOfRange == 0){
             _adsOnMap = 0;
-            notifyListeners();
+            if(hasListeners){
+              notifyListeners();
+            }
             Future.delayed(Duration(seconds: 1), (){
               if(_allAds == 0){
                 Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(1);
@@ -139,13 +141,14 @@ class MainPageProvider extends ChangeNotifier{
       _entry = OverlayEntry(
           builder: (ctxt) {
             return _MarkerHelper(
-              markerWidgets: markerWidgets(context),
+              markerWidgets: markerWidgets(ctxt),
               callback: (bitmaps) {
-                _markersMainPage = mapBitmapsToMarkersMainPage(context, bitmaps);
-                Future.delayed(Duration(seconds: 1), () {
-                  _adsOnMap = _markersMainPage.length;
-                  notifyListeners();
-                });
+                _markersMainPage = mapBitmapsToMarkersMainPage(ctxt, bitmaps);
+                _adsOnMap = _markersMainPage.length;
+                notifyListeners();
+                // Future.delayed(Duration(seconds: 1), () {
+                //
+                // });
               },
             );
           },
@@ -160,6 +163,7 @@ class MainPageProvider extends ChangeNotifier{
   }
 
   List<Widget> markerWidgets(BuildContext context) {
+
     final size = MediaQuery.of(context).size;
     return _Ads.map((c) => Provider.of<LocaleProvider>(context, listen: false)
         .locale
@@ -510,7 +514,9 @@ class MainPageProvider extends ChangeNotifier{
         notifyListeners();
         Future.delayed(Duration(seconds: 3), (){
           _adsOnMap = 0;
-          notifyListeners();
+          if(hasListeners) {
+            notifyListeners();
+          }
         });
         Future.delayed(Duration(seconds: 5), (){
           if(_allAds == 0){
@@ -565,7 +571,9 @@ class MainPageProvider extends ChangeNotifier{
       _initialCameraPosition = cities.first.position;
       _zoom = cities.first.zoom;
       Future.delayed(Duration(seconds: 1), (){
-        notifyListeners();
+        if(hasListeners) {
+          notifyListeners();
+        }
       });
     }
     if(_permissionGranted == PermissionStatus.deniedForever){

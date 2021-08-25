@@ -17,7 +17,7 @@ class InitScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-        backgroundColor: const Color(0xff00cccc),
+        backgroundColor: const Color(0xff1f2835),
         title: Center(
           widthFactor: 1.5,
           child: Text(
@@ -50,9 +50,7 @@ class InitScreen extends StatelessWidget {
               children: <Widget>[
                 Flexible(
                   child: Text(
-                    AppLocalizations
-                        .of(context)
-                        .rule26,
+                    AppLocalizations.of(context).rule26,
                     style: CustomTextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 15,

@@ -48,7 +48,7 @@ class LeaseContracts extends StatelessWidget {
           ).getTextStyle(),
           textAlign: TextAlign.center,
         ),
-        backgroundColor: Color(0xff00cccc),
+        backgroundColor: Color(0xff1f2835),
       ),
       backgroundColor: const Color(0xffffffff),
       body: SingleChildScrollView(
@@ -124,7 +124,7 @@ class LeaseContracts extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           border: Border.all(
-                              color: const Color(0xff00cccc), width: 1),
+                              color: const Color(0xff1f2835), width: 1),
                           color: const Color(0xffffffff),
                         ),
                         child: Align(
@@ -134,7 +134,7 @@ class LeaseContracts extends StatelessWidget {
                             style: CustomTextStyle(
 
                               fontSize: 20,
-                              color: const Color(0xff00cccc),
+                              color: const Color(0xff1f2835),
                             ).getTextStyle(),
                           ),
                         ),
@@ -163,7 +163,7 @@ class LeaseContracts extends StatelessWidget {
         width: mediaQuery.size.width,
         height: 50.0,
         decoration: BoxDecoration(
-          color: const Color(0xff00cccc),
+          color: const Color(0xff1f2835),
         ),
         child: Align(
           alignment: Alignment.bottomCenter,

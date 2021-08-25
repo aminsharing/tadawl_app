@@ -355,7 +355,9 @@ class SearchDrawerProvider extends ChangeNotifier{
 
   void setMainAdsCount(int val){
     _mainAdsCount = val;
-    notifyListeners();
+    if(hasListeners) {
+      notifyListeners();
+    }
   }
 
   void setMenuAdsCount(int val){

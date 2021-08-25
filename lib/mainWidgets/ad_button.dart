@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -55,19 +53,14 @@ class AdButton extends StatelessWidget {
                   width: mediaQuery.size.width*.34,
                   height: mediaQuery.size.width*.34,
                   child: CachedNetworkImage(
-                    placeholder: (_, url) => Center(
-                        child: CircularProgressIndicator()),
+                    // placeholder: (_, url) => Center(child: CircularProgressIndicator()),
                     errorWidget: (__ ,_, error) => Icon(Icons.error),
                     imageUrl: 'https://tadawl-store.com/API/assets/images/ads/$ads_image',
                     fit: BoxFit.cover,
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      Random().nextInt(50).toDouble(),
-                      Random().nextInt(50).toDouble(),
-                      5,
-                      5),
+                  padding: const EdgeInsets.all(5.0),
                   child: Opacity(
                     opacity: 0.7,
                     //opacity: 0.7,

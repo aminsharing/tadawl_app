@@ -63,12 +63,12 @@ class CommHousing extends StatelessWidget {
                 addAd.setTyprAqarAddAds(index);
               },
               isSelected: addAd.typeAqarAddAds,
-              color: const Color(0xff00cccc),
+              color: const Color(0xff04B404),
               selectedColor: const Color(0xffffffff),
-              fillColor: const Color(0xff00cccc),
-              borderColor: const Color(0xff00cccc),
+              fillColor: const Color(0xff04B404),
+              borderColor: const Color(0xff04B404),
               selectedBorderColor:
-              const Color(0xff00cccc),
+              const Color(0xff04B404),
               borderWidth: 1,
             ),
           ],

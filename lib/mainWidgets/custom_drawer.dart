@@ -10,7 +10,6 @@ import 'package:tadawl_app/provider/ads_provider/special_offers_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/today_ads_provider.dart';
 import 'package:tadawl_app/provider/general_provider.dart';
 import 'package:tadawl_app/provider/l10n/l10n.dart';
-import 'package:tadawl_app/provider/msg_provider.dart';
 import 'package:tadawl_app/provider/request_provider.dart';
 import 'package:tadawl_app/provider/user_provider/favourite_provider.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
@@ -85,13 +84,13 @@ class CustomDrawer extends StatelessWidget {
             ),
           ),
         ),
-        backgroundColor: Color(0xff00cccc),
+        backgroundColor: const Color(0xff1f2835),
         toolbarHeight: 50,
         actions: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-            child: TextButton(
-              onPressed: _launchURLTwitter,
+            padding: const EdgeInsets.all(7.0),
+            child: GestureDetector(
+              onTap: _launchURLTwitter,
               child: Container(
                 width: 40.0,
                 height: 40.0,
@@ -106,9 +105,9 @@ class CustomDrawer extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-            child: TextButton(
-              onPressed: _launchURLSnapchat,
+            padding: const EdgeInsets.all(7.0),
+            child: GestureDetector(
+              onTap: _launchURLSnapchat,
               child: Container(
                 width: 40.0,
                 height: 40.0,
@@ -179,22 +178,24 @@ class CustomDrawer extends StatelessWidget {
                           icon: Icons.message_rounded,
                           text: AppLocalizations.of(context).messages,
                           onPressed: () {
-                            // ignore: omit_local_variable_types
-                            final MsgProvider msgProvider = MsgProvider(context, locale.phone);
-                            Navigator.push(
-                              context,
-                              PageTransition(type: PageTransitionType.bottomToTop,
+                            if(locale.phone != null){
+                              Navigator.pushReplacement(
+                                context,
+                                PageTransition(type: PageTransitionType.bottomToTop,
                                   duration: Duration(milliseconds: 10),
-                                  child: locale.phone != null
-                                      ?
-                                  ChangeNotifierProvider<MsgProvider>(
-                                    create: (_) => msgProvider,
-                                    child: DiscussionList(msgProvider: msgProvider),
-                                  )
-                                      :
-                                Login(),
-                              ),
-                            );
+                                  child: DiscussionList(),
+                                ),
+                              );
+                            }else{
+                              Navigator.push(
+                                context,
+                                PageTransition(type: PageTransitionType.bottomToTop,
+                                  duration: Duration(milliseconds: 10),
+                                  child: Login(),
+                                ),
+                              );
+                            }
+
                           },
                       ),
                       DrawerButton(
@@ -429,19 +430,21 @@ class CustomDrawer extends StatelessWidget {
 
 void _launchURLSnapchat() async {
   const url = 'https://www.snapchat.com/add/tadawl_comsa';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
+  await launch(url);
+  // if (await canLaunch(url)) {
+  //   await launch(url);
+  // } else {
+  //   throw 'Could not launch $url';
+  // }
 }
 
 void _launchURLTwitter() async {
   const url = 'https://twitter.com/1_TADAWL';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
+  await launch(url);
+  // if (await canLaunch(url)) {
+  //   await launch(url);
+  // } else {
+  //   throw 'Could not launch $url';
+  // }
 }
 

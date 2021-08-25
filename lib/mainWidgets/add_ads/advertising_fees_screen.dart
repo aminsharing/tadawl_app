@@ -18,7 +18,7 @@ class AdvertisingFeesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-        backgroundColor: const Color(0xff00cccc),
+        backgroundColor: const Color(0xff1f2835),
         leadingWidth: 70.0,
         title: Center(
           widthFactor: 2.0,

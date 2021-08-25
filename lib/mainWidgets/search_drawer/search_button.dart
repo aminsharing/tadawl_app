@@ -35,7 +35,7 @@ class SearchButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(5.0),
               color: const Color(0xffffffff),
               border: Border.all(
-                  width: 1.0, color: const Color(0xff00cccc)),
+                  width: 1.0, color: const Color(0xff1f2835)),
             ),
             child: Padding(
               padding: const EdgeInsets.all(15.0),
@@ -48,7 +48,7 @@ class SearchButton extends StatelessWidget {
                         AppLocalizations.of(context).search,
                         style: CustomTextStyle(
                           fontSize: 20,
-                          color: const Color(0xff00cccc),
+                          color: const Color(0xff04B404),
                         ).getTextStyle(),
                         textAlign: TextAlign.center,
                       ),
@@ -60,7 +60,7 @@ class SearchButton extends StatelessWidget {
                         }  ${AppLocalizations.of(context).advertisement}  ',
                         style: CustomTextStyle(
                           fontSize: 12,
-                          color: const Color(0xff00cccc),
+                          color: const Color(0xff1f2835),
                         ).getTextStyle(),
                         textAlign: TextAlign.center,
                         textDirection: TextDirection.rtl,

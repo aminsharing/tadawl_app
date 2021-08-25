@@ -94,7 +94,7 @@ class SelectedNav0 extends StatelessWidget {
                 isSelected: advFee.isSelected2,
                 color: const Color(0xff8d8d8d),
                 selectedColor: const Color(0xffffffff),
-                fillColor: const Color(0xff00cccc),
+                fillColor: const Color(0xff1f2835),
                 borderRadius: BorderRadius.circular(30),
                 borderWidth: 1,
                 borderColor: const Color(0xffdddddd),

@@ -84,7 +84,7 @@ class ChangePhone extends StatelessWidget {
             ).getTextStyle(),
             textAlign: TextAlign.center,
           ),
-          backgroundColor: Color(0xff00cccc),
+          backgroundColor: Color(0xff1f2835),
         ),
         backgroundColor: const Color(0xffffffff),
         body: Form(
@@ -103,8 +103,8 @@ class ChangePhone extends StatelessWidget {
                         child: _buildPhone(),
                       ),
                       Icon(
-                        Icons.phone_enabled,
-                        color: Color(0xff00cccc),
+                        Icons.local_phone,
+                        color: Color(0xff04B404),
                         size: 40,
                       ),
                     ],

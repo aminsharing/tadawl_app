@@ -5,7 +5,6 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/provider/msg_provider.dart';
 import 'package:tadawl_app/screens/account/login.dart';
 import 'package:tadawl_app/screens/account/discussion_list.dart';
 import 'package:tadawl_app/screens/ads/main_page.dart';
@@ -22,10 +21,6 @@ class BottomNavigationBarApp extends StatelessWidget {
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
 
-
-
-
-
     return Container(
       height: mediaQuery.size.height * 0.11,
       width: mediaQuery.size.width,
@@ -37,9 +32,7 @@ class BottomNavigationBarApp extends StatelessWidget {
             Expanded(
               child: TextButton(
                 onPressed: () {
-                  // Scaffold.of(context).openEndDrawer();
                   Scaffold.of(context).openDrawer();
-                  // Provider.of<AdsProvider>(context, listen: false).update();
                 },
                 child: Column(
                   children: [
@@ -210,15 +203,10 @@ class BottomNavigationBarApp extends StatelessWidget {
                 onPressed: () {
                   final locale = Provider.of<LocaleProvider>(context, listen: false);
                   if(locale.phone != null) {
-                    // ignore: omit_local_variable_types
-                    final MsgProvider msgProvider = MsgProvider(context, local.phone);
-                    Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                        ChangeNotifierProvider<MsgProvider>(
-                          create: (_) => msgProvider,
-                          child: DiscussionList(msgProvider: msgProvider),
-                        )
-                    ),
-                    );
+                    if(local.currentPage != 3){
+                      local.setCurrentPage(3);
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DiscussionList()),);
+                    }
                   }
                   else{
                     Navigator.push(
@@ -302,9 +290,10 @@ class BottomNavigationBarApp extends StatelessWidget {
             Expanded(
               child: TextButton(
                 onPressed: () {
-                  if(local.currentPage != 4){
+                  if(local.currentPage == 0){
+                    local.fromMainPage = true;
                     local.setCurrentPage(4);
-                    Navigator.pushReplacement(
+                    Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => ChangeNotifierProvider<MenuProvider>(
                           create: (_) => MenuProvider(),
@@ -314,6 +303,31 @@ class BottomNavigationBarApp extends StatelessWidget {
                           ),
                         ),)
                     );
+                  }else if (local.currentPage == 4 && local.fromMainPage){
+                    if(local.currentPage == 0){
+                      local.animateToMyLocation(context);
+                    }else{
+                      local.setCurrentPage(0);
+                      local.currentArea = null;
+                      Navigator.pop(context);
+                    }
+                    local.fromMainPage = false;
+                  }else{
+                    if(local.currentPage == 4){
+
+                    }else {
+                      local.setCurrentPage(4);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => ChangeNotifierProvider<MenuProvider>(
+                            create: (_) => MenuProvider(),
+                            child: ChangeNotifierProvider<SearchDrawerProvider>(
+                              create: (_) => SearchDrawerProvider(),
+                              child: Menu(),
+                            ),
+                          ),)
+                      );
+                    }
                   }
                 },
                 child: Column(
@@ -327,7 +341,7 @@ class BottomNavigationBarApp extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Icon(
-                          Icons.menu,
+                          local.fromMainPage ? Icons.location_on : Icons.menu,
                           color: Color(0xffffffff),
                           size: 24,
                         ),

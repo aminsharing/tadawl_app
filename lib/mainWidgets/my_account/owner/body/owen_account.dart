@@ -32,7 +32,7 @@ class OwenAccount extends StatelessWidget {
           actions: [
             AccountActions(myAccountProvider: myAccountProvider)
           ],
-          backgroundColor: Color(0xff00cccc),
+          backgroundColor: Color(0xff1f2835),
         ),
         body:
         // Provider.of<UserMutualProvider>(context, listen: true).wait

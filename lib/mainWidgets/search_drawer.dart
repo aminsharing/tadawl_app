@@ -30,7 +30,7 @@ class SearchDrawer extends StatelessWidget {
               width: double.infinity,
               height: 75.0,
               decoration: BoxDecoration(
-                color: const Color(0xff00cccc),
+                color: const Color(0xff1f2835),
                 border: Border.all(width: 1.0, color: const Color(0xff818181)),
               ),
             ),
@@ -66,7 +66,7 @@ class SearchDrawer extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5.0),
                     color: const Color(0xffffffff),
                     border: Border.all(
-                        width: 1.0, color: const Color(0xff3f9d28)),
+                        width: 1.0, color: const Color(0xff04B404)),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -78,13 +78,13 @@ class SearchDrawer extends StatelessWidget {
                           style: CustomTextStyle(
 
                             fontSize: 17,
-                            color: const Color(0xff3f9d28),
+                            color: const Color(0xff04B404),
                           ).getTextStyle(),
                           textAlign: TextAlign.center,
                         ),
                         Icon(
                           Icons.arrow_forward_ios_rounded,
-                          color: Color(0xff3f9d28),
+                          color: Color(0xff04B404),
                           size: 20,
                         ),
                       ],

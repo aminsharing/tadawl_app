@@ -35,6 +35,7 @@ class LocaleProvider extends ChangeNotifier {
   set currentArea(CameraPosition val) => _currentArea = val;
   int _currentPage = 0;
   int _unreadMsgs = 0;
+  bool fromMainPage = true;
 
 
   void setLocale(Locale locale) {

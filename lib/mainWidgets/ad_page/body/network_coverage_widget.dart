@@ -12,23 +12,24 @@ class NetworkCoverageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     void _launchSTC() async {
       await Provider.of<AdPageProvider>(context, listen: false).stopVideoAdsPage();
-      const url =
-          'https://www.stc.com.sa/wps/wcm/connect/arabic/helpAndSupport/storelocator';
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
+      const url = 'https://www.stc.com.sa/wps/wcm/connect/arabic/helpAndSupport/storelocator';
+      await launch(url);
+      // if (await canLaunch(url)) {
+      //   await launch(url);
+      // } else {
+      //   throw 'Could not launch $url';
+      // }
     }
 
     void _launchZain() async {
       await Provider.of<AdPageProvider>(context, listen: false).stopVideoAdsPage();
       const url = 'https://sa.zain.com/ar/coverage-map';
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
+      await launch(url);
+      // if (await canLaunch(url)) {
+      //   await launch(url);
+      // } else {
+      //   throw 'Could not launch $url';
+      // }
     }
 
     var mediaQuery = MediaQuery.of(context);

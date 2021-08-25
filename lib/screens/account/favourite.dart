@@ -58,7 +58,7 @@ class Favourite extends StatelessWidget {
               ).getTextStyle(),
               textAlign: TextAlign.center,
             ),
-            backgroundColor: Color(0xff00cccc),
+            backgroundColor: Color(0xff1f2835),
           ),
           backgroundColor: const Color(0xffffffff), // adsFav.countUserAdsFav()
           body: Directionality(

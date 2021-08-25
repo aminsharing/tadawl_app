@@ -13,11 +13,12 @@ class AdLocationWidget extends StatelessWidget {
   Future<void> _openMap(double latitude, double longitude) async {
     var googleUrl = 'https://www.google.com/maps/dir/?api=1&destination=$latitude,$longitude';
     // 'https://www.google.com/maps/search/?provider.api=1&query=$latitude,$longitude';
-    if (await canLaunch(googleUrl)) {
-      await launch(googleUrl);
-    } else {
-      throw 'Could not open the map.';
-    }
+    await launch(googleUrl);
+    // if (await canLaunch(googleUrl)) {
+    //   await launch(googleUrl);
+    // } else {
+    //   throw 'Could not open the map.';
+    // }
   }
 
   void _onMapCreated(GoogleMapController controller) {

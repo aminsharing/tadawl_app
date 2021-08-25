@@ -90,7 +90,7 @@ class AdsDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-        backgroundColor: const Color(0xff00cccc),
+        backgroundColor: const Color(0xff1f2835),
         title: Center(
           widthFactor: 1.3,
           child: Text(

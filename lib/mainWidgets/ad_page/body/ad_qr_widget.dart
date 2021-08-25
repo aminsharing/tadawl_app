@@ -21,11 +21,12 @@ class AdQRWidget extends StatelessWidget {
       void _launchQRLink() async {
         await adsPage.stopVideoAdsPage();
         var url = '${mutualProv.qrData}';
-        if (await canLaunch(url)) {
-          await launch(url);
-        } else {
-          throw 'Could not launch $url';
-        }
+        await launch(url);
+        // if (await canLaunch(url)) {
+        //   await launch(url);
+        // } else {
+        //   throw 'Could not launch $url';
+        // }
       }
       return Column(
         children: [

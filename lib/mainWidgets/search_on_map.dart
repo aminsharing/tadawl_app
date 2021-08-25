@@ -47,6 +47,7 @@ class SearchOnMap extends StatelessWidget {
                           child: TextField(
                             controller: _locationController,
                             textCapitalization: TextCapitalization.words,
+                            autofocus: false,
                             decoration: InputDecoration(
                               hintText: AppLocalizations.of(context).currentMapLocation,
                               border: InputBorder.none,

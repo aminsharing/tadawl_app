@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
-import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/screens/general/regions.dart';
 
 class MenuProvider extends ChangeNotifier{
 
@@ -158,22 +155,26 @@ class MenuProvider extends ChangeNotifier{
     _MenuAdsData.forEach((element) {
       _MenuAds.add(AdsModel.ads(element));
     });
-    Future.delayed(Duration(seconds: 3), (){
-      if(_MenuAds.isEmpty){
-        _noAdsInRegion = true;
-        notifyListeners();
-        Future.delayed(Duration(seconds: 1), (){
-          Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(1);
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => Regions()),
-          );
-        });
-      }else{
-        _noAdsInRegion = false;
-        notifyListeners();
-      }
-    });
+    if(_MenuAdsData.isEmpty){
+      _noAdsInRegion = true;
+    }
+    notifyListeners();
+    // Future.delayed(Duration(seconds: 3), (){
+    //   if(_MenuAds.isEmpty){
+    //     _noAdsInRegion = true;
+    //     notifyListeners();
+    //     Future.delayed(Duration(seconds: 1), (){
+    //       Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(1);
+    //       Navigator.pushReplacement(
+    //           context,
+    //           MaterialPageRoute(builder: (context) => Regions()),
+    //       );
+    //     });
+    //   }else{
+    //     _noAdsInRegion = false;
+    //     notifyListeners();
+    //   }
+    // });
     // notifyListeners();
   }
 

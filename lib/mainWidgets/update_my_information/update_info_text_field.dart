@@ -32,7 +32,7 @@ class UpdateInfoTextField extends StatelessWidget {
           decoration: InputDecoration(
             suffixIcon: Icon(
               icon,
-              color: Color(0xff00cccc),
+              color: Color(0xff04B404),
               size: 40,
             ),
             labelText: labelText,

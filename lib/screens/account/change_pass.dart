@@ -56,7 +56,7 @@ class ChangePass extends StatelessWidget {
             ).getTextStyle(),
             textAlign: TextAlign.center,
           ),
-          backgroundColor: Color(0xff00cccc),
+          backgroundColor: Color(0xff1f2835),
         ),
         backgroundColor: const Color(0xffffffff),
         body: Form(
@@ -96,7 +96,7 @@ class ChangePass extends StatelessWidget {
                       ),
                       Icon(
                         Icons.vpn_key_rounded,
-                        color: Color(0xff00cccc),
+                        color: Color(0xff04B404),
                         size: 40,
                       ),
                     ],
@@ -134,8 +134,8 @@ class ChangePass extends StatelessWidget {
                         ),
                       ),
                       Icon(
-                        Icons.vpn_key_outlined,
-                        color: Color(0xff00cccc),
+                        Icons.vpn_key_rounded,
+                        color: Color(0xff04B404),
                         size: 40,
                       ),
                     ],

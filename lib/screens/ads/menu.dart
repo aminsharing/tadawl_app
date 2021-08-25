@@ -46,7 +46,7 @@ class Menu extends StatelessWidget {
             backgroundColor: Color(0xffffffff),
             title: Container(
               decoration: BoxDecoration(
-                color: const Color(0xff00cccc),
+                color: const Color(0xff1f2835),
                 borderRadius: BorderRadius.circular(30),
               ),
               child: Padding(
@@ -67,7 +67,7 @@ class Menu extends StatelessWidget {
               },
               child: Icon(
                 Icons.search_rounded,
-                color: Color(0xff00cccc),
+                color: const Color(0xff04B404),
                 size: 40,
               ),
             ),
@@ -99,36 +99,8 @@ class Menu extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                   child:
-                  menu.menuAds.isEmpty
+                  menu.menuAds.isNotEmpty
                       ?
-                  menu.noAdsInRegion
-                      ?
-                  Center(
-                    child: Text(
-                      AppLocalizations
-                          .of(context)
-                          .noAdsAvailableNear,
-                      style: CustomTextStyle(
-                          fontSize: 15,
-                          color: Colors.black
-                      ).getTextStyle(),
-                    ),
-                  )
-                      :
-                  Padding(
-                    padding: const EdgeInsets.all(50.0),
-                    child: Center(
-                        child: Container(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            backgroundColor: Color(0xff00cccc),
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                                Color(0xff1f2835)),
-                          ),
-                        )),
-                  ) // menu.countMenuAds()
-                      :
                   Container(
                     width: mediaQuery.size.width,
                     height: mediaQuery.size.height*.72,
@@ -164,11 +136,39 @@ class Menu extends StatelessWidget {
                           },
                         );
                       }, separatorBuilder: (BuildContext context, int index) {
-                        return Divider(
-                          color: const Color(0xff212a37),
-                        );
+                      return Divider(
+                        color: const Color(0xff212a37),
+                      );
                     },
                     ),
+                  )
+                      :
+                  menu.noAdsInRegion
+                      ?
+                  Center(
+                    child: Text(
+                      AppLocalizations
+                          .of(context)
+                          .noAdsAvailableNear,
+                      style: CustomTextStyle(
+                          fontSize: 15,
+                          color: Colors.black
+                      ).getTextStyle(),
+                    ),
+                  )
+                      :
+                  Padding(
+                    padding: const EdgeInsets.all(50.0),
+                    child: Center(
+                        child: Container(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            backgroundColor: Color(0xff00cccc),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Color(0xff1f2835)),
+                          ),
+                        )),
                   ),
                 ),
               ),

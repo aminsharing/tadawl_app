@@ -99,7 +99,6 @@ class RealEstateOffices extends StatelessWidget {
         drawer: Drawer(
           child: CustomDrawer(),
         ),
-        endDrawer: Container(),
         body: Stack(
           children: <Widget>[
             Container(
@@ -145,7 +144,7 @@ class RealEstateOffices extends StatelessWidget {
                         borderRadius: BorderRadius.only(
                             topRight: Radius.circular(10),
                             bottomRight: Radius.circular(10)),
-                        color: const Color(0xff00cccc),
+                        color: const Color(0xff04B404),
                       ),
                       child: Column(
                         children: [

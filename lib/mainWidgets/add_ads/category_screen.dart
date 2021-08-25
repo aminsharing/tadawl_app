@@ -84,7 +84,7 @@ class CategoryScreen extends StatelessWidget {
           appBar: AppBar(
             centerTitle: true,
             leadingWidth: 70.0,
-            backgroundColor: const Color(0xff00cccc),
+            backgroundColor: const Color(0xff1f2835),
             title: Center(
               widthFactor: 2.5,
               child: Text(

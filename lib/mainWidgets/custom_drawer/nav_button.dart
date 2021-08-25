@@ -27,7 +27,7 @@ class NavButton extends StatelessWidget {
         text,
         style: CustomTextStyle(
           fontSize: 13,
-          color: const Color(0xff00cccc),
+          color: const Color(0xff1f2835),
         ).getTextStyle(),
         textAlign: TextAlign.center,
       ),

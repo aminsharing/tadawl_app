@@ -104,7 +104,7 @@ class LocationScreen extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: const Color(0xff00cccc),
+          backgroundColor: const Color(0xff1f2835),
           title: Center(
             widthFactor: 2.0,
             child: Text(
@@ -131,144 +131,142 @@ class LocationScreen extends StatelessWidget {
           ),
         ),
         body: Consumer<AddAdProvider>(builder: (context, addAds, child) {
-            return SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  SearchOnMap(
-                    selectedPage: SelectedPage.locationScreen,
-                    // SearchMapPlaceWidget(
-                    //   language: 'ar',
-                    //   hasClearButton: true,
-                    //   iconColor: Color(0xff00cccc),
-                    //   placeType: PlaceType.geocode,
-                    //   placeholder: AppLocalizations.of(context).trySearching,
-                    //   apiKey: 'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
-                    //   onSelected: (Place place) async {
-                    //     await place.geolocation.then((value) async{
-                    //       addAds.animateToLocation(value.coordinates, 13);
-                    //     });
-                    //   },
-                    // ),
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                SearchOnMap(
+                  selectedPage: SelectedPage.locationScreen,
+                  // SearchMapPlaceWidget(
+                  //   language: 'ar',
+                  //   hasClearButton: true,
+                  //   iconColor: Color(0xff00cccc),
+                  //   placeType: PlaceType.geocode,
+                  //   placeholder: AppLocalizations.of(context).trySearching,
+                  //   apiKey: 'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
+                  //   onSelected: (Place place) async {
+                  //     await place.geolocation.then((value) async{
+                  //       addAds.animateToLocation(value.coordinates, 13);
+                  //     });
+                  //   },
+                  // ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 15, 10, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        AppLocalizations.of(context).city + '${addAds.ads_cityAddAds}',
+                        style: CustomTextStyle(
+                          fontSize: 13,
+                          color: const Color(0xff989696),
+                        ).getTextStyle(),
+                        textAlign: TextAlign.center,
+                        textDirection: TextDirection.rtl,
+                      ),
+                      Text(
+                        AppLocalizations.of(context).neighborhood + ' ${addAds.ads_neighborhoodAddAds}',
+                        style: CustomTextStyle(
+                          fontSize: 13,
+                          color: const Color(0xff989696),
+                        ).getTextStyle(),
+                        textAlign: TextAlign.center,
+                        textDirection: TextDirection.rtl,
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 15, 10, 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          AppLocalizations.of(context).city + '${addAds.ads_cityAddAds}',
-                          style: CustomTextStyle(
-                            fontSize: 13,
-                            color: const Color(0xff989696),
-                          ).getTextStyle(),
-                          textAlign: TextAlign.center,
-                          textDirection: TextDirection.rtl,
+                ),
+                (addAds.customCameraPositionAddAds ?? addAds.initialCameraPosition) == null
+                    ?
+                Center(
+                  child: Container(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      backgroundColor: Color(0xff00cccc),
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          Color(0xff1f2835)
                         ),
-                        Text(
-                          AppLocalizations.of(context).neighborhood + ' ${addAds.ads_neighborhoodAddAds}',
-                          style: CustomTextStyle(
-                            fontSize: 13,
-                            color: const Color(0xff989696),
-                          ).getTextStyle(),
-                          textAlign: TextAlign.center,
-                          textDirection: TextDirection.rtl,
+                      ),
+                    )
+                )
+                    :
+                SizedBox(
+                  height: mediaQuery.size.height * .55,
+                  child: Stack(
+                    children: [
+                      GoogleMap(
+                        myLocationButtonEnabled: true,
+                        zoomGesturesEnabled: true,
+                        zoomControlsEnabled: true,
+                        scrollGesturesEnabled: true,
+                        rotateGesturesEnabled: true,
+                        myLocationEnabled: true,
+                        mapType: MapType.normal,
+                        initialCameraPosition: CameraPosition(
+                            target: addAds.customCameraPositionAddAds ?? addAds.initialCameraPosition, zoom: 13),
+                        onMapCreated: _onMapCreated,
+                        onCameraMove: (CameraPosition position) {
+                          addAds.handleCameraMoveAddAds(position);
+                        },
+                      ),
+                      Center(
+                        child: Icon(
+                          Icons.my_location_rounded,
+                          color: Color(0xff00cccc),
+                          size: 25,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  (addAds.customCameraPositionAddAds ?? addAds.initialCameraPosition) == null
-                      ?
-                  Center(
-                    child: Container(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        backgroundColor: Color(0xff00cccc),
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                            Color(0xff1f2835)
-                          ),
-                        ),
-                      )
-                  )
-                      :
-                  SizedBox(
-                    height: 400,
-                    child: Stack(
-                      children: [
-                        GoogleMap(
-                          myLocationButtonEnabled: true,
-                          zoomGesturesEnabled: true,
-                          zoomControlsEnabled: true,
-                          scrollGesturesEnabled: true,
-                          rotateGesturesEnabled: true,
-                          myLocationEnabled: true,
-                          mapType: MapType.normal,
-                          initialCameraPosition: CameraPosition(
-                              target: addAds.customCameraPositionAddAds ?? addAds.initialCameraPosition, zoom: 13),
-                          onMapCreated: _onMapCreated,
-                          onCameraMove: (CameraPosition position) {
-                            addAds.handleCameraMoveAddAds(position);
-                          },
-                        ),
-                        Center(
-                          child: Icon(
-                            Icons.my_location_rounded,
-                            color: Color(0xff00cccc),
-                            size: 25,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      if (addAds.ads_cordinatesAddAds == null) {
-                        if (addAds.initialCameraPosition != null) {
-                          addAds.setAdsCordinatesAddAds(addAds.initialCameraPosition);
-                        } else {
-                          Fluttertoast.showToast(
-                              msg: 'حرك الخريطة للوصول لموقع العقار المطلوب',
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.CENTER,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: Colors.red,
-                              textColor: Colors.white,
-                              fontSize: 15.0);
-                        }
+                ),
+                TextButton(
+                  onPressed: () {
+                    if (addAds.ads_cordinatesAddAds == null) {
+                      if (addAds.initialCameraPosition != null) {
+                        addAds.setAdsCordinatesAddAds(addAds.initialCameraPosition);
                       } else {
-                        _onLocationContinue(addAds.ads_neighborhoodAddAds);
+                        Fluttertoast.showToast(
+                            msg: 'حرك الخريطة للوصول لموقع العقار المطلوب',
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 15.0);
                       }
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
-                      child: Container(
-                        width: mediaQuery.size.width * 0.6,
-                        height: 40.0,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5.0),
-                          color: const Color(0xffffffff),
-                          border: Border.all(
-                              width: 1.0, color: const Color(0xff3f9d28)),
-                        ),
-                        child: Center(
-                          child: Text(
-                            AppLocalizations
-                                .of(context)
-                                .continuee,
-                            style: CustomTextStyle(
+                    } else {
+                      _onLocationContinue(addAds.ads_neighborhoodAddAds);
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+                    child: Container(
+                      width: mediaQuery.size.width * 0.6,
+                      height: 40.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.0),
+                        color: const Color(0xffffffff),
+                        border: Border.all(
+                            width: 1.0, color: const Color(0xff3f9d28)),
+                      ),
+                      child: Center(
+                        child: Text(
+                          AppLocalizations
+                              .of(context)
+                              .continuee,
+                          style: CustomTextStyle(
 
-                              fontSize: 15,
-                              color: const Color(0xff3f9d28),
-                            ).getTextStyle(),
-                            textAlign: TextAlign.center,
-                          ),
+                            fontSize: 15,
+                            color: const Color(0xff3f9d28),
+                          ).getTextStyle(),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             );
           },),
       );

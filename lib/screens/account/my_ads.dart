@@ -46,7 +46,7 @@ class MyAds extends StatelessWidget {
             ).getTextStyle(),
             textAlign: TextAlign.center,
           ),
-          backgroundColor: Color(0xff00cccc),
+          backgroundColor: Color(0xff1f2835),
         ),
         body:
         //if (myAds.userAds.isNotEmpty)

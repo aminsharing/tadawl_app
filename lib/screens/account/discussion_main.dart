@@ -130,6 +130,8 @@ class Discussion extends StatelessWidget {
                                 }
                               }
                               return Column(
+                                crossAxisAlignment: msgs[i].phone_user_sender != locale.phone ?
+                                CrossAxisAlignment.end : CrossAxisAlignment.start,
                                 children: [
                                   if(text)
                                     Container(
@@ -158,6 +160,33 @@ class Discussion extends StatelessWidget {
                                         )
                                     ),
                                   MsgBody(locale.phone, msgs: msgs[i]),
+                                  if(msgs[i].phone_user_sender == locale.phone)
+                                    Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                    child: Container(
+                                      width: 10.0,
+                                      child: Stack(
+                                        children: [
+                                          Icon(
+                                            msgs[i].isLocal
+                                                ?
+                                            Icons.check_box_outline_blank_rounded
+                                                :
+                                            Icons.check_rounded,
+                                            size: 15.0,
+                                          ),
+                                          if(msgs[i].seen_reciever == '1')
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                                              child: Icon(
+                                                Icons.check_rounded,
+                                                size: 15.0,
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                   MsgReceiveTime(locale.phone, msgs: msgs[i]),
                                 ],
                               );

@@ -57,9 +57,7 @@ class ConvBtn extends StatelessWidget {
                         conv.username ?? 'UserName',
                         style: CustomTextStyle(
                           fontSize: 17,
-                          color: conv.phone_user_sender == phone
-                              ? Color(0xff00cccc)
-                              : Color(0xffffffff),
+                          color: Color(0xff00cccc),
                         ).getTextStyle(),
                       ),
                       Text(
@@ -69,10 +67,7 @@ class ConvBtn extends StatelessWidget {
                         style: CustomTextStyle(
                           fontSize: 13,
                           // color: Colors.white54,
-                          color:
-                          conv.phone_user_sender == phone
-                              ? Color(0xff848282)
-                              : Color(0xffffffff),
+                          color: Color(0xff848282),
                         ).getTextStyle(),
                       ),
                     ],
@@ -121,13 +116,7 @@ class ConvBtn extends StatelessWidget {
                                 fontSize: 10,
                                 // color: Colors
                                 //     .black45,
-                                color: conv
-                                    .phone_user_sender ==
-                                    phone
-                                    ? Color(
-                                    0xff848282)
-                                    : Color(
-                                    0xffffffff),
+                                color: Color(0xff848282),
                               ),
                             ),
                           ),
@@ -142,12 +131,8 @@ class ConvBtn extends StatelessWidget {
                           height: 20.0,
                           decoration:
                           BoxDecoration(
-                              color: Colors
-                                  .green
-                                  .withOpacity(
-                                  0.7),
-                              shape: BoxShape
-                                  .circle),
+                              color: Colors.green.withOpacity(0.7),
+                              shape: BoxShape.circle),
                           child: Center(
                             child: Text(
                               '${conv.unreadMsgs}',
@@ -155,8 +140,7 @@ class ConvBtn extends StatelessWidget {
                                 fontFamily:
                                 'DINNext',
                                 fontSize: 13,
-                                color:
-                                Colors.white,
+                                color: Color(0xff848282),
                                 // color:
                                 // conv.phone_user_sender == _phone
                                 //         ? Color(0xff848282)
@@ -175,9 +159,7 @@ class ConvBtn extends StatelessWidget {
         decoration: BoxDecoration(
           // borderRadius: BorderRadius.all(Radius.circular(5.0)),
           border: Border.all(color: Colors.grey),
-          color: conv.phone_user_sender == phone
-              ? Colors.grey[100]
-              : Color(0xff00cccc),
+          color: Colors.grey[100],
         ),
       ),
     );

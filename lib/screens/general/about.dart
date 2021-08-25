@@ -103,6 +103,7 @@ class About extends StatelessWidget {
                     ],
                   ),
                 ),
+
                 Padding(
                   padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
                   child: Row(
@@ -125,8 +126,7 @@ class About extends StatelessWidget {
                           height: 33.0,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image:
-                                  const AssetImage('assets/images/img20.png'),
+                              image: const AssetImage('assets/images/img20.png'),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -136,6 +136,70 @@ class About extends StatelessWidget {
                     ],
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton(
+                        onPressed: _launchURLFacebook,
+                        child: Text(
+                          '@TADAWLAPP',
+                          style: CustomTextStyle(
+
+                            fontSize: 20,
+                            color: const Color(0xff00cccc),
+                          ).getTextStyle(),
+                        ),
+                      ),
+                      TextButton(
+                        child: Container(
+                          width: 39.0,
+                          height: 39.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: const AssetImage('assets/images/img29.png'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        onPressed: _launchURLFacebook,
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton(
+                        onPressed: _launchURLInstagram,
+                        child: Text(
+                          '@tadawl_comsa',
+                          style: CustomTextStyle(
+                            fontSize: 20,
+                            color: const Color(0xff00cccc),
+                          ).getTextStyle(),
+                        ),
+                      ),
+                      TextButton(
+                        child: Container(
+                          width: 39.0,
+                          height: 39.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: const AssetImage('assets/images/img30.png'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        onPressed: _launchURLInstagram,
+                      ),
+                    ],
+                  ),
+                ),
+
                 Padding(
                   padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
                   child: Row(
@@ -186,7 +250,6 @@ class About extends StatelessWidget {
                         child: Text(
                           'support@tadawl.com.sa',
                           style: CustomTextStyle(
-
                             fontSize: 20,
                             color: const Color(0xff434388),
                           ).getTextStyle(),
@@ -279,7 +342,7 @@ class About extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'v 1.6.0',
+                  'v 1.6.3',
                   style: CustomTextStyle(
                     fontSize: 10,
                     color: const Color(0xff707070),
@@ -331,29 +394,52 @@ class About extends StatelessWidget {
 
 void _launchURLTwitter() async {
   const url = 'https://twitter.com/1_TADAWL';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
+  await launch(url);
+  // if (await canLaunch(url)) {
+  //   await launch(url);
+  // } else {
+  //   throw 'Could not launch $url';
+  // }
 }
 
 void _launchURLWebsite() async {
   const url = 'https://www.sta.sa';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
+  await launch(url);
+  // if (await canLaunch(url)) {
+  //   await launch(url);
+  // } else {
+  //   throw 'Could not launch $url';
+  // }
 }
 
 void _launchURLSnapchat() async {
   const url = 'https://www.snapchat.com/add/tadawl_comsa';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
+  await launch(url);
+  // if (await canLaunch(url)) {
+  //   await launch(url);
+  // } else {
+  //   throw 'Could not launch $url';
+  // }
+}
+
+void _launchURLFacebook() async {
+  const url = 'https://www.facebook.com/TADAWLAPP';
+  await launch(url);
+  // if (await canLaunch(url)) {
+  //   await launch(url);
+  // } else {
+  //   throw 'Could not launch $url';
+  // }
+}
+
+void _launchURLInstagram() async {
+  const url = 'https://www.instagram.com/tadawl_comsa';
+  await launch(url);
+  // if (await canLaunch(url)) {
+  //   await launch(url);
+  // } else {
+  //   throw 'Could not launch $url';
+  // }
 }
 
 final Uri _emailLaunchUri = Uri(

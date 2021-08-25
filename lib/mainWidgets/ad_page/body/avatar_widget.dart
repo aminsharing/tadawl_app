@@ -226,7 +226,7 @@ class AvatarWidget extends StatelessWidget {
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       ChangeNotifierProvider<MsgProvider>(
-                                                        create: (_) => MsgProvider(context, locale.phone, adsId: mutualProv.adsPage.idAds,),
+                                                        create: (context) => MsgProvider(context, locale.phone, adsId: mutualProv.adsPage.idAds,),
                                                         child: Discussion(
                                                           mutualProv.adsUser.phone,
                                                           username: mutualProv.adsUser.username,

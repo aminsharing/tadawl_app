@@ -24,7 +24,7 @@ class ImagesVideoScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-        backgroundColor: const Color(0xff00cccc),
+        backgroundColor: const Color(0xff1f2835),
         title: Center(
           widthFactor: 4.5,
           child: Text(
@@ -322,7 +322,7 @@ class ImagesVideoScreen extends StatelessWidget {
                             color: const Color(0xffffffff),
                             border: Border.all(
                                 width: 1.0,
-                                color: const Color(0xff00cccc)),
+                                color: const Color(0xff1f2835)),
                           ),
                           child: Row(
                             mainAxisAlignment:
@@ -333,10 +333,8 @@ class ImagesVideoScreen extends StatelessWidget {
                                     .of(context)
                                     .uplaodImages,
                                 style: CustomTextStyle(
-
                                   fontSize: 15,
-                                  color:
-                                  const Color(0xff00cccc),
+                                  color: const Color(0xff1f2835),
                                 ).getTextStyle(),
                                 textAlign: TextAlign.center,
                               ),
@@ -346,7 +344,7 @@ class ImagesVideoScreen extends StatelessWidget {
                                     15, 0, 0, 0),
                                 child: Icon(
                                   Icons.camera_alt_rounded,
-                                  color: Color(0xff00cccc),
+                                  color: Color(0xff04B404),
                                   size: 30,
                                 ),
                               ),
@@ -477,7 +475,7 @@ class ImagesVideoScreen extends StatelessWidget {
                     color: const Color(0xffffffff),
                     border: Border.all(
                         width: 1.0,
-                        color: const Color(0xff00cccc)),
+                        color: const Color(0xff1f2835)),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -487,9 +485,9 @@ class ImagesVideoScreen extends StatelessWidget {
                             .of(context)
                             .addVed,
                         style: CustomTextStyle(
-
                           fontSize: 15,
-                          color: const Color(0xff00cccc),
+                          color: const Color(0xff1f2835),
+                          fontWeight: FontWeight.w400
                         ).getTextStyle(),
                         textAlign: TextAlign.center,
                       ),
@@ -498,7 +496,7 @@ class ImagesVideoScreen extends StatelessWidget {
                             15, 0, 0, 0),
                         child: Icon(
                           Icons.videocam_rounded,
-                          color: Color(0xff00cccc),
+                          color: Color(0xff04B404),
                           size: 30,
                         ),
                       ),
@@ -533,7 +531,7 @@ class ImagesVideoScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5.0),
                       color: const Color(0xffffffff),
                       border: Border.all(
-                          width: 1.0, color: const Color(0xff3f9d28)),
+                          width: 1.0, color: const Color(0xff04B404)),
                     ),
                     child: Center(
                       child: Text(
@@ -543,7 +541,7 @@ class ImagesVideoScreen extends StatelessWidget {
                         style: CustomTextStyle(
 
                           fontSize: 15,
-                          color: const Color(0xff3f9d28),
+                          color: const Color(0xff04B404),
                         ).getTextStyle(),
                         textAlign: TextAlign.center,
                       ),

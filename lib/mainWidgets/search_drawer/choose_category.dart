@@ -30,7 +30,7 @@ class ChooseCategory extends StatelessWidget {
                         AppLocalizations.of(context).chooseCategory,
                         style: CustomTextStyle(
                           fontSize: 15,
-                          color: const Color(0xff00cccc),
+                          color: const Color(0xff1f2835),
                         ).getTextStyle(),
                         textAlign: TextAlign.center,
                       ),
@@ -58,7 +58,7 @@ class ChooseCategory extends StatelessWidget {
                                   style: CustomTextStyle(
                                     fontSize: 15,
                                     color:
-                                    const Color(0xff00cccc),
+                                    const Color(0xff1f2835),
                                   ).getTextStyle(),
                                   textAlign: TextAlign.center,
                                 ),
