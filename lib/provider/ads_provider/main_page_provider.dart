@@ -5,13 +5,10 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/Gist.dart';
-
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
-import 'package:tadawl_app/models/RegionModel.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/cache_markers_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
@@ -54,11 +51,9 @@ class MainPageProvider extends ChangeNotifier{
   GoogleMapController _mapControllerMainPAge;
   final List<AdsModel> _Ads = [];
   bool _waitMainPage = false;
-  final Location _location = Location();
-  LatLng _initialCameraPosition;
-  double _zoom;
-  bool _serviceEnabled;
-  PermissionStatus _permissionGranted;
+
+
+
   OverlayEntry _entry;
   int _zoomOutOfRange = 0;
   set zoomOutOfRange(int val) => _zoomOutOfRange = val;
@@ -537,51 +532,7 @@ class MainPageProvider extends ChangeNotifier{
 
   }
 
-  Future<void> getLocPer() async{
-    _permissionGranted = await _location.hasPermission().then((value) async{
-      if(value != PermissionStatus.granted){
-        await _location.requestPermission();
-      }else{
-        await _location.requestService().then((value) async{
-          _serviceEnabled = await _location.serviceEnabled();
-        });
-      }
-      return value;
-    });
-  }
 
-  Future<void> getLoc(BuildContext context) async {
-    final locale = Provider.of<LocaleProvider>(context, listen: false);
-    if(_permissionGranted == PermissionStatus.granted){
-      if(_serviceEnabled?? false){
-        await _location.getLocation().then((LocationData location) async{
-          _initialCameraPosition = LatLng(location.latitude, location.longitude);
-          _zoom = 17;
-          locale.currentArea = CameraPosition(target: LatLng(location.latitude, location.longitude), zoom: _zoom);
-          notifyListeners();
-        });
-      }
-      else {
-        _initialCameraPosition = cities.first.position;
-        _zoom = cities.first.zoom;
-        notifyListeners();
-      }
-    }
-    else if(_permissionGranted == PermissionStatus.denied){
-      _initialCameraPosition = cities.first.position;
-      _zoom = cities.first.zoom;
-      Future.delayed(Duration(seconds: 1), (){
-        if(hasListeners) {
-          notifyListeners();
-        }
-      });
-    }
-    if(_permissionGranted == PermissionStatus.deniedForever){
-      _initialCameraPosition = cities.first.position;
-      _zoom = cities.first.zoom;
-      // notifyListeners();
-    }
-  }
 
   void update(){
     notifyListeners();
@@ -599,9 +550,7 @@ class MainPageProvider extends ChangeNotifier{
   GoogleMapController get mapControllerMainPAge => _mapControllerMainPAge;
   List<AdsModel> get ads => _Ads;
   bool get slider_state => _slider_state;
-  Location get location => _location;
-  LatLng get initialCameraPosition => _initialCameraPosition;
-  double get zoom => _zoom;
+
 }
 
 

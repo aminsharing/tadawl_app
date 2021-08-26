@@ -41,7 +41,7 @@ class Trees extends StatelessWidget {
             ),
           ),
           Slider(
-            activeColor: const Color(0xff00cccc),
+            activeColor: const Color(0xff04B404),
             value: addAd.TreesAddAds,
             min: 0,
             max: 9999,

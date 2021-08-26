@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:tadawl_app/main.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/provider/ads_provider/update_img_vid_provider.dart';
@@ -13,7 +14,6 @@ import 'package:tadawl_app/screens/account/login.dart';
 import 'package:tadawl_app/screens/ads/update_details.dart';
 import 'package:tadawl_app/screens/ads/update_images_video.dart';
 import 'package:tadawl_app/screens/ads/update_location.dart';
-import 'package:tadawl_app/screens/general/home.dart';
 import 'package:video_player/video_player.dart';
 
 class AdPageProvider extends ChangeNotifier{
@@ -185,7 +185,7 @@ class AdPageProvider extends ChangeNotifier{
               deleteAdsFunc(context, idDescription);
               Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
               Navigator.pushAndRemoveUntil(context,
-              MaterialPageRoute(builder: (context) => Home()),
+              MaterialPageRoute(builder: (context) => MyApp()),
                       (route) => false
               );
             },

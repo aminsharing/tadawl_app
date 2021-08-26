@@ -40,7 +40,7 @@ class PrivacyPolicy extends StatelessWidget {
             ).getTextStyle(),
             textAlign: TextAlign.center,
           ),
-          backgroundColor: Color(0xff00cccc),
+          backgroundColor: Color(0xff1f2835),
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -57,7 +57,7 @@ class PrivacyPolicy extends StatelessWidget {
                         style: CustomTextStyle(
 
                           fontSize: 15,
-                          color: const Color(0xff00cccc),
+                          color: const Color(0xff04B404),
                         ).getTextStyle(),
                       ),
                     ),
@@ -94,7 +94,7 @@ class PrivacyPolicy extends StatelessWidget {
                                 style: CustomTextStyle(
 
                                   fontSize: 15,
-                                  color: const Color(0xff00cccc),
+                                  color: const Color(0xff04B404),
                                 ).getTextStyle(),
                               ),
                             );

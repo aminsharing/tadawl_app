@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tadawl_app/main.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/change_phone_provider.dart';
@@ -13,7 +14,6 @@ import 'package:tadawl_app/provider/user_provider/login_provider.dart';
 import 'package:tadawl_app/screens/account/new_account.dart';
 import 'package:tadawl_app/screens/account/restoration_pass.dart';
 import 'package:tadawl_app/screens/account/verifyAccount.dart';
-import 'package:tadawl_app/screens/general/home.dart';
 
 String phone;
 String password;
@@ -31,16 +31,20 @@ class Login extends StatelessWidget {
     if (Phone.toString().length == 10 && Phone.toString().startsWith('05')) {
       Phone = Phone.toString().replaceFirst('0', '966');
       return Phone;
-    } else if (Phone.toString().startsWith('5')) {
+    }
+    else if (Phone.toString().startsWith('5')) {
       Phone = Phone.toString().replaceFirst('5', '9665');
       return Phone;
-    } else if (Phone.toString().startsWith('00')) {
+    }
+    else if (Phone.toString().startsWith('00')) {
       Phone = Phone.toString().replaceFirst('00', '');
       return Phone;
-    } else if (Phone.toString().startsWith('+')) {
+    }
+    else if (Phone.toString().startsWith('+')) {
       Phone = Phone.toString().replaceFirst('+', '');
       return Phone;
-    } else {
+    }
+    else {
       return Phone;
     }
   }
@@ -76,7 +80,7 @@ class Login extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
-          backgroundColor: Color(0xff00cccc),
+          backgroundColor: Color(0xff1f2835),
         ),
         backgroundColor: const Color(0xffffffff),
         body: Container(
@@ -91,7 +95,7 @@ class Login extends StatelessWidget {
                       child: ListTile(
                         leading: Icon(
                           Icons.phone_enabled,
-                          color: Color(0xff00cccc),
+                          color: Color(0xff04B404),
                           size: 30,
                         ),
                         title: TextFormField(
@@ -127,7 +131,7 @@ class Login extends StatelessWidget {
                         return ListTile(
                           leading: Icon(
                             Icons.vpn_key,
-                            color: Color(0xff00cccc),
+                            color: Color(0xff04B404),
                             size: 30,
                           ),
                           trailing: InkWell(
@@ -253,7 +257,7 @@ class Login extends StatelessWidget {
                                   await Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Home()),
+                                          builder: (context) => MyApp()),
                                           (route) => false
                                   );
                                 });

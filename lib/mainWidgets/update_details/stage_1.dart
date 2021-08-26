@@ -50,7 +50,7 @@ class Stage1 extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-        backgroundColor: const Color(0xff00cccc),
+        backgroundColor: const Color(0xff04B404),
         leadingWidth: 70,
         title: Text(
           AppLocalizations.of(context)

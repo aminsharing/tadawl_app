@@ -4,7 +4,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/constans.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 class Interface extends StatelessWidget {
@@ -12,7 +11,6 @@ class Interface extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mutualProv = Provider.of<MutualProvider>(context, listen: false);
     var provider = Provider.of<LocaleProvider>(context, listen: false);
     var _lang = provider.locale.toString();
     return Padding(
@@ -60,14 +58,13 @@ class Interface extends StatelessWidget {
                       ).getTextStyle(),
                       textAlign: TextAlign.center,
                     ),
-                    value: addAd.interfaceSelectedAddAds ?? (int.tryParse(mutualProv.adsPage.idInterface)?? '1').toString(),
+                    value: addAd.interfaceSelectedAddAds,
                     onChanged: (String newValue) {
                       addAd.setInterfaceSelectedAddAds(newValue);
                     },
                     items: (_lang != 'en_US'?InterfaceCons:EnInterfaceCons).map(
                             (Map map) {
-                          return DropdownMenuItem<
-                              String>(
+                          return DropdownMenuItem<String>(
                             value: map['id_type'].toString(),
                             child: Row(
                               children: <Widget>[

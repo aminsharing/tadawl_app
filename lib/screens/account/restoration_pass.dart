@@ -27,7 +27,7 @@ class RestorationPass extends StatelessWidget {
       create: (_) => ChangePhoneProvider(),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color(0xff00cccc),
+          backgroundColor: const Color(0xff1f2835),
           centerTitle: true,
           title: Text(
             AppLocalizations
@@ -90,7 +90,7 @@ class RestorationPass extends StatelessWidget {
                         ),
                         Icon(
                           Icons.phone_enabled,
-                          color: Color(0xff00cccc),
+                          color: Color(0xff04B404),
                           size: 40,
                         ),
                       ],

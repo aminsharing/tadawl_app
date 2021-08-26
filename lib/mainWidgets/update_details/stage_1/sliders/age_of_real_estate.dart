@@ -71,7 +71,7 @@ class AgeOfRealEstate extends StatelessWidget {
             ),
           ),
           Slider(
-            activeColor: const Color(0xff00cccc),
+            activeColor: const Color(0xff04B404),
             value: updateDetails.AgeOfRealEstateUpdate,
             min: 0,
             max: 36,

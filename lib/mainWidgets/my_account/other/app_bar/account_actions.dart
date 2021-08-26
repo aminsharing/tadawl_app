@@ -92,7 +92,7 @@ class AccountActions extends StatelessWidget {
       child: PopupMenuButton<String>(
         icon: Icon(
           Icons.settings,
-          color: Color(0xffffffff),
+          color: Color(0xff04B404),
           size: 40,
         ),
         onSelected: choiceAction2,

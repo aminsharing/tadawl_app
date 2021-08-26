@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tadawl_app/main.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/models/BFModel.dart';
 import 'package:tadawl_app/models/CategoryModel.dart';
@@ -7,7 +8,6 @@ import 'package:tadawl_app/models/QFModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/screens/general/home.dart';
 
 class UpdateDetailsProvider extends ChangeNotifier{
   UpdateDetailsProvider(BuildContext context, String _id_description){
@@ -561,7 +561,7 @@ class UpdateDetailsProvider extends ChangeNotifier{
       // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => Home()),
+          MaterialPageRoute(builder: (context) => MyApp()),
               (route) => false
       );
     });

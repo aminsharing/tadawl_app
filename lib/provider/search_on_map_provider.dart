@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:tadawl_app/models/place.dart';
 import 'package:tadawl_app/models/place_search.dart';
 import 'package:tadawl_app/services/places_service.dart';
@@ -8,6 +9,7 @@ class SearchOnMapProvider extends ChangeNotifier{
   final placesService = PlacesService();
 
   //Variables
+  final TextEditingController locationController = TextEditingController();
   List<PlaceSearch> searchResults;
   StreamController<Place> selectedLocation = StreamController<Place>();
   Place selectedLocationStatic;
@@ -37,7 +39,8 @@ class SearchOnMapProvider extends ChangeNotifier{
 
   @override
   void dispose() {
-    selectedLocation.close();
     super.dispose();
+    selectedLocation.close();
+    locationController.dispose();
   }
 }

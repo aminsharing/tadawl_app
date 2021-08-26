@@ -857,7 +857,6 @@ class Api {
   }
 
   Future<dynamic> addNewAdsFunc(
-    
     String detailsAqar,
     String isFootballCourt,
     String isVolleyballCourt,
@@ -968,7 +967,8 @@ class Api {
     if (response.statusCode == 200) {
       await Fluttertoast.showToast(
           msg: 'تم نشر الإعلان بنجاح.', toastLength: Toast.LENGTH_SHORT);
-    } else {
+    }
+    else {
       await Fluttertoast.showToast(
           msg: 'Error', toastLength: Toast.LENGTH_SHORT);
     }

@@ -2,6 +2,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:tadawl_app/main.dart';
 import 'package:tadawl_app/mainWidgets/custom_drawer/custom_drawer_header.dart';
 import 'package:tadawl_app/mainWidgets/custom_drawer/drawer_button.dart';
 import 'package:tadawl_app/mainWidgets/custom_drawer/nav_button.dart';
@@ -25,7 +26,6 @@ import 'package:tadawl_app/screens/ads/today_ads.dart';
 import 'package:tadawl_app/screens/general/about.dart';
 import 'package:tadawl_app/screens/general/contact_wp.dart';
 import 'package:tadawl_app/screens/general/coupon_request.dart';
-import 'package:tadawl_app/screens/general/home.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/account/discussion_list.dart';
 import 'package:tadawl_app/screens/account/real_estate_offices.dart';
@@ -67,7 +67,7 @@ class CustomDrawer extends StatelessWidget {
               locale.setCurrentPage(0);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Home()),
+                MaterialPageRoute(builder: (context) => MyApp()),
               );
             },
             child: Text(

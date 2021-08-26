@@ -51,7 +51,7 @@ class NewAcount extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
-            backgroundColor: Color(0xff00cccc),
+            backgroundColor: Color(0xff1f2835),
           ),
           body: Container(
             child: Form(
@@ -84,7 +84,7 @@ class NewAcount extends StatelessWidget {
                             child: ListTile(
                               leading: Icon(
                                 Icons.phone_enabled,
-                                color: Color(0xff00cccc),
+                                color: Color(0xff04B404),
                                 size: 30,
                               ),
                               title: TextFormField(
@@ -125,7 +125,7 @@ class NewAcount extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(5.0),
                                 color: const Color(0xffffffff),
                                 border: Border.all(
-                                    width: 1.0, color: const Color(0xff00cccc)),
+                                    width: 1.0, color: const Color(0xff04B404)),
                               ),
                               child: TextButton(
                                 child: Center(

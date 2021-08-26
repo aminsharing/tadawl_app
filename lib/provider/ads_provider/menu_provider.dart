@@ -16,7 +16,7 @@ class MenuProvider extends ChangeNotifier{
   }
 
   // bool _waitMenu = false;
-  final List<AdsModel> _MenuAds = [];
+  List<AdsModel> _MenuAds = [];
   final ScrollController _menuController = ScrollController();
   int _expendedMenuListCount = 20;
   bool _noAdsInRegion = false;
@@ -155,6 +155,17 @@ class MenuProvider extends ChangeNotifier{
     _MenuAdsData.forEach((element) {
       _MenuAds.add(AdsModel.ads(element));
     });
+    // ignore: omit_local_variable_types
+    final List<AdsModel> _specialAds = <AdsModel>[];
+    _MenuAds.forEach((element) {
+      if(element.idSpecial == '1'){
+        _specialAds.add(element);
+      }
+    });
+    _specialAds.forEach((element) {
+      _MenuAds.remove(element);
+    });
+    _MenuAds = [..._specialAds, ..._MenuAds];
     if(_MenuAdsData.isEmpty){
       _noAdsInRegion = true;
     }

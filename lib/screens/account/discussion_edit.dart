@@ -85,7 +85,7 @@ class DiscussionEdit extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           actions: [Text('')],
-          backgroundColor: Color(0xff00cccc),
+          backgroundColor: Color(0xff1f2835),
         ),
         backgroundColor: const Color(0xffffffff),
         body: Container(

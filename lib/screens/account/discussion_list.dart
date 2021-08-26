@@ -36,17 +36,7 @@ class DiscussionList extends StatelessWidget {
               toolbarHeight: 65.0,
               leadingWidth: 100,
               backgroundColor: const Color(0xff3d4653),
-              // leading: IconButton(
-              //   icon: Icon(
-              //     Icons.arrow_back_ios,
-              //     color: Color(0xffffffff),
-              //     size: 40,
-              //   ),
-              //   onPressed: () {
-              //     //mainChat.closeStreamChat();
-              //     Navigator.pop(context);
-              //   },
-              // ),
+              leading: Container(),
               title: Text(
                 AppLocalizations.of(context).messages,
                 style: CustomTextStyle(

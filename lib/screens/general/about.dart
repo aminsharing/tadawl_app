@@ -20,7 +20,7 @@ class About extends StatelessWidget {
       backgroundColor: const Color(0xffffffff),
       appBar: AppBar(
           centerTitle: true,
-        backgroundColor: Color(0xff00cccc),
+        backgroundColor: Color(0xff1f2835),
         title: Padding(
           padding: const EdgeInsets.fromLTRB(80, 0, 80, 0),
           child: Text(
@@ -61,7 +61,7 @@ class About extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20.0),
                       border: Border.all(
-                          width: 2.0, color: const Color(0xff00cccc)),
+                          width: 2.0, color: const Color(0xff04B404)),
                     ),
                     child: Center(
                       child: Text(
@@ -69,7 +69,7 @@ class About extends StatelessWidget {
                         style: CustomTextStyle(
 
                           fontSize: 20,
-                          color: const Color(0xff00cccc),
+                          color: const Color(0xff04B404),
                         ).getTextStyle(),
                         textAlign: TextAlign.center,
                       ),
@@ -88,14 +88,14 @@ class About extends StatelessWidget {
                           style: CustomTextStyle(
 
                             fontSize: 20,
-                            color: const Color(0xff00cccc),
+                            color: const Color(0xff04B404),
                           ).getTextStyle(),
                         ),
                       ),
                       TextButton(
                         child: Icon(
                           Icons.message_rounded,
-                          color: Color(0xff00cccc),
+                          color: Color(0xff04B404),
                           size: 40,
                         ),
                         onPressed: launchWhatsApp,
@@ -116,7 +116,7 @@ class About extends StatelessWidget {
                           style: CustomTextStyle(
 
                             fontSize: 20,
-                            color: const Color(0xff00cccc),
+                            color: const Color(0xff04B404),
                           ).getTextStyle(),
                         ),
                       ),
@@ -148,7 +148,7 @@ class About extends StatelessWidget {
                           style: CustomTextStyle(
 
                             fontSize: 20,
-                            color: const Color(0xff00cccc),
+                            color: const Color(0xff04B404),
                           ).getTextStyle(),
                         ),
                       ),
@@ -179,7 +179,7 @@ class About extends StatelessWidget {
                           '@tadawl_comsa',
                           style: CustomTextStyle(
                             fontSize: 20,
-                            color: const Color(0xff00cccc),
+                            color: const Color(0xff04B404),
                           ).getTextStyle(),
                         ),
                       ),
@@ -217,7 +217,7 @@ class About extends StatelessWidget {
                           AppLocalizations.of(context).shareApp,
                           style: CustomTextStyle(
                             fontSize: 20,
-                            color: const Color(0xff00cccc),
+                            color: const Color(0xff04B404),
                           ).getTextStyle(),
                         ),
                       ),
@@ -291,7 +291,7 @@ class About extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(0.0),
                       border: Border.all(
-                          width: 2.0, color: const Color(0xff3f9d28)),
+                          width: 2.0, color: const Color(0xff04B404)),
                     ),
                     child: Center(
                       child: Text(
@@ -299,7 +299,7 @@ class About extends StatelessWidget {
                         style: CustomTextStyle(
 
                           fontSize: 20,
-                          color: const Color(0xff3f9d28),
+                          color: const Color(0xff04B404),
                         ).getTextStyle(),
                         textAlign: TextAlign.center,
                       ),
@@ -314,7 +314,7 @@ class About extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(0.0),
                       border: Border.all(
-                          width: 2.0, color: const Color(0xff3f9d28)),
+                          width: 2.0, color: const Color(0xff04B404)),
                     ),
                     child: Center(
                       child: Text(
@@ -322,7 +322,7 @@ class About extends StatelessWidget {
                         style: CustomTextStyle(
 
                           fontSize: 20,
-                          color: const Color(0xff3f9d28),
+                          color: const Color(0xff04B404),
                         ).getTextStyle(),
                         textAlign: TextAlign.center,
                       ),

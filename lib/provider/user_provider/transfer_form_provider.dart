@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:tadawl_app/main.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/screens/general/home.dart';
 
 class TransferFormProvider extends ChangeNotifier{
   TransferFormProvider(){
@@ -93,7 +93,7 @@ class TransferFormProvider extends ChangeNotifier{
       Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => Home()),
+          MaterialPageRoute(builder: (context) => MyApp()),
               (route) => false
       );
     });

@@ -19,20 +19,10 @@ class MapWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
+    final searchProv = Provider.of<SearchDrawerProvider>(context, listen: false);
+    searchProv.getAdsList(context);
 
-
-    if(_region_position != null){
-      final searchProv = Provider.of<SearchDrawerProvider>(context, listen: false);
-      searchProv.getAdsList(context);
-    }else{
-      final mainProv = Provider.of<MainPageProvider>(context, listen: false);
-      final searchProv = Provider.of<SearchDrawerProvider>(context, listen: false);
-      mainProv.getLocPer().then((value) {
-        mainProv.getLoc(context).then((value) {
-          searchProv.getAdsList(context);
-        });
-      });
-    }
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -62,7 +52,7 @@ class MapWidget extends StatelessWidget {
                       }
                     },
                     child:
-                    (_region_position??mainPage.initialCameraPosition) == null
+                    (_region_position??locale.initialCameraPosition) == null
                         ?
                     Padding(
                       padding: const EdgeInsets.all(50.0),
@@ -87,7 +77,7 @@ class MapWidget extends StatelessWidget {
                             mainPage.setShowDiogFalse();
                           }
                         },
-                        initialCameraPosition: _region_position ?? CameraPosition(target: mainPage.initialCameraPosition, zoom: mainPage.zoom),
+                        initialCameraPosition: _region_position ?? CameraPosition(target: locale.initialCameraPosition, zoom: locale.zoom),
                         mapType: MapType.normal,
                         onMapCreated: _onMapCreated,
                         markers: mainPage.markersMainPage.toSet(),

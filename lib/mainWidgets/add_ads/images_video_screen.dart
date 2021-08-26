@@ -64,7 +64,7 @@ class ImagesVideoScreen extends StatelessWidget {
                     style: CustomTextStyle(
 
                       fontSize: 20,
-                      color: const Color(0xff00cccc),
+                      color: const Color(0xff04B404),
                     ).getTextStyle(),
                     textAlign: TextAlign.right,
                   ),
@@ -291,7 +291,7 @@ class ImagesVideoScreen extends StatelessWidget {
                                         color: addAds
                                             .currentControllerPageAddAds ==
                                             indexListView
-                                            ? Color(0xff00cccc)
+                                            ? Color(0xff04B404)
                                             : Colors.grey),
                                   ),
                                 );

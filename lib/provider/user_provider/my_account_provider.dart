@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tadawl_app/main.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/models/OfficeModel.dart';
 import 'package:tadawl_app/models/UserEstimateModel.dart';
@@ -15,7 +16,6 @@ import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/account/login.dart';
-import 'package:tadawl_app/screens/general/home.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyAccountProvider extends ChangeNotifier{
@@ -469,7 +469,7 @@ class MyAccountProvider extends ChangeNotifier{
       // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => Home()),
+          MaterialPageRoute(builder: (context) => MyApp()),
               (route) => false
       );
     });

@@ -5,7 +5,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,12 +12,12 @@ import 'package:location/location.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tadawl_app/main.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/CategoryModel.dart';
 import 'package:tadawl_app/models/RegionModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/screens/general/home.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -35,8 +34,12 @@ class AddAdProvider extends ChangeNotifier{
   @override
   void dispose() {
     print('dispose AddAdProvider');
-    clearChacheAddAds();
     super.dispose();
+    _priceControllerAddAds.dispose();
+    _spaceControllerAddAds.dispose();
+    _meterPriceControllerAddAds.dispose();
+    _descControllerAddAds.dispose();
+    _controllerAddAds.dispose();
   }
 
   VideoPlayerController _videoControllerAddAds;
@@ -147,7 +150,6 @@ class AddAdProvider extends ChangeNotifier{
     _LoungesAddAds= 0;
     _selectedTypeAqarAddAds= -1;
     _selectedFamilyAddAds= -1;
-    _interfaceSelectedAddAds= null;
     _totalSpaceAddAds= null;
     _totalPricAddAds= null;
     _selectedPlanAddAds= -1;
@@ -275,9 +277,7 @@ class AddAdProvider extends ChangeNotifier{
         _ads_neighborhoodAddAds = '${addresses.first.subLocality.toString()}';
         _ads_roadAddAds = '${addresses.first.thoroughfare.toString()}';
       }
-      Future.delayed(Duration(seconds: 1), (){
-        notifyListeners();
-      });
+      notifyListeners();
     }
     if(_permissionGranted == PermissionStatus.deniedForever){
       _initialCameraPosition = cities.first.position;
@@ -523,7 +523,7 @@ class AddAdProvider extends ChangeNotifier{
   void setOnChangedSpaceAddAds(String value) {
     if (_meterPriceAddAds != null) {
       _priceControllerAddAds
-        ..text = (double.parse(value) * double.parse('$_meterPriceAddAds'))
+        ..text = (int.parse(value) * int.parse('$_meterPriceAddAds'))
             .toString();
     }
     _totalSpaceAddAds = value;
@@ -540,7 +540,7 @@ class AddAdProvider extends ChangeNotifier{
     if (_totalSpaceAddAds != null) {
       _priceControllerAddAds
         ..text =
-        (double.parse(value) * double.parse(_totalSpaceAddAds)).toString();
+        (int.parse(value) * int.parse(_totalSpaceAddAds)).toString();
     }
     _meterPriceAddAds = int.parse(value);
     notifyListeners();
@@ -606,15 +606,13 @@ class AddAdProvider extends ChangeNotifier{
   }
 
   void getCategoryeInfoAddAds() async {
-    Future.delayed(Duration(milliseconds: 200), () {
-      _categoryAddAds.clear();
-      Api().getCategoryFunc().then((value) {
-        _CategoryDataAddAds = value;
-        _CategoryDataAddAds.forEach((element) {
-          _categoryAddAds.add(CategoryModel.fromJson(element));
-        });
-        notifyListeners();
+    _categoryAddAds.clear();
+    await Api().getCategoryFunc().then((value) {
+      _CategoryDataAddAds = value;
+      _CategoryDataAddAds.forEach((element) {
+        _categoryAddAds.add(CategoryModel.fromJson(element));
       });
+      notifyListeners();
     });
   }
 
@@ -723,7 +721,7 @@ class AddAdProvider extends ChangeNotifier{
     }
   }
 
-  void addNewAd(
+  Future<void> addNewAd(
       BuildContext context,
       String detailsAqar,
       String isFootballCourt,
@@ -772,71 +770,61 @@ class AddAdProvider extends ChangeNotifier{
       File video,
       List<File> imagesList,
       ) async {
-    Future.delayed(Duration(milliseconds: 0), () {
-      Api().addNewAdsFunc(
-        detailsAqar,
-        isFootballCourt,
-        isVolleyballCourt,
-        isAmusementPark,
-        isFamilyPartition,
-        isVerse,
-        isCellar,
-        isYard,
-        isMaidRoom,
-        isSwimmingPool,
-        isDriverRoom,
-        isDuplex,
-        isHallStaircase,
-        isConditioner,
-        isElevator,
-        isCarEntrance,
-        isAppendix,
-        isKitchen,
-        isFurnished,
-        StreetWidth,
-        Floor,
-        Trees,
-        Wells,
-        Stores,
-        Apartments,
-        AgeOfRealEstate,
-        Rooms,
-        Toilets,
-        Lounges,
-        selectedTypeAqar,
-        selectedFamily,
-        interfaceSelected,
-        totalSpace,
-        totalPrice,
-        selectedPlan,
-        id_category,
-        ads_cordinates_lat,
-        ads_cordinates_lng,
-        selectedAdderRelation,
-        selectedMarketerRelation,
-        phone,
-        ads_city,
-        ads_neighborhood,
-        ads_road,
-        video,
-        imagesList,
+    await Api().addNewAdsFunc(
+      detailsAqar,
+      isFootballCourt,
+      isVolleyballCourt,
+      isAmusementPark,
+      isFamilyPartition,
+      isVerse,
+      isCellar,
+      isYard,
+      isMaidRoom,
+      isSwimmingPool,
+      isDriverRoom,
+      isDuplex,
+      isHallStaircase,
+      isConditioner,
+      isElevator,
+      isCarEntrance,
+      isAppendix,
+      isKitchen,
+      isFurnished,
+      StreetWidth,
+      Floor,
+      Trees,
+      Wells,
+      Stores,
+      Apartments,
+      AgeOfRealEstate,
+      Rooms,
+      Toilets,
+      Lounges,
+      selectedTypeAqar,
+      selectedFamily,
+      (int.parse(interfaceSelected)+1).toString(),
+      totalSpace,
+      totalPrice,
+      selectedPlan,
+      id_category,
+      ads_cordinates_lat,
+      ads_cordinates_lng,
+      selectedAdderRelation,
+      selectedMarketerRelation,
+      phone,
+      ads_city,
+      ads_neighborhood,
+      ads_road,
+      video,
+      imagesList,
+    ).then((value) async{
+      Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
+      await Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => MyApp()),
+              (route) => false
       );
     });
-
-    await Fluttertoast.showToast(
-        msg: 'تم نشر الإعلان',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        fontSize: 15.0);
-    Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
-    await Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => Home()),
-            (route) => false
-    );
   }
 
 

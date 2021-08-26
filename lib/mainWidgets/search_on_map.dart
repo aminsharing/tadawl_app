@@ -18,7 +18,6 @@ class SearchOnMap extends StatelessWidget {
     Key key,
     @required this.selectedPage,
   }) : super(key: key);
-  final TextEditingController _locationController = TextEditingController();
   final SelectedPage selectedPage;
 
 
@@ -45,7 +44,7 @@ class SearchOnMap extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TextField(
-                            controller: _locationController,
+                            controller: searchOnMap.locationController,
                             textCapitalization: TextCapitalization.words,
                             autofocus: false,
                             decoration: InputDecoration(
@@ -100,6 +99,8 @@ class SearchOnMap extends StatelessWidget {
                                                 await Navigator.pop(context);
                                               }else if(selectedPage == SelectedPage.locationScreen){
                                                 Provider.of<AddAdProvider>(context, listen: false).animateToLocation(LatLng(searchOnMap.selectedLocationStatic.geometry.location.lat, searchOnMap.selectedLocationStatic.geometry.location.lng), 13);
+                                              }else if(selectedPage == SelectedPage.menu){
+                                                await Navigator.pop(context);
                                               }
 
                                             });

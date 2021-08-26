@@ -74,7 +74,7 @@ class Discussion extends StatelessWidget {
               child: PopupMenuButton<String>(
                 icon: Icon(
                   Icons.settings,
-                  color: Color(0xffffffff),
+                  color: Color(0xff04B404),
                   size: 40,
                 ),
                 onSelected: choiceAction,
@@ -96,7 +96,7 @@ class Discussion extends StatelessWidget {
               ),
             ),
           ],
-          backgroundColor: Color(0xff00cccc),
+          backgroundColor: Color(0xff1f2835),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -330,7 +330,7 @@ class Discussion extends StatelessWidget {
                                         }
                                       },
                                       child: Icon(Icons.send_rounded,
-                                        color: Color(0xff00cccc),
+                                        color: Color(0xff04B404),
                                         size: 30,
                                       ),
                                     ),
@@ -352,7 +352,7 @@ class Discussion extends StatelessWidget {
                                         }
                                       },
                                       child: Icon(mainChat.recordIcon ?? Icons.mic,
-                                        color: Color(0xff00cccc),
+                                        color: Color(0xff04B404),
                                         size: 30,
                                       ),
                                     ),

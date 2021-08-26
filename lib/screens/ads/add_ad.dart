@@ -6,8 +6,6 @@ class AddAds extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: InitScreen(),
-      );
+    return InitScreen();
   }
 }

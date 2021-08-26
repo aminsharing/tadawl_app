@@ -85,7 +85,7 @@ class Floor extends StatelessWidget {
             ),
           ),
           Slider(
-            activeColor: const Color(0xff00cccc),
+            activeColor: const Color(0xff04B404),
             value: updateDetails.FloorUpdate,
             min: 0,
             max: 20,

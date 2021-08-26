@@ -28,7 +28,7 @@ class Furnished extends StatelessWidget {
           ),
           Consumer<AddAdProvider>(builder: (context, addAd, _) {
             return FlutterSwitch(
-              activeColor: const Color(0xff00cccc),
+              activeColor: const Color(0xff04B404),
               width: 40.0,
               height: 20.0,
               valueFontSize: 15.0,

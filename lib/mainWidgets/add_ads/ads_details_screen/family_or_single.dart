@@ -47,12 +47,12 @@ class FamilyORSingle extends StatelessWidget {
                 addAd.setFamilyAddAds(index);
               },
               isSelected: addAd.familyAddAds,
-              color: const Color(0xff00cccc),
+              color: const Color(0xff04B404),
               selectedColor: const Color(0xffffffff),
-              fillColor: const Color(0xff00cccc),
-              borderColor: const Color(0xff00cccc),
+              fillColor: const Color(0xff04B404),
+              borderColor: const Color(0xff04B404),
               selectedBorderColor:
-              const Color(0xff00cccc),
+              const Color(0xff04B404),
               borderWidth: 1,
             ),
           ],

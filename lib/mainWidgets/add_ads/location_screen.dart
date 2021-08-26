@@ -38,7 +38,7 @@ class LocationScreen extends StatelessWidget {
                       .confirmLocationPlace,
                   style: CustomTextStyle(
                     fontSize: 20,
-                    color: const Color(0xff00cccc),
+                    color: const Color(0xff04B404),
                   ).getTextStyle(),
                   textAlign: TextAlign.right,
                 ),
@@ -139,7 +139,7 @@ class LocationScreen extends StatelessWidget {
                   // SearchMapPlaceWidget(
                   //   language: 'ar',
                   //   hasClearButton: true,
-                  //   iconColor: Color(0xff00cccc),
+                  //   iconColor: Color(0xff04B404),
                   //   placeType: PlaceType.geocode,
                   //   placeholder: AppLocalizations.of(context).trySearching,
                   //   apiKey: 'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
@@ -183,7 +183,7 @@ class LocationScreen extends StatelessWidget {
                     width: 20,
                     height: 20,
                     child: CircularProgressIndicator(
-                      backgroundColor: Color(0xff00cccc),
+                      backgroundColor: Color(0xff04B404),
                       valueColor: AlwaysStoppedAnimation<Color>(
                           Color(0xff1f2835)
                         ),
@@ -213,7 +213,7 @@ class LocationScreen extends StatelessWidget {
                       Center(
                         child: Icon(
                           Icons.my_location_rounded,
-                          color: Color(0xff00cccc),
+                          color: Color(0xff04B404),
                           size: 25,
                         ),
                       ),

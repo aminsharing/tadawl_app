@@ -53,7 +53,7 @@ class Apartments extends StatelessWidget {
             ),
           ),
           Slider(
-            activeColor: const Color(0xff00cccc),
+            activeColor: const Color(0xff04B404),
             value: addAd.ApartmentsAddAds,
             min: 0,
             max: 30,

@@ -25,7 +25,7 @@ class Stage0 extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: const Color(0xff00cccc),
+          backgroundColor: const Color(0xff04B404),
           leadingWidth: 70,
           title: Text(
             AppLocalizations.of(context)
@@ -88,7 +88,7 @@ class Stage0 extends StatelessWidget {
                         width: mediaQuery.size.width,
                         height: 70,
                         decoration: BoxDecoration(
-                          color: Color(0xff00cccc),
+                          color: Color(0xff04B404),
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(15),
                               topRight: Radius.circular(15),
@@ -171,13 +171,13 @@ class Stage0 extends StatelessWidget {
                                 style: CustomTextStyle(
 
                                   fontSize: 15,
-                                  color: const Color(0xff00cccc),
+                                  color: const Color(0xff04B404),
                                 ).getTextStyle(),
                                 textAlign: TextAlign.center,
                               ),
                               Icon(
                                 Icons.arrow_forward_ios,
-                                color: Color(0xff00cccc),
+                                color: Color(0xff04B404),
                                 size: 30,
                               ),
                             ],

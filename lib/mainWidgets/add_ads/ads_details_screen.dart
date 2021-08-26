@@ -75,7 +75,7 @@ class AdsDetailsScreen extends StatelessWidget {
                       style: CustomTextStyle(
 
                         fontSize: 17,
-                        color: const Color(0xff00cccc),
+                        color: const Color(0xff04B404),
                       ).getTextStyle(),
                       textAlign: TextAlign.right,
                     ),

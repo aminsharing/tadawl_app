@@ -26,6 +26,7 @@ class BottomNavigationBarApp extends StatelessWidget {
       width: mediaQuery.size.width,
       color: const Color(0xff212a37),
       child: Consumer<LocaleProvider>(builder: (context, local, child){
+        // local.fromMainPage = local.currentPage == 4;
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -67,8 +68,15 @@ class BottomNavigationBarApp extends StatelessWidget {
               child: TextButton(
                 onPressed: () {
                   if(local.currentPage == 0){
-                    local.animateToMyLocation(context);
+                    local.getLocPer().then((value) {
+                      local.getLoc().then((value) {
+                        local.animateToMyLocation(context);
+                      });
+                    });
                   }else{
+                    local.getLocPer().then((value) {
+                      local.getLoc();
+                    });
                     local.setCurrentPage(0);
                     local.currentArea = null;
                     Navigator.pushReplacement(
@@ -290,10 +298,9 @@ class BottomNavigationBarApp extends StatelessWidget {
             Expanded(
               child: TextButton(
                 onPressed: () {
-                  if(local.currentPage == 0){
-                    local.fromMainPage = true;
+                  if(local.currentPage != 4){
                     local.setCurrentPage(4);
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => ChangeNotifierProvider<MenuProvider>(
                           create: (_) => MenuProvider(),
@@ -303,32 +310,48 @@ class BottomNavigationBarApp extends StatelessWidget {
                           ),
                         ),)
                     );
-                  }else if (local.currentPage == 4 && local.fromMainPage){
-                    if(local.currentPage == 0){
-                      local.animateToMyLocation(context);
-                    }else{
-                      local.setCurrentPage(0);
-                      local.currentArea = null;
-                      Navigator.pop(context);
-                    }
-                    local.fromMainPage = false;
-                  }else{
-                    if(local.currentPage == 4){
-
-                    }else {
-                      local.setCurrentPage(4);
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => ChangeNotifierProvider<MenuProvider>(
-                            create: (_) => MenuProvider(),
-                            child: ChangeNotifierProvider<SearchDrawerProvider>(
-                              create: (_) => SearchDrawerProvider(),
-                              child: Menu(),
-                            ),
-                          ),)
-                      );
-                    }
                   }
+                  // if(local.currentPage == 0){
+                  //   local.fromMainPage = true;
+                  //   local.setCurrentPage(4);
+                  //   Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(builder: (context) => ChangeNotifierProvider<MenuProvider>(
+                  //         create: (_) => MenuProvider(),
+                  //         child: ChangeNotifierProvider<SearchDrawerProvider>(
+                  //           create: (_) => SearchDrawerProvider(),
+                  //           child: Menu(),
+                  //         ),
+                  //       ),)
+                  //   );
+                  // }
+                  // else if (local.currentPage == 4 && local.fromMainPage){
+                  //   if(local.currentPage == 0){
+                  //     local.animateToMyLocation(context);
+                  //   }else{
+                  //     local.setCurrentPage(0);
+                  //     local.currentArea = null;
+                  //     Navigator.pop(context);
+                  //   }
+                  //   local.fromMainPage = false;
+                  // }
+                  // else{
+                  //   if(local.currentPage == 4){
+                  //
+                  //   }else {
+                  //     local.setCurrentPage(4);
+                  //     Navigator.pushReplacement(
+                  //         context,
+                  //         MaterialPageRoute(builder: (context) => ChangeNotifierProvider<MenuProvider>(
+                  //           create: (_) => MenuProvider(),
+                  //           child: ChangeNotifierProvider<SearchDrawerProvider>(
+                  //             create: (_) => SearchDrawerProvider(),
+                  //             child: Menu(),
+                  //           ),
+                  //         ),)
+                  //     );
+                  //   }
+                  // }
                 },
                 child: Column(
                   children: [
@@ -341,7 +364,8 @@ class BottomNavigationBarApp extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Icon(
-                          local.fromMainPage ? Icons.location_on : Icons.menu,
+                          // local.fromMainPage ? Icons.location_on : Icons.menu,
+                          Icons.menu,
                           color: Color(0xffffffff),
                           size: 24,
                         ),

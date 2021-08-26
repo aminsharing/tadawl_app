@@ -276,7 +276,7 @@ class AdvertisingFeesScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5.0),
                     color: const Color(0xffffffff),
                     border: Border.all(
-                        width: 1.0, color: const Color(0xff00cccc)),
+                        width: 1.0, color: const Color(0xff04B404)),
                   ),
                   child: Center(
                     child: Text(
@@ -286,7 +286,7 @@ class AdvertisingFeesScreen extends StatelessWidget {
                       style: CustomTextStyle(
 
                         fontSize: 15,
-                        color: const Color(0xff00cccc),
+                        color: const Color(0xff04B404),
                       ).getTextStyle(),
                       textAlign: TextAlign.center,
                     ),

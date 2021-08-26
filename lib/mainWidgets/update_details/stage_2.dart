@@ -19,7 +19,7 @@ class Stage2 extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-        backgroundColor: const Color(0xff00cccc),
+        backgroundColor: const Color(0xff04B404),
         leadingWidth: 70,
         title: Text(
           AppLocalizations.of(context)
@@ -265,7 +265,7 @@ class Stage2 extends StatelessWidget {
                 ),
                 //.....................................................................
                 CheckboxListTile(
-                  activeColor: const Color(0xff00cccc),
+                  activeColor: const Color(0xff04B404),
                   title: Row(
                     children: [
                       TextButton(

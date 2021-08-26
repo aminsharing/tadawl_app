@@ -279,7 +279,7 @@ class AdsPriceScreen extends StatelessWidget {
                       Navigator.push(context, MaterialPageRoute(builder: (context) =>
                       ChangeNotifierProvider<AddAdProvider>.value(
                         value: addAdProvider,
-                        child: ReviewAdsScreen(),
+                        child: ReviewAdsScreen(addAdProvider),
                       )
                           ));
                     },
