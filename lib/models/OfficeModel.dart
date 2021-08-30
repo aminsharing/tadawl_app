@@ -37,6 +37,8 @@ class OfficeModel {
     office_lat = json['office_lat'];
     office_lng = json['office_lng'];
     state = json['state'];
+    sejel_image = json['sejel_image'];
+    sejel = json['sejel'];
   }
 
   Map<String, dynamic> toJson() {

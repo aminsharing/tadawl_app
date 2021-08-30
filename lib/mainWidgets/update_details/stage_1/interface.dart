@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/constans.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
@@ -13,7 +12,6 @@ class Interface extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<LocaleProvider>(context, listen: false);
-    final mutualProv = Provider.of<MutualProvider>(context, listen: false);
     // final mainPageProv = Provider.of<MainPageProvider>(context, listen: false);
     var _lang = provider.locale.toString();
     return Consumer<UpdateDetailsProvider>(builder: (context, updateDetails, _) {
@@ -63,7 +61,7 @@ class Interface extends StatelessWidget {
                       ).getTextStyle(),
                       textAlign: TextAlign.center,
                     ),
-                    value: updateDetails.interfaceSelectedUpdate ?? (int.tryParse(mutualProv.adsPage.idInterface)?? '1').toString(),
+                    value: updateDetails.interfaceSelectedUpdate,
                     onChanged: (String newValue) {
                       updateDetails
                           .setInterfaceSelectedUpdate(

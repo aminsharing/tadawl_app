@@ -5,8 +5,9 @@ import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:tadawl_app/models/AdsModel.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 import 'package:video_player/video_player.dart';
 
@@ -97,7 +98,7 @@ class UpdateImgVedProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void updateImgVed(BuildContext context, String id_description, List<File> imagesList, File video) async {
+  void updateImgVed(BuildContext context, String id_description, List<File> imagesList, File video, List<AdsModel> ads) async {
     Future.delayed(Duration(milliseconds: 0), () {
       Api().updateImgVedFunc(
         id_description,
@@ -105,13 +106,19 @@ class UpdateImgVedProvider extends ChangeNotifier{
         video,
       );
     });
-    Provider.of<MutualProvider>(context, listen: false)
-        .getAllAdsPageInfo(context, id_description);
+    // Provider.of<MutualProvider>(context, listen: false)
+    //     .getAllAdsPageInfo(context, id_description);
 
     Future.delayed(Duration(seconds: 0), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => AdPage()),
+        MaterialPageRoute(builder: (context) =>
+            ChangeNotifierProvider<AdPageProvider>(
+              create: (_) => AdPageProvider(context, id_description, null),
+              child: AdPage(ads: ads, selectedScreen: SelectedScreen.menu),
+            )
+
+        ),
       );
     });
     notifyListeners();

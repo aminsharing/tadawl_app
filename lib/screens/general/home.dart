@@ -15,7 +15,7 @@ class Home extends StatelessWidget {
     final notificationProv = Provider.of<NotificationProvider>(context, listen: false);
     // final msgProv = Provider.of<MsgProvider>(context, listen: false);
     final locale = Provider.of<LocaleProvider>(context, listen: false);
-
+    locale.getCurrentLocation();
     locale.getSession().then((phone) async{
       if(phone != null){
         await notificationProv.getNotificationsList(phone).then((value) async{
@@ -25,6 +25,8 @@ class Home extends StatelessWidget {
         });
       }
     });
+
+
 
     // msgProv.getUnreadMsgs(context, locale.phone);
     // Future.delayed(Duration(seconds: 1), () {

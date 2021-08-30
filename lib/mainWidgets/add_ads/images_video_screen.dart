@@ -514,13 +514,19 @@ class ImagesVideoScreen extends StatelessWidget {
                     addAds.stopVideoAddAds();
                   }
                   // addAds.setCurrentStageAddAds(4);
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) =>
-                      ChangeNotifierProvider<AddAdProvider>.value(
-                        value: addAdProvider,
-                        child: LocationScreen(addAdProvider),
-                      )
-                      ));
+                  addAds.getLocPer().then((value) {
+
+                    addAds.getLoc().then((value) {
+
+                    });
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) =>
+                        ChangeNotifierProvider<AddAdProvider>.value(
+                          value: addAdProvider,
+                          child: LocationScreen(addAdProvider),
+                        )
+                        ));
+                  });
                 },
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 15, 0, 30),

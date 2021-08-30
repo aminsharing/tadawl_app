@@ -150,10 +150,10 @@ class MenuProvider extends ChangeNotifier{
   //   // }
   // }
 
-  void getMenuAds(BuildContext context, List<dynamic> _MenuAdsData){
+  void getMenuAds(List<dynamic> _MenuAdsData){
     _MenuAds.clear();
     _MenuAdsData.forEach((element) {
-      _MenuAds.add(AdsModel.ads(element));
+      _MenuAds.add(AdsModel.adsPage(element));
     });
     // ignore: omit_local_variable_types
     final List<AdsModel> _specialAds = <AdsModel>[];
@@ -165,7 +165,10 @@ class MenuProvider extends ChangeNotifier{
     _specialAds.forEach((element) {
       _MenuAds.remove(element);
     });
-    _MenuAds = [..._specialAds, ..._MenuAds];
+    _MenuAds.sort((a, b) {
+      return a.timeUpdated.compareTo(b.timeUpdated);
+    });
+    _MenuAds = [..._specialAds, ..._MenuAds.reversed.toList()];
     if(_MenuAdsData.isEmpty){
       _noAdsInRegion = true;
     }

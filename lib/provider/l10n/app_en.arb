@@ -129,7 +129,7 @@
     "notMatch": "Confirm and Password Not Matched",
     "verAccount": "Verify Account",
     "enterVR": "Enter Verification Code",
-    "reqVR": "Required Verification Code",
+    "reqVR": "Send",
     "configNewPass": "New Password Configuration",
     "continuee": "Continue",
     "transferBank": "Bank Transfer",

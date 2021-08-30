@@ -21,37 +21,42 @@ class OwenAccount extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<MyAccountProvider>.value(
       value: myAccountProvider,
-      child: Scaffold(
-        backgroundColor: const Color(0xffffffff),
-        appBar: AppBar(
-          centerTitle: true,
-          toolbarHeight: 80.0,
-          leadingWidth: 100,
-          leading: Leading(),
-          title: MyAccountTitle(),
-          actions: [
-            AccountActions(myAccountProvider: myAccountProvider)
-          ],
-          backgroundColor: Color(0xff1f2835),
-        ),
-        body:
-        // Provider.of<UserMutualProvider>(context, listen: true).wait
-        //     ?
-        // Center(child: CircularProgressIndicator(),)
-        //     :
-        SingleChildScrollView(
-          child: Column(
-            children: [
-              AvatarInfo(myAccountProvider: myAccountProvider,),
-              About(),
-              OfficeLocation(),
-              SizedBox(height: 10.0,),
-              Certified(),
-              AdsList(),
+      builder: (context, _){
+        return Scaffold(
+          backgroundColor: const Color(0xffffffff),
+          appBar: AppBar(
+            centerTitle: true,
+            toolbarHeight: 80.0,
+            leadingWidth: 100,
+            leading: Leading(),
+            title: MyAccountTitle(),
+            actions: [
+              AccountActions(
+                myAccountProvider: myAccountProvider,
+                office: Provider.of<MyAccountProvider>(context, listen: false).offices,
+              )
             ],
+            backgroundColor: Color(0xff1f2835),
           ),
-        ),
-      ),
+          body:
+          // Provider.of<UserMutualProvider>(context, listen: true).wait
+          //     ?
+          // Center(child: CircularProgressIndicator(),)
+          //     :
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                AvatarInfo(myAccountProvider: myAccountProvider,),
+                About(),
+                OfficeLocation(),
+                SizedBox(height: 10.0,),
+                Certified(),
+                AdsList(),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

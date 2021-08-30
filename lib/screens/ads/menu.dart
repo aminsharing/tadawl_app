@@ -9,11 +9,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/mainWidgets/search_drawer.dart';
 import 'package:tadawl_app/mainWidgets/search_on_map.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
+import 'package:tadawl_app/screens/ads/main_page.dart';
 
 class Menu extends StatelessWidget {
   Menu({
@@ -31,6 +32,8 @@ class Menu extends StatelessWidget {
       var mediaQuery = MediaQuery.of(context);
 
       Future<bool> _onBackPressed() async{
+        locale.setCurrentPage(0);
+        await Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainPage(null)));
         return false;
       }
 
@@ -125,12 +128,20 @@ class Menu extends StatelessWidget {
                           onPressed: () {
                             // menu.getIsFav(context);
                             menu.clearExpendedMenuListCount();
-                            Provider.of<MutualProvider>(context, listen: false).getAllAdsPageInfo(context, menu.menuAds[i].idDescription);
-                            Provider.of<MutualProvider>(context, listen: false).getSimilarAdsList(context, menu.menuAds[i].idCategory, menu.menuAds[i].idDescription);
+                            // Provider.of<MutualProvider>(context, listen: false).getAllAdsPageInfo(context, menu.menuAds[i].idDescription);
+                            // Provider.of<MutualProvider>(context, listen: false).getSimilarAdsList(context, menu.menuAds[i].idCategory, menu.menuAds[i].idDescription);
                             Future.delayed(Duration(seconds: 0), () {
                               Navigator.push(
                                 context,
-                                PageTransition(type: PageTransitionType.bottomToTop,duration: Duration(milliseconds: 10), child: AdPage()),
+                                PageTransition(
+                                    type: PageTransitionType.bottomToTop,
+                                    duration: Duration(milliseconds: 10),
+                                    child: ChangeNotifierProvider<AdPageProvider>(
+                                      create: (_) => AdPageProvider(context, menu.menuAds[i].idDescription, menu.menuAds[i].idCategory),
+                                      child: AdPage(ads: menu.menuAds, selectedScreen: SelectedScreen.menu) ,
+                                    )
+
+                                ),
                               );
                             });
                           },

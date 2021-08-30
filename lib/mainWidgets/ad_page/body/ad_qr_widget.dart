@@ -4,7 +4,6 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share/share.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AdQRWidget extends StatelessWidget {
@@ -15,12 +14,11 @@ class AdQRWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final adsPage = Provider.of<AdPageProvider>(context, listen: false);
     
-    return Consumer<MutualProvider>(builder: (context, mutualProv, child) {
+    return Consumer<AdPageProvider>(builder: (context, adsPage, child) {
       void _launchQRLink() async {
         await adsPage.stopVideoAdsPage();
-        var url = '${mutualProv.qrData}';
+        var url = '${adsPage.qrData}';
         await launch(url);
         // if (await canLaunch(url)) {
         //   await launch(url);
@@ -37,7 +35,7 @@ class AdQRWidget extends StatelessWidget {
             onTap: _launchQRLink,
             child: QrImage(
               //plce where the QR Image will be shown
-              data: mutualProv.qrData,
+              data: adsPage.qrData,
               //padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
               size: 150.0,
             ),
@@ -55,7 +53,7 @@ class AdQRWidget extends StatelessWidget {
                   child: TextButton(
                     onPressed: () {
                       adsPage.stopVideoAdsPage();
-                      Share.share('${mutualProv.qrData}');
+                      Share.share('${adsPage.qrData}');
                     },
 
                     child: Container(
@@ -71,7 +69,7 @@ class AdQRWidget extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          '${mutualProv.qrData.split('/')[2]}/${mutualProv.qrData.split('/')[3]}',
+                          '${adsPage.qrData.split('/')[2]}/${adsPage.qrData.split('/')[3]}',
                           style: CustomTextStyle(
 
                             fontSize: 12,
@@ -93,7 +91,7 @@ class AdQRWidget extends StatelessWidget {
                     ),
                     onPressed: () {
                       adsPage.stopVideoAdsPage();
-                      Share.share('${mutualProv.qrData}');
+                      Share.share('${adsPage.qrData}');
                     },
                   ),
                 ),

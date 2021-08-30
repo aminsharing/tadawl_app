@@ -74,9 +74,6 @@ class BottomNavigationBarApp extends StatelessWidget {
                       });
                     });
                   }else{
-                    local.getLocPer().then((value) {
-                      local.getLoc();
-                    });
                     local.setCurrentPage(0);
                     local.currentArea = null;
                     Navigator.pushReplacement(
@@ -302,7 +299,8 @@ class BottomNavigationBarApp extends StatelessWidget {
                     local.setCurrentPage(4);
                     Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => ChangeNotifierProvider<MenuProvider>(
+                        MaterialPageRoute(builder: (context) =>
+                            ChangeNotifierProvider<MenuProvider>(
                           create: (_) => MenuProvider(),
                           child: ChangeNotifierProvider<SearchDrawerProvider>(
                             create: (_) => SearchDrawerProvider(),

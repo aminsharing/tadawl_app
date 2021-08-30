@@ -5,6 +5,7 @@ import 'package:tadawl_app/mainWidgets/add_ads/advertising_fees_screen.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
+import 'package:tadawl_app/screens/ads/main_page.dart';
 
 
 class CategoryScreen extends StatelessWidget {
@@ -43,7 +44,12 @@ class CategoryScreen extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       Navigator.of(ctxt).pop(true);
-                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MainPage(null)
+                          )
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),

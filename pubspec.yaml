@@ -1,7 +1,7 @@
 name: tadawl_app
 description: Real-Estate Tadawl App .
 publish_to: 'none'
-version: 1.6.3+29
+version: 1.6.3+30
 environment:
   sdk: ">=2.7.0 <3.0.0"
 dependencies:

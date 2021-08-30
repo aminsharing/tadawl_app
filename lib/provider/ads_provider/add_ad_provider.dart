@@ -12,12 +12,13 @@ import 'package:location/location.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tadawl_app/main.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/CategoryModel.dart';
 import 'package:tadawl_app/models/RegionModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
+import 'package:tadawl_app/screens/ads/main_page.dart';
+import 'package:tadawl_app/screens/general/home.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -26,9 +27,9 @@ class AddAdProvider extends ChangeNotifier{
   AddAdProvider(){
     print('init AddAdProvider');
     getCategoryeInfoAddAds();
-    getLocPer().then((value) {
-      getLoc();
-    });
+    // getLocPer().then((value) {
+    //   getLoc();
+    // });
   }
 
   @override
@@ -115,6 +116,7 @@ class AddAdProvider extends ChangeNotifier{
   GoogleMapController _mapController;
   set mapController(GoogleMapController val) => _mapController = val;
   GoogleMapController get mapController => _mapController;
+  bool _isSending = false;
 
 
   void clearChacheAddAds() {
@@ -198,6 +200,11 @@ class AddAdProvider extends ChangeNotifier{
 
   void setCurrentStageAddAds(int value) {
     _currentStageAddAds = value;
+    notifyListeners();
+  }
+
+  set isSending(bool val){
+    _isSending = val;
     notifyListeners();
   }
 
@@ -818,12 +825,15 @@ class AddAdProvider extends ChangeNotifier{
       video,
       imagesList,
     ).then((value) async{
+      isSending = true;
       Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
-      await Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => MyApp()),
-              (route) => false
-      );
+      Future.delayed(Duration(seconds: 1), () async{
+        await Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => Home()),
+                (route) => false
+        );
+      });
     });
   }
 
@@ -896,4 +906,5 @@ class AddAdProvider extends ChangeNotifier{
   Location get location => _location;
   LatLng get initialCameraPosition => _initialCameraPosition;
   double get zoom => _zoom;
+  bool get isSending => _isSending;
 }

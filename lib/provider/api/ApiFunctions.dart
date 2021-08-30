@@ -359,8 +359,8 @@ class Api {
        String id_description) async {
     var url = '$BaseURL/ads/data_aqar_vr.php';
     var response = await http.post(url, body: {
+      'auth_key': _token,
       'id_description': id_description,
-      'auth_key': _token
     });
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -506,11 +506,11 @@ class Api {
     return jsonDecode(response.body);
   }
 
-  Future getOfficeCheckFunc( String Phone) async {
+  Future getOfficeCheckFunc(String Phone) async {
     var url = '$BaseURL/officesAqar/check.php';
     var response = await http.post(url, body: {
+      'auth_key': _token,
       'phone': Phone,
-      'auth_key': _token
     });
     return jsonDecode(response.body);
   }

@@ -3,76 +3,41 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 import 'package:tadawl_app/screens/account/login.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/screens/account/my_account.dart';
 
 class CustomDrawerHeader extends StatelessWidget {
-  const CustomDrawerHeader({Key key}) : super(key: key);
+  const CustomDrawerHeader(this._phone ,{Key key}) : super(key: key);
+  final String _phone;
 
   @override
   Widget build(BuildContext context) {
-    final locale = Provider.of<LocaleProvider>(context, listen: false);
     // ignore: omit_local_variable_types
-    final MyAccountProvider myAccountProvider = MyAccountProvider(locale.phone);
+    final MyAccountProvider myAccountProvider = MyAccountProvider(_phone);
     return ChangeNotifierProvider<MyAccountProvider>(
       create: (_) => myAccountProvider,
       child: Consumer<MyAccountProvider>(builder: (context, customDrawer, child) {
-        return locale.phone != null
+        return _phone != null
             ?
         customDrawer.users != null
             ?
         TextButton(
           onPressed: () {
-            // customDrawer.setWaitState(true);
-            // customDrawer.getUserAdsList(locale.phone);
-            // customDrawer.getAvatarList(locale.phone);
-            // customDrawer.getEstimatesInfo(locale.phone);
-            // customDrawer.getSumEstimatesInfo(locale.phone);
-            // customDrawer.checkOfficeInfo(locale.phone);
-            // customDrawer.setUserPhone(locale.phone);
-
-            Future.delayed(Duration(seconds: 1), () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) =>
-              //       ChangeNotifierProvider<UserMutualProvider>.value(
-              //         value: UserMutualProvider(locale.phone),
-              //         child: MyAccount(),
-              //       )
-              //   ),
-              // );
-
-
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          ChangeNotifierProvider<MyAccountProvider>.value(
-                              value: myAccountProvider,
-                              child: MyAccount(
-                                myAccountProvider: myAccountProvider,
-                                phone: locale.phone,
-                              )
-                          )
-                  )
-              );
-
-              // if (customDrawer.userPhone == locale.phone) {
-              //   Navigator.push(
-              //     context,
-              //     MaterialPageRoute(builder: (context) => OwenAccount()),
-              //   );
-              // }
-              // else {
-              //   Navigator.push(
-              //     context,
-              //     MaterialPageRoute(builder: (context) => OtherAccount()),);
-              // }
-              customDrawer.setWaitState(false);
-            });
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                    ChangeNotifierProvider<MyAccountProvider>.value(
+                        value: myAccountProvider,
+                        child: MyAccount(
+                          myAccountProvider: myAccountProvider,
+                          phone: _phone,
+                        )
+                    )
+                )
+            );
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

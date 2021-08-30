@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/models/KeySearchModel.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 import 'package:tadawl_app/screens/account/my_account.dart';
@@ -86,13 +86,19 @@ class SearchAdsProvider extends ChangeNotifier{
               // });
             }
             else if (_key.first.id_ads == keySearch) {
-              Provider.of<MutualProvider>(context, listen: false)
-                  .getAllAdsPageInfo(context, _key.first.id_description);
+              // Provider.of<AdPageProvider>(context, listen: false)
+              //     .getAllAdsPageInfo(context, _key.first.id_description);
 
               Future.delayed(Duration(seconds: 0), () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AdPage()),
+                  MaterialPageRoute(builder: (context) =>
+                      ChangeNotifierProvider<AdPageProvider>(
+                        create: (_) => AdPageProvider(context, _key.first.id_description, _key.first.idCategory),
+                        child: AdPage(ads: [Provider.of<AdPageProvider>(context, listen: false).adsPage], selectedScreen: SelectedScreen.none),
+                      )
+
+                  ),
                 );
               });
             }

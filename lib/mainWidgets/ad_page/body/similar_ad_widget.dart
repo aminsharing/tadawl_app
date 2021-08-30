@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/ad_button.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -36,8 +35,8 @@ class SimilarAdWidget extends StatelessWidget {
             ],
           ),
         ),
-        Consumer2<MutualProvider, AdPageProvider>(builder: (context,mutualProv, adsPage, child) {
-          return mutualProv.adsSimilar.isNotEmpty
+        Consumer<AdPageProvider>(builder: (context, adsPage, child) {
+          return adsPage.adsSimilar.isNotEmpty
               ?
           Directionality(
             textDirection: locale.locale.toString() != 'en_US'
@@ -47,50 +46,56 @@ class SimilarAdWidget extends StatelessWidget {
             TextDirection.rtl,
             child: Container(
               width: mediaQuery.size.width,
-              height: mutualProv.countAdsSimilar() > 5 ? 5 * mediaQuery.size.width*.43 : mutualProv.countAdsSimilar() * mediaQuery.size.width*.43,
+              height: adsPage.countAdsSimilar() > 5 ? 5 * mediaQuery.size.width*.43 : adsPage.countAdsSimilar() * mediaQuery.size.width*.43,
               child: ListView.separated(
-                // itemCount: mutualProv.countAdsSimilar() > adsPage.expendedListCount-1 ? adsPage.expendedListCount : mutualProv.countAdsSimilar(),
-                itemCount: mutualProv.countAdsSimilar() > 5 ? 5 : mutualProv.countAdsSimilar(),
+                // itemCount: adsPage.countAdsSimilar() > adsPage.expendedListCount-1 ? adsPage.expendedListCount : adsPage.countAdsSimilar(),
+                itemCount: adsPage.countAdsSimilar() > 5 ? 5 : adsPage.countAdsSimilar(),
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, i){
                   return AdButton(
                       onPressed: () {
                         adsPage.stopVideoAdsPage();
-                        mutualProv.getAdsPageList(context,
-                            mutualProv.adsSimilar[i].idDescription);
-                        mutualProv.getImagesAdsPageList(context,
-                            mutualProv.adsSimilar[i].idDescription);
-                        mutualProv.getUserAdsPageInfo(context,
-                            mutualProv.adsSimilar[i].idDescription);
-                        mutualProv.getAdsVRInfo(context,
-                            mutualProv.adsSimilar[i].idDescription);
-                        mutualProv.getBFAdsPageList(context,
-                            mutualProv.adsSimilar[i].idDescription);
-                        mutualProv.getQFAdsPageList(context,
-                            mutualProv.adsSimilar[i].idDescription);
-                        mutualProv.getViewsChartInfo(context,
-                            mutualProv.adsSimilar[i].idDescription);
-                        mutualProv.getNavigationAdsPageList(context);
-                        mutualProv.setIdDescription(
-                            mutualProv.adsSimilar[i].idDescription);
-                        mutualProv.getSimilarAdsList(context, mutualProv.adsSimilar[i].idCategory, mutualProv.adsSimilar[i].idDescription);
+                        // adsPage.getAdsPageList(context,
+                        //     adsPage.adsSimilar[i].idDescription);
+                        // adsPage.getImagesAdsPageList(context,
+                        //     adsPage.adsSimilar[i].idDescription);
+                        // adsPage.getUserAdsPageInfo(context,
+                        //     adsPage.adsSimilar[i].idDescription);
+                        // adsPage.getAdsVRInfo(context,
+                        //     adsPage.adsSimilar[i].idDescription);
+                        // adsPage.getBFAdsPageList(context,
+                        //     adsPage.adsSimilar[i].idDescription);
+                        // adsPage.getQFAdsPageList(context,
+                        //     adsPage.adsSimilar[i].idDescription);
+                        // adsPage.getViewsChartInfo(context,
+                        //     adsPage.adsSimilar[i].idDescription);
+                        // adsPage.getNavigationAdsPageList(context);
+                        // adsPage.setIdDescription(
+                        //     adsPage.adsSimilar[i].idDescription);
+                        // adsPage.getSimilarAdsList(context, adsPage.adsSimilar[i].idCategory, adsPage.adsSimilar[i].idDescription);
                         Future.delayed(Duration(seconds: 0), () {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AdPage()),
+                                builder: (context) =>
+                                    ChangeNotifierProvider<AdPageProvider>(
+                                      create: (_) => AdPageProvider(context, adsPage.adsSimilar[i].idDescription, adsPage.adsSimilar[i].idCategory),
+                                      child: AdPage(ads: adsPage.adsSimilar, selectedScreen: SelectedScreen.menu),
+                                    )
+
+                            ),
                           );
                         });
                       },
-                      ads_image: mutualProv.adsSimilar[i].ads_image,
-                      title: mutualProv.adsSimilar[i].title,
-                      idSpecial: mutualProv.adsSimilar[i].idSpecial,
-                      price: mutualProv.adsSimilar[i].price,
-                      space: mutualProv.adsSimilar[i].space,
-                      ads_city: mutualProv.adsSimilar[i].ads_city,
-                      ads_neighborhood:mutualProv.adsSimilar[i].ads_neighborhood,
-                      ads_road: mutualProv.adsSimilar[i].ads_road,
-                      video: mutualProv.adsSimilar[i].video,
+                      ads_image: adsPage.adsSimilar[i].ads_image,
+                      title: adsPage.adsSimilar[i].title,
+                      idSpecial: adsPage.adsSimilar[i].idSpecial,
+                      price: adsPage.adsSimilar[i].price,
+                      space: adsPage.adsSimilar[i].space,
+                      ads_city: adsPage.adsSimilar[i].ads_city,
+                      ads_neighborhood:adsPage.adsSimilar[i].ads_neighborhood,
+                      ads_road: adsPage.adsSimilar[i].ads_road,
+                      video: adsPage.adsSimilar[i].video,
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {

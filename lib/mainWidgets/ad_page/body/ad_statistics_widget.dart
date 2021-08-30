@@ -5,7 +5,7 @@ import 'package:tadawl_app/mainWidgets/views_chart.dart';
 import 'package:tadawl_app/models/views_series.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 List<ViewsSeriesModel> dataa = [
@@ -48,9 +48,9 @@ class AdStatisticsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     var mediaQuery = MediaQuery.of(context);
-    return Consumer<MutualProvider>(builder: (context, mutualProv, child) {
-      if (mutualProv.adsUser != null) {
-        if (mutualProv.adsUser.phone == locale.phone) {
+    return Consumer<AdPageProvider>(builder: (context, adsPage, child) {
+      if (adsPage.adsUser != null) {
+        if (adsPage.adsUser.phone == locale.phone) {
           return Column(
             children: [
               Padding(
@@ -88,17 +88,15 @@ class AdStatisticsWidget extends StatelessWidget {
                               ).getTextStyle(),
                               textAlign: TextAlign.center,
                             ),
-                            Consumer<MutualProvider>(builder: (context, mutualProv, child) {
-                              return Expanded(
-                                child: mutualProv.adsViews.isNotEmpty
-                                    ? ViewsChart(
-                                  data: mutualProv.adsViews,
-                                )
-                                    : ViewsChart(
-                                  data: dataa,
-                                ),
-                              );
-                            }),
+                            Expanded(
+                              child: adsPage.adsViews.isNotEmpty
+                                  ? ViewsChart(
+                                data: adsPage.adsViews,
+                              )
+                                  : ViewsChart(
+                                data: dataa,
+                              ),
+                            ),
                           ],
                         ),
                       ),

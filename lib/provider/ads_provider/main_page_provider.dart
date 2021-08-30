@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/Gist.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
-import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/cache_markers_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/general/regions.dart';
@@ -198,7 +197,7 @@ class MainPageProvider extends ChangeNotifier{
                 .updateCache(context, ad.idAds);
             setShowDiogTrue();
             _SelectedAdsModelMainPage = ad;
-            Provider.of<SearchDrawerProvider>(context, listen: false).getAdsList(context);
+            // Provider.of<SearchDrawerProvider>(context, listen: false).getAdsList(context);
           },
           icon: BitmapDescriptor.fromBytes(bmp)));
     });

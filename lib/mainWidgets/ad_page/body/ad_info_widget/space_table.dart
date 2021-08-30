@@ -34,9 +34,9 @@ class SpaceTable extends StatelessWidget {
       TableCellVerticalAlignment.middle,
       defaultColumnWidth: FractionColumnWidth(0.5),
       children: [
-        if (adsPage.idTypeAqar != '0' &&
-            adsPage.idTypeAqar != '-1' &&
-            adsPage.idTypeAqar != 'null')
+        if ((adsPage.idTypeAqar??'0') != '0' &&
+            (adsPage.idTypeAqar??'-1') != '-1' &&
+            (adsPage.idTypeAqar??'null') != 'null')
           TableRow(
             decoration: BoxDecoration(
               color: Color(0xfff2f2f2),

@@ -2,7 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
+import 'package:tadawl_app/provider/msg_provider.dart';
+import 'package:tadawl_app/screens/account/discussion_main.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -82,7 +86,7 @@ class About extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextButton(
-                        onPressed: launchWhatsApp,
+                        onPressed: () => directSupport(context),
                         child: Text(
                           AppLocalizations.of(context).support,
                           style: CustomTextStyle(
@@ -97,6 +101,39 @@ class About extends StatelessWidget {
                           Icons.message_rounded,
                           color: Color(0xff04B404),
                           size: 40,
+                        ),
+                        onPressed: () => directSupport(context),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton(
+                        onPressed: launchWhatsApp,
+                        child: Text(
+                          'واتساب',
+                          style: CustomTextStyle(
+
+                            fontSize: 20,
+                            color: const Color(0xff04B404),
+                          ).getTextStyle(),
+                        ),
+                      ),
+                      TextButton(
+                        child: Container(
+                          width: 39.0,
+                          height: 33.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: const AssetImage('assets/images/img15.png'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                         onPressed: launchWhatsApp,
                       ),
@@ -195,6 +232,39 @@ class About extends StatelessWidget {
                           ),
                         ),
                         onPressed: _launchURLInstagram,
+                      ),
+                    ],
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton(
+                        onPressed: _launchURLTadawl,
+                        child: Text(
+                          'tadawl-store.com',
+                          style: CustomTextStyle(
+                            fontSize: 20,
+                            color: const Color(0xff04B404),
+                          ).getTextStyle(),
+                        ),
+                      ),
+                      TextButton(
+                        child: Container(
+                          width: 39.0,
+                          height: 39.0,
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            image: DecorationImage(
+                              image: const AssetImage('assets/images/logo22.png'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        onPressed: _launchURLTadawl,
                       ),
                     ],
                   ),
@@ -442,6 +512,11 @@ void _launchURLInstagram() async {
   // }
 }
 
+void _launchURLTadawl() async {
+  const url = 'https://tadawl-store.com/';
+  await launch(url);
+}
+
 final Uri _emailLaunchUri = Uri(
     scheme: 'mailto',
     path: 'support@tadawl.com.sa',
@@ -453,4 +528,22 @@ void launchWhatsApp() async {
     text: 'تطبيق تداول العقاري - الدعم الفني',
   );
   await launch('$link');
+}
+
+void directSupport(BuildContext context) async {
+  final locale = Provider.of<LocaleProvider>(context, listen: false);
+
+  await Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+          builder: (context) =>
+              ChangeNotifierProvider<MsgProvider>(
+                create: (context) => MsgProvider(context, locale.phone, customMsg: 'الدعم الفني',),
+                child: Discussion(
+                  '966552525000',
+                  username: 'تطبيق تداول العقاري',
+                ),
+              )
+      )
+  );
 }

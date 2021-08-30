@@ -12,7 +12,7 @@ import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/models/OfficeModel.dart';
 import 'package:tadawl_app/models/UserEstimateModel.dart';
 import 'package:tadawl_app/models/UserModel.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/account/login.dart';
@@ -44,6 +44,8 @@ class MyAccountProvider extends ChangeNotifier{
   int _selectedNav = 0;
   int _expendedListCount = 3;
   bool esBool = false;
+  bool _busy = false;
+  int _number;
 
   void clearExpendedListCount(){
     _expendedListCount = 3;
@@ -58,6 +60,21 @@ class MyAccountProvider extends ChangeNotifier{
         _isSelected[buttonIndex] = false;
       }
     }
+    notifyListeners();
+  }
+
+  Future<bool> updateAds(BuildContext context, String id_ads) async {
+    return Future.delayed(Duration(milliseconds: 0), () {
+      return Api().updateAdsFunc(id_ads).then((value) {
+        _busy = false;
+        return true;
+      });
+    });
+  }
+
+  void setNumber(int i) {
+    _number = i;
+    _busy = true;
     notifyListeners();
   }
 
@@ -175,13 +192,15 @@ class MyAccountProvider extends ChangeNotifier{
         if(locale.phone != null){
           _rating = response.rating.toString();
           _commentRating = response.comment;
-          Provider.of<MutualProvider>(context, listen: false).sendEstimate(
+          Provider.of<AdPageProvider>(context, listen: false).sendEstimate(
               context,
               locale.phone,
               phoneEstimated,
               _rating,
               _commentRating,
-              Provider.of<MutualProvider>(context, listen: false).idDescription);
+              Provider.of<AdPageProvider>(context, listen: false).idDescription,
+              _userAds
+          );
         }else{
           Navigator.push(
             context,
@@ -497,7 +516,8 @@ class MyAccountProvider extends ChangeNotifier{
   ///
 
 
-
+  bool get busy => _busy;
+  int get number => _number;
   List<bool> get isSelected => _isSelected;
   int get selectedNav => _selectedNav;
   int get expendedListCount => _expendedListCount;

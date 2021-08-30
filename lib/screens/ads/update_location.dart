@@ -4,7 +4,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
+import 'package:tadawl_app/models/AdsModel.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/update_location_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 
@@ -12,13 +13,22 @@ class UpdateLocation extends StatelessWidget {
   UpdateLocation(
       this._id_description,
       {
-    Key key,
-  }) : super(key: key);
+        Key key,
+        @required this.ads,
+        @required this.lat,
+        @required this.lng,
+        @required this.ads_city,
+        @required this.ads_neighborhood,
+      }) : super(key: key);
+  final List<AdsModel> ads;
   final String _id_description;
+  final String lat;
+  final String lng;
+  final String ads_city;
+  final String ads_neighborhood;
 
   @override
   Widget build(BuildContext context) {
-    final mutualProv = Provider.of<MutualProvider>(context, listen: false);
     return Consumer<UpdateLocationProvider>(builder: (context, updateLoc, child) {
 
 
@@ -47,13 +57,19 @@ class UpdateLocation extends StatelessWidget {
                 size: 40,
               ),
               onPressed: () {
-                mutualProv
-                .getAllAdsPageInfo(context, _id_description);
+                // mutualProv
+                // .getAllAdsPageInfo(context, _id_description);
 
                 Future.delayed(Duration(seconds: 1), () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => AdPage()),
+                    MaterialPageRoute(builder: (context) =>
+                        ChangeNotifierProvider<AdPageProvider>(
+                          create: (_) => AdPageProvider(context, _id_description, null),
+                          child: AdPage(ads: ads,  selectedScreen: SelectedScreen.menu),
+                        )
+
+                    ),
                   );
                 });
               },
@@ -70,7 +86,7 @@ class UpdateLocation extends StatelessWidget {
             ).getTextStyle(),
             textAlign: TextAlign.center,
           ),
-          backgroundColor: Color(0xff00cccc),
+          backgroundColor: Color(0xff1f2835),
         ),
         backgroundColor: const Color(0xffffffff),
         body: SingleChildScrollView(
@@ -86,7 +102,7 @@ class UpdateLocation extends StatelessWidget {
                       AppLocalizations
                           .of(context)
                           .city +
-                          ' ${updateLoc.ads_city ?? mutualProv.adsPage.ads_city}',
+                          ' ${updateLoc.ads_city ?? ads_city}',
                       style: CustomTextStyle(
                         fontSize: 13,
                         color: const Color(0xff989696),
@@ -98,7 +114,7 @@ class UpdateLocation extends StatelessWidget {
                       AppLocalizations
                           .of(context)
                           .neighborhood +
-                          ' ${updateLoc.ads_neighborhood??mutualProv.adsPage.ads_neighborhood}',
+                          ' ${updateLoc.ads_neighborhood??ads_neighborhood}',
                       style: CustomTextStyle(
 
                         fontSize: 13,
@@ -125,10 +141,10 @@ class UpdateLocation extends StatelessWidget {
                       initialCameraPosition: CameraPosition(
                           target: LatLng(
                               double.parse(
-                                  mutualProv.adsPage.lat ?? updateLoc.ads_cordinates_lat
+                                  lat ?? updateLoc.ads_cordinates_lat
                               ),
                               double.parse(
-                                  mutualProv.adsPage.lng ?? updateLoc.ads_cordinates_lng
+                                  lng ?? updateLoc.ads_cordinates_lng
                               ),
                           ),
                           zoom: 13),
@@ -166,7 +182,9 @@ class UpdateLocation extends StatelessWidget {
                         updateLoc.ads_neighborhood,
                         updateLoc.ads_road,
                         updateLoc.ads_cordinates_lat.toString(),
-                        updateLoc.ads_cordinates_lng.toString());
+                        updateLoc.ads_cordinates_lng.toString(),
+                      ads
+                    );
                   }
                 },
                 child: Padding(

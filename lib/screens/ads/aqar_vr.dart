@@ -4,8 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/aqar_vr_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 
 class AqarVR extends StatelessWidget {
   AqarVR({
@@ -38,7 +38,7 @@ class AqarVR extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
-          backgroundColor: const Color(0xff00cccc),
+          backgroundColor: const Color(0xff1f2835),
           toolbarHeight: 70.0,
           centerTitle: true,
           leadingWidth: 70.0,
@@ -226,11 +226,11 @@ class AqarVR extends StatelessWidget {
                                         aqarVR.updateIdentityType(index);
                                       },
                                       isSelected: aqarVR.list_id_type,
-                                      color: const Color(0xff00cccc),
+                                      color: const Color(0xff04B404),
                                       selectedColor: const Color(0xffffffff),
-                                      fillColor: const Color(0xff00cccc),
-                                      borderColor: const Color(0xff00cccc),
-                                      selectedBorderColor: const Color(0xff00cccc),
+                                      fillColor: const Color(0xff04B404),
+                                      borderColor: const Color(0xff04B404),
+                                      selectedBorderColor: const Color(0xff04B404),
                                       borderWidth: 1,
                                     ),
                                   ],
@@ -314,7 +314,7 @@ class AqarVR extends StatelessWidget {
                                     aqarVR.identity_number,
                                     aqarVR.saq_number,
                                     aqarVR.identity_type,
-                                    Provider.of<MutualProvider>(context, listen: false).idDescription,
+                                    Provider.of<AdPageProvider>(context, listen: false).idDescription,
                                     aqarVR.imageAqarVR);
                               }
                             },
@@ -324,7 +324,7 @@ class AqarVR extends StatelessWidget {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
                                 border: Border.all(
-                                    color: const Color(0xff00cccc), width: 1),
+                                    color: const Color(0xff04B404), width: 1),
                                 color: const Color(0xffffffff),
                               ),
                               child: Align(
@@ -333,7 +333,7 @@ class AqarVR extends StatelessWidget {
                                   AppLocalizations.of(context).reqVR,
                                   style: CustomTextStyle(
                                     fontSize: 15,
-                                    color: const Color(0xff00cccc),
+                                    color: const Color(0xff04B404),
                                   ).getTextStyle(),
                                 ),
                               ),

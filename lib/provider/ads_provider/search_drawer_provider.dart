@@ -392,7 +392,7 @@ class SearchDrawerProvider extends ChangeNotifier{
   void getAdsList(BuildContext context) {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     // ignore: omit_local_variable_types
-    CameraPosition area = locale.currentArea ?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
+    CameraPosition area = locale.currentArea ?? locale.initialCameraPosition ?? locale.savedPosition ?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
 
     // ...... basic array ........
     if (_filter == null) {
@@ -482,7 +482,7 @@ class SearchDrawerProvider extends ChangeNotifier{
   void getMenuList(BuildContext context) {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     // ignore: omit_local_variable_types
-    CameraPosition area = locale.currentArea?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
+    CameraPosition area = locale.currentArea?? locale.initialCameraPosition ?? locale.savedPosition ?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
     // ...... basic array & latest menu ads array ........
     if (_menuFilter == null) {
       Future.delayed(Duration(milliseconds: 0), () {
@@ -490,7 +490,7 @@ class SearchDrawerProvider extends ChangeNotifier{
           _MenuAdsData = value;
           setMenuAdsCount(_MenuAdsData.length);
           Provider.of<MenuProvider>(context, listen: false)
-              .getMenuAds(context, _MenuAdsData);
+              .getMenuAds(_MenuAdsData);
         });
       });
     }
@@ -501,7 +501,7 @@ class SearchDrawerProvider extends ChangeNotifier{
           _MenuAdsData = value;
           setMenuAdsCount(_MenuAdsData.length);
           Provider.of<MenuProvider>(context, listen: false)
-              .getMenuAds(context, _MenuAdsData);
+              .getMenuAds(_MenuAdsData);
         });
       });
     }
@@ -551,7 +551,7 @@ class SearchDrawerProvider extends ChangeNotifier{
           _MenuAdsData = value;
           setMenuAdsCount(_MenuAdsData.length);
           Provider.of<MenuProvider>(context, listen: false)
-              .getMenuAds(context, _MenuAdsData);
+              .getMenuAds(_MenuAdsData);
         });
       });
     }

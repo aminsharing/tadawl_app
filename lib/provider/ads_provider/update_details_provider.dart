@@ -6,13 +6,20 @@ import 'package:tadawl_app/models/BFModel.dart';
 import 'package:tadawl_app/models/CategoryModel.dart';
 import 'package:tadawl_app/models/QFModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 class UpdateDetailsProvider extends ChangeNotifier{
-  UpdateDetailsProvider(BuildContext context, String _id_description){
+  UpdateDetailsProvider(BuildContext context, String _id_description, List<BFModel> adsBF, List<QFModel> adsQF, AdsModel adsPage){
+    getAdsUpdateInfo(
+        adsBF,
+        adsQF,
+        adsPage.idInterface,
+        adsPage.idTypeAqar,
+        adsPage.idTypeRes
+    );
     getCategoryeInfoUpdate().then((value) {
       getAdsPageInfoUpdateDetails(context, _id_description);
+
     });
   }
 
@@ -74,61 +81,62 @@ class UpdateDetailsProvider extends ChangeNotifier{
 
   void getAdsUpdateInfo(List<BFModel> _adsBF, List<QFModel> _adsQF, String _interface, String _idTypeAqar, String _plan) {
     _interfaceSelectedUpdate = _interfaceSelectedUpdate ?? _interface;
+
     _adsBF.forEach((element) {
       switch(element.id_BFAT){
         case '1':
-          _isFurnishedUpdate = _isFurnishedUpdate ?? bool.hasEnvironment(element.state);
+          _isFurnishedUpdate = _isFurnishedUpdate ?? (element.state ??'false') == 'true';
           break;
         case '2':
-          _isKitchenUpdate = _isKitchenUpdate ?? bool.hasEnvironment(element.state);
+          _isKitchenUpdate = _isKitchenUpdate ?? (element.state ??'false') == 'true';
           break;
         case '3':
-          _isFamilyPartitionUpdate = _isFamilyPartitionUpdate ?? bool.hasEnvironment(element.state);
+          _isFamilyPartitionUpdate = _isFamilyPartitionUpdate ?? (element.state ??'false') == 'true';
           break;
         case '5':
-          _isCarEntranceUpdate = _isCarEntranceUpdate ?? bool.hasEnvironment(element.state);
+          _isCarEntranceUpdate = _isCarEntranceUpdate ?? (element.state ??'false') == 'true';
           break;
         case '7':
-          _isElevatorUpdate = _isElevatorUpdate ?? bool.hasEnvironment(element.state);
+          _isElevatorUpdate = _isElevatorUpdate ?? (element.state ??'false') == 'true';
           break;
         case '12':
-          _isAppendixUpdate = _isAppendixUpdate ?? bool.hasEnvironment(element.state);
+          _isAppendixUpdate = _isAppendixUpdate ?? (element.state ??'false') == 'true';
           break;
         case '16':
-          _isCellarUpdate = _isCellarUpdate ?? bool.hasEnvironment(element.state);
+          _isCellarUpdate = _isCellarUpdate ?? (element.state ??'false') == 'true';
           break;
         case '17':
-          _isYardUpdate = _isYardUpdate ?? bool.hasEnvironment(element.state);
+          _isYardUpdate = _isYardUpdate ?? (element.state ??'false') == 'true';
           break;
         case '18':
-          _isDriverRoomUpdate = _isDriverRoomUpdate ?? bool.hasEnvironment(element.state);
+          _isDriverRoomUpdate = _isDriverRoomUpdate ?? (element.state ??'false') == 'true';
           break;
         case '19':
-          _isMaidRoomUpdate = _isMaidRoomUpdate ?? bool.hasEnvironment(element.state);
+          _isMaidRoomUpdate = _isMaidRoomUpdate ?? (element.state ??'false') == 'true';
           break;
         case '20':
-          _isSwimmingPoolUpdate = _isSwimmingPoolUpdate ?? bool.hasEnvironment(element.state);
+          _isSwimmingPoolUpdate = _isSwimmingPoolUpdate ?? (element.state ??'false') == 'true';
           break;
         case '21':
-          _isFootballCourtUpdate = _isFootballCourtUpdate ?? bool.hasEnvironment(element.state);
+          _isFootballCourtUpdate = _isFootballCourtUpdate ?? (element.state ??'false') == 'true';
           break;
         case '22':
-          _isVolleyballCourtUpdate = _isVolleyballCourtUpdate ?? bool.hasEnvironment(element.state);
+          _isVolleyballCourtUpdate = _isVolleyballCourtUpdate ?? (element.state ??'false') == 'true';
           break;
         case '23':
-          _isAmusementParkUpdate = _isAmusementParkUpdate ?? bool.hasEnvironment(element.state);
+          _isAmusementParkUpdate = _isAmusementParkUpdate ?? (element.state ??'false') == 'true';
           break;
         case '24':
-          _isVerseUpdate = _isVerseUpdate ?? bool.hasEnvironment(element.state);
+          _isVerseUpdate = _isVerseUpdate ?? (element.state ??'false') == 'true';
           break;
         case '25':
-          _isDuplexUpdate = _isDuplexUpdate ?? bool.hasEnvironment(element.state);
+          _isDuplexUpdate = _isDuplexUpdate ?? (element.state ??'false') == 'true';
           break;
         case '26':
-          _isHallStaircaseUpdate = _isHallStaircaseUpdate ?? bool.hasEnvironment(element.state);
+          _isHallStaircaseUpdate = _isHallStaircaseUpdate ?? (element.state ??'false') == 'true';
           break;
         case '27':
-          _isConditionerUpdate = _isConditionerUpdate ?? bool.hasEnvironment(element.state);
+          _isConditionerUpdate = _isConditionerUpdate ?? (element.state ??'false') == 'true';
           break;
       }
     });
@@ -550,8 +558,8 @@ class UpdateDetailsProvider extends ChangeNotifier{
         null,
       );
     });
-    Provider.of<MutualProvider>(context, listen: false)
-        .getAllAdsPageInfo(context, id_description);
+    // Provider.of<AdPageProvider>(context, listen: false)
+    //     .getAllAdsPageInfo(context, id_description);
 
 
     Future.delayed(Duration(seconds: 0), () {

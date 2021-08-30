@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
-import 'package:tadawl_app/screens/ads/ad_page.dart';
 
 class AqarVRProvider extends ChangeNotifier{
   AqarVRProvider(){
@@ -73,14 +74,17 @@ class AqarVRProvider extends ChangeNotifier{
           identity_type, id_description, image);
     });
 
+    Provider.of<AdPageProvider>(context, listen: false)
+        .getAllAdsPageInfo(context, id_description);
 
+    Navigator.pop(context);
 
-    Future.delayed(Duration(seconds: 0), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => AdPage()),
-      );
-    });
+    // Future.delayed(Duration(seconds: 0), () {
+    //   Navigator.pushReplacement(
+    //     context,
+    //     MaterialPageRoute(builder: (context) => AdPage()),
+    //   );
+    // });
   }
 
 

@@ -38,11 +38,12 @@ class LocaleProvider extends ChangeNotifier {
   int _currentPage = 0;
   int _unreadMsgs = 0;
   // bool fromMainPage = false;
-  double _zoom;
+  // double _zoom;
   bool _serviceEnabled;
   PermissionStatus _permissionGranted;
   final Location _location = Location();
-  LatLng _initialCameraPosition;
+  CameraPosition _initialCameraPosition;
+  CameraPosition _savedPosition;
 
   void setLocale(Locale locale) {
     if (!L10n.all.contains(locale)) return;
@@ -70,6 +71,26 @@ class LocaleProvider extends ChangeNotifier {
     var p = await SharedPreferences.getInstance();
     _phone = p.getString('token');
     return _phone;
+  }
+
+  Future<void> saveCurrentLocation(LatLng position, double currentZoom) async {
+    var p = await SharedPreferences.getInstance();
+    await p.setDouble('current_lat', position.latitude);
+    await p.setDouble('current_lng', position.longitude);
+    await p.setDouble('current_zoom', currentZoom);
+    // ignore: deprecated_member_use
+    await p.commit();
+  }
+
+  Future<CameraPosition> getCurrentLocation() async {
+    var p = await SharedPreferences.getInstance();
+    var lat = p.getDouble('current_lat');
+    var lng = p.getDouble('current_lng');
+    var zoom = p.getDouble('current_zoom');
+    if(lat != null && lng != null && zoom != null){
+      _savedPosition = CameraPosition(target: LatLng(lat, lng), zoom: zoom);
+    }
+    return _savedPosition;
   }
 
   void clearLocale() {
@@ -118,21 +139,19 @@ class LocaleProvider extends ChangeNotifier {
     if(_permissionGranted == PermissionStatus.granted){
       if(_serviceEnabled?? false){
         await _location.getLocation().then((LocationData location) async{
-          _initialCameraPosition = LatLng(location.latitude, location.longitude);
-          _zoom = 17;
-          _currentArea = CameraPosition(target: LatLng(location.latitude, location.longitude), zoom: _zoom);
-          notifyListeners();
+          _initialCameraPosition = CameraPosition(target: LatLng(location.latitude, location.longitude), zoom: 17);
+          _currentArea = CameraPosition(target: LatLng(location.latitude, location.longitude), zoom: 17);
+
+          // notifyListeners();
         });
       }
       else {
-        _initialCameraPosition = cities.first.position;
-        _zoom = cities.first.zoom;
-        notifyListeners();
+        _initialCameraPosition = _savedPosition ?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
+        // notifyListeners();
       }
     }
     else if(_permissionGranted == PermissionStatus.denied){
-      _initialCameraPosition = cities.first.position;
-      _zoom = cities.first.zoom;
+      _initialCameraPosition = _savedPosition ?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
       Future.delayed(Duration(seconds: 1), (){
         if(hasListeners) {
           notifyListeners();
@@ -140,8 +159,7 @@ class LocaleProvider extends ChangeNotifier {
       });
     }
     if(_permissionGranted == PermissionStatus.deniedForever){
-      _initialCameraPosition = cities.first.position;
-      _zoom = cities.first.zoom;
+      _initialCameraPosition = _savedPosition.target ?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
       // notifyListeners();
     }
   }
@@ -151,6 +169,7 @@ class LocaleProvider extends ChangeNotifier {
   int get currentPage => _currentPage;
   int get unreadMsgs => _unreadMsgs;
   Location get location => _location;
-  LatLng get initialCameraPosition => _initialCameraPosition;
-  double get zoom => _zoom;
+  CameraPosition get initialCameraPosition => _initialCameraPosition;
+  // double get zoom => _zoom;
+  CameraPosition get savedPosition => _savedPosition;
 }

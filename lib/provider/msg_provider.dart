@@ -17,11 +17,10 @@ import 'package:tadawl_app/provider/locale_provider.dart';
 
 class MsgProvider extends ChangeNotifier{
 
-  MsgProvider(BuildContext context ,String _phone, {this.adsId}){
+  MsgProvider(BuildContext context ,String _phone, {this.customMsg}){
     print('init MsgProvider');
-    if(adsId != null){
-      _messageController.text = 'بخصوص الإعلان رقم\n'
-          '$adsId';
+    if(customMsg != null){
+      _messageController.text = customMsg;
       _isTyping = true;
     }
     getConvInfo(_phone).then((value) {
@@ -48,7 +47,7 @@ class MsgProvider extends ChangeNotifier{
   }
 
   final FocusNode myFocusNode = FocusNode();
-  final String adsId;
+  final String customMsg;
   String _recAvatarUserName = 'Username';
   final StreamController<List<ConvModel>> _streamChatController = StreamController<List<ConvModel>>.broadcast();
   final ScrollController _scrollChatController = ScrollController();

@@ -135,7 +135,39 @@ class CustomDrawer extends StatelessWidget {
             children: <Widget>[
               Column(
                 children: [
-                  CustomDrawerHeader(),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                          onPressed: _launchURLTadawl,
+                          child: Text(
+                            'tadawl-store.com',
+                            style: CustomTextStyle(
+                              fontSize: 20,
+                              color: const Color(0xff04B404),
+                            ).getTextStyle(),
+                          ),
+                        ),
+                        TextButton(
+                          child: Container(
+                            width: 39.0,
+                            height: 39.0,
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              image: DecorationImage(
+                                image: const AssetImage('assets/images/logo22.png'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          onPressed: _launchURLTadawl,
+                        ),
+                      ],
+                    ),
+                  ),
+                  CustomDrawerHeader(locale.phone),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -143,12 +175,22 @@ class CustomDrawer extends StatelessWidget {
                           icon: Icons.add_outlined,
                           text: AppLocalizations.of(context).addAds,
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            PageTransition(type: PageTransitionType.bottomToTop,
-                                duration: Duration(milliseconds: 10),
-                                child: locale.phone != null ? AddAds() : Login(),),
-                          );
+                            if(locale.phone != null){
+                              Navigator.pushReplacement(
+                                context,
+                                PageTransition(type: PageTransitionType.bottomToTop,
+                                  duration: Duration(milliseconds: 10),
+                                  child: AddAds()),
+                              );
+                            }else{
+                              Navigator.push(
+                                context,
+                                PageTransition(type: PageTransitionType.bottomToTop,
+                                  duration: Duration(milliseconds: 10),
+                                  child: Login(),),
+                              );
+                            }
+
                         },
                       ),
                       DrawerButton(
@@ -179,6 +221,7 @@ class CustomDrawer extends StatelessWidget {
                           text: AppLocalizations.of(context).messages,
                           onPressed: () {
                             if(locale.phone != null){
+                              locale.setCurrentPage(3);
                               Navigator.pushReplacement(
                                 context,
                                 PageTransition(type: PageTransitionType.bottomToTop,
@@ -448,3 +491,7 @@ void _launchURLTwitter() async {
   // }
 }
 
+void _launchURLTadawl() async {
+  const url = 'https://tadawl-store.com/';
+  await launch(url);
+}

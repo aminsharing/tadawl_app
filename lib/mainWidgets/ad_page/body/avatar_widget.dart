@@ -4,7 +4,6 @@ import 'package:flutter_simple_rating_bar/flutter_simple_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -28,8 +27,8 @@ class AvatarWidget extends StatelessWidget {
     // final myAccountProv = Provider.of<MyAccountProvider>(context, listen: false);
     // final msgProv = Provider.of<MsgProvider>(context, listen: false);
 
-    return Consumer2<AdPageProvider, MutualProvider>(builder: (context, adsPage, mutualProv, child) {
-      if (mutualProv.adsUser != null) {
+    return Consumer<AdPageProvider>(builder: (context, adsPage, child) {
+      if (adsPage.adsUser != null) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -60,7 +59,7 @@ class AvatarWidget extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     adsPage.stopVideoAdsPage();
-                    // myAccountProv.goToAvatar(context, mutualProv.adsUser.phone).then((value) {
+                    // myAccountProv.goToAvatar(context, adsPage.adsUser.phone).then((value) {
                     //   myAccountProv.setWaitState(false);
                     // });
                     Navigator.push(
@@ -102,11 +101,11 @@ class AvatarWidget extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
-                                      image: mutualProv.adsUser.image == null || mutualProv.adsUser.image.isEmpty
+                                      image: adsPage.adsUser.image == null || adsPage.adsUser.image.isEmpty
                                           ?
                                       const AssetImage('assets/images/avatar.png')
                                           :
-                                      CachedNetworkImageProvider('https://tadawl-store.com/API/assets/images/avatar/${mutualProv.adsUser.image}'),
+                                      CachedNetworkImageProvider('https://tadawl-store.com/API/assets/images/avatar/${adsPage.adsUser.image}'),
                                       fit: BoxFit.fill,
                                     ),
                                   ),
@@ -186,7 +185,7 @@ class AvatarWidget extends StatelessWidget {
                                       padding: const EdgeInsets.fromLTRB(
                                           5, 0, 5, 0),
                                       child: Text(
-                                        mutualProv.adsUser.username ??
+                                        adsPage.adsUser.username ??
                                             'UserName',
                                         style: CustomTextStyle(
                                           fontSize: 15,
@@ -208,7 +207,7 @@ class AvatarWidget extends StatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    if (mutualProv.adsUser.phone !=
+                                    if (adsPage.adsUser.phone !=
                                         locale.phone)
                                       TextButton(
                                         onPressed: () {
@@ -220,16 +219,17 @@ class AvatarWidget extends StatelessWidget {
                                                     builder: (context) =>
                                                         Login()));
                                           } else {
-                                            // msgProv.setRecAvatarUserName(mutualProv.adsUser.username);
+                                            // msgProv.setRecAvatarUserName(adsPage.adsUser.username);
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       ChangeNotifierProvider<MsgProvider>(
-                                                        create: (context) => MsgProvider(context, locale.phone, adsId: mutualProv.adsPage.idAds,),
+                                                        create: (context) => MsgProvider(context, locale.phone, customMsg: 'بخصوص الإعلان رقم\n'
+                                                            '${adsPage.adsPage.idAds}',),
                                                         child: Discussion(
-                                                          mutualProv.adsUser.phone,
-                                                          username: mutualProv.adsUser.username,
+                                                          adsPage.adsUser.phone,
+                                                          username: adsPage.adsUser.username,
                                                         ),
                                                       )
                                               ),
@@ -262,7 +262,7 @@ class AvatarWidget extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                    if (mutualProv.adsUser.phone !=
+                                    if (adsPage.adsUser.phone !=
                                         locale.phone)
                                       TextButton(
                                         onPressed: () {
@@ -273,7 +273,7 @@ class AvatarWidget extends StatelessWidget {
                                           }
                                           myAccountProv.callNumber(
                                               context,
-                                              mutualProv.adsUser.phone
+                                              adsPage.adsUser.phone
                                           );
                                         },
                                         child: Container(

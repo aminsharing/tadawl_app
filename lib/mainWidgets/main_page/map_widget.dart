@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
@@ -52,7 +52,7 @@ class MapWidget extends StatelessWidget {
                       }
                     },
                     child:
-                    (_region_position??locale.initialCameraPosition) == null
+                    (_region_position?? locale.savedPosition ?? locale.initialCameraPosition) == null
                         ?
                     Padding(
                       padding: const EdgeInsets.all(50.0),
@@ -77,7 +77,7 @@ class MapWidget extends StatelessWidget {
                             mainPage.setShowDiogFalse();
                           }
                         },
-                        initialCameraPosition: _region_position ?? CameraPosition(target: locale.initialCameraPosition, zoom: locale.zoom),
+                        initialCameraPosition: _region_position ?? locale.savedPosition ?? locale.initialCameraPosition,
                         mapType: MapType.normal,
                         onMapCreated: _onMapCreated,
                         markers: mainPage.markersMainPage.toSet(),
@@ -90,7 +90,7 @@ class MapWidget extends StatelessWidget {
                         onCameraMove: (cameraPosition) {
                           final locale = Provider.of<LocaleProvider>(context, listen: false);
                           locale.currentArea = cameraPosition;
-
+                          locale.saveCurrentLocation(cameraPosition.target, cameraPosition.zoom);
                           if (cameraPosition.zoom <= 5) {
                             mainPage.zoomOutOfRange++;
                             if(mainPage.zoomOutOfRange == 1){
@@ -119,17 +119,17 @@ class MapWidget extends StatelessWidget {
                           children: <Widget>[
                             InkWell(
                               onTap: () {
-                                Provider.of<MutualProvider>(context, listen: false)
-                                    .getAllAdsPageInfo(
-                                    context,
-                                    mainPage.SelectedAdsModelMainPage.idDescription);
-                                Provider.of<MutualProvider>(
-                                    context, listen: false)
-                                    .getSimilarAdsList(context,
-                                    mainPage.SelectedAdsModelMainPage
-                                        .idCategory,
-                                    mainPage.SelectedAdsModelMainPage
-                                        .idDescription);
+                                // Provider.of<MutualProvider>(context, listen: false)
+                                //     .getAllAdsPageInfo(
+                                //     context,
+                                //     mainPage.SelectedAdsModelMainPage.idDescription);
+                                // Provider.of<MutualProvider>(
+                                //     context, listen: false)
+                                //     .getSimilarAdsList(context,
+                                //     mainPage.SelectedAdsModelMainPage
+                                //         .idCategory,
+                                //     mainPage.SelectedAdsModelMainPage
+                                //         .idDescription);
 
                                 if (mainPage.showDiaogSearchDrawer) {
                                   mainPage.setShowDiogFalse();
@@ -140,7 +140,11 @@ class MapWidget extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                AdPage()),
+                                                ChangeNotifierProvider<AdPageProvider>(
+                                                  create: (_) => AdPageProvider(context, mainPage.SelectedAdsModelMainPage.idDescription, mainPage.SelectedAdsModelMainPage.idCategory),
+                                                  child: AdPage(ads: mainPage.ads, selectedScreen: SelectedScreen.mainPage,) ,
+                                                )
+                                        ),
                                       );
                                     });
                               },

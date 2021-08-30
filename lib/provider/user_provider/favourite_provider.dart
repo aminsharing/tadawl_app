@@ -36,7 +36,7 @@ class FavouriteProvider extends ChangeNotifier{
           _UserAdsFavData.forEach((element) {
             _userAdsFav.add(AdsModel.ads(element));
           });
-          // notifyListeners();
+          notifyListeners();
         });
       }
     });

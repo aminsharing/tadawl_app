@@ -6,23 +6,28 @@ import 'package:tadawl_app/mainWidgets/ad_page/body/ad_info_widget/ad_view_table
 import 'package:tadawl_app/mainWidgets/ad_page/body/ad_info_widget/space_table.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/aqar_vr_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/ads/aqar_vr.dart';
+import 'package:tadawl_app/screens/ads/update_details.dart';
 import 'package:tadawl_app/screens/ads/upgrade_ad_screen.dart';
 import 'ad_info_widget/ad_qf_table.dart';
 
 class AdInfoWidget extends StatelessWidget {
-  AdInfoWidget({Key key}) : super(key: key);
+  AdInfoWidget({
+    Key key,
+    @required this.ads
+  }) : super(key: key);
+  final List<AdsModel> ads;
 
   @override
   Widget build(BuildContext context) {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     var mediaQuery = MediaQuery.of(context);
 
-    return Consumer2<AdPageProvider, MutualProvider>(builder: (context, adsPage, mutualProv, child) {
+    return Consumer<AdPageProvider>(builder: (context, adsPage, child) {
       return Column(
         children: [
           Padding(
@@ -33,13 +38,13 @@ class AdInfoWidget extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     adsPage.stopVideoAdsPage();
-                    Share.share('${mutualProv.qrData}');
+                    Share.share('${adsPage.qrData}');
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${mutualProv.adsPage.ads_city??'غير محدد'} - ${mutualProv.adsPage.ads_neighborhood??'غير محدد'}',
+                        '${adsPage.adsPage.ads_city??'غير محدد'} - ${adsPage.adsPage.ads_neighborhood??'غير محدد'}',
                         style: CustomTextStyle(
                           fontSize: 11,
                           color: Colors.grey,
@@ -47,7 +52,7 @@ class AdInfoWidget extends StatelessWidget {
                         textAlign: TextAlign.right,
                       ),
                       Text(
-                        '${mutualProv.adsPage.ads_road??'غير محدد'}',
+                        '${adsPage.adsPage.ads_road??'غير محدد'}',
                         style: CustomTextStyle(
                           fontSize: 11,
                           color: Colors.grey,
@@ -65,49 +70,133 @@ class AdInfoWidget extends StatelessWidget {
                   ),
                   onPressed: () {
                     adsPage.stopVideoAdsPage();
-                    Share.share('${mutualProv.qrData}');
+                    Share.share('${adsPage.qrData}');
                   },
                 ),
               ],
             ),
           ),
-          if (mutualProv.adsUser != null)
-            if (mutualProv.adsUser.phone == locale.phone)
-              GestureDetector(
-                onTap: (){
-                  // TODO Add upgrade ads function
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => UpgradeAdScreen()));
-                },
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(65, 15, 65, 0),
-                  child: Container(
-                    width: mediaQuery.size.width,
-                    height: 40.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      border: Border.all(
-                          width: 1.0, color: const Color(0xffe6e600)),
-                    ),
-                    child: Center(
-                      child: Text(
-                        AppLocalizations.of(context).advUpgrade,
-                        style: CustomTextStyle(
-                          fontSize: 16,
-                          color: const Color(0xff989696),
-                          // color: const Color(0xffe6e600),
-                        ).getTextStyle(),
-                        textAlign: TextAlign.center,
+          if (adsPage.adsUser != null)
+            if (adsPage.adsUser.phone == locale.phone)
+              Wrap(
+                children: [
+                  GestureDetector(
+                    onTap: (){
+                      // TODO Add upgrade ads function
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => UpgradeAdScreen()));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 15, 5, 0),
+                      child: Container(
+                        width: mediaQuery.size.width * .3,
+                        height: 40.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(1.0),
+                          border: Border.all(
+                              width: 1.0, color: const Color(0xffe6e600)),
+                        ),
+                        child: Center(
+                          child: Text(
+                            AppLocalizations.of(context).advUpgrade,
+                            style: CustomTextStyle(
+                              fontSize: 16,
+                              color: const Color(0xff989696),
+                              // color: const Color(0xffe6e600),
+                            ).getTextStyle(),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
+                  if(adsPage.adsVR.isEmpty)
+                    Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 15, 5, 0),
+                    child: GestureDetector(
+                      onTap: () {
+                        adsPage.stopVideoAdsPage();
+                        Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                            ChangeNotifierProvider<AqarVRProvider>(
+                              create: (_) => AqarVRProvider(),
+                              child: AqarVR(),
+                            )
+                        ));
+                      },
+                      child: Container(
+                        width: mediaQuery.size.width * .3,
+                        height: 40.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(1.0),
+                          border: Border.all(
+                              width: 1.0,
+                              color: const Color(0xff00cccc)),
+                        ),
+                        child: Center(
+                          child: Text(
+                            AppLocalizations.of(context).reVR,
+                            style: CustomTextStyle(
+                              fontSize: 16,
+                              color: const Color(0xff989696),
+                              // color: const Color(0xff00cccc),
+                            ).getTextStyle(),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 15, 5, 0),
+                    child: GestureDetector(
+                      onTap: () {
+                        if(adsPage.videoControllerAdsPage != null) {
+                          adsPage.videoControllerAdsPage.pause();
+                        }
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                UpdateDetails(
+                                  adsPage.idDescription,
+                                  ads: ads,
+                                  adsBF: adsPage.adsBF,
+                                  adsQF: adsPage.adsQF,
+                                  adsPage: adsPage.adsPage,
+                                )
+                            )
+                        );
+                      },
+                      child: Container(
+                        width: mediaQuery.size.width * .3,
+                        height: 40.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(1.0),
+                          border: Border.all(
+                              width: 1.0,
+                              color: const Color(0xff04B404)),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'تعديل الإعلان',
+                            style: CustomTextStyle(
+                              fontSize: 16,
+                              color: const Color(0xff989696),
+                              // color: const Color(0xff00cccc),
+                            ).getTextStyle(),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-          if (mutualProv.adsVR.isNotEmpty)
+          if (adsPage.adsVR.isNotEmpty)
             Padding(
               padding: const EdgeInsets.fromLTRB(65, 15, 65, 0),
               child: Column(
                 children: [
-                  if (mutualProv.adsVR.first.state_aqar == '1')
+                  if (adsPage.adsVR.first.state_aqar == '1')
                     Container(
                       width: mediaQuery.size.width,
                       height: 40.0,
@@ -141,7 +230,7 @@ class AdInfoWidget extends StatelessWidget {
                         ],
                       ),
                     )
-                  else if (mutualProv.adsVR.first.state_aqar == '0')
+                  else if (adsPage.adsVR.first.state_aqar == '0')
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                       child: Text(
@@ -156,46 +245,9 @@ class AdInfoWidget extends StatelessWidget {
                 ],
               ),
             ),
-          if (mutualProv.adsUser != null)
-            if (mutualProv.adsUser.phone == locale.phone)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(65, 15, 65, 0),
-                child: TextButton(
-                  onPressed: () {
-                    adsPage.stopVideoAdsPage();
-                    Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                        ChangeNotifierProvider<AqarVRProvider>(
-                          create: (_) => AqarVRProvider(),
-                          child: AqarVR(),
-                        )
-                    ));
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 40.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      border: Border.all(
-                          width: 1.0,
-                          color: const Color(0xff00cccc)),
-                    ),
-                    child: Center(
-                      child: Text(
-                        AppLocalizations.of(context).reVR,
-                        style: CustomTextStyle(
-                          fontSize: 16,
-                          color: const Color(0xff989696),
-                          // color: const Color(0xff00cccc),
-                        ).getTextStyle(),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
           /// زر اجعل العقار فريداً
-          // if (mutualProv.adsUser != null)
-          //   if (mutualProv.adsUser.phone == locale.phone)
+          // if (adsPage.adsUser != null)
+          //   if (adsPage.adsUser.phone == locale.phone)
           //     Padding(
           //       padding: const EdgeInsets.fromLTRB(65, 15, 65, 0),
           //       child: TextButton(
@@ -289,15 +341,15 @@ class AdInfoWidget extends StatelessWidget {
           //     ),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-            child: SpaceTable(adsPage: mutualProv.adsPage,),
+            child: SpaceTable(adsPage: adsPage.adsPage,),
 // space ......................
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: Column(
               children: [
-                if (mutualProv.adsQF.isNotEmpty)
-                  AdQFTable(adsQF: mutualProv.adsQF,),
+                if (adsPage.adsQF.isNotEmpty)
+                  AdQFTable(adsQF: adsPage.adsQF,),
 // quatity features ads ...........................
               ],
             ),
@@ -306,8 +358,8 @@ class AdInfoWidget extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: Column(
               children: [
-                if (mutualProv.adsBF.isNotEmpty)
-                  AdBFTable(adsBF: mutualProv.adsBF),
+                if (adsPage.adsBF.isNotEmpty)
+                  AdBFTable(adsBF: adsPage.adsBF),
               ],
             ),
           ),
@@ -316,8 +368,8 @@ class AdInfoWidget extends StatelessWidget {
             child: Column(
               children: [
                 AdViewTable(
-                  views: mutualProv.adsPage.views,
-                  idDescription: mutualProv.adsPage.idAds,
+                  views: adsPage.adsPage.views,
+                  idDescription: adsPage.adsPage.idAds,
                 ),
               ],
             ),

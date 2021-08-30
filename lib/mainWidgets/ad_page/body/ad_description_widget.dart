@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 class AdDescriptionWidget extends StatelessWidget {
@@ -15,7 +14,7 @@ class AdDescriptionWidget extends StatelessWidget {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     var mediaQuery = MediaQuery.of(context);
 
-    return Consumer2<AdPageProvider, MutualProvider>(builder: (context, adsPage, mutualProv, child) {
+    return Consumer<AdPageProvider>(builder: (context, adsPage, child) {
       return Column(
         children: [
           Padding(
@@ -31,8 +30,8 @@ class AdDescriptionWidget extends StatelessWidget {
                   ).getTextStyle(),
                   textAlign: TextAlign.center,
                 ),
-                if( mutualProv.adsUser != null)
-                  if( mutualProv.adsUser.phone == locale.phone)
+                if( adsPage.adsUser != null)
+                  if( adsPage.adsUser.phone == locale.phone)
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                       child: adsPage.busyAdsPage
@@ -41,16 +40,16 @@ class AdDescriptionWidget extends StatelessWidget {
                           :
                       TextButton(
                         onPressed: () {
-                          if(DateTime.now().difference(DateTime.parse(mutualProv.adsPage.timeUpdated)).inMinutes - 180 > 60){
+                          if(DateTime.now().difference(DateTime.parse(adsPage.adsPage.timeUpdated)).inMinutes - 180 > 60){
                             adsPage.stopVideoAdsPage();
-                            adsPage.updateAdsAdsPage(context, mutualProv.adsPage.idDescription).then((value) {
-                              mutualProv.getAllAdsPageInfo(context, mutualProv.adsPage.idDescription);
+                            adsPage.updateAdsAdsPage(context, adsPage.adsPage.idDescription).then((value) {
+                              adsPage.getAllAdsPageInfo(context, adsPage.adsPage.idDescription);
                             });
                           }
                           else{
                             Fluttertoast.showToast(
                                 msg:
-                                'ستتمكن من التحديث بعد ${24-(DateTime.now().difference(DateTime.parse(mutualProv.adsPage.timeUpdated)).inMinutes - 180)} دقيقة',
+                                'ستتمكن من التحديث بعد ${24-(DateTime.now().difference(DateTime.parse(adsPage.adsPage.timeUpdated)).inMinutes - 180)} دقيقة',
                                 toastLength: Toast.LENGTH_SHORT,
                                 gravity: ToastGravity.BOTTOM,
                                 timeInSecForIosWeb: 1,
@@ -67,7 +66,7 @@ class AdDescriptionWidget extends StatelessWidget {
                                 5.0),
                             border: Border.all(
                                 width: 1.0,
-                                color: DateTime.now().difference(DateTime.parse(mutualProv.adsPage.timeUpdated)).inMinutes - 180 > 60?
+                                color: DateTime.now().difference(DateTime.parse(adsPage.adsPage.timeUpdated)).inMinutes - 180 > 60?
                                 const Color(0xff3f9d28):
                                 Colors.grey
                             ),
@@ -77,7 +76,7 @@ class AdDescriptionWidget extends StatelessWidget {
                               AppLocalizations.of(context).updateAds,
                               style: CustomTextStyle(
                                 fontSize: 15,
-                                color: DateTime.now().difference(DateTime.parse(mutualProv.adsPage.timeUpdated)).inMinutes - 180 > 60?
+                                color: DateTime.now().difference(DateTime.parse(adsPage.adsPage.timeUpdated)).inMinutes - 180 > 60?
                                 const Color(0xff3f9d28):
                                 Colors.grey,
                               ).getTextStyle(),
@@ -98,7 +97,7 @@ class AdDescriptionWidget extends StatelessWidget {
               children: <Widget>[
                 Flexible(
                   child: Text(
-                    mutualProv.adsPage.description ?? '',
+                    adsPage.adsPage.description ?? '',
                     style: CustomTextStyle(
                       fontSize: 17,
                       color: const Color(0xff000000),

@@ -47,7 +47,7 @@ class AdButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              flex: 1,
+              flex: 2,
               child: Stack(children: [
                 Container(
                   width: mediaQuery.size.width*.34,
@@ -76,100 +76,119 @@ class AdButton extends StatelessWidget {
                     ),
                   ),
                 ),
+
               ]),
             ),
-            if (idSpecial == '1')
-              Padding(
-                padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
-                child: Icon(
-                  Icons.verified,
-                  color:
-                  Color(0xffe6e600),
-                  size: 30,
-                ),
-              ),
-            if(updateBtn)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(
-                    10, 5, 10, 5),
-                child:
-                DateTime.now().difference(DateTime.parse(timeUpdated)).inMinutes - 180 > 60
-                    ?
-                TextButton(
-                  onPressed: updateBtnPressed,
-                  child: Container(
-                    width: mediaQuery.size.width *
-                        0.15,
-                    height: 35.0,
-                    decoration: BoxDecoration(
-                      borderRadius:
-                      BorderRadius.circular(
-                          5.0),
-                      border: Border.all(
-                          width: 1.0,
-                          color: const Color(
-                              0xff3f9d28)),
-                    ),
-                    child: Center(
-                      child: Text(
-                        AppLocalizations.of(
-                            context)
-                            .updateAds,
-                        style:
-                        CustomTextStyle(
+            Column(
+              children: [
+                if(updateBtn)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                    child:
+                    DateTime.now().difference(DateTime.parse(timeUpdated)).inMinutes - 180 > 60
+                        ?
+                    TextButton(
+                      onPressed: updateBtnPressed,
+                      child: Container(
+                        width: mediaQuery.size.width *
+                            0.15,
+                        height: 35.0,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                          BorderRadius.circular(
+                              5.0),
+                          border: Border.all(
+                              width: 1.0,
+                              color: const Color(
+                                  0xff3f9d28)),
+                        ),
+                        child: Center(
+                          child: Text(
+                            AppLocalizations.of(
+                                context)
+                                .updateAds,
+                            style:
+                            CustomTextStyle(
 
-                          fontSize: 15,
-                          color: const Color(
-                              0xff3f9d28),
-                        ).getTextStyle(),
-                        textAlign:
-                        TextAlign.center,
+                              fontSize: 15,
+                              color: const Color(
+                                  0xff3f9d28),
+                            ).getTextStyle(),
+                            textAlign:
+                            TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    )
+                        :
+                    TextButton(
+                      onPressed: (){
+                        Fluttertoast.showToast(
+                            msg:
+                            'ستتمكن من التحديث بعد ${60-(DateTime.now().difference(DateTime.parse(timeUpdated)).inMinutes - 180)} دقيقة',
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            textColor: Colors.white,
+                            fontSize: 15.0);
+                      },
+                      child: Container(
+                        width: mediaQuery.size.width *
+                            0.15,
+                        height: 35.0,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                          BorderRadius.circular(
+                              5.0),
+                          border: Border.all(
+                              width: 1.0,
+                              color: Colors.grey),
+                        ),
+                        child: Center(
+                          child: Text(
+                            AppLocalizations.of(
+                                context)
+                                .updateAds,
+                            style:
+                            CustomTextStyle(
+
+                              fontSize: 15,
+                              color: Colors.grey,
+                            ).getTextStyle(),
+                            textAlign:
+                            TextAlign.center,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                )
-                    :
-                TextButton(
-                  onPressed: (){
-                    Fluttertoast.showToast(
-                        msg:
-                        'ستتمكن من التحديث بعد ${60-(DateTime.now().difference(DateTime.parse(timeUpdated)).inMinutes - 180)} دقيقة',
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                        textColor: Colors.white,
-                        fontSize: 15.0);
-                  },
-                  child: Container(
-                    width: mediaQuery.size.width *
-                        0.15,
-                    height: 35.0,
-                    decoration: BoxDecoration(
-                      borderRadius:
-                      BorderRadius.circular(
-                          5.0),
-                      border: Border.all(
-                          width: 1.0,
-                          color: Colors.grey),
-                    ),
-                    child: Center(
-                      child: Text(
-                        AppLocalizations.of(
-                            context)
-                            .updateAds,
-                        style:
-                        CustomTextStyle(
-
-                          fontSize: 15,
-                          color: Colors.grey,
-                        ).getTextStyle(),
-                        textAlign:
-                        TextAlign.center,
+                if (idSpecial == '1')
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
+                      child: Icon(
+                        Icons.verified,
+                        color:
+                        Color(0xffe6e600),
+                        size: 30,
                       ),
                     ),
                   ),
-                ),
-              ),
+                if ((video??'').isNotEmpty)
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                      child: Icon(
+                        Icons.videocam_outlined,
+                        color: Color(0xff00cccc),
+                        size: 30,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
             Flexible(
               flex: 2,
               child: Column(
@@ -241,15 +260,6 @@ class AdButton extends StatelessWidget {
                               fontSize: 10,
                               color: const Color(0xff000000),
                             ).getTextStyle(),
-                          ),
-                        if ((video??'').isNotEmpty)
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                            child: Icon(
-                              Icons.videocam_outlined,
-                              color: Color(0xff00cccc),
-                              size: 30,
-                            ),
                           ),
                       ],
                     ),

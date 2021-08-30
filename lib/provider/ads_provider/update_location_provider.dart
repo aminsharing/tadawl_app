@@ -3,9 +3,10 @@ import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
+import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/models/RegionModel.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
 
 class UpdateLocationProvider extends ChangeNotifier{
@@ -125,6 +126,7 @@ class UpdateLocationProvider extends ChangeNotifier{
       String ads_road,
       String ads_cordinates_lat,
       String ads_cordinates_lng,
+      List<AdsModel> ads
       ) async {
     Future.delayed(Duration(milliseconds: 0), () {
       Api().updateLocationFunc(
@@ -137,13 +139,18 @@ class UpdateLocationProvider extends ChangeNotifier{
       );
     });
 
-    Provider.of<MutualProvider>(context, listen: false)
-        .getAllAdsPageInfo(context, id_description);
+    // Provider.of<MutualProvider>(context, listen: false)
+    //     .getAllAdsPageInfo(context, id_description);
 
     Future.delayed(Duration(seconds: 0), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => AdPage()),
+        MaterialPageRoute(builder: (context) =>
+            ChangeNotifierProvider<AdPageProvider>(
+              create: (_) => AdPageProvider(context, id_description, null),
+              child: AdPage(ads: ads, selectedScreen: SelectedScreen.menu),
+            )
+            ),
       );
     });
   }

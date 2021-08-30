@@ -182,6 +182,7 @@ class AdsModel {
   AdsModel.adsNavigation(Map<String, dynamic> json) {
     idDescription = json['id_description'];
     idCategory = json['id_category'];
+    timeUpdated = json['timeUpdated'];
   }
 
   // ignore: sort_constructors_first

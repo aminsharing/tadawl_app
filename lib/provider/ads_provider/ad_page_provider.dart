@@ -3,22 +3,43 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:tadawl_app/main.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
+import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/special_offers_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/today_ads_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/update_img_vid_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/update_location_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
+import 'package:tadawl_app/provider/user_provider/favourite_provider.dart';
+import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
+import 'package:tadawl_app/screens/account/favourite.dart';
 import 'package:tadawl_app/screens/account/login.dart';
+import 'package:tadawl_app/screens/account/my_ads.dart';
+import 'package:tadawl_app/screens/ads/main_page.dart';
+import 'package:tadawl_app/screens/ads/menu.dart';
+import 'package:tadawl_app/screens/ads/special_offers.dart';
+import 'package:tadawl_app/screens/ads/today_ads.dart';
 import 'package:tadawl_app/screens/ads/update_details.dart';
 import 'package:tadawl_app/screens/ads/update_images_video.dart';
 import 'package:tadawl_app/screens/ads/update_location.dart';
 import 'package:video_player/video_player.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:tadawl_app/models/BFModel.dart';
+import 'package:tadawl_app/models/QFModel.dart';
+import 'package:tadawl_app/models/UserModel.dart';
+import 'package:tadawl_app/models/views_series.dart';
+import 'package:tadawl_app/screens/ads/ad_page.dart';
 
 class AdPageProvider extends ChangeNotifier{
-  AdPageProvider(){
+  AdPageProvider(BuildContext context, String idDescription, String idCategory){
     print('init AdPageProvider');
+    getAllAdsPageInfo(context, idDescription);
+    if(idCategory != null) {
+      getSimilarAdsList(context, idCategory, idDescription);
+    }
   }
 
   VideoPlayerController _videoControllerAdsPage;
@@ -33,14 +54,21 @@ class AdPageProvider extends ChangeNotifier{
   final Set<Marker> _markersUpdateLoc = {};
   final ScrollController _scrollController = ScrollController();
   int _expendedListCount = 4;
+  PageController _adController = PageController();
 
   @override
   void dispose() {
     print('dispose AdPageProvider');
+    _adController.dispose();
     clearFav();
     if (_videoControllerAdsPage != null) {
       stopVideoAdsPage();
+      _videoControllerAdsPage.dispose();
     }
+    if(_chewieControllerAdsPage != null){
+      _chewieControllerAdsPage.dispose();
+    }
+    _controllerAdsPage.dispose();
     _scrollController.dispose();
     clearExpendedListCount();
     super.dispose();
@@ -55,7 +83,7 @@ class AdPageProvider extends ChangeNotifier{
     _expendedListCount = 4;
   }
 
-  void choiceAction(BuildContext context, String choice, String idDescription) {
+  void choiceAction(BuildContext context, String choice, String idDescription, List<AdsModel> ads, SelectedScreen selectedScreen) {
     if (choice == 'تعديل الصور والفيديو' || choice == 'Update Images and Videos') {
       if(_videoControllerAdsPage != null) {
         _videoControllerAdsPage.pause();
@@ -64,8 +92,8 @@ class AdPageProvider extends ChangeNotifier{
           ChangeNotifierProvider<UpdateImgVedProvider>(
             create: (_) => UpdateImgVedProvider(),
             child: ChangeNotifierProvider<AdPageProvider>.value(
-              value: AdPageProvider(),
-              child: UpdateImgVed(idDescription),
+              value: AdPageProvider(context, _AdsPage.idDescription, _AdsPage.idCategory),
+              child: UpdateImgVed(idDescription, ads: ads),
             )
           )
       ));
@@ -77,7 +105,13 @@ class AdPageProvider extends ChangeNotifier{
       Navigator.push(context, MaterialPageRoute(builder: (context) =>
           ChangeNotifierProvider<UpdateLocationProvider>(
             create: (_) => UpdateLocationProvider(),
-            child: UpdateLocation(idDescription),
+            child: UpdateLocation(
+                idDescription, ads: ads,
+              lat: _AdsPage.lat,
+              lng: _AdsPage.lng,
+              ads_city: _AdsPage.ads_city,
+              ads_neighborhood: _AdsPage.ads_neighborhood,
+            ),
           )
           ));
     }
@@ -85,10 +119,92 @@ class AdPageProvider extends ChangeNotifier{
       if(_videoControllerAdsPage != null) {
         _videoControllerAdsPage.pause();
       }
-      Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateDetails(idDescription)));
+      Navigator.push(
+          context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    UpdateDetails(
+                      idDescription,
+                      ads: ads,
+                      adsBF: _AdsBF,
+                      adsQF: _AdsQF,
+                      adsPage: _AdsPage,
+                )
+            )
+      );
     }
     else if (choice == 'حذف الإعلان' || choice == 'Delete Ad') {
-      onDeletePressed(context, idDescription);
+      final _phone = Provider.of<LocaleProvider>(context, listen: false).phone;
+      onDeletePressed(context, idDescription).then((value) async{
+        Navigator.pop(context);
+        if(selectedScreen == SelectedScreen.menu){
+          await Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    ChangeNotifierProvider<MenuProvider>(
+                      create: (_) => MenuProvider(),
+                      child: ChangeNotifierProvider<SearchDrawerProvider>(
+                        create: (_) => SearchDrawerProvider(),
+                        child: Menu(),
+                      ),
+                    ),
+              )
+          );
+        }else if (selectedScreen == SelectedScreen.mainPage){
+          await Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    MainPage(null),
+              )
+          );
+        }else if (selectedScreen == SelectedScreen.myAds){
+          await Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    ChangeNotifierProvider<MyAccountProvider>(
+                      create: (_) => MyAccountProvider(_phone),
+                      child: MyAds(),
+                    ),
+              )
+          );
+        }else if (selectedScreen == SelectedScreen.todayAds){
+          await Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    ChangeNotifierProvider<TodayAdsProvider>(
+                      create: (_) => TodayAdsProvider(context),
+                      child: TodayAds(),
+                    ),
+              )
+          );
+        }else if (selectedScreen == SelectedScreen.adSpecial){
+          await Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    ChangeNotifierProvider<SpecialOffersProvider>(
+                      create: (_) => SpecialOffersProvider(context),
+                      child: SpecialOffers(),
+                    ),
+              )
+          );
+        }else if (selectedScreen == SelectedScreen.favorite){
+          await Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    ChangeNotifierProvider<FavouriteProvider>(
+                      create: (_) => FavouriteProvider(_phone),
+                      child: Favourite(),
+                    ),
+              )
+          );
+        }
+      });
     }
   }
 
@@ -182,12 +298,11 @@ class AdPageProvider extends ChangeNotifier{
         actions: <Widget>[
           GestureDetector(
             onTap: () {
-              deleteAdsFunc(context, idDescription);
-              Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
-              Navigator.pushAndRemoveUntil(context,
-              MaterialPageRoute(builder: (context) => MyApp()),
-                      (route) => false
-              );
+              deleteAdsFunc(context, idDescription).then((value) {
+                Navigator.of(context).pop(true);
+              });
+              // Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
+
             },
             child: Text(
               'نعم',
@@ -252,16 +367,302 @@ class AdPageProvider extends ChangeNotifier{
 
 
 
-  void deleteAdsFunc(BuildContext context, String idDescription) async {
-    Future.delayed(Duration(milliseconds: 0), () {
-      Api().deleteAdsFunc(context, idDescription);
-    });
+  Future<void> deleteAdsFunc(BuildContext context, String idDescription) async {
+    return Api().deleteAdsFunc(context, idDescription);
+  }
+
+  PageController setControllerIndex(int currentIndex){
+    _adController = PageController(initialPage: currentIndex);
+    return _adController;
+  }
+
+  void nextIndex(){
+    _adController.nextPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+  }
+
+  void previousIndex(){
+    _adController.previousPage(duration: Duration(milliseconds: 500), curve: Curves.easeOut);
   }
 
   void update() {
     notifyListeners();
   }
 
+
+  /// Mutual Provider
+  ///
+  AdsModel _AdsPage;
+  final List<AdsModel> _AdsPageImages = [];
+  List _adsPageImagesData = [];
+  final List<AdsModel> _AdsSimilar = [];
+  List _adsSimilarData = [];
+  UserModel _AdsUser;
+  final List<AdsModel> _AdsVR = [];
+  List _adsVRData = [];
+  final List<BFModel> _AdsBF = [];
+  List _adsBFData = [];
+  final List<QFModel> _AdsQF = [];
+  List _adsQFData = [];
+  List<AdsModel> _AdsNavigation = [];
+  List _adsNavigationData = [];
+  final List<ViewsSeriesModel> _AdsViews = [];
+  List _adsViewsData = [];
+  String _qrData = 'https://play.google.com/store/apps/details?id=com.tadawlapp.tadawl_app';
+  double leftMargin, topMargin;
+  String _idDescription;
+
+
+  bool _is_favAdsPageDB = false;
+
+
+
+
+
+
+
+
+  void sendEstimate(BuildContext context, String phone, String phoneEstimated, String rating, String comment, String idDescription, List<AdsModel> _userAds) async {
+    Future.delayed(Duration(milliseconds: 0), () {
+      Api().sendEstimateFunc(phone, phoneEstimated, rating, comment);
+    });
+    getAllAdsPageSendEs(context, idDescription);
+    Future.delayed(Duration(seconds: 0), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) =>
+            ChangeNotifierProvider<AdPageProvider>(
+              create: (_) => AdPageProvider(context, _AdsPage.idDescription, _AdsPage.idCategory),
+              child: AdPage(ads: _userAds, selectedScreen: SelectedScreen.myAds),
+            )
+
+        ),
+      );
+    });
+  }
+
+  void getAdsPageList(BuildContext context, String idDescription) {
+    Future.delayed(Duration(milliseconds: 0), () {
+      getFavStatus(context);
+      Api().getAdsPageFunc(idDescription).then((value) {
+        _AdsPage = AdsModel.adsPage(value);
+        _qrData = 'https://tadawl-store.com/${_AdsPage.idAds}/ads';
+        if((_AdsPage.video??'').isNotEmpty) {
+          setVideoAdsPage(_AdsPage.video);
+        }
+        notifyListeners();
+      });
+    });
+  }
+
+  void getFavStatus(BuildContext context) async{
+    final locale = Provider.of<LocaleProvider>(context, listen: false);
+    if(locale.phone != null){
+      await Api().getFavStatusFunc(locale.phone, _idDescription).then((value) {
+        _is_favAdsPageDB = value;
+      });
+    }
+  }
+
+  void getImagesAdsPageList(BuildContext context, String idDescription) {
+    Future.delayed(Duration(milliseconds: 0), () {
+      _AdsPageImages.clear();
+      Api().getImagesAdsPageFunc(idDescription)
+          .then((value) {
+        _adsPageImagesData = value;
+        _adsPageImagesData.forEach((element) {
+          _AdsPageImages.add(AdsModel.adsPageImages(element));
+        });
+        notifyListeners();
+      });
+    });
+  }
+
+  void getSimilarAdsList(BuildContext context, String idCategory, String idAds) {
+    Future.delayed(Duration(milliseconds: 0), () {
+      _AdsSimilar.clear();
+      Api().getSimilarAdsFunc(idCategory, idAds)
+          .then((value) {
+        _adsSimilarData = value;
+        _adsSimilarData.forEach((element) {
+          _AdsSimilar.add(AdsModel.ads(element));
+        });
+
+        // Provider.of<AdsProvider>(context, listen: false).update();
+        notifyListeners();
+      });
+    });
+  }
+
+  void getUserAdsPageInfo(BuildContext context, String idDescription) {
+    Future.delayed(Duration(milliseconds: 0), () {
+      Api().getAdsPageFunc(idDescription).then((value) {
+        _AdsUser = UserModel.adsUser(value);
+      });
+    });
+  }
+
+  void getAdsVRInfo(BuildContext context, String idDescription) {
+    Future.delayed(Duration(milliseconds: 0), () {
+      _AdsVR.clear();
+      Api().getAqarVRFunc(idDescription).then((value) {
+        _adsVRData = value;
+        _adsVRData.forEach((element) {
+          _AdsVR.add(AdsModel.adsVR(element));
+        });
+        notifyListeners();
+      });
+    });
+  }
+
+  void getBFAdsPageList(BuildContext context, String idDescription) {
+    Future.delayed(Duration(milliseconds: 0), () {
+      _AdsBF.clear();
+      Api().getBFAdsPageFunc(idDescription)
+          .then((value) {
+        _adsBFData = value;
+        _adsBFData.forEach((element) {
+          _AdsBF.add(BFModel.fromJson(element));
+        });
+        notifyListeners();
+      });
+    });
+  }
+
+  void getQFAdsPageList(BuildContext context, String idDescription) {
+    Future.delayed(Duration(milliseconds: 0), () {
+      _AdsQF.clear();
+      Api()
+          .getQFAdsPageFunc(idDescription)
+          .then((value) {
+        _adsQFData = value;
+        _adsQFData.forEach((element) {
+          _AdsQF.add(QFModel.fromJson(element));
+        });
+        notifyListeners();
+      });
+    });
+  }
+
+  void getNavigationAdsPageList(BuildContext context) {
+    Future.delayed(Duration(milliseconds: 0), () {
+      _AdsNavigation.clear();
+      Api().getNavigationFunc().then((value) {
+        _adsNavigationData = value;
+        _adsNavigationData.forEach((element) {
+          _AdsNavigation.add(AdsModel.adsNavigation(element));
+        });
+
+        // ignore: omit_local_variable_types
+        final List<AdsModel> _specialAds = <AdsModel>[];
+        _AdsNavigation.forEach((element) {
+          if(element.idSpecial == '1'){
+            _specialAds.add(element);
+          }
+        });
+        _specialAds.forEach((element) {
+          _AdsNavigation.remove(element);
+        });
+        _AdsNavigation.sort((a, b) {
+          return a.timeUpdated.compareTo(b.timeUpdated);
+        });
+        _AdsNavigation = [..._specialAds, ..._AdsNavigation.reversed.toList()];
+        notifyListeners();
+      });
+    });
+  }
+
+  void getViewsChartInfo(BuildContext context, String idDescription) {
+    Future.delayed(Duration(milliseconds: 0), () {
+      _AdsViews.clear();
+      Api()
+          .getViewsChartFunc(idDescription)
+          .then((value) {
+        _adsViewsData = value;
+        _adsViewsData.forEach((element) {
+          _AdsViews.add(ViewsSeriesModel(
+            day: element['title'],
+            views: int.parse(element['views']),
+            barColor: charts.ColorUtil.fromDartColor(Color(0xff00cccc)),
+          ));
+        });
+        notifyListeners();
+      });
+    });
+  }
+
+  void setIdDescription(String idDescription) {
+    _idDescription = idDescription;
+    // notifyListeners();
+  }
+
+  int countAdsPageImages() {
+    if (_AdsPageImages.isNotEmpty) {
+      return _AdsPageImages.length;
+    } else {
+      return 0;
+    }
+  }
+
+  int countAdsSimilar() {
+    if (_AdsSimilar.isNotEmpty) {
+      return _AdsSimilar.length;
+    } else {
+      return 0;
+    }
+  }
+
+  void updateViews(BuildContext context, String idDescription) async {
+    Future.delayed(Duration(milliseconds: 0), () {
+      if (_AdsPage != null) {
+        var _viewsAds = double.parse(_AdsPage.views) + 1;
+        Api().updateViewsFunc(
+            _AdsPage.idAds, _viewsAds.toString());
+        getAdsPageList(context, idDescription);
+      }
+    });
+    //notifyListeners();
+  }
+
+  void getAllAdsPageInfo(BuildContext context, String idDescription){
+    getAdsPageList(context, idDescription);
+    getImagesAdsPageList(context, idDescription);
+    getUserAdsPageInfo(context, idDescription);
+    getAdsVRInfo(context, idDescription);
+    getBFAdsPageList(context, idDescription);
+    getQFAdsPageList(context, idDescription);
+    getViewsChartInfo(context, idDescription);
+    getNavigationAdsPageList(context);
+    setIdDescription(idDescription);
+  }
+
+  void getAllAdsPageSendEs(BuildContext context, String idDescription){
+    getAdsPageList(context, idDescription);
+    getImagesAdsPageList(context, idDescription);
+    getUserAdsPageInfo(context, idDescription);
+    getAdsVRInfo(context, idDescription);
+    setIdDescription(idDescription);
+  }
+
+  void clearAdsUser(){
+    _AdsUser = null;
+  }
+
+
+
+  String get qrData => _qrData;
+  AdsModel get adsPage => _AdsPage;
+  List<AdsModel> get adsPageImages => _AdsPageImages;
+  List<AdsModel> get adsSimilar => _AdsSimilar;
+  UserModel get adsUser => _AdsUser;
+  List<AdsModel> get adsVR => _AdsVR;
+  List<BFModel> get adsBF => _AdsBF;
+  List<QFModel> get adsQF => _AdsQF;
+  List<AdsModel> get adsNavigation => _AdsNavigation;
+  List<ViewsSeriesModel> get adsViews => _AdsViews;
+  String get idDescription => _idDescription;
+
+
+  bool get is_favAdsPageDB => _is_favAdsPageDB;
 
 
   VideoPlayerController get videoControllerAdsPage => _videoControllerAdsPage;
@@ -276,5 +677,16 @@ class AdPageProvider extends ChangeNotifier{
   Set<Marker> get markersUpdateLoc => _markersUpdateLoc;
   ScrollController get scrollController => _scrollController;
   int get expendedListCount => _expendedListCount;
+  PageController get adController => _adController;
 
+}
+// TODO burada kaldik
+enum SelectedScreen{
+  menu,
+  myAds,
+  mainPage,
+  todayAds,
+  favorite,
+  adSpecial,
+  none
 }

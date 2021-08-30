@@ -9,7 +9,6 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/open_images.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/open_image_provider.dart';
 
 class AdHeaderWidget extends StatelessWidget {
@@ -20,7 +19,7 @@ class AdHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
 
-    return Consumer2<AdPageProvider, MutualProvider>(builder: (context, adsPage, mutualProv, child) {
+    return Consumer<AdPageProvider>(builder: (context, adsPage, child) {
       return Column(
         children: [
           Padding(
@@ -28,7 +27,7 @@ class AdHeaderWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                if (mutualProv.adsPage.idSpecial == '1')
+                if (adsPage.adsPage.idSpecial == '1')
                   Padding(
                     padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
                     child: Icon(
@@ -38,7 +37,7 @@ class AdHeaderWidget extends StatelessWidget {
                     ),
                   ),
                 Text(
-                  mutualProv.adsPage.title ?? '',
+                  adsPage.adsPage.title ?? '',
                   style: CustomTextStyle(
                     fontSize: 20,
                     color: const Color(0xff000000),
@@ -54,7 +53,7 @@ class AdHeaderWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  mutualProv.adsPage.price ?? '',
+                  adsPage.adsPage.price ?? '',
                   style: CustomTextStyle(
                     fontSize: 20,
                     color: const Color(0xff00cccc),
@@ -72,15 +71,15 @@ class AdHeaderWidget extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                if(mutualProv.adsPage.idTypeRes != '0')
+                if(adsPage.adsPage.idTypeRes != '0')
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
                     child: Text(
-                      mutualProv.adsPage.idTypeRes == '1' ?
+                      adsPage.adsPage.idTypeRes == '1' ?
                       AppLocalizations.of(context).daily :
-                      mutualProv.adsPage.idTypeRes == '2'?
+                      adsPage.adsPage.idTypeRes == '2'?
                       AppLocalizations.of(context).monthly :
-                      mutualProv.adsPage.idTypeRes == '3'?
+                      adsPage.adsPage.idTypeRes == '3'?
                       AppLocalizations.of(context).annual : '',
                       style: CustomTextStyle(
                         fontSize: 20,
@@ -93,11 +92,13 @@ class AdHeaderWidget extends StatelessWidget {
               ],
             ),
           ),
-          if ((mutualProv.adsPage.video??'').isNotEmpty)
+          if ((adsPage.adsPage.video??'').isNotEmpty)
             FutureBuilder(
                 future: adsPage.initializeFutureVideoPlyerAdsPage,
                 builder: (context, snapshot) {
+                  print(snapshot.data);
                   if (snapshot.connectionState == ConnectionState.done) {
+
                     return Padding(
                       padding:
                       const EdgeInsets.fromLTRB(8, 8, 8, 8),
@@ -160,7 +161,7 @@ class AdHeaderWidget extends StatelessWidget {
                     return Container();
                   }
                 }),
-          if (mutualProv.adsPageImages.isNotEmpty)
+          if (adsPage.adsPageImages.isNotEmpty)
             Container(
               width: mediaQuery.size.width,
               height: mediaQuery.size.height * 0.3,
@@ -170,7 +171,7 @@ class AdHeaderWidget extends StatelessWidget {
                       width: mediaQuery.size.width,
                       height: mediaQuery.size.height * 0.3,
                       child: PageView.builder(
-                        itemCount: mutualProv.countAdsPageImages(),
+                        itemCount: adsPage.countAdsPageImages(),
                         itemBuilder: (context, position) {
                           return Stack(
                             children: [
@@ -179,7 +180,7 @@ class AdHeaderWidget extends StatelessWidget {
                                   adsPage.stopVideoAdsPage();
                                   Navigator.push(context, MaterialPageRoute(builder: (context) =>
                                       ChangeNotifierProvider<OpenImageProvider>(
-                                        create: (_) => OpenImageProvider(mutualProv.idDescription),
+                                        create: (_) => OpenImageProvider(adsPage.idDescription),
                                         child: OpenImages(),
                                       )
                                   ));
@@ -188,7 +189,7 @@ class AdHeaderWidget extends StatelessWidget {
                                   image: CachedNetworkImage(
                                     placeholder: (context, url) => Center(child: CircularProgressIndicator()),
                                     errorWidget: (context, url, error) => Icon(Icons.error),
-                                    imageUrl: 'https://tadawl-store.com/API/assets/images/ads/${mutualProv.adsPageImages[position].ads_image}',
+                                    imageUrl: 'https://tadawl-store.com/API/assets/images/ads/${adsPage.adsPageImages[position].ads_image}',
                                     width: mediaQuery.size.width,
                                     height: mediaQuery.size.height *
                                         0.3,
@@ -227,7 +228,7 @@ class AdHeaderWidget extends StatelessWidget {
                         onPageChanged: (index) {
                           adsPage.currentControllerPageAdsPageFunc(
                               index);
-                          // mutualProv.randomPosition(200);
+                          // adsPage.randomPosition(200);
                         },
                         controller: adsPage.controllerAdsPage,
                       )),
@@ -256,7 +257,7 @@ class AdHeaderWidget extends StatelessWidget {
                                 ),
                               );
                             },
-                            itemCount: mutualProv.countAdsPageImages(),
+                            itemCount: adsPage.countAdsPageImages(),
                           )),
                     ),
                   ),

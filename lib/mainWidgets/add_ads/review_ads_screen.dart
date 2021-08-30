@@ -1783,8 +1783,10 @@ class ReviewAdsScreen extends StatelessWidget {
                     if (addAds.AcceptedAddAds == true)
                       TextButton(
                         onPressed: () {
-                          addAds.setAcceptedAddAds(false);
-                          addAds.addNewAd(
+                          // addAds.setAcceptedAddAds(false);
+                          if(!addAds.isSending) {
+                            addAds.isSending = true;
+                            addAds.addNewAd(
                             context,
                             addAds.detailsAqarAddAds,
                             addAds.isFootballCourtAddAds.toString(),
@@ -1833,6 +1835,7 @@ class ReviewAdsScreen extends StatelessWidget {
                             addAds.videoAddAds,
                             addAds.imagesListAddAds,
                           );
+                          }
                         },
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(0, 15, 0, 30),
@@ -1847,12 +1850,14 @@ class ReviewAdsScreen extends StatelessWidget {
                                   color: const Color(0xff3f9d28)),
                             ),
                             child: Center(
-                              child: Text(
-                                AppLocalizations
-                                    .of(context)
-                                    .postAdvertisement,
+                              child:
+                              addAds.isSending
+                                  ?
+                              LinearProgressIndicator()
+                                  :
+                              Text(
+                                AppLocalizations.of(context).postAdvertisement,
                                 style: CustomTextStyle(
-
                                   fontSize: 15,
                                   color: const Color(0xff3f9d28),
                                 ).getTextStyle(),

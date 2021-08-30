@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/ad_button.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
@@ -66,16 +66,22 @@ class MyAds extends StatelessWidget {
               return AdButton(
                 onPressed: () {
                   //myAds.setWaitState(true);
-                  Provider.of<MutualProvider>(context, listen: false)
-                      .getAllAdsPageInfo(
-                      context, myAds.userAds[i].idDescription);
-                  Provider.of<MutualProvider>(context, listen: false).getSimilarAdsList(context, myAds.userAds[i].idCategory, myAds.userAds[i].idDescription);
+                  // Provider.of<MutualProvider>(context, listen: false)
+                  //     .getAllAdsPageInfo(
+                  //     context, myAds.userAds[i].idDescription);
+                  // Provider.of<MutualProvider>(context, listen: false).getSimilarAdsList(context, myAds.userAds[i].idCategory, myAds.userAds[i].idDescription);
 
                   Future.delayed(Duration(seconds: 0), () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => AdPage()),
+                          builder: (context) =>
+                              ChangeNotifierProvider<AdPageProvider>(
+                                create: (_) => AdPageProvider(context, myAds.userAds[i].idDescription, myAds.userAds[i].idCategory),
+                                child: AdPage(ads: myAds.userAds, selectedScreen: SelectedScreen.myAds),
+                              )
+
+                      ),
                     );
                     // myAds.setWaitState(false);
                   });
@@ -92,8 +98,8 @@ class MyAds extends StatelessWidget {
                 timeUpdated: myAds.userAds[i].timeUpdated,
                 updateBtn: true,
                 updateBtnPressed: (){
-                  Provider.of<MutualProvider>(context, listen: false).setNumber(i);
-                  Provider.of<MutualProvider>(context, listen: false).updateAds(context, myAds.userAds[i].idDescription).then((value) {
+                  myAds.setNumber(i);
+                  myAds.updateAds(context, myAds.userAds[i].idDescription).then((value) {
                     if(value){
                       Fluttertoast.showToast(
                           msg:

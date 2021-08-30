@@ -3,6 +3,7 @@ class KeySearchModel {
   String id_description;
   String id_user;
   String phone;
+  String idCategory;
   // ignore: sort_constructors_first
   KeySearchModel({this.id_ads, this.id_description, this.id_user, this.phone});
   // ignore: sort_constructors_first
@@ -11,6 +12,7 @@ class KeySearchModel {
     id_description = json['id_description'];
     id_user = json['id'];
     phone = json['phone'];
+    idCategory = json['id_category'];
   }
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};

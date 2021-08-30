@@ -129,7 +129,7 @@ class TodayAds extends StatelessWidget {
                             if (todayAds.todayAds.isNotEmpty)
                               for (int i = 0; i < todayAds.countTodayAds(); i++)
                                 if (todayAds.todayAds[i].ads_city == 'الرياض')
-                                  TodayAdsCard(todayAds: todayAds.todayAds[i]),
+                                  TodayAdsCard(todayAds: todayAds.todayAds, index: i,),
                             if (todayAds.countAdsRiyadh > 0) Container()
                             else Center(child: Text(
                               AppLocalizations.of(context).noAdsAvailable,
@@ -148,7 +148,7 @@ class TodayAds extends StatelessWidget {
                             if (todayAds.todayAds.isNotEmpty)
                               for (int i = 0; i < todayAds.countTodayAds(); i++)
                                 if (todayAds.todayAds[i].ads_city == 'مكة')
-                                  TodayAdsCard(todayAds: todayAds.todayAds[i]),
+                                  TodayAdsCard(todayAds: todayAds.todayAds, index: i,),
 
                             if (todayAds.countAdsMekkah > 0) Container()
                             else Center(child: Text(
@@ -168,7 +168,7 @@ class TodayAds extends StatelessWidget {
                             if (todayAds.todayAds.isNotEmpty)
                               for (int i = 0; i < todayAds.countTodayAds(); i++)
                                 if (todayAds.todayAds[i].ads_city == 'الدمام')
-                                  TodayAdsCard(todayAds: todayAds.todayAds[i]),
+                                  TodayAdsCard(todayAds: todayAds.todayAds, index: i,),
 
                             if (todayAds.countAdsDammam > 0) Container()
                             else Center(child: Text(
@@ -190,7 +190,7 @@ class TodayAds extends StatelessWidget {
                                 if (todayAds.todayAds[i].ads_city != 'الدمام' &&
                                     todayAds.todayAds[i].ads_city != 'مكة' &&
                                     todayAds.todayAds[i].ads_city != 'الرياض')
-                                  TodayAdsCard(todayAds: todayAds.todayAds[i]),
+                                  TodayAdsCard(todayAds: todayAds.todayAds, index: i,),
                             if (todayAds.countAdsRest > 0)
                               Container()
                             else

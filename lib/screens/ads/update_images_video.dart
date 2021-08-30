@@ -6,8 +6,8 @@ import 'package:pinch_zoom_image_last/pinch_zoom_image_last.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/mainWidgets/open_images.dart';
+import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/open_image_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/update_img_vid_provider.dart';
 import 'package:tadawl_app/screens/ads/ad_page.dart';
@@ -18,12 +18,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 class UpdateImgVed extends StatelessWidget {
   UpdateImgVed(
   this._idDescription,
-  {Key key,}) : super(key: key);
+  {
+    Key key,
+    @required this.ads
+  }) : super(key: key);
+  final List<AdsModel> ads;
   final String _idDescription;
 
 
   @override
   Widget build(BuildContext context) {
+    final adsPage = Provider.of<AdPageProvider>(context, listen: false);
     return Consumer<UpdateImgVedProvider>(builder: (context, updateImgVed, child) {
 
 
@@ -34,7 +39,7 @@ class UpdateImgVed extends StatelessWidget {
       // data = ModalRoute.of(context).settings.arguments;
       // var _id_description = data['id_description'];
       //updateImgVed.randomPosition(200);
-      Provider.of<MutualProvider>(context, listen: false).getImagesAdsPageList(context, _idDescription);
+      adsPage.getImagesAdsPageList(context, _idDescription);
 
       return Scaffold(
         appBar: AppBar(
@@ -50,13 +55,19 @@ class UpdateImgVed extends StatelessWidget {
                 size: 40,
               ),
               onPressed: () {
-                Provider.of<MutualProvider>(context, listen: false)
-                .getAllAdsPageInfo(context, _idDescription);
+                // Provider.of<MutualProvider>(context, listen: false)
+                // .getAllAdsPageInfo(context, _idDescription);
                 updateImgVed.stopVideoAdsUpdate();
                 Future.delayed(Duration(seconds: 1), () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => AdPage()),
+                    MaterialPageRoute(builder: (context) =>
+                        ChangeNotifierProvider<AdPageProvider>(
+                          create: (_) => AdPageProvider(context, _idDescription, null),
+                          child: AdPage(ads: ads, selectedScreen: SelectedScreen.menu),
+                        )
+
+                    ),
                   );
                 });
               },
@@ -70,14 +81,14 @@ class UpdateImgVed extends StatelessWidget {
             ).getTextStyle(),
             textAlign: TextAlign.center,
           ),
-          backgroundColor: Color(0xff00cccc),
+          backgroundColor: Color(0xff1f2835),
         ),
         backgroundColor: const Color(0xffffffff),
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              if (Provider.of<MutualProvider>(context, listen: false).adsPageImages.isNotEmpty)
+              if (adsPage.adsPageImages.isNotEmpty)
                 Column(
                   children: [
                     Padding(
@@ -101,7 +112,7 @@ class UpdateImgVed extends StatelessWidget {
                               width: mediaQuery.size.width,
                               height: mediaQuery.size.height * 0.3,
                               child: PageView.builder(
-                                itemCount: Provider.of<MutualProvider>(context, listen: false).adsPageImages.length,
+                                itemCount: adsPage.adsPageImages.length,
                                 itemBuilder: (context, position) {
                                   return Stack(
                                     children: [
@@ -111,7 +122,7 @@ class UpdateImgVed extends StatelessWidget {
                                               context,
                                               MaterialPageRoute(builder: (context) =>
                                                   ChangeNotifierProvider<OpenImageProvider>(
-                                                    create: (_) => OpenImageProvider(Provider.of<MutualProvider>(context, listen: false).idDescription),
+                                                    create: (_) => OpenImageProvider(adsPage.idDescription),
                                                     child: OpenImages(),
                                                   )
                                               ));
@@ -120,7 +131,7 @@ class UpdateImgVed extends StatelessWidget {
                                           image: CachedNetworkImage(
                                             placeholder: (context, url) => Center(child: CircularProgressIndicator()),
                                             errorWidget: (context, url, error) => Icon(Icons.error),
-                                            imageUrl: 'https://tadawl-store.com/API/assets/images/ads/${Provider.of<MutualProvider>(context, listen: false).adsPageImages[position].ads_image}',
+                                            imageUrl: 'https://tadawl-store.com/API/assets/images/ads/${adsPage.adsPageImages[position].ads_image}',
                                             width: mediaQuery.size.width,
                                             height: mediaQuery.size.height * 0.3,
                                             fit: BoxFit.cover,
@@ -182,7 +193,7 @@ class UpdateImgVed extends StatelessWidget {
                                         ),
                                       );
                                     },
-                                    itemCount: Provider.of<MutualProvider>(context, listen: false).adsPageImages.length,
+                                    itemCount: adsPage.adsPageImages.length,
                                   )),
                             ),
                           ),
@@ -377,7 +388,7 @@ class UpdateImgVed extends StatelessWidget {
                                   color: const Color(0xffffffff),
                                   border: Border.all(
                                       width: 1.0,
-                                      color: const Color(0xff00cccc)),
+                                      color: const Color(0xff04B404)),
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -387,7 +398,7 @@ class UpdateImgVed extends StatelessWidget {
                                       style: CustomTextStyle(
 
                                         fontSize: 15,
-                                        color: const Color(0xff00cccc),
+                                        color: const Color(0xff04B404),
                                       ).getTextStyle(),
                                       textAlign: TextAlign.center,
                                     ),
@@ -396,7 +407,7 @@ class UpdateImgVed extends StatelessWidget {
                                           15, 0, 0, 0),
                                       child: Icon(
                                         Icons.camera_alt_rounded,
-                                        color: Color(0xff00cccc),
+                                        color: Color(0xff04B404),
                                         size: 30,
                                       ),
                                     ),
@@ -546,7 +557,7 @@ class UpdateImgVed extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5.0),
                       color: const Color(0xffffffff),
                       border: Border.all(
-                          width: 1.0, color: const Color(0xff00cccc)),
+                          width: 1.0, color: const Color(0xff04B404)),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -556,7 +567,7 @@ class UpdateImgVed extends StatelessWidget {
                           style: CustomTextStyle(
 
                             fontSize: 15,
-                            color: const Color(0xff00cccc),
+                            color: const Color(0xff04B404),
                           ).getTextStyle(),
                           textAlign: TextAlign.center,
                         ),
@@ -564,7 +575,7 @@ class UpdateImgVed extends StatelessWidget {
                           padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                           child: Icon(
                             Icons.videocam_rounded,
-                            color: Color(0xff00cccc),
+                            color: Color(0xff04B404),
                             size: 30,
                           ),
                         ),
@@ -589,7 +600,9 @@ class UpdateImgVed extends StatelessWidget {
                         context,
                         _idDescription,
                         updateImgVed.imagesListUpdate,
-                        updateImgVed.videoUpdate);
+                        updateImgVed.videoUpdate,
+                        ads,
+                    );
                   }
                 },
                 child: Padding(

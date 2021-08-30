@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/mutual_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AdLocationWidget extends StatelessWidget {
@@ -46,8 +45,8 @@ class AdLocationWidget extends StatelessWidget {
             ],
           ),
         ),
-        Consumer2<AdPageProvider, MutualProvider>(builder: (context, adsPage, mutualProv, child) {
-          if (mutualProv.adsPage != null) {
+        Consumer<AdPageProvider>(builder: (context, adsPage, child) {
+          if (adsPage.adsPage != null) {
             return Container(
               width: mediaQuery.size.width,
               height: 300,
@@ -56,15 +55,15 @@ class AdLocationWidget extends StatelessWidget {
                   GoogleMap(
                     onTap: (value){
                       adsPage.stopVideoAdsPage();
-                      _openMap(double.parse(mutualProv.adsPage.lat),
-                          double.parse(mutualProv.adsPage.lng));
+                      _openMap(double.parse(adsPage.adsPage.lat),
+                          double.parse(adsPage.adsPage.lng));
                     },
                     initialCameraPosition: CameraPosition(
                         target: LatLng(
                             double.parse(
-                                mutualProv.adsPage.lat),
+                                adsPage.adsPage.lat),
                             double.parse(
-                                mutualProv.adsPage.lng)),
+                                adsPage.adsPage.lng)),
                         zoom: 15),
                     mapType: MapType.normal,
                     onMapCreated: _onMapCreated,

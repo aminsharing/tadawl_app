@@ -50,7 +50,7 @@ class _UpgradeAdScreenState extends State<UpgradeAdScreen> {
             Navigator.pop(context);
           },
         ),
-        backgroundColor: const Color(0xff00cccc),
+        backgroundColor: const Color(0xff1f2835),
       ),
       body: Column(
         children: [
@@ -144,7 +144,7 @@ class _UpgradeAdScreenState extends State<UpgradeAdScreen> {
                   borderRadius: BorderRadius.circular(10.0),
                   border: Border.all(
                       width: 1.0,
-                      color: const Color(0xff00cccc)
+                      color: const Color(0xff04B404)
                   ),
                 ),
                 child: Padding(
@@ -153,7 +153,7 @@ class _UpgradeAdScreenState extends State<UpgradeAdScreen> {
                     'إستمرار',
                     textAlign: TextAlign.center,
                     style: CustomTextStyle(
-                      color: const Color(0xff00cccc).withOpacity(0.8),
+                      color: const Color(0xff04B404).withOpacity(0.8),
                     ).getTextStyle(),
                   ),
                 ),
@@ -189,7 +189,7 @@ class CustomRadio extends StatelessWidget {
       leading: Radio<int>(
         value: value,
         groupValue: currentValue,
-        fillColor: MaterialStateProperty.all(const Color(0xff00cccc)),
+        fillColor: MaterialStateProperty.all(const Color(0xff04B404)),
         onChanged: onChanged,
       ),
     );
