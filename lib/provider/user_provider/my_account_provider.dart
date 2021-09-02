@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tadawl_app/main.dart';
+import 'package:tadawl_app/screens/general/home.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/models/OfficeModel.dart';
 import 'package:tadawl_app/models/UserEstimateModel.dart';
@@ -148,22 +148,34 @@ class MyAccountProvider extends ChangeNotifier{
       }
       if (called == 1) {
       } else {
-        showRatingDialog(context, phoneEstimated);
+        // showRatingDialog(context, phoneEstimated);
       }
     } else {
-      showRatingDialog(context, phoneEstimated);
+      // showRatingDialog(context, phoneEstimated);
     }
     if (phoneEstimated == locale.phone) {
       var number = '+${locale.phone}';
       try{
-        await FlutterPhoneDirectCaller.callNumber(number);
+        await FlutterPhoneDirectCaller.callNumber(number).then((value) {
+          if(value){
+            Future.delayed(Duration(seconds: 5), (){
+              showRatingDialog(context, phoneEstimated);
+            });
+          }
+        });
       }catch(e){
         await Fluttertoast.showToast(msg: 'هنالك خطأ $e');
       }
     } else {
       var number = '+$phoneEstimated';
       try{
-        await FlutterPhoneDirectCaller.callNumber(number);
+        await FlutterPhoneDirectCaller.callNumber(number).then((value) {
+          if(value){
+            Future.delayed(Duration(seconds: 5), (){
+              showRatingDialog(context, phoneEstimated);
+            });
+          }
+        });
       }catch(e){
         await Fluttertoast.showToast(msg: 'هنالك خطأ $e');
       }
@@ -488,7 +500,7 @@ class MyAccountProvider extends ChangeNotifier{
       // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => MyApp()),
+          MaterialPageRoute(builder: (context) => Home()),
               (route) => false
       );
     });

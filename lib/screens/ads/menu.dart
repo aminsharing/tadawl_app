@@ -9,12 +9,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/mainWidgets/search_drawer.dart';
 import 'package:tadawl_app/mainWidgets/search_on_map.dart';
-import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/screens/ads/ad_page.dart';
 import 'package:tadawl_app/screens/ads/main_page.dart';
+import 'package:tadawl_app/services/ad_page_helper.dart';
 
 class Menu extends StatelessWidget {
   Menu({
@@ -33,7 +32,7 @@ class Menu extends StatelessWidget {
 
       Future<bool> _onBackPressed() async{
         locale.setCurrentPage(0);
-        await Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainPage(null)));
+        await Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainPage()));
         return false;
       }
 
@@ -136,11 +135,7 @@ class Menu extends StatelessWidget {
                                 PageTransition(
                                     type: PageTransitionType.bottomToTop,
                                     duration: Duration(milliseconds: 10),
-                                    child: ChangeNotifierProvider<AdPageProvider>(
-                                      create: (_) => AdPageProvider(context, menu.menuAds[i].idDescription, menu.menuAds[i].idCategory),
-                                      child: AdPage(ads: menu.menuAds, selectedScreen: SelectedScreen.menu) ,
-                                    )
-
+                                    child: AdPageHelper(ads: menu.menuAds, index: i,),
                                 ),
                               );
                             });

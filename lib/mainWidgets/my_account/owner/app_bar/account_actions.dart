@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:tadawl_app/main.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/OfficeModel.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
@@ -13,6 +12,7 @@ import 'package:tadawl_app/screens/account/change_phone.dart';
 import 'package:tadawl_app/screens/account/my_documents.dart';
 import 'package:tadawl_app/screens/account/update_my_information.dart';
 import 'package:tadawl_app/screens/general/contact_wp.dart';
+import 'package:tadawl_app/screens/general/home.dart';
 
 class Constants {
   static const String updateMyInfo = 'تحديث معلوماتي';
@@ -127,7 +127,7 @@ class AccountActions extends StatelessWidget {
         // mainPageProv.setRegionPosition(null);
         // mainPageProv.setInItMainPageDone(0);
         await Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (context) => MyApp()),
+          MaterialPageRoute(builder: (context) => Home()),
                 (route) => false
         );
       }

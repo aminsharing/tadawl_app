@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
@@ -179,8 +180,17 @@ void launchWhatsApp() async {
 
 void directSupport(BuildContext context) async {
   final locale = Provider.of<LocaleProvider>(context, listen: false);
-
-  await Navigator.pushReplacement(
+  if(locale.phone == '966552525000'){
+    await Fluttertoast.showToast(
+        msg: 'لا يمكن لصاحب التطبيق التواصل مع الدعم الفني',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 15.0);
+  }else {
+    await Navigator.pushReplacement(
       context,
       MaterialPageRoute(
           builder: (context) =>
@@ -193,4 +203,5 @@ void directSupport(BuildContext context) async {
               )
       )
   );
+  }
 }

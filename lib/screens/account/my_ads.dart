@@ -4,10 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/ad_button.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
-import 'package:tadawl_app/screens/ads/ad_page.dart';
+import 'package:tadawl_app/services/ad_page_helper.dart';
 
 class MyAds extends StatelessWidget {
   MyAds({
@@ -76,10 +75,7 @@ class MyAds extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              ChangeNotifierProvider<AdPageProvider>(
-                                create: (_) => AdPageProvider(context, myAds.userAds[i].idDescription, myAds.userAds[i].idCategory),
-                                child: AdPage(ads: myAds.userAds, selectedScreen: SelectedScreen.myAds),
-                              )
+                              AdPageHelper(ads: myAds.userAds, index: i,)
 
                       ),
                     );

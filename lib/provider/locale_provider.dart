@@ -10,15 +10,16 @@ import 'api/ApiFunctions.dart';
 
 class LocaleProvider extends ChangeNotifier {
   LocaleProvider(){
+    getLocPer().then((value) {
+      getLoc();
+    });
+    getCurrentLocation();
     print('init LocaleProvider');
     getSession().then((value) {
       if(value != null){
         getUnreadMsgs(value);
         Api().setLastSeenFunc(value);
       }
-    });
-    getLocPer().then((value) {
-      getLoc();
     });
   }
 
@@ -33,12 +34,8 @@ class LocaleProvider extends ChangeNotifier {
   Locale get locale => _locale;
   GoogleMapController _mapControllerMainPAge;
   set mapControllerMainPAge(GoogleMapController val) => _mapControllerMainPAge = val;
-  CameraPosition _currentArea;
-  set currentArea(CameraPosition val) => _currentArea = val;
   int _currentPage = 0;
   int _unreadMsgs = 0;
-  // bool fromMainPage = false;
-  // double _zoom;
   bool _serviceEnabled;
   PermissionStatus _permissionGranted;
   final Location _location = Location();
@@ -90,6 +87,7 @@ class LocaleProvider extends ChangeNotifier {
     if(lat != null && lng != null && zoom != null){
       _savedPosition = CameraPosition(target: LatLng(lat, lng), zoom: zoom);
     }
+    _initialCameraPosition = _savedPosition;
     return _savedPosition;
   }
 
@@ -140,8 +138,6 @@ class LocaleProvider extends ChangeNotifier {
       if(_serviceEnabled?? false){
         await _location.getLocation().then((LocationData location) async{
           _initialCameraPosition = CameraPosition(target: LatLng(location.latitude, location.longitude), zoom: 17);
-          _currentArea = CameraPosition(target: LatLng(location.latitude, location.longitude), zoom: 17);
-
           // notifyListeners();
         });
       }
@@ -159,17 +155,18 @@ class LocaleProvider extends ChangeNotifier {
       });
     }
     if(_permissionGranted == PermissionStatus.deniedForever){
-      _initialCameraPosition = _savedPosition.target ?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
+      _initialCameraPosition = _savedPosition ?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
       // notifyListeners();
     }
   }
 
   String get phone => _phone;
-  CameraPosition get currentArea => _currentArea;
+  // CameraPosition get currentArea => _currentArea;
   int get currentPage => _currentPage;
   int get unreadMsgs => _unreadMsgs;
   Location get location => _location;
   CameraPosition get initialCameraPosition => _initialCameraPosition;
+  set initialCameraPosition(CameraPosition val) => _initialCameraPosition = val;
   // double get zoom => _zoom;
-  CameraPosition get savedPosition => _savedPosition;
+  // CameraPosition get savedPosition => _savedPosition;
 }

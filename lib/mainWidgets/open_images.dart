@@ -3,16 +3,16 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pinch_zoom_image_last/pinch_zoom_image_last.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider/open_image_provider.dart';
+import 'package:tadawl_app/models/AdsModel.dart';
 
 class OpenImages extends StatelessWidget {
   OpenImages({
     Key key,
+    @required this.images,
   }) : super(key: key);
-
+  final List<AdsModel> images;
 
   @override
   Widget build(BuildContext context) {
@@ -46,16 +46,15 @@ class OpenImages extends StatelessWidget {
         ),
         backgroundColor: Color(0xff00cccc),
       ),
-      body: Consumer<OpenImageProvider>(builder: (context, images, child) {
-        return ListView.separated(
-          itemCount: images.image.length,
-          itemBuilder: (context, i){
+      body: ListView.separated(
+        itemCount: images.length,
+        itemBuilder: (context, i){
           return Stack(children: [
             PinchZoomImage(
               image: CachedNetworkImage(
                 placeholder: (context, url) => Center(child: CircularProgressIndicator()),
                 errorWidget: (context, url, error) => Icon(Icons.error),
-                imageUrl: 'https://tadawl-store.com/API/assets/images/ads/${images.image[i].ads_image}',
+                imageUrl: 'https://tadawl-store.com/API/assets/images/ads/${images[i].ads_image}',
                 width: MediaQuery.of(context).size.width,
                 fit: BoxFit.cover,
               ),
@@ -83,8 +82,7 @@ class OpenImages extends StatelessWidget {
             ),
           ]);
         },
-          separatorBuilder: (BuildContext context, int index) => Padding(padding: const EdgeInsets.all(10.0),),);
-      }),
+        separatorBuilder: (BuildContext context, int index) => Padding(padding: const EdgeInsets.all(10.0),),),
     );
   }
 }

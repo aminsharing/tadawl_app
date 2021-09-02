@@ -13,9 +13,9 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final notificationProv = Provider.of<NotificationProvider>(context, listen: false);
-    // final msgProv = Provider.of<MsgProvider>(context, listen: false);
     final locale = Provider.of<LocaleProvider>(context, listen: false);
-    locale.getCurrentLocation();
+
+
     locale.getSession().then((phone) async{
       if(phone != null){
         await notificationProv.getNotificationsList(phone).then((value) async{
@@ -25,13 +25,6 @@ class Home extends StatelessWidget {
         });
       }
     });
-
-
-
-    // msgProv.getUnreadMsgs(context, locale.phone);
-    // Future.delayed(Duration(seconds: 1), () {
-    //   msgProv.getConvInfo(context, locale.phone);
-    // });
 
     return Scaffold(
         backgroundColor: const Color(0xff1f2835),
@@ -45,7 +38,7 @@ class Home extends StatelessWidget {
               ),
             ),
           ),
-          nextScreen: MainPage(null),
+          nextScreen: MainPage(),
           splashTransition: SplashTransition.fadeTransition,
           splashIconSize: 200,
           backgroundColor: const Color(0xff1f2835),

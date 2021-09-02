@@ -3,10 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/ad_button.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/favourite_provider.dart';
-import 'package:tadawl_app/screens/ads/ad_page.dart';
+import 'package:tadawl_app/services/ad_page_helper.dart';
 
 class Favourite extends StatelessWidget {
   Favourite({
@@ -92,10 +91,7 @@ class Favourite extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) =>
-                                    ChangeNotifierProvider<AdPageProvider>(
-                                      create: (_) => AdPageProvider(context, adsFav.userAdsFav[i].idDescription, adsFav.userAdsFav[i].idCategory),
-                                      child: AdPage(ads: adsFav.userAdsFav, selectedScreen: SelectedScreen.favorite),
-                                    )
+                                    AdPageHelper(ads: adsFav.userAdsFav, index: i,)
 
 
                                 ),

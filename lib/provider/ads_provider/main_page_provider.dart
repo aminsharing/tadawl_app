@@ -17,9 +17,6 @@ class MainPageProvider extends ChangeNotifier{
 
   MainPageProvider(){
     print('init MainPageProvider');
-    // getLocPer().then((value) {
-    //   getLoc(context);
-    // });
   }
 
   @override
@@ -38,26 +35,23 @@ class MainPageProvider extends ChangeNotifier{
   }
 
   int _inItMainPageDone = 0;
-  String _idCategorySearch;
-  bool _isMove = false;
   int _adsOnMap = 1;
   int _allAds = 0;
-
+  int _zoomOutOfRange = 0;
+  bool _isMove = false;
   bool _showDiaogSearchDrawer = false;
-  var _markersMainPage = <Marker>[];
-  AdsModel _SelectedAdsModelMainPage;
+  bool _waitMainPage = false;
   bool _slider_state = false;
+  var _markersMainPage = <Marker>[];
   GoogleMapController _mapControllerMainPAge;
   final List<AdsModel> _Ads = [];
-  bool _waitMainPage = false;
-
-
-
+  AdsModel _SelectedAdsModelMainPage;
+  int _SelectedAdsIndex;
   OverlayEntry _entry;
-  int _zoomOutOfRange = 0;
-  set zoomOutOfRange(int val) => _zoomOutOfRange = val;
-  int get zoomOutOfRange => _zoomOutOfRange;
+  String _idCategorySearch;
 
+
+  set zoomOutOfRange(int val) => _zoomOutOfRange = val;
 
   void setInItMainPageDone(int val) {
     _inItMainPageDone= val;
@@ -197,6 +191,7 @@ class MainPageProvider extends ChangeNotifier{
                 .updateCache(context, ad.idAds);
             setShowDiogTrue();
             _SelectedAdsModelMainPage = ad;
+            _SelectedAdsIndex = i;
             // Provider.of<SearchDrawerProvider>(context, listen: false).getAdsList(context);
           },
           icon: BitmapDescriptor.fromBytes(bmp)));
@@ -204,18 +199,18 @@ class MainPageProvider extends ChangeNotifier{
     return markersList;
   }
 
-  Marker mapBitmapsToMarkersMainPageOld(BuildContext context, Uint8List bmp, AdsModel ad) {
-    return Marker(
-        markerId: MarkerId(' ${ad.price}'),
-        position: LatLng(double.tryParse(ad.lat)??26.0, double.tryParse(ad.lng)??46.0),
-        onTap: () {
-          Provider.of<CacheMarkerModel>(context, listen: false).updateCache(context, ad.idDescription);
-          setShowDiogTrue();
-          _SelectedAdsModelMainPage = ad;
-          // getUpdatedMarkerState(context, ad);
-        },
-        icon: BitmapDescriptor.fromBytes(bmp));
-  }
+  // Marker mapBitmapsToMarkersMainPageOld(BuildContext context, Uint8List bmp, AdsModel ad) {
+  //   return Marker(
+  //       markerId: MarkerId(' ${ad.price}'),
+  //       position: LatLng(double.tryParse(ad.lat)??26.0, double.tryParse(ad.lng)??46.0),
+  //       onTap: () {
+  //         Provider.of<CacheMarkerModel>(context, listen: false).updateCache(context, ad.idDescription);
+  //         setShowDiogTrue();
+  //         _SelectedAdsModelMainPage = ad;
+  //         // getUpdatedMarkerState(context, ad);
+  //       },
+  //       icon: BitmapDescriptor.fromBytes(bmp));
+  // }
 
   Widget markerWidgetsOld(BuildContext context, AdsModel c) {
     final size = MediaQuery.of(context).size;
@@ -310,33 +305,6 @@ class MainPageProvider extends ChangeNotifier{
       return false;
     }
   }
-
-  // void getUpdatedMarkerState(BuildContext context, AdsModel ad){
-  //   var key = GlobalKey();
-  //   if(ad.entry != null){
-  //     ad.entry.remove();
-  //     ad.key = null;
-  //     ad.entry = null;
-  //     OverlayEntry newEntry;
-  //     ad.key = key;
-  //     newEntry = OverlayEntry(
-  //         builder: (ctxt) {
-  //           return _MarkerHelper(
-  //             markerWidgets: markerWidgets(ctxt, ad),
-  //             callback: (bitmaps) {
-  //               _markersMainPage.add(mapBitmapsToMarkersMainPage(ctxt, bitmaps, ad));
-  //             },
-  //             markerKey: ad.key,
-  //           );
-  //         },
-  //         maintainState: true);
-  //     var overlayState = Overlay.of(context);
-  //     overlayState.insert(newEntry);
-  //     ad.entry = newEntry;
-  //   }
-  // }
-
-
 
   Widget getMarkerSpecialWidget(String name, Size size) {
     return Container(
@@ -531,8 +499,6 @@ class MainPageProvider extends ChangeNotifier{
 
   }
 
-
-
   void update(){
     notifyListeners();
   }
@@ -543,13 +509,14 @@ class MainPageProvider extends ChangeNotifier{
   bool get showDiaogSearchDrawer => _showDiaogSearchDrawer;
   List<Marker> get markersMainPage => _markersMainPage;
   AdsModel get SelectedAdsModelMainPage => _SelectedAdsModelMainPage;
+  int get SelectedAdsIndex => _SelectedAdsIndex;
   int get adsOnMap => _adsOnMap;
   int get allAds => _allAds;
   bool get waitMainPage => _waitMainPage;
   GoogleMapController get mapControllerMainPAge => _mapControllerMainPAge;
   List<AdsModel> get ads => _Ads;
   bool get slider_state => _slider_state;
-
+  int get zoomOutOfRange => _zoomOutOfRange;
 }
 
 
@@ -617,66 +584,3 @@ mixin AfterLayoutMixin<T extends StatefulWidget> on State<T> {
 
   void afterFirstLayout(BuildContext context);
 }
-
-// class _MarkerHelper extends StatefulWidget {
-//   final Widget markerWidgets;
-//   final Function(Uint8List) callback;
-//   final GlobalKey markerKey;
-//
-//   // ignore: sort_constructors_first
-//   const _MarkerHelper({Key key, this.markerKey, this.markerWidgets, this.callback})
-//       : super(key: key);
-//   @override
-//   _MarkerHelperState createState() => _MarkerHelperState();
-// }
-//
-// class _MarkerHelperState extends State<_MarkerHelper> with AfterLayoutMixin {
-//
-//   @override
-//   void afterFirstLayout(BuildContext context) async {
-//     widget.callback(await _getBitmaps(context));
-//   }
-//
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Transform.translate(
-//       offset: Offset(MediaQuery.of(context).size.width, 0),
-//       child: Material(
-//         type: MaterialType.transparency,
-//         child: Stack(
-//           children: [
-//             RepaintBoundary(
-//               key: widget.markerKey,
-//               child: widget.markerWidgets,
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-//
-//   Future<Uint8List> _getBitmaps(BuildContext context) async {
-//     var futures = _getUint8List(widget.markerKey);
-//     return futures;
-//   }
-//
-//   Future<Uint8List> _getUint8List(GlobalKey markerKey) async {
-//     RenderRepaintBoundary boundary =
-//     markerKey.currentContext.findRenderObject();
-//     var image = await boundary.toImage(pixelRatio: 2.0);
-//     var byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-//     return byteData.buffer.asUint8List();
-//   }
-// }
-//
-// mixin AfterLayoutMixin<T extends StatefulWidget> on State<T> {
-//   @override
-//   void initState() {
-//     super.initState();
-//     WidgetsBinding.instance
-//         .addPostFrameCallback((_) => afterFirstLayout(context));
-//   }
-//
-//   void afterFirstLayout(BuildContext context);
-// }

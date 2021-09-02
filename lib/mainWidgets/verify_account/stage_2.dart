@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:tadawl_app/main.dart';
+import 'package:tadawl_app/screens/general/home.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
@@ -157,7 +157,7 @@ class Stage2 extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                MyApp()),
+                                Home()),
                             (route) => false
                     );
                   });

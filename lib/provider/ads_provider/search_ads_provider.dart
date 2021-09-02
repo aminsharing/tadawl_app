@@ -7,8 +7,8 @@ import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 import 'package:tadawl_app/screens/account/my_account.dart';
-import 'package:tadawl_app/screens/ads/ad_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tadawl_app/services/ad_page_helper.dart';
 
 class SearchAdsProvider extends ChangeNotifier{
   String _search;
@@ -93,10 +93,7 @@ class SearchAdsProvider extends ChangeNotifier{
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) =>
-                      ChangeNotifierProvider<AdPageProvider>(
-                        create: (_) => AdPageProvider(context, _key.first.id_description, _key.first.idCategory),
-                        child: AdPage(ads: [Provider.of<AdPageProvider>(context, listen: false).adsPage], selectedScreen: SelectedScreen.none),
-                      )
+                      AdPageHelper(ads: [Provider.of<AdPageProvider>(context, listen: false).adsPage], index: 0,)
 
                   ),
                 );

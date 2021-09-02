@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/mainWidgets/main_page/map_widget.dart';
@@ -19,8 +18,7 @@ import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainPage extends StatelessWidget {
-  MainPage(this._region_position,{Key key}) : super(key: key);
-  final CameraPosition _region_position;
+  MainPage({Key key}) : super(key: key);
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final MainPageProvider mainPageProvider = MainPageProvider();
@@ -100,7 +98,7 @@ class MainPage extends StatelessWidget {
             ),
             body: Stack(
               children: <Widget>[
-                MapWidget(_region_position),
+                MapWidget(),
                 // map ....................................
                 SliderWidget(),
                 // slider ....................................

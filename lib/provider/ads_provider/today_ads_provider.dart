@@ -60,8 +60,8 @@ class TodayAdsProvider extends ChangeNotifier{
     Future.delayed(Duration(milliseconds: 0), () {
       _TodayAds.clear();
       final locale = Provider.of<LocaleProvider>(context, listen: false);
-      locale.currentArea = locale.currentArea?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
-      Api().getadsFunc(locale.currentArea.target, locale.currentArea.zoom.toString()).then((value) {
+      locale.initialCameraPosition = locale.initialCameraPosition?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
+      Api().getadsFunc(locale.initialCameraPosition.target, locale.initialCameraPosition.zoom.toString()).then((value) {
         _TodayAdsData = value;
         _TodayAdsData.forEach((element) {
           var now = DateTime.now();

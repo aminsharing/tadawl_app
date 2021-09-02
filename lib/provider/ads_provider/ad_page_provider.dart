@@ -25,13 +25,13 @@ import 'package:tadawl_app/screens/ads/today_ads.dart';
 import 'package:tadawl_app/screens/ads/update_details.dart';
 import 'package:tadawl_app/screens/ads/update_images_video.dart';
 import 'package:tadawl_app/screens/ads/update_location.dart';
+import 'package:tadawl_app/services/ad_page_helper.dart';
 import 'package:video_player/video_player.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:tadawl_app/models/BFModel.dart';
 import 'package:tadawl_app/models/QFModel.dart';
 import 'package:tadawl_app/models/UserModel.dart';
 import 'package:tadawl_app/models/views_series.dart';
-import 'package:tadawl_app/screens/ads/ad_page.dart';
 
 class AdPageProvider extends ChangeNotifier{
   AdPageProvider(BuildContext context, String idDescription, String idCategory){
@@ -54,12 +54,12 @@ class AdPageProvider extends ChangeNotifier{
   final Set<Marker> _markersUpdateLoc = {};
   final ScrollController _scrollController = ScrollController();
   int _expendedListCount = 4;
-  PageController _adController = PageController();
+
 
   @override
   void dispose() {
     print('dispose AdPageProvider');
-    _adController.dispose();
+
     clearFav();
     if (_videoControllerAdsPage != null) {
       stopVideoAdsPage();
@@ -83,18 +83,15 @@ class AdPageProvider extends ChangeNotifier{
     _expendedListCount = 4;
   }
 
-  void choiceAction(BuildContext context, String choice, String idDescription, List<AdsModel> ads, SelectedScreen selectedScreen) {
+  void choiceAction(BuildContext context, String choice, String idDescription, List<AdsModel> ads, int index, SelectedScreen selectedScreen) {
     if (choice == 'تعديل الصور والفيديو' || choice == 'Update Images and Videos') {
       if(_videoControllerAdsPage != null) {
         _videoControllerAdsPage.pause();
       }
-      Navigator.push(context, MaterialPageRoute(builder: (context) =>
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
           ChangeNotifierProvider<UpdateImgVedProvider>(
-            create: (_) => UpdateImgVedProvider(),
-            child: ChangeNotifierProvider<AdPageProvider>.value(
-              value: AdPageProvider(context, _AdsPage.idDescription, _AdsPage.idCategory),
-              child: UpdateImgVed(idDescription, ads: ads),
-            )
+            create: (_) => UpdateImgVedProvider(_AdsPage.video??''),
+            child: UpdateImgVed(idDescription, ads: ads, adsPageImages: _AdsPageImages, index: index,)
           )
       ));
     }
@@ -102,11 +99,13 @@ class AdPageProvider extends ChangeNotifier{
       if(_videoControllerAdsPage != null) {
         _videoControllerAdsPage.pause();
       }
-      Navigator.push(context, MaterialPageRoute(builder: (context) =>
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
           ChangeNotifierProvider<UpdateLocationProvider>(
             create: (_) => UpdateLocationProvider(),
             child: UpdateLocation(
-                idDescription, ads: ads,
+              idDescription,
+              ads: ads,
+              index: index,
               lat: _AdsPage.lat,
               lng: _AdsPage.lng,
               ads_city: _AdsPage.ads_city,
@@ -119,7 +118,7 @@ class AdPageProvider extends ChangeNotifier{
       if(_videoControllerAdsPage != null) {
         _videoControllerAdsPage.pause();
       }
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
             MaterialPageRoute(
                 builder: (context) =>
@@ -129,6 +128,7 @@ class AdPageProvider extends ChangeNotifier{
                       adsBF: _AdsBF,
                       adsQF: _AdsQF,
                       adsPage: _AdsPage,
+                      index: index,
                 )
             )
       );
@@ -156,7 +156,7 @@ class AdPageProvider extends ChangeNotifier{
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                    MainPage(null),
+                    MainPage(),
               )
           );
         }else if (selectedScreen == SelectedScreen.myAds){
@@ -371,18 +371,7 @@ class AdPageProvider extends ChangeNotifier{
     return Api().deleteAdsFunc(context, idDescription);
   }
 
-  PageController setControllerIndex(int currentIndex){
-    _adController = PageController(initialPage: currentIndex);
-    return _adController;
-  }
 
-  void nextIndex(){
-    _adController.nextPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn);
-  }
-
-  void previousIndex(){
-    _adController.previousPage(duration: Duration(milliseconds: 500), curve: Curves.easeOut);
-  }
 
   void update() {
     notifyListeners();
@@ -422,21 +411,12 @@ class AdPageProvider extends ChangeNotifier{
 
 
   void sendEstimate(BuildContext context, String phone, String phoneEstimated, String rating, String comment, String idDescription, List<AdsModel> _userAds) async {
-    Future.delayed(Duration(milliseconds: 0), () {
-      Api().sendEstimateFunc(phone, phoneEstimated, rating, comment);
-    });
-    getAllAdsPageSendEs(context, idDescription);
-    Future.delayed(Duration(seconds: 0), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) =>
-            ChangeNotifierProvider<AdPageProvider>(
-              create: (_) => AdPageProvider(context, _AdsPage.idDescription, _AdsPage.idCategory),
-              child: AdPage(ads: _userAds, selectedScreen: SelectedScreen.myAds),
-            )
-
-        ),
-      );
+    await Api().sendEstimateFunc(phone, phoneEstimated, rating, comment).then((value) async{
+      await Provider.of<MyAccountProvider>(context, listen: false).getEstimatesInfo(phoneEstimated).then((value) async{
+        await Provider.of<MyAccountProvider>(context, listen: false).getSumEstimatesInfo(phoneEstimated).then((value) {
+          notifyListeners();
+        });
+      });
     });
   }
 
@@ -471,7 +451,9 @@ class AdPageProvider extends ChangeNotifier{
         _adsPageImagesData = value;
         _adsPageImagesData.forEach((element) {
           _AdsPageImages.add(AdsModel.adsPageImages(element));
+          print("getImagesAdsPageFunc Images: ${element['ads_image']}");
         });
+
         notifyListeners();
       });
     });
@@ -677,7 +659,7 @@ class AdPageProvider extends ChangeNotifier{
   Set<Marker> get markersUpdateLoc => _markersUpdateLoc;
   ScrollController get scrollController => _scrollController;
   int get expendedListCount => _expendedListCount;
-  PageController get adController => _adController;
+
 
 }
 // TODO burada kaldik

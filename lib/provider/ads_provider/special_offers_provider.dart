@@ -63,8 +63,8 @@ class SpecialOffersProvider extends ChangeNotifier{
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsSpecial.clear();
       final locale = Provider.of<LocaleProvider>(context, listen: false);
-      locale.currentArea = locale.currentArea?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
-      Api().getadsFunc(locale.currentArea.target, getRadius(locale.currentArea.zoom)).then((value) {
+      locale.initialCameraPosition = locale.initialCameraPosition?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
+      Api().getadsFunc(locale.initialCameraPosition.target, getRadius(locale.initialCameraPosition.zoom)).then((value) {
         _AdsSpecialData = value;
         _AdsSpecialData.forEach((element) {
           if (element['id_special'] == '1') {

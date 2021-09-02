@@ -166,7 +166,7 @@ class AdsModel {
 
   // ignore: sort_constructors_first
   AdsModel.adsPageImages(Map<String, dynamic> json) {
-    idAdsImages = json['image_id'];
+    idAdsImages = json['id'];
     idDescription = json['id_description'];
     ads_image = json['ads_image'];
     idCategory = json['id_category'];
@@ -187,7 +187,7 @@ class AdsModel {
 
   // ignore: sort_constructors_first
   AdsModel.adsImage(Map<String, dynamic> json) {
-    idAdsImages = json['image_id'];
+    idAdsImages = json['id'];
     idDescription = json['id_description'];
     ads_image = json['ads_image'];
   }

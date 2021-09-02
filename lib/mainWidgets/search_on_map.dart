@@ -92,7 +92,7 @@ class SearchOnMap extends StatelessWidget {
                                           onTap: () async{
                                             await searchOnMap.setSelectedLocation(
                                                 searchOnMap.searchResults[index].placeId).then((value) async {
-                                              Provider.of<LocaleProvider>(context, listen: false).currentArea = CameraPosition(target: LatLng(searchOnMap.selectedLocationStatic.geometry.location.lat, searchOnMap.selectedLocationStatic.geometry.location.lng), zoom: 13);
+                                              Provider.of<LocaleProvider>(context, listen: false).initialCameraPosition = CameraPosition(target: LatLng(searchOnMap.selectedLocationStatic.geometry.location.lat, searchOnMap.selectedLocationStatic.geometry.location.lng), zoom: 13);
                                               if(selectedPage == SelectedPage.mainPage) {
                                                 Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
                                                 Provider.of<MainPageProvider>(context, listen: false).animateToLocation(LatLng(searchOnMap.selectedLocationStatic.geometry.location.lat, searchOnMap.selectedLocationStatic.geometry.location.lng), 13);

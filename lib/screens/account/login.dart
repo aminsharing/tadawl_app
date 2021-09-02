@@ -6,7 +6,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:tadawl_app/main.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/change_phone_provider.dart';
@@ -14,6 +13,7 @@ import 'package:tadawl_app/provider/user_provider/login_provider.dart';
 import 'package:tadawl_app/screens/account/new_account.dart';
 import 'package:tadawl_app/screens/account/restoration_pass.dart';
 import 'package:tadawl_app/screens/account/verifyAccount.dart';
+import 'package:tadawl_app/screens/general/home.dart';
 
 String phone;
 String password;
@@ -250,14 +250,12 @@ class Login extends StatelessWidget {
                                       backgroundColor: Colors.green,
                                       textColor: Colors.white,
                                       fontSize: 15.0);
-                                  // Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
                                   locale.setCurrentPage(0);
-                                  // Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
-                                  // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
                                   await Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => MyApp()),
+                                          builder: (context) => Home(),
+                                      ),
                                           (route) => false
                                   );
                                 });

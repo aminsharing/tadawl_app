@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/ad_button.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
-import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/screens/ads/ad_page.dart';
+import 'package:tadawl_app/services/ad_page_helper.dart';
 
 class TodayAdsCard extends StatelessWidget {
   const TodayAdsCard({
@@ -36,10 +35,7 @@ class TodayAdsCard extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        ChangeNotifierProvider<AdPageProvider>(
-                          create: (_) => AdPageProvider(context, todayAds[index].idDescription, todayAds[index].idCategory),
-                          child: AdPage(ads: todayAds, selectedScreen: SelectedScreen.todayAds),
-                        )
+                        AdPageHelper(ads: todayAds, index: index,)
 
                 ),
               );

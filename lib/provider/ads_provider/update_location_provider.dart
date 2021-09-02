@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:provider/provider.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/models/RegionModel.dart';
-import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
-import 'package:tadawl_app/screens/ads/ad_page.dart';
+import 'package:tadawl_app/services/ad_page_helper.dart';
 
 class UpdateLocationProvider extends ChangeNotifier{
   UpdateLocationProvider(){
@@ -28,6 +26,13 @@ class UpdateLocationProvider extends ChangeNotifier{
   double _zoom;
   bool _serviceEnabled;
   PermissionStatus _permissionGranted;
+  bool _isSending = false;
+
+
+  set isSending(bool val){
+    _isSending = val;
+    notifyListeners();
+  }
 
   @override
   void dispose() {
@@ -126,33 +131,27 @@ class UpdateLocationProvider extends ChangeNotifier{
       String ads_road,
       String ads_cordinates_lat,
       String ads_cordinates_lng,
-      List<AdsModel> ads
+      List<AdsModel> ads,
+      int index
       ) async {
-    Future.delayed(Duration(milliseconds: 0), () {
-      Api().updateLocationFunc(
-        id_description,
-        ads_city,
-        ads_neighborhood,
-        ads_road,
-        ads_cordinates_lat,
-        ads_cordinates_lng,
-      );
-    });
+    await Api().updateLocationFunc(
+      id_description,
+      ads_city,
+      ads_neighborhood,
+      ads_road,
+      ads_cordinates_lat,
+      ads_cordinates_lng,
+    );
 
     // Provider.of<MutualProvider>(context, listen: false)
     //     .getAllAdsPageInfo(context, id_description);
 
-    Future.delayed(Duration(seconds: 0), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) =>
-            ChangeNotifierProvider<AdPageProvider>(
-              create: (_) => AdPageProvider(context, id_description, null),
-              child: AdPage(ads: ads, selectedScreen: SelectedScreen.menu),
-            )
-            ),
-      );
-    });
+    await Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) =>
+          AdPageHelper(ads: ads, index: index,)
+      ),
+    );
   }
 
 
@@ -165,7 +164,7 @@ class UpdateLocationProvider extends ChangeNotifier{
   Location get location => _location;
   LatLng get initialCameraPosition => _initialCameraPosition;
   double get zoom => _zoom;
-
+  bool get isSending => _isSending;
 
 
 

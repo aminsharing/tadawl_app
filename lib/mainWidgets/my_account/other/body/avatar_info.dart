@@ -43,23 +43,11 @@ class AvatarInfo extends StatelessWidget {
 
 
           void sendEstimate() async {
-            Future.delayed(Duration(milliseconds: 0), () {
-              Api().sendEstimateFunc(
-                  locale.phone, userMutual.userPhone, userMutual.rating, userMutual.commentRating);
+            await Api().sendEstimateFunc(locale.phone, userMutual.userPhone, userMutual.rating, userMutual.commentRating).then((value) async{
+              await userMutual.getEstimatesInfo(userMutual.userPhone).then((value) async{
+                await userMutual.getSumEstimatesInfo(userMutual.userPhone);
+              });
             });
-
-            // userMutual.getAvatarList(userMutual.userPhone ?? locale.phone);
-            // userMutual.getUserAdsList(userMutual.userPhone ?? locale.phone);
-            // userMutual.getEstimatesInfo(userMutual.userPhone ?? locale.phone);
-            // userMutual.getSumEstimatesInfo(userMutual.userPhone ?? locale.phone);
-            // userMutual.checkOfficeInfo(userMutual.userPhone ?? locale.phone);
-            // userMutual.setUserPhone(userMutual.userPhone ?? locale.phone);
-
-            // Future.delayed(Duration(seconds: 0), () {
-            //   Navigator.push(context,
-            //     MaterialPageRoute(builder: (context) => MyAccount()),
-            //   );
-            // });
           }
 
           void _showRatingDialog() {

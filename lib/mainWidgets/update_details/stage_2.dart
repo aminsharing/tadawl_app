@@ -2,14 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
+import 'package:tadawl_app/models/AdsModel.dart';
+import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
+import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/ads/advertising_fee.dart';
+import 'package:tadawl_app/screens/ads/menu.dart';
 
 class Stage2 extends StatelessWidget {
-  Stage2(this._id_description, {Key key, @required this.updateDetailsProvider}) : super(key: key);
+  Stage2(this._id_description, {
+    Key key,
+    @required this.updateDetailsProvider,
+    @required this.ads,
+  }) : super(key: key);
   final String _id_description;
   final UpdateDetailsProvider updateDetailsProvider;
+  final List<AdsModel> ads;
   final GlobalKey<FormState> _updateAdsKey = GlobalKey<FormState>();
 
   @override
@@ -330,47 +340,74 @@ class Stage2 extends StatelessWidget {
                         return;
                       }
                       _updateAdsKey.currentState.save();
-                      updateDetails.updateDetails(
-                          context,
-                          _id_description,
-                          updateDetails.detailsAqarUpdate,
-                          updateDetails.isFootballCourtUpdate.toString(),
-                          updateDetails.isVolleyballCourtUpdate.toString(),
-                          updateDetails.isAmusementParkUpdate.toString(),
-                          updateDetails.isFamilyPartitionUpdate.toString(),
-                          updateDetails.isVerseUpdate.toString(),
-                          updateDetails.isCellarUpdate.toString(),
-                          updateDetails.isYardUpdate.toString(),
-                          updateDetails.isMaidRoomUpdate.toString(),
-                          updateDetails.isSwimmingPoolUpdate.toString(),
-                          updateDetails.isDriverRoomUpdate.toString(),
-                          updateDetails.isDuplexUpdate.toString(),
-                          updateDetails.isHallStaircaseUpdate.toString(),
-                          updateDetails.isConditionerUpdate.toString(),
-                          updateDetails.isElevatorUpdate.toString(),
-                          updateDetails.isCarEntranceUpdate.toString(),
-                          updateDetails.isAppendixUpdate.toString(),
-                          updateDetails.isKitchenUpdate.toString(),
-                          updateDetails.isFurnishedUpdate.toString(),
-                          updateDetails.StreetWidthUpdate.toString(),
-                          updateDetails.FloorUpdate.toString(),
-                          updateDetails.TreesUpdate.toString(),
-                          updateDetails.WellsUpdate.toString(),
-                          updateDetails.StoresUpdate.toString(),
-                          updateDetails.ApartmentsUpdate.toString(),
-                          updateDetails.AgeOfRealEstateUpdate.toString(),
-                          updateDetails.RoomsUpdate.toString(),
-                          updateDetails.ToiletsUpdateUpdate.toString(),
-                          updateDetails.LoungesUpdateUpdate.toString(),
-                          updateDetails.selectedTypeAqarUpdate.toString(),
-                          updateDetails.selectedFamilyUpdate.toString(),
-                          updateDetails.interfaceSelectedUpdate,
-                          updateDetails.totalSpaceUpdate,
-                          updateDetails.totalPricUpdatee,
-                          updateDetails.selectedPlanUpdate.toString(),
-                          updateDetails.id_category_finalUpdate.toString(),
-                          null,
-                          null);
+                      if(!updateDetails.isSending){
+                        updateDetails.isSending = true;
+                        updateDetails.updateDetails(
+                            context,
+                            _id_description,
+                            updateDetails.detailsAqarUpdate,
+                            updateDetails.isFootballCourtUpdate.toString(),
+                            updateDetails.isVolleyballCourtUpdate.toString(),
+                            updateDetails.isAmusementParkUpdate.toString(),
+                            updateDetails.isFamilyPartitionUpdate.toString(),
+                            updateDetails.isVerseUpdate.toString(),
+                            updateDetails.isCellarUpdate.toString(),
+                            updateDetails.isYardUpdate.toString(),
+                            updateDetails.isMaidRoomUpdate.toString(),
+                            updateDetails.isSwimmingPoolUpdate.toString(),
+                            updateDetails.isDriverRoomUpdate.toString(),
+                            updateDetails.isDuplexUpdate.toString(),
+                            updateDetails.isHallStaircaseUpdate.toString(),
+                            updateDetails.isConditionerUpdate.toString(),
+                            updateDetails.isElevatorUpdate.toString(),
+                            updateDetails.isCarEntranceUpdate.toString(),
+                            updateDetails.isAppendixUpdate.toString(),
+                            updateDetails.isKitchenUpdate.toString(),
+                            updateDetails.isFurnishedUpdate.toString(),
+                            updateDetails.StreetWidthUpdate.toString(),
+                            updateDetails.FloorUpdate.toString(),
+                            updateDetails.TreesUpdate.toString(),
+                            updateDetails.WellsUpdate.toString(),
+                            updateDetails.StoresUpdate.toString(),
+                            updateDetails.ApartmentsUpdate.toString(),
+                            updateDetails.AgeOfRealEstateUpdate.toString(),
+                            updateDetails.RoomsUpdate.toString(),
+                            updateDetails.ToiletsUpdateUpdate.toString(),
+                            updateDetails.LoungesUpdateUpdate.toString(),
+                            updateDetails.selectedTypeAqarUpdate.toString(),
+                            updateDetails.selectedFamilyUpdate.toString(),
+                            updateDetails.interfaceSelectedUpdate,
+                            updateDetails.totalSpaceUpdate,
+                            updateDetails.totalPricUpdatee,
+                            updateDetails.selectedPlanUpdate.toString(),
+                            updateDetails.id_category_finalUpdate.toString(),
+                            null,
+                            null).then((value) {
+                              Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(4);
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(builder: (context) =>
+                                      ChangeNotifierProvider<MenuProvider>(
+                                        create: (_) => MenuProvider(),
+                                        child: ChangeNotifierProvider<SearchDrawerProvider>(
+                                          create: (_) => SearchDrawerProvider(),
+                                          child: Menu(),
+                                        ),
+                                      ),),
+                                      (route) => false
+
+                              );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) =>
+                          //       ChangeNotifierProvider<AdPageProvider>(
+                          //         create: (_) => AdPageProvider(context, _id_description, null),
+                          //         child: AdPage(ads: ads, selectedScreen: SelectedScreen.menu),
+                          //       )
+                          //   ),
+                          // );
+                        });
+                      }
                     },
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 30),
@@ -384,7 +421,11 @@ class Stage2 extends StatelessWidget {
                               width: 1.0, color: const Color(0xff3f9d28)),
                         ),
                         child: Center(
-                          child: Text(
+                          child: updateDetails.isSending
+                              ?
+                          LinearProgressIndicator()
+                              :
+                          Text(
                             AppLocalizations.of(context).edit,
                             style: CustomTextStyle(
 

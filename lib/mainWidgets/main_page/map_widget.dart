@@ -4,17 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
-import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
+import 'package:tadawl_app/models/RegionModel.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/screens/ads/ad_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/screens/general/regions.dart';
+import 'package:tadawl_app/services/ad_page_helper.dart';
 
 class MapWidget extends StatelessWidget {
-  MapWidget(this._region_position ,{Key key}) : super(key: key);
-  final CameraPosition _region_position;
+  MapWidget({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,23 +51,23 @@ class MapWidget extends StatelessWidget {
                       }
                     },
                     child:
-                    (_region_position?? locale.savedPosition ?? locale.initialCameraPosition) == null
-                        ?
-                    Padding(
-                      padding: const EdgeInsets.all(50.0),
-                      child: Center(
-                        child: Container(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            backgroundColor: Color(0xff00cccc),
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                                Color(0xff1f2835)),
-                          ),
-                        ),
-                      ),
-                    )
-                        :
+                    // (_region_position?? locale.savedPosition ?? locale.initialCameraPosition) == null
+                    //     ?
+                    // Padding(
+                    //   padding: const EdgeInsets.all(50.0),
+                    //   child: Center(
+                    //     child: Container(
+                    //       width: 20,
+                    //       height: 20,
+                    //       child: CircularProgressIndicator(
+                    //         backgroundColor: Color(0xff00cccc),
+                    //         valueColor: AlwaysStoppedAnimation<Color>(
+                    //             Color(0xff1f2835)),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // )
+                    //     :
                     Directionality(
                       textDirection: TextDirection.ltr,
                       child: GoogleMap(
@@ -77,7 +76,7 @@ class MapWidget extends StatelessWidget {
                             mainPage.setShowDiogFalse();
                           }
                         },
-                        initialCameraPosition: _region_position ?? locale.savedPosition ?? locale.initialCameraPosition,
+                        initialCameraPosition: locale.initialCameraPosition ?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom),
                         mapType: MapType.normal,
                         onMapCreated: _onMapCreated,
                         markers: mainPage.markersMainPage.toSet(),
@@ -89,7 +88,7 @@ class MapWidget extends StatelessWidget {
                         rotateGesturesEnabled: true,
                         onCameraMove: (cameraPosition) {
                           final locale = Provider.of<LocaleProvider>(context, listen: false);
-                          locale.currentArea = cameraPosition;
+                          locale.initialCameraPosition = cameraPosition;
                           locale.saveCurrentLocation(cameraPosition.target, cameraPosition.zoom);
                           if (cameraPosition.zoom <= 5) {
                             mainPage.zoomOutOfRange++;
@@ -140,10 +139,7 @@ class MapWidget extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                ChangeNotifierProvider<AdPageProvider>(
-                                                  create: (_) => AdPageProvider(context, mainPage.SelectedAdsModelMainPage.idDescription, mainPage.SelectedAdsModelMainPage.idCategory),
-                                                  child: AdPage(ads: mainPage.ads, selectedScreen: SelectedScreen.mainPage,) ,
-                                                )
+                                                AdPageHelper(ads: mainPage.ads, index: mainPage.SelectedAdsIndex,)
                                         ),
                                       );
                                     });

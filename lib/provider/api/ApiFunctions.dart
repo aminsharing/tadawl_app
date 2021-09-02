@@ -599,11 +599,16 @@ class Api {
     String id_description,
     List<File> imagesList,
     File _video,
+    List<String> deletedImageNames,
   ) async {
     final uri = Uri.parse('$BaseURL/ads/update_img_ved.php');
     var request = http.MultipartRequest('POST', uri);
-    request.fields['id_description'] = id_description;
     request.fields['auth_key'] = _token;
+    request.fields['id_description'] = id_description;
+    // ignore: omit_local_variable_types
+    for (int i = 0; i < deletedImageNames.length; i++) {
+      request.fields['deleted_image_names[$i]'] = deletedImageNames[i];
+    }
     for (var i = 0; i < imagesList.length; i++) {
       await http.MultipartFile.fromPath('image[]', imagesList[i].path)
           .then((value) {
@@ -624,7 +629,8 @@ class Api {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 15.0);
-    } else {
+    }
+    else {
       await Fluttertoast.showToast(
           msg: 'هناك خطاء راجع الأدارة',
           toastLength: Toast.LENGTH_SHORT,
@@ -635,6 +641,7 @@ class Api {
           fontSize: 15.0);
     }
   }
+
 
   Future<dynamic> updateDetailsFunc(
     

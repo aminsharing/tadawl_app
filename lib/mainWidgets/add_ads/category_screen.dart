@@ -47,7 +47,7 @@ class CategoryScreen extends StatelessWidget {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MainPage(null)
+                              builder: (context) => MainPage()
                           )
                       );
                     },

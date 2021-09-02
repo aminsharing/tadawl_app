@@ -14,6 +14,7 @@ import 'package:tadawl_app/mainWidgets/ad_page/body/network_coverage_widget.dart
 import 'package:tadawl_app/mainWidgets/ad_page/body/similar_ad_widget.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_helper_provider.dart';
 //import 'package:tadawl_app/mainWidgets/openMap.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
@@ -24,10 +25,12 @@ class AdPage extends StatelessWidget {
     Key key,
     @required this.ads,
     @required this.selectedScreen,
+    @required this.index,
   }) : super(key: key);
   final List<AdsModel> ads;
   final SelectedScreen selectedScreen;
-  
+  final int index;
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 
@@ -59,7 +62,7 @@ class AdPage extends StatelessWidget {
                         size: 40,
                       ),
                       onSelected: (String choice) {
-                        adsPage.choiceAction(context, choice, adsPage.idDescription, ads, selectedScreen);
+                        adsPage.choiceAction(context, choice, adsPage.idDescription, ads, index, selectedScreen);
                       },
                       itemBuilder: (BuildContext context) {
                         return (_lang != 'en_US'?Constants.choices:EngConstants.choices).map((String choice) {
@@ -112,7 +115,7 @@ class AdPage extends StatelessWidget {
                       Column(
                         children: [
                           AdHeaderWidget(),
-                          AdInfoWidget(ads: ads,),
+                          AdInfoWidget(ads: ads, index: index),
 // ads add timestamp ....................
 // last update ads timestamp ....................
                           AdTimesAndUpdateWidget(),
@@ -187,18 +190,19 @@ class AdPage extends StatelessWidget {
                                         adsPage.stopVideoAdsPage();
                                         // adsPage.getAllAdsPageInfo(context, ads[i - 1].idDescription);
                                         // adsPage.getSimilarAdsList(context, ads[i - 1].idCategory, ads[i - 1].idDescription);
-                                        Future.delayed(Duration(seconds: 0), () {
-                                          Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ChangeNotifierProvider<AdPageProvider>(
-                                                      create: (_) => AdPageProvider(context, ads[i - 1].idDescription, ads[i - 1].idCategory),
-                                                      child: AdPage(ads: ads, selectedScreen: SelectedScreen.menu),
-                                                    )
-                                                    ),
-                                          );
-                                        });
+                                        // Future.delayed(Duration(seconds: 0), () {
+                                        //   Navigator.pushReplacement(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (context) =>
+                                        //             ChangeNotifierProvider<AdPageProvider>(
+                                        //               create: (_) => AdPageProvider(context, ads[i - 1].idDescription, ads[i - 1].idCategory),
+                                        //               child: AdPage(ads: ads, selectedScreen: SelectedScreen.menu),
+                                        //             )
+                                        //             ),
+                                        //   );
+                                        // });
+                                        Provider.of<AdPageHelperProvider>(context, listen: false).previousIndex();
                                       },
                                       child: Transform.rotate(
                                         angle: 180.0-45.0,
@@ -230,20 +234,20 @@ class AdPage extends StatelessWidget {
                                         adsPage.stopVideoAdsPage();
                                         // adsPage.getAllAdsPageInfo(context, ads[i + 1].idDescription);
                                         // adsPage.getSimilarAdsList(context, ads[i + 1].idCategory, ads[i + 1].idDescription);
-
-                                        Future.delayed(Duration(seconds: 0), () {
-                                          Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ChangeNotifierProvider<AdPageProvider>(
-                                                      create: (_) => AdPageProvider(context, ads[i + 1].idDescription, ads[i + 1].idCategory),
-                                                      child: AdPage(ads: ads, selectedScreen: SelectedScreen.menu),
-                                                    )
-
-                                            ),
-                                          );
-                                        });
+                                        // Future.delayed(Duration(seconds: 0), () {
+                                        //   Navigator.pushReplacement(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (context) =>
+                                        //             ChangeNotifierProvider<AdPageProvider>(
+                                        //               create: (_) => AdPageProvider(context, ads[i + 1].idDescription, ads[i + 1].idCategory),
+                                        //               child: AdPage(ads: ads, selectedScreen: SelectedScreen.menu),
+                                        //             )
+                                        //
+                                        //     ),
+                                        //   );
+                                        // });
+                                        Provider.of<AdPageHelperProvider>(context, listen: false).nextIndex();
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(

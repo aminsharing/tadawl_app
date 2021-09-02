@@ -9,7 +9,6 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/open_images.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
-import 'package:tadawl_app/provider/ads_provider/open_image_provider.dart';
 
 class AdHeaderWidget extends StatelessWidget {
   AdHeaderWidget({Key key}) : super(key: key);
@@ -179,10 +178,7 @@ class AdHeaderWidget extends StatelessWidget {
                                 onTap: () {
                                   adsPage.stopVideoAdsPage();
                                   Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                                      ChangeNotifierProvider<OpenImageProvider>(
-                                        create: (_) => OpenImageProvider(adsPage.idDescription),
-                                        child: OpenImages(),
-                                      )
+                                      OpenImages(images: adsPage.adsPageImages,)
                                   ));
                                 },
                                 child: PinchZoomImage(

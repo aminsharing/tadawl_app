@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/mainWidgets/update_details/stage_2.dart';
+import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -39,9 +40,14 @@ import 'stage_1/sliders/wells.dart';
 import 'stage_1/switchers/yard.dart';
 
 class Stage1 extends StatelessWidget {
-  const Stage1(this._id_description, {Key key, @required this.updateDetailsProvider}) : super(key: key);
+  const Stage1(this._id_description, {
+    Key key,
+    @required this.updateDetailsProvider,
+    @required this.ads,
+  }) : super(key: key);
   final String _id_description;
   final UpdateDetailsProvider updateDetailsProvider;
+  final List<AdsModel> ads;
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +110,7 @@ class Stage1 extends StatelessWidget {
                 Navigator.push(context, MaterialPageRoute(builder: (context) =>
                 ChangeNotifierProvider<UpdateDetailsProvider>.value(
                   value: updateDetailsProvider,
-                  child: Stage2(_id_description, updateDetailsProvider: updateDetailsProvider),
+                  child: Stage2(_id_description, updateDetailsProvider: updateDetailsProvider, ads: ads,),
                 )
                 ));
               },

@@ -16,7 +16,7 @@ class InitScreen extends StatelessWidget {
         await Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => MainPage(null)
+                builder: (context) => MainPage()
             )
         );
         return false;
@@ -46,7 +46,7 @@ class InitScreen extends StatelessWidget {
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => MainPage(null)
+                      builder: (context) => MainPage()
                   )
               );
             },

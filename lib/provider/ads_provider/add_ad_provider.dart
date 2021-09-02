@@ -17,10 +17,10 @@ import 'package:tadawl_app/models/CategoryModel.dart';
 import 'package:tadawl_app/models/RegionModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/screens/ads/main_page.dart';
 import 'package:tadawl_app/screens/general/home.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+// import 'package:wechat_assets_picker/wechat_assets_picker.dart' as picker;
 
 class AddAdProvider extends ChangeNotifier{
 
@@ -574,6 +574,9 @@ class AddAdProvider extends ChangeNotifier{
   Future getImagesAddAds(BuildContext context) async {
     _imagesListAddAds = [];
 
+    // await picker.AssetPicker.pickAssets(context).then((List<picker.AssetEntity> assets) {
+    //
+    // });
     await MultiImagePicker.pickImages(
       maxImages: 30,
       enableCamera: true,
@@ -680,7 +683,6 @@ class AddAdProvider extends ChangeNotifier{
           title: Text(
             AppLocalizations.of(context).bigFile,
             style: CustomTextStyle(
-
               fontSize: 20,
               color: const Color(0xff00cccc),
             ).getTextStyle(),
@@ -689,7 +691,6 @@ class AddAdProvider extends ChangeNotifier{
           content: Text(
             AppLocalizations.of(context).bigFileHint,
             style: CustomTextStyle(
-
               fontSize: 17,
               color: const Color(0xff000000),
             ).getTextStyle(),

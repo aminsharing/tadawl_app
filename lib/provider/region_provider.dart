@@ -108,11 +108,12 @@ class RegionProvider extends ChangeNotifier {
             markerId: MarkerId(city.name),// d46d1
             position: city.position,
             onTap: () {
-              Provider.of<LocaleProvider>(context, listen: false).currentArea = CameraPosition(target: city.position, zoom: city.zoom);
+              Provider.of<LocaleProvider>(context, listen: false).initialCameraPosition = CameraPosition(target: city.position, zoom: city.zoom);
+              Provider.of<LocaleProvider>(context, listen: false).saveCurrentLocation(city.position, city.zoom);
               Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => MainPage(CameraPosition(target: city.position, zoom: city.zoom))),
+                  MaterialPageRoute(builder: (context) => MainPage()),
                 );
             },
             icon: BitmapDescriptor.fromBytes(bmp)));

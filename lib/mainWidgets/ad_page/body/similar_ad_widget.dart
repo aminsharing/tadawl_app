@@ -4,8 +4,8 @@ import 'package:tadawl_app/mainWidgets/ad_button.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/screens/ads/ad_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tadawl_app/services/ad_page_helper.dart';
 
 class SimilarAdWidget extends StatelessWidget {
   SimilarAdWidget({Key key}) : super(key: key);
@@ -78,10 +78,7 @@ class SimilarAdWidget extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    ChangeNotifierProvider<AdPageProvider>(
-                                      create: (_) => AdPageProvider(context, adsPage.adsSimilar[i].idDescription, adsPage.adsSimilar[i].idCategory),
-                                      child: AdPage(ads: adsPage.adsSimilar, selectedScreen: SelectedScreen.menu),
-                                    )
+                                    AdPageHelper(ads:adsPage.adsSimilar, index: i,)
 
                             ),
                           );

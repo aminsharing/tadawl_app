@@ -75,10 +75,10 @@ class BottomNavigationBarApp extends StatelessWidget {
                     });
                   }else{
                     local.setCurrentPage(0);
-                    local.currentArea = null;
+                    // local.currentArea = null;
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => MainPage(null)),
+                      MaterialPageRoute(builder: (context) => MainPage()),
                     );
                   }
                 },

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tadawl_app/main.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/models/BFModel.dart';
 import 'package:tadawl_app/models/CategoryModel.dart';
 import 'package:tadawl_app/models/QFModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
-import 'package:tadawl_app/provider/locale_provider.dart';
 
 class UpdateDetailsProvider extends ChangeNotifier{
   UpdateDetailsProvider(BuildContext context, String _id_description, List<BFModel> adsBF, List<QFModel> adsQF, AdsModel adsPage){
@@ -78,6 +75,14 @@ class UpdateDetailsProvider extends ChangeNotifier{
   String _totalPricUpdatee;
   String _detailsAqarUpdate;
   String _totalSpaceUpdate;
+  bool _isSending = false;
+
+
+  set isSending(bool val){
+    _isSending = val;
+    notifyListeners();
+  }
+
 
   void getAdsUpdateInfo(List<BFModel> _adsBF, List<QFModel> _adsQF, String _interface, String _idTypeAqar, String _plan) {
     _interfaceSelectedUpdate = _interfaceSelectedUpdate ?? _interface;
@@ -473,7 +478,7 @@ class UpdateDetailsProvider extends ChangeNotifier{
     });
   }
 
-  void updateDetails(
+  Future updateDetails(
       BuildContext context,
       String id_description,
       String detailsAqar,
@@ -515,64 +520,62 @@ class UpdateDetailsProvider extends ChangeNotifier{
       String selectedAdderRelation,
       String selectedMarketerRelation,
       ) async {
-    Future.delayed(Duration(milliseconds: 0), () {
-      Api().updateDetailsFunc(
-        id_description,
-        detailsAqar,
-        isFootballCourt,
-        isVolleyballCourt,
-        isAmusementPark,
-        isFamilyPartition,
-        isVerse,
-        isCellar,
-        isYard,
-        isMaidRoom,
-        isSwimmingPool,
-        isDriverRoom,
-        isDuplex,
-        isHallStaircase,
-        isConditioner,
-        isElevator,
-        isCarEntrance,
-        isAppendix,
-        isKitchen,
-        isFurnished,
-        StreetWidth,
-        Floor,
-        Trees,
-        Wells,
-        Stores,
-        Apartments,
-        AgeOfRealEstate,
-        Rooms,
-        Toilets,
-        Lounges,
-        selectedTypeAqar,
-        selectedFamily,
-        interfaceSelected,
-        totalSpace,
-        totalPrice,
-        selectedPlan,
-        id_category_final,
-        null,
-        null,
-      );
-    });
+    await Api().updateDetailsFunc(
+      id_description,
+      detailsAqar,
+      isFootballCourt,
+      isVolleyballCourt,
+      isAmusementPark,
+      isFamilyPartition,
+      isVerse,
+      isCellar,
+      isYard,
+      isMaidRoom,
+      isSwimmingPool,
+      isDriverRoom,
+      isDuplex,
+      isHallStaircase,
+      isConditioner,
+      isElevator,
+      isCarEntrance,
+      isAppendix,
+      isKitchen,
+      isFurnished,
+      StreetWidth,
+      Floor,
+      Trees,
+      Wells,
+      Stores,
+      Apartments,
+      AgeOfRealEstate,
+      Rooms,
+      Toilets,
+      Lounges,
+      selectedTypeAqar,
+      selectedFamily,
+      interfaceSelected,
+      totalSpace,
+      totalPrice,
+      selectedPlan,
+      id_category_final,
+      null,
+      null,
+    );
     // Provider.of<AdPageProvider>(context, listen: false)
     //     .getAllAdsPageInfo(context, id_description);
 
 
-    Future.delayed(Duration(seconds: 0), () {
-      // Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
-      Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
-      // Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
-      // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => MyApp()),
-              (route) => false
-      );
-    });
+    // Future.delayed(Duration(seconds: 0), () {
+    //   // Provider.of<MainPageProvider>(context, listen: false).removeMarkers();
+    //   Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
+    //   // Provider.of<MainPageProvider>(context, listen: false).setRegionPosition(null);
+    //   // Provider.of<MainPageProvider>(context, listen: false).setInItMainPageDone(0);
+    //   Navigator.pushAndRemoveUntil(
+    //       context,
+    //       MaterialPageRoute(builder: (context) => Home()),
+    //           (route) => false
+    //   );
+    // });
   }
 
 
@@ -626,5 +629,5 @@ class UpdateDetailsProvider extends ChangeNotifier{
   String get totalPricUpdatee => _totalPricUpdatee;
   String get detailsAqarUpdate => _detailsAqarUpdate;
   String get totalSpaceUpdate => _totalSpaceUpdate;
-
+  bool get isSending => _isSending;
 }

@@ -18,9 +18,11 @@ import 'ad_info_widget/ad_qf_table.dart';
 class AdInfoWidget extends StatelessWidget {
   AdInfoWidget({
     Key key,
-    @required this.ads
+    @required this.ads,
+    @required this.index,
   }) : super(key: key);
   final List<AdsModel> ads;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +154,7 @@ class AdInfoWidget extends StatelessWidget {
                         if(adsPage.videoControllerAdsPage != null) {
                           adsPage.videoControllerAdsPage.pause();
                         }
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
@@ -162,6 +164,7 @@ class AdInfoWidget extends StatelessWidget {
                                   adsBF: adsPage.adsBF,
                                   adsQF: adsPage.adsQF,
                                   adsPage: adsPage.adsPage,
+                                  index: index,
                                 )
                             )
                         );
