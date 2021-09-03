@@ -51,12 +51,12 @@ class EngConstants {
 
 class AccountActions extends StatelessWidget {
   const AccountActions({
-    Key key,
-    @required this.myAccountProvider,
-    @required this.office,
+    Key? key,
+    required this.myAccountProvider,
+    required this.office,
   }) : super(key: key);
   final MyAccountProvider myAccountProvider;
-  final OfficeModel office;
+  final OfficeModel? office;
 
   @override
   Widget build(BuildContext context) {

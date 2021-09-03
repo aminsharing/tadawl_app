@@ -11,8 +11,8 @@ import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 
 class AvatarInfo extends StatelessWidget {
   const AvatarInfo({
-    Key key,
-    @required this.myAccountProvider,
+    Key? key,
+    required this.myAccountProvider,
   }) : super(key: key);
   final MyAccountProvider myAccountProvider;
 
@@ -44,7 +44,7 @@ class AvatarInfo extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  UserImage(imageName: userMutual.users.image?? '',),
+                  UserImage(imageName: userMutual.users!.image?? '',),
                   UserEstimates(
                     estimates: userMutual.estimates,
                     sumEstimates: userMutual.sumEstimates,
@@ -55,8 +55,8 @@ class AvatarInfo extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  UserName(username: userMutual.users.username),
-                  UserRegisteredDate(timeRegistered: userMutual.users.timeRegistered,),
+                  UserName(username: userMutual.users!.username),
+                  UserRegisteredDate(timeRegistered: userMutual.users!.timeRegistered,),
                   UserLastSeen(lastSeen: Jiffy(DateTime.now()).fromNow()),
                 ],
               ),

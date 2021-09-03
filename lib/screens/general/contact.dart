@@ -13,7 +13,7 @@ RegExp regExpPhone = RegExp(patternPhone);
 
 class Contact extends StatelessWidget {
   Contact({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final GlobalKey<FormState> _formContactKey = GlobalKey<FormState>();
@@ -40,7 +40,7 @@ class Contact extends StatelessWidget {
             ),
           ),
           title: Text(
-            AppLocalizations.of(context).contactUs,
+            AppLocalizations.of(context)!.contactUs,
             style: CustomTextStyle(
 
               fontSize: 20,
@@ -58,55 +58,55 @@ class Contact extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 ContactTextField(
-                    text: AppLocalizations.of(context).name,
+                    text: AppLocalizations.of(context)!.name,
                     keyboardType: TextInputType.text,
-                    onSaved: (String value) {
-                      contact.setName(value);
+                    onSaved: (String? value) {
+                      contact.setName(value??'');
                     },
                     validator: (String value) {
                       if (value.isEmpty) {
-                        return AppLocalizations.of(context).reqName;
+                        return AppLocalizations.of(context)!.reqName;
                       }
                       return null;
                     },
                 ),
                 ContactTextField(
-                  text: AppLocalizations.of(context).mobileNumber,
+                  text: AppLocalizations.of(context)!.mobileNumber,
                   keyboardType: TextInputType.number,
-                  onSaved: (String value) {
-                    contact.filterPhone(value);
+                  onSaved: (String? value) {
+                    contact.filterPhone(value??'');
                   },
                   validator: (String value) {
                     if (value.isEmpty) {
-                      return AppLocalizations.of(context).reqMob;
+                      return AppLocalizations.of(context)!.reqMob;
                     } else if (!regExpPhone.hasMatch(value)) {
-                      return AppLocalizations.of(context).reqSaudiMob;
+                      return AppLocalizations.of(context)!.reqSaudiMob;
                     }
                     return null;
                   },
                 ),
                 ContactTextField(
-                  text: AppLocalizations.of(context).title,
+                  text: AppLocalizations.of(context)!.title,
                   keyboardType: TextInputType.text,
-                  onSaved: (String value) {
-                    contact.setTitle(value);
+                  onSaved: (String? value) {
+                    contact.setTitle(value??'');
                   },
                   validator: (String value) {
                     if (value.isEmpty) {
-                      return AppLocalizations.of(context).reqTitle;
+                      return AppLocalizations.of(context)!.reqTitle;
                     }
                     return null;
                   },
                 ),
                 ContactTextField(
-                  text: AppLocalizations.of(context).message,
+                  text: AppLocalizations.of(context)!.message,
                   keyboardType: TextInputType.text,
-                  onSaved: (String value) {
-                    contact.setDetails(value);
+                  onSaved: (String? value) {
+                    contact.setDetails(value??'');
                   },
                   validator: (String value) {
                     if (value.isEmpty) {
-                      return AppLocalizations.of(context).reqMess;
+                      return AppLocalizations.of(context)!.reqMess;
                     }
                     return null;
                   },
@@ -311,10 +311,18 @@ class Contact extends StatelessWidget {
                           width: 1.0, color: const Color(0xff00cccc)),
                     ),
                     child: TextButton(
+                      onPressed: () {
+                        if (!_formContactKey.currentState!.validate()) {
+                          return;
+                        }
+                        _formContactKey.currentState!.save();
+                        contact.sendForm(context, contact.name, contact.mobile,
+                            contact.title, contact.details);
+                      },
                       child: SizedBox(
                         width: double.infinity,
                         child: Text(
-                          AppLocalizations.of(context).send,
+                          AppLocalizations.of(context)!.send,
                           style: CustomTextStyle(
 
                             fontSize: 15,
@@ -323,14 +331,6 @@ class Contact extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      onPressed: () {
-                        if (!_formContactKey.currentState.validate()) {
-                          return;
-                        }
-                        _formContactKey.currentState.save();
-                        contact.sendForm(context, contact.name, contact.mobile,
-                            contact.title, contact.details);
-                      },
                     ),
                   ),
                 ),
@@ -345,16 +345,16 @@ class Contact extends StatelessWidget {
 
 class ContactTextField extends StatelessWidget {
   const ContactTextField({
-    Key key,
-    @required this.text,
-    @required this.keyboardType,
-    @required this.onSaved,
-    @required this.validator,
+    Key? key,
+    required this.text,
+    required this.keyboardType,
+    required this.onSaved,
+    required this.validator,
   }) : super(key: key);
   final String text;
   final TextInputType keyboardType;
   final Function(String) validator;
-  final Function(String) onSaved;
+  final Function(String?) onSaved;
 
   @override
   Widget build(BuildContext context) {
@@ -391,9 +391,9 @@ class ContactTextField extends StatelessWidget {
               color: const Color(0xff989696),
             ).getTextStyle(),
             keyboardType: keyboardType,
-            minLines: text == AppLocalizations.of(context).message ? 4 : 1,
-            maxLines: text == AppLocalizations.of(context).message ? 4 : 1,
-            validator: validator,
+            minLines: text == AppLocalizations.of(context)!.message ? 4 : 1,
+            maxLines: text == AppLocalizations.of(context)!.message ? 4 : 1,
+            validator: validator as String? Function(String?)?,
             onSaved: onSaved,
           ),
         ),

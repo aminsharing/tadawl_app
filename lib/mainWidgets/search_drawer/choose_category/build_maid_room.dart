@@ -6,7 +6,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class BuildMaidRoom extends StatelessWidget {
-  const BuildMaidRoom({Key key}) : super(key: key);
+  const BuildMaidRoom({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class BuildMaidRoom extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context).maidRoom,
+            AppLocalizations.of(context)!.maidRoom,
             style: CustomTextStyle(
 
               fontSize: 15,

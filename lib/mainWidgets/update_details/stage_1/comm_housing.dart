@@ -5,7 +5,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
 
 class CommHousing extends StatelessWidget {
-  const CommHousing({Key key}) : super(key: key);
+  const CommHousing({Key? key}) : super(key: key);
 
 
   @override
@@ -22,12 +22,23 @@ class CommHousing extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ToggleButtons(
+              onPressed: (int index) {
+                updateDetails.setTyprAqarUpdate(index, true);
+              },
+              isSelected: updateDetails.typeAqarUpdate,
+              color: const Color(0xff04B404),
+              selectedColor: const Color(0xffffffff),
+              fillColor: const Color(0xff04B404),
+              borderColor: const Color(0xff04B404),
+              selectedBorderColor:
+              const Color(0xff04B404),
+              borderWidth: 1,
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.fromLTRB(
                       10, 0, 10, 0),
                   child: Text(
-                    AppLocalizations.of(context)
+                    AppLocalizations.of(context)!
                         .commHousing,
                     style: CustomTextStyle(
 
@@ -40,7 +51,7 @@ class CommHousing extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(
                       10, 0, 10, 0),
                   child: Text(
-                    AppLocalizations.of(context)
+                    AppLocalizations.of(context)!
                         .commercial,
                     style: CustomTextStyle(
 
@@ -53,7 +64,7 @@ class CommHousing extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(
                       10, 0, 10, 0),
                   child: Text(
-                    AppLocalizations.of(context)
+                    AppLocalizations.of(context)!
                         .housing,
                     style: CustomTextStyle(
 
@@ -63,17 +74,6 @@ class CommHousing extends StatelessWidget {
                   ),
                 ),
               ],
-              onPressed: (int index) {
-                updateDetails.setTyprAqarUpdate(index, true);
-              },
-              isSelected: updateDetails.typeAqarUpdate,
-              color: const Color(0xff04B404),
-              selectedColor: const Color(0xffffffff),
-              fillColor: const Color(0xff04B404),
-              borderColor: const Color(0xff04B404),
-              selectedBorderColor:
-              const Color(0xff04B404),
-              borderWidth: 1,
             ),
           ],
         ),

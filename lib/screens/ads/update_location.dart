@@ -12,20 +12,20 @@ class UpdateLocation extends StatelessWidget {
   UpdateLocation(
       this._id_description,
       {
-        Key key,
-        @required this.ads,
-        @required this.lat,
-        @required this.lng,
-        @required this.ads_city,
-        @required this.ads_neighborhood,
-        @required this.index,
+        Key? key,
+        required this.ads,
+        required this.lat,
+        required this.lng,
+        required this.ads_city,
+        required this.ads_neighborhood,
+        required this.index,
       }) : super(key: key);
-  final List<AdsModel> ads;
-  final String _id_description;
-  final String lat;
-  final String lng;
-  final String ads_city;
-  final String ads_neighborhood;
+  final List<AdsModel?> ads;
+  final String? _id_description;
+  final String? lat;
+  final String? lng;
+  final String? ads_city;
+  final String? ads_neighborhood;
   final int index;
 
   @override
@@ -82,7 +82,7 @@ class UpdateLocation extends StatelessWidget {
             ),
             title: Text(
               AppLocalizations
-                  .of(context)
+                  .of(context)!
                   .updateLocation,
               style: CustomTextStyle(
 
@@ -105,7 +105,7 @@ class UpdateLocation extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         AppLocalizations
-                            .of(context)
+                            .of(context)!
                             .city +
                             ' ${updateLoc.ads_city ?? ads_city}',
                         style: CustomTextStyle(
@@ -117,7 +117,7 @@ class UpdateLocation extends StatelessWidget {
                       ),
                       Text(
                         AppLocalizations
-                            .of(context)
+                            .of(context)!
                             .neighborhood +
                             ' ${updateLoc.ads_neighborhood??ads_neighborhood}',
                         style: CustomTextStyle(
@@ -146,10 +146,10 @@ class UpdateLocation extends StatelessWidget {
                         initialCameraPosition: CameraPosition(
                             target: LatLng(
                                 double.parse(
-                                    lat ?? updateLoc.ads_cordinates_lat
+                                    lat ?? updateLoc.ads_cordinates_lat as String
                                 ),
                                 double.parse(
-                                    lng ?? updateLoc.ads_cordinates_lng
+                                    lng ?? updateLoc.ads_cordinates_lng as String
                                 ),
                             ),
                             zoom: 13),
@@ -215,7 +215,7 @@ class UpdateLocation extends StatelessWidget {
                             :
                         Text(
                           AppLocalizations
-                              .of(context)
+                              .of(context)!
                               .edit,
                           style: CustomTextStyle(
 

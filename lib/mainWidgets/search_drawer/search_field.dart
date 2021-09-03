@@ -3,8 +3,8 @@ import 'package:tadawl_app/mainWidgets/search_on_map.dart';
 
 class SearchField extends StatelessWidget {
   const SearchField({
-    Key key,
-    @required this.selectedPage
+    Key? key,
+    required this.selectedPage
   }) : super(key: key);
   final SelectedPage selectedPage;
 

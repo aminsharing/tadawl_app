@@ -25,7 +25,6 @@ import 'package:tadawl_app/screens/ads/today_ads.dart';
 import 'package:tadawl_app/screens/ads/update_details.dart';
 import 'package:tadawl_app/screens/ads/update_images_video.dart';
 import 'package:tadawl_app/screens/ads/update_location.dart';
-import 'package:tadawl_app/services/ad_page_helper.dart';
 import 'package:video_player/video_player.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:tadawl_app/models/BFModel.dart';
@@ -34,7 +33,7 @@ import 'package:tadawl_app/models/UserModel.dart';
 import 'package:tadawl_app/models/views_series.dart';
 
 class AdPageProvider extends ChangeNotifier{
-  AdPageProvider(BuildContext context, String idDescription, String idCategory){
+  AdPageProvider(BuildContext context, String? idDescription, String? idCategory){
     print('init AdPageProvider');
     getAllAdsPageInfo(context, idDescription);
     if(idCategory != null) {
@@ -42,15 +41,15 @@ class AdPageProvider extends ChangeNotifier{
     }
   }
 
-  VideoPlayerController _videoControllerAdsPage;
-  Future<void> _initializeFutureVideoPlyerAdsPage;
-  ChewieController _chewieControllerAdsPage;
+  VideoPlayerController? _videoControllerAdsPage;
+  Future<void>? _initializeFutureVideoPlyerAdsPage;
+  ChewieController? _chewieControllerAdsPage;
   bool _busyAdsPage = false;
   final bool _waitAdsPage = false;
   int _currentControllerPageAdsPage = 0;
   final PageController _controllerAdsPage = PageController();
-  bool _is_favAdsPage;
-  AdsModel _AdsUpdateLoc;
+  bool? _is_favAdsPage;
+  AdsModel? _AdsUpdateLoc;
   final Set<Marker> _markersUpdateLoc = {};
   final ScrollController _scrollController = ScrollController();
   int _expendedListCount = 4;
@@ -63,10 +62,10 @@ class AdPageProvider extends ChangeNotifier{
     clearFav();
     if (_videoControllerAdsPage != null) {
       stopVideoAdsPage();
-      _videoControllerAdsPage.dispose();
+      _videoControllerAdsPage!.dispose();
     }
     if(_chewieControllerAdsPage != null){
-      _chewieControllerAdsPage.dispose();
+      _chewieControllerAdsPage!.dispose();
     }
     _controllerAdsPage.dispose();
     _scrollController.dispose();
@@ -83,21 +82,21 @@ class AdPageProvider extends ChangeNotifier{
     _expendedListCount = 4;
   }
 
-  void choiceAction(BuildContext context, String choice, String idDescription, List<AdsModel> ads, int index, SelectedScreen selectedScreen) {
+  void choiceAction(BuildContext context, String choice, String? idDescription, List<AdsModel?> ads, int index, SelectedScreen selectedScreen) {
     if (choice == 'تعديل الصور والفيديو' || choice == 'Update Images and Videos') {
       if(_videoControllerAdsPage != null) {
-        _videoControllerAdsPage.pause();
+        _videoControllerAdsPage!.pause();
       }
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
           ChangeNotifierProvider<UpdateImgVedProvider>(
-            create: (_) => UpdateImgVedProvider(_AdsPage.video??''),
+            create: (_) => UpdateImgVedProvider(_AdsPage!.video??''),
             child: UpdateImgVed(idDescription, ads: ads, adsPageImages: _AdsPageImages, index: index,)
           )
       ));
     }
     else if (choice == 'تعديل الموقع' || choice == 'Update Location') {
       if(_videoControllerAdsPage != null) {
-        _videoControllerAdsPage.pause();
+        _videoControllerAdsPage!.pause();
       }
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>
           ChangeNotifierProvider<UpdateLocationProvider>(
@@ -106,17 +105,17 @@ class AdPageProvider extends ChangeNotifier{
               idDescription,
               ads: ads,
               index: index,
-              lat: _AdsPage.lat,
-              lng: _AdsPage.lng,
-              ads_city: _AdsPage.ads_city,
-              ads_neighborhood: _AdsPage.ads_neighborhood,
+              lat: _AdsPage!.lat,
+              lng: _AdsPage!.lng,
+              ads_city: _AdsPage!.ads_city,
+              ads_neighborhood: _AdsPage!.ads_neighborhood,
             ),
           )
           ));
     }
     else if (choice == 'تعديل التفاصيل' || choice == 'Update Details') {
       if(_videoControllerAdsPage != null) {
-        _videoControllerAdsPage.pause();
+        _videoControllerAdsPage!.pause();
       }
       Navigator.pushReplacement(
           context,
@@ -215,7 +214,7 @@ class AdPageProvider extends ChangeNotifier{
       //_videoUpdate = null;
       //_videoControllerUpdate.pause();
       //_videoControllerAddAds.pause();
-      _videoControllerAdsPage.pause();
+      _videoControllerAdsPage!.pause();
     }
     //notifyListeners();
   }
@@ -225,7 +224,7 @@ class AdPageProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> updateAdsAdsPage(BuildContext context, String id_ads) async {
+  Future<void> updateAdsAdsPage(BuildContext context, String? id_ads) async {
     Future.delayed(Duration(milliseconds: 0), () async{
       _busyAdsPage = true;
       await Api().updateAdsFunc(id_ads).then((value) {
@@ -235,12 +234,12 @@ class AdPageProvider extends ChangeNotifier{
     });
   }
 
-  void setVideoAdsPage(String video) {
+  void setVideoAdsPage(String? video) {
     _videoControllerAdsPage = VideoPlayerController.network(
         'https://tadawl-store.com/API/assets/videos/$video');
-    _initializeFutureVideoPlyerAdsPage = _videoControllerAdsPage.initialize();
+    _initializeFutureVideoPlyerAdsPage = _videoControllerAdsPage!.initialize();
     _chewieControllerAdsPage = ChewieController(
-      videoPlayerController: _videoControllerAdsPage,
+      videoPlayerController: _videoControllerAdsPage!,
       autoPlay: true,
       looping: true,
     );
@@ -271,9 +270,9 @@ class AdPageProvider extends ChangeNotifier{
     _is_favAdsPage = null;
   }
 
-  Future<bool> onDeletePressed(BuildContext context, String idDescription) {
+  Future<bool> onDeletePressed(BuildContext context, String? idDescription) {
     if(_videoControllerAdsPage != null) {
-      _videoControllerAdsPage.pause();
+      _videoControllerAdsPage!.pause();
     }
     return showDialog(
       context: context,
@@ -329,11 +328,10 @@ class AdPageProvider extends ChangeNotifier{
           SizedBox(width: 100),
         ],
       ),
-    ) ??
-        false;
+    ).then((value) => value as bool);
   }
 
-  void changeAdsFavState(BuildContext context, int fav, String idDescription) async {
+  void changeAdsFavState(BuildContext context, int fav, String? idDescription) async {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     if(locale.phone != null){
       Future.delayed(Duration(milliseconds: 0), () {
@@ -359,15 +357,15 @@ class AdPageProvider extends ChangeNotifier{
 
   void setMarker(BuildContext context) async {
     _markersUpdateLoc.add(Marker(
-      markerId: MarkerId(_AdsUpdateLoc.lat),
-      position: LatLng(double.parse(_AdsUpdateLoc.lat),
-          double.parse(_AdsUpdateLoc.lng)),
+      markerId: MarkerId(_AdsUpdateLoc!.lat!),
+      position: LatLng(double.parse(_AdsUpdateLoc!.lat!),
+          double.parse(_AdsUpdateLoc!.lng!)),
     ));
   }
 
 
 
-  Future<void> deleteAdsFunc(BuildContext context, String idDescription) async {
+  Future<void> deleteAdsFunc(BuildContext context, String? idDescription) async {
     return Api().deleteAdsFunc(context, idDescription);
   }
 
@@ -380,37 +378,37 @@ class AdPageProvider extends ChangeNotifier{
 
   /// Mutual Provider
   ///
-  AdsModel _AdsPage;
+  AdsModel? _AdsPage;
   final List<AdsModel> _AdsPageImages = [];
-  List _adsPageImagesData = [];
+  List? _adsPageImagesData = [];
   final List<AdsModel> _AdsSimilar = [];
-  List _adsSimilarData = [];
-  UserModel _AdsUser;
+  List? _adsSimilarData = [];
+  UserModel? _AdsUser;
   final List<AdsModel> _AdsVR = [];
-  List _adsVRData = [];
+  List? _adsVRData = [];
   final List<BFModel> _AdsBF = [];
-  List _adsBFData = [];
+  List? _adsBFData = [];
   final List<QFModel> _AdsQF = [];
-  List _adsQFData = [];
+  List? _adsQFData = [];
   List<AdsModel> _AdsNavigation = [];
-  List _adsNavigationData = [];
+  List? _adsNavigationData = [];
   final List<ViewsSeriesModel> _AdsViews = [];
-  List _adsViewsData = [];
+  List? _adsViewsData = [];
   String _qrData = 'https://play.google.com/store/apps/details?id=com.tadawlapp.tadawl_app';
-  double leftMargin, topMargin;
-  String _idDescription;
+  double? leftMargin, topMargin;
+  String? _idDescription;
 
 
-  bool _is_favAdsPageDB = false;
-
-
-
+  bool? _is_favAdsPageDB = false;
 
 
 
 
 
-  void sendEstimate(BuildContext context, String phone, String phoneEstimated, String rating, String comment, String idDescription, List<AdsModel> _userAds) async {
+
+
+
+  void sendEstimate(BuildContext context, String? phone, String? phoneEstimated, String? rating, String? comment, String? idDescription, List<AdsModel> _userAds) async {
     await Api().sendEstimateFunc(phone, phoneEstimated, rating, comment).then((value) async{
       await Provider.of<MyAccountProvider>(context, listen: false).getEstimatesInfo(phoneEstimated).then((value) async{
         await Provider.of<MyAccountProvider>(context, listen: false).getSumEstimatesInfo(phoneEstimated).then((value) {
@@ -420,14 +418,14 @@ class AdPageProvider extends ChangeNotifier{
     });
   }
 
-  void getAdsPageList(BuildContext context, String idDescription) {
+  void getAdsPageList(BuildContext context, String? idDescription) {
     Future.delayed(Duration(milliseconds: 0), () {
       getFavStatus(context);
       Api().getAdsPageFunc(idDescription).then((value) {
         _AdsPage = AdsModel.adsPage(value);
-        _qrData = 'https://tadawl-store.com/${_AdsPage.idAds}/ads';
-        if((_AdsPage.video??'').isNotEmpty) {
-          setVideoAdsPage(_AdsPage.video);
+        _qrData = 'https://tadawl-store.com/${_AdsPage!.idAds}/ads';
+        if((_AdsPage!.video??'').isNotEmpty) {
+          setVideoAdsPage(_AdsPage!.video);
         }
         notifyListeners();
       });
@@ -443,13 +441,13 @@ class AdPageProvider extends ChangeNotifier{
     }
   }
 
-  void getImagesAdsPageList(BuildContext context, String idDescription) {
+  void getImagesAdsPageList(BuildContext context, String? idDescription) {
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsPageImages.clear();
       Api().getImagesAdsPageFunc(idDescription)
           .then((value) {
         _adsPageImagesData = value;
-        _adsPageImagesData.forEach((element) {
+        _adsPageImagesData!.forEach((element) {
           _AdsPageImages.add(AdsModel.adsPageImages(element));
           print("getImagesAdsPageFunc Images: ${element['ads_image']}");
         });
@@ -459,13 +457,13 @@ class AdPageProvider extends ChangeNotifier{
     });
   }
 
-  void getSimilarAdsList(BuildContext context, String idCategory, String idAds) {
+  void getSimilarAdsList(BuildContext context, String idCategory, String? idAds) {
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsSimilar.clear();
       Api().getSimilarAdsFunc(idCategory, idAds)
           .then((value) {
         _adsSimilarData = value;
-        _adsSimilarData.forEach((element) {
+        _adsSimilarData!.forEach((element) {
           _AdsSimilar.add(AdsModel.ads(element));
         });
 
@@ -475,7 +473,7 @@ class AdPageProvider extends ChangeNotifier{
     });
   }
 
-  void getUserAdsPageInfo(BuildContext context, String idDescription) {
+  void getUserAdsPageInfo(BuildContext context, String? idDescription) {
     Future.delayed(Duration(milliseconds: 0), () {
       Api().getAdsPageFunc(idDescription).then((value) {
         _AdsUser = UserModel.adsUser(value);
@@ -483,12 +481,12 @@ class AdPageProvider extends ChangeNotifier{
     });
   }
 
-  void getAdsVRInfo(BuildContext context, String idDescription) {
+  void getAdsVRInfo(BuildContext context, String? idDescription) {
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsVR.clear();
       Api().getAqarVRFunc(idDescription).then((value) {
         _adsVRData = value;
-        _adsVRData.forEach((element) {
+        _adsVRData!.forEach((element) {
           _AdsVR.add(AdsModel.adsVR(element));
         });
         notifyListeners();
@@ -496,13 +494,13 @@ class AdPageProvider extends ChangeNotifier{
     });
   }
 
-  void getBFAdsPageList(BuildContext context, String idDescription) {
+  void getBFAdsPageList(BuildContext context, String? idDescription) {
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsBF.clear();
       Api().getBFAdsPageFunc(idDescription)
           .then((value) {
         _adsBFData = value;
-        _adsBFData.forEach((element) {
+        _adsBFData!.forEach((element) {
           _AdsBF.add(BFModel.fromJson(element));
         });
         notifyListeners();
@@ -510,14 +508,14 @@ class AdPageProvider extends ChangeNotifier{
     });
   }
 
-  void getQFAdsPageList(BuildContext context, String idDescription) {
+  void getQFAdsPageList(BuildContext context, String? idDescription) {
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsQF.clear();
       Api()
           .getQFAdsPageFunc(idDescription)
           .then((value) {
         _adsQFData = value;
-        _adsQFData.forEach((element) {
+        _adsQFData!.forEach((element) {
           _AdsQF.add(QFModel.fromJson(element));
         });
         notifyListeners();
@@ -530,7 +528,7 @@ class AdPageProvider extends ChangeNotifier{
       _AdsNavigation.clear();
       Api().getNavigationFunc().then((value) {
         _adsNavigationData = value;
-        _adsNavigationData.forEach((element) {
+        _adsNavigationData!.forEach((element) {
           _AdsNavigation.add(AdsModel.adsNavigation(element));
         });
 
@@ -545,7 +543,7 @@ class AdPageProvider extends ChangeNotifier{
           _AdsNavigation.remove(element);
         });
         _AdsNavigation.sort((a, b) {
-          return a.timeUpdated.compareTo(b.timeUpdated);
+          return a.timeUpdated!.compareTo(b.timeUpdated!);
         });
         _AdsNavigation = [..._specialAds, ..._AdsNavigation.reversed.toList()];
         notifyListeners();
@@ -553,14 +551,14 @@ class AdPageProvider extends ChangeNotifier{
     });
   }
 
-  void getViewsChartInfo(BuildContext context, String idDescription) {
+  void getViewsChartInfo(BuildContext context, String? idDescription) {
     Future.delayed(Duration(milliseconds: 0), () {
       _AdsViews.clear();
       Api()
           .getViewsChartFunc(idDescription)
           .then((value) {
         _adsViewsData = value;
-        _adsViewsData.forEach((element) {
+        _adsViewsData!.forEach((element) {
           _AdsViews.add(ViewsSeriesModel(
             day: element['title'],
             views: int.parse(element['views']),
@@ -572,7 +570,7 @@ class AdPageProvider extends ChangeNotifier{
     });
   }
 
-  void setIdDescription(String idDescription) {
+  void setIdDescription(String? idDescription) {
     _idDescription = idDescription;
     // notifyListeners();
   }
@@ -596,16 +594,16 @@ class AdPageProvider extends ChangeNotifier{
   void updateViews(BuildContext context, String idDescription) async {
     Future.delayed(Duration(milliseconds: 0), () {
       if (_AdsPage != null) {
-        var _viewsAds = double.parse(_AdsPage.views) + 1;
+        var _viewsAds = double.parse(_AdsPage!.views!) + 1;
         Api().updateViewsFunc(
-            _AdsPage.idAds, _viewsAds.toString());
+            _AdsPage!.idAds, _viewsAds.toString());
         getAdsPageList(context, idDescription);
       }
     });
     //notifyListeners();
   }
 
-  void getAllAdsPageInfo(BuildContext context, String idDescription){
+  void getAllAdsPageInfo(BuildContext context, String? idDescription){
     getAdsPageList(context, idDescription);
     getImagesAdsPageList(context, idDescription);
     getUserAdsPageInfo(context, idDescription);
@@ -632,30 +630,30 @@ class AdPageProvider extends ChangeNotifier{
 
 
   String get qrData => _qrData;
-  AdsModel get adsPage => _AdsPage;
+  AdsModel? get adsPage => _AdsPage;
   List<AdsModel> get adsPageImages => _AdsPageImages;
   List<AdsModel> get adsSimilar => _AdsSimilar;
-  UserModel get adsUser => _AdsUser;
+  UserModel? get adsUser => _AdsUser;
   List<AdsModel> get adsVR => _AdsVR;
   List<BFModel> get adsBF => _AdsBF;
   List<QFModel> get adsQF => _AdsQF;
   List<AdsModel> get adsNavigation => _AdsNavigation;
   List<ViewsSeriesModel> get adsViews => _AdsViews;
-  String get idDescription => _idDescription;
+  String? get idDescription => _idDescription;
 
 
-  bool get is_favAdsPageDB => _is_favAdsPageDB;
+  bool? get is_favAdsPageDB => _is_favAdsPageDB;
 
 
-  VideoPlayerController get videoControllerAdsPage => _videoControllerAdsPage;
-  ChewieController get chewieControllerAdsPage => _chewieControllerAdsPage;
-  Future<void> get initializeFutureVideoPlyerAdsPage => _initializeFutureVideoPlyerAdsPage;
+  VideoPlayerController? get videoControllerAdsPage => _videoControllerAdsPage;
+  ChewieController? get chewieControllerAdsPage => _chewieControllerAdsPage;
+  Future<void>? get initializeFutureVideoPlyerAdsPage => _initializeFutureVideoPlyerAdsPage;
   bool get busyAdsPage => _busyAdsPage;
   bool get waitAdsPage => _waitAdsPage;
   int get currentControllerPageAdsPage => _currentControllerPageAdsPage;
   PageController get controllerAdsPage => _controllerAdsPage;
-  bool get is_favAdsPage => _is_favAdsPage;
-  AdsModel get AdsUpdateLoc => _AdsUpdateLoc;
+  bool? get is_favAdsPage => _is_favAdsPage;
+  AdsModel? get AdsUpdateLoc => _AdsUpdateLoc;
   Set<Marker> get markersUpdateLoc => _markersUpdateLoc;
   ScrollController get scrollController => _scrollController;
   int get expendedListCount => _expendedListCount;

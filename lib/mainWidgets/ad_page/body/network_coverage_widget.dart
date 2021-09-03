@@ -6,12 +6,12 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NetworkCoverageWidget extends StatelessWidget {
-  NetworkCoverageWidget({Key key}) : super(key: key);
+  NetworkCoverageWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     void _launchSTC() async {
-      await Provider.of<AdPageProvider>(context, listen: false).stopVideoAdsPage();
+      Provider.of<AdPageProvider>(context, listen: false).stopVideoAdsPage();
       const url = 'https://www.stc.com.sa/wps/wcm/connect/arabic/helpAndSupport/storelocator';
       await launch(url);
       // if (await canLaunch(url)) {
@@ -22,7 +22,7 @@ class NetworkCoverageWidget extends StatelessWidget {
     }
 
     void _launchZain() async {
-      await Provider.of<AdPageProvider>(context, listen: false).stopVideoAdsPage();
+      Provider.of<AdPageProvider>(context, listen: false).stopVideoAdsPage();
       const url = 'https://sa.zain.com/ar/coverage-map';
       await launch(url);
       // if (await canLaunch(url)) {
@@ -41,7 +41,7 @@ class NetworkCoverageWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
-                AppLocalizations.of(context).mapsNetwork,
+                AppLocalizations.of(context)!.mapsNetwork,
                 style: CustomTextStyle(
                   fontSize: 20,
                   color: const Color(0xff000000),

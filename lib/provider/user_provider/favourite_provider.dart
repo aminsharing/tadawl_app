@@ -4,7 +4,7 @@ import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 
 class FavouriteProvider extends ChangeNotifier{
 
-  FavouriteProvider(String _phone){
+  FavouriteProvider(String? _phone){
     print('init FavouriteProvider');
     getUserAdsFavList(_phone);
   }
@@ -17,14 +17,14 @@ class FavouriteProvider extends ChangeNotifier{
 
 
   final List<AdsModel> _userAdsFav = [];
-  List _UserAdsFavData = [];
+  List? _UserAdsFavData = [];
 
-  void getUserAdsFavList(String Phone) {
+  void getUserAdsFavList(String? Phone) {
     Future.delayed(Duration(milliseconds: 0), () {
       if (_userAdsFav.isEmpty) {
         Api().getFavAdsFunc(Phone).then((value) {
           _UserAdsFavData = value ?? [];
-          _UserAdsFavData.forEach((element) {
+          _UserAdsFavData!.forEach((element) {
             _userAdsFav.add(AdsModel.ads(element));
           });
           notifyListeners();
@@ -33,7 +33,7 @@ class FavouriteProvider extends ChangeNotifier{
         Api().getFavAdsFunc(Phone).then((value) {
           _UserAdsFavData = value;
           _userAdsFav.clear();
-          _UserAdsFavData.forEach((element) {
+          _UserAdsFavData!.forEach((element) {
             _userAdsFav.add(AdsModel.ads(element));
           });
           notifyListeners();

@@ -6,7 +6,7 @@ import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Verse extends StatelessWidget {
-  const Verse({Key key}) : super(key: key);
+  const Verse({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class Verse extends StatelessWidget {
         MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context).verse,
+            AppLocalizations.of(context)!.verse,
             style: CustomTextStyle(
 
               fontSize: 15,
@@ -33,7 +33,7 @@ class Verse extends StatelessWidget {
               height: 20.0,
               valueFontSize: 15.0,
               toggleSize: 15.0,
-              value: updateDetails.isVerseUpdate,
+              value: updateDetails.isVerseUpdate!,
               borderRadius: 15.0,
               padding: 2.0,
               showOnOff: false,

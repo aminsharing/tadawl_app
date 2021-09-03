@@ -8,7 +8,7 @@ import 'build_price.dart';
 import 'build_space.dart';
 
 class SelectedCategory17 extends StatelessWidget {
-  const SelectedCategory17({Key key}) : super(key: key);
+  const SelectedCategory17({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

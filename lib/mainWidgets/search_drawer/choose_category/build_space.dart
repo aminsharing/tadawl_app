@@ -6,7 +6,7 @@ import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 
 class BuildSpace extends StatelessWidget {
-  const BuildSpace({Key key}) : super(key: key);
+  const BuildSpace({Key? key}) : super(key: key);
 
 
   @override
@@ -22,7 +22,7 @@ class BuildSpace extends StatelessWidget {
             height: 50,
             child: TextFormField(
               decoration: InputDecoration(
-                labelText: AppLocalizations.of(context).maxSpace,
+                labelText: AppLocalizations.of(context)!.maxSpace,
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(0.0),
@@ -37,7 +37,7 @@ class BuildSpace extends StatelessWidget {
               keyboardType: TextInputType.number,
               minLines: 1,
               maxLines: 1,
-              onSaved: (String value) {
+              onSaved: (String? value) {
                 searchDrawer.setMaxSpaceSearchDrawer(value);
               },
             ),
@@ -56,7 +56,7 @@ class BuildSpace extends StatelessWidget {
             height: 50,
             child: TextFormField(
               decoration: InputDecoration(
-                labelText: AppLocalizations.of(context).minSpace,
+                labelText: AppLocalizations.of(context)!.minSpace,
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(0.0),
@@ -71,7 +71,7 @@ class BuildSpace extends StatelessWidget {
               keyboardType: TextInputType.number,
               minLines: 1,
               maxLines: 1,
-              onSaved: (String value) {
+              onSaved: (String? value) {
                 searchDrawer.setMinSpaceSearchDrawer(value);
               },
             ),

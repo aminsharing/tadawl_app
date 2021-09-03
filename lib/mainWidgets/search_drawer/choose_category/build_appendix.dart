@@ -6,7 +6,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class BuildAppendix extends StatelessWidget {
-  const BuildAppendix({Key key}) : super(key: key);
+  const BuildAppendix({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class BuildAppendix extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context).appendix,
+            AppLocalizations.of(context)!.appendix,
             style: CustomTextStyle(
 
               fontSize: 15,

@@ -6,23 +6,28 @@ import 'package:tadawl_app/models/ConvModel.dart';
 
 class ConvBtn extends StatelessWidget {
   const ConvBtn({
-    Key key,
-    @required this.conv,
-    @required this.phone,
-    @required this.onPressed,
+    Key? key,
+    required this.conv,
+    required this.phone,
+    required this.onPressed,
   }) : super(key: key);
   final Function onPressed;
   final ConvModel conv;
-  final String phone;
+  final String? phone;
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     return InkWell(
-      onTap: onPressed,
+      onTap: onPressed as void Function()?,
       child: Container(
         // margin: EdgeInsets.only(right: 10, bottom: 5, top: 5, left: 10),
         padding: EdgeInsets.only(top: 0, left: 13, right: 0, bottom: 13),
+        decoration: BoxDecoration(
+          // borderRadius: BorderRadius.all(Radius.circular(5.0)),
+          border: Border.all(color: Colors.grey),
+          color: Colors.grey[100],
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -39,11 +44,11 @@ class ConvBtn extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                            image: (conv.image??'').isNotEmpty
+                            image: ((conv.image??'').isNotEmpty
                                 ?
                             CachedNetworkImageProvider('https://tadawl-store.com/API/assets/images/avatar/${conv.image ?? 'avatar.jpg'}')
                                 :
-                            AssetImage('assets/images/avatar.png'),
+                            AssetImage('assets/images/avatar.png')) as ImageProvider<Object>,
                             fit: BoxFit.fill),
                       ),
                     ),
@@ -98,16 +103,16 @@ class ConvBtn extends StatelessWidget {
                                 15,
                                 0),
                             child: Text(
-                              DateTime.now().difference(DateTime.parse(conv.timeAdded)).inDays > 0
+                              DateTime.now().difference(DateTime.parse(conv.timeAdded!)).inDays > 0
                                   ?
                               DateFormat('yyyy-MM-dd')
                                   .format(
-                                DateTime.parse(conv.timeAdded),
+                                DateTime.parse(conv.timeAdded!),
                               )
                                   :
                               DateFormat('hh:mm a')
                                   .format(
-                                DateTime.parse(conv.timeAdded),
+                                DateTime.parse(conv.timeAdded!),
                               ),
                               style: TextStyle(
                                 fontFamily:
@@ -155,11 +160,6 @@ class ConvBtn extends StatelessWidget {
               ),
             )
           ],
-        ),
-        decoration: BoxDecoration(
-          // borderRadius: BorderRadius.all(Radius.circular(5.0)),
-          border: Border.all(color: Colors.grey),
-          color: Colors.grey[100],
         ),
       ),
     );

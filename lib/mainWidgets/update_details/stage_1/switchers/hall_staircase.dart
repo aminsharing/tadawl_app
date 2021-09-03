@@ -6,7 +6,7 @@ import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HallStaircase extends StatelessWidget {
-  const HallStaircase({Key key}) : super(key: key);
+  const HallStaircase({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class HallStaircase extends StatelessWidget {
         MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context)
+            AppLocalizations.of(context)!
                 .hallStaircase,
             style: CustomTextStyle(
 
@@ -35,7 +35,7 @@ class HallStaircase extends StatelessWidget {
               valueFontSize: 15.0,
               toggleSize: 15.0,
               value:
-              updateDetails.isHallStaircaseUpdate,
+              updateDetails.isHallStaircaseUpdate!,
               borderRadius: 15.0,
               padding: 2.0,
               showOnOff: false,

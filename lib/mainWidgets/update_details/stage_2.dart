@@ -13,13 +13,13 @@ import 'package:tadawl_app/screens/ads/menu.dart';
 
 class Stage2 extends StatelessWidget {
   Stage2(this._id_description, {
-    Key key,
-    @required this.updateDetailsProvider,
-    @required this.ads,
+    Key? key,
+    required this.updateDetailsProvider,
+    required this.ads,
   }) : super(key: key);
-  final String _id_description;
+  final String? _id_description;
   final UpdateDetailsProvider updateDetailsProvider;
-  final List<AdsModel> ads;
+  final List<AdsModel?> ads;
   final GlobalKey<FormState> _updateAdsKey = GlobalKey<FormState>();
 
   @override
@@ -32,7 +32,7 @@ class Stage2 extends StatelessWidget {
         backgroundColor: const Color(0xff1f2835),
         leadingWidth: 70,
         title: Text(
-          AppLocalizations.of(context)
+          AppLocalizations.of(context)!
               .updateDetails,
           style: CustomTextStyle(
 
@@ -69,7 +69,7 @@ class Stage2 extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          AppLocalizations.of(context).space,
+                          AppLocalizations.of(context)!.space,
                           style: CustomTextStyle(
                             fontSize: 15,
                             color: const Color(0xff000000),
@@ -81,11 +81,10 @@ class Stage2 extends StatelessWidget {
                           height: 50,
                           child: TextFormField(
                             controller:
-                            updateDetails.spaceControllerUpdate ??
-                                TextEditingController(text: ''),
+                            updateDetails.spaceControllerUpdate,
                             decoration: InputDecoration(
                               labelText:
-                              AppLocalizations.of(context).space,
+                              AppLocalizations.of(context)!.space,
                               fillColor: Colors.white,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(0.0),
@@ -99,9 +98,9 @@ class Stage2 extends StatelessWidget {
                             keyboardType: TextInputType.number,
                             minLines: 1,
                             maxLines: 1,
-                            validator: (String value) {
-                              if (value.isEmpty) {
-                                return AppLocalizations.of(context)
+                            validator: (String? value) {
+                              if (value!.isEmpty) {
+                                return AppLocalizations.of(context)!
                                     .reqSpace;
                               }
                               return null;
@@ -110,7 +109,7 @@ class Stage2 extends StatelessWidget {
                               updateDetails
                                   .setOnChangedSpaceUpdate(value);
                             },
-                            onSaved: (String value) {
+                            onSaved: (String? value) {
                               updateDetails.setOnSavedSpaceUpdate(value);
                             },
                           ),
@@ -125,7 +124,7 @@ class Stage2 extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          AppLocalizations.of(context).meterPrice,
+                          AppLocalizations.of(context)!.meterPrice,
                           style: CustomTextStyle(
 
                             fontSize: 15,
@@ -137,11 +136,10 @@ class Stage2 extends StatelessWidget {
                           width: mediaQuery.size.width * 0.6,
                           height: 50,
                           child: TextFormField(
-                            controller: updateDetails.meterPriceControllerUpdate ??
-                                TextEditingController(text: ''),
+                            controller: updateDetails.meterPriceControllerUpdate,
                             decoration: InputDecoration(
                               labelText:
-                              AppLocalizations.of(context).meterPrice,
+                              AppLocalizations.of(context)!.meterPrice,
                               fillColor: Colors.white,
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(0.0),
@@ -162,7 +160,7 @@ class Stage2 extends StatelessWidget {
                             },
                             onSaved: (value) {
                               updateDetails
-                                  .setOnSavedMeterPriceUpdate(value);
+                                  .setOnSavedMeterPriceUpdate(value!);
                             },
                           ),
                         ),
@@ -175,7 +173,7 @@ class Stage2 extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        AppLocalizations.of(context).totalPrice,
+                        AppLocalizations.of(context)!.totalPrice,
                         style: CustomTextStyle(
 
                           fontSize: 15,
@@ -188,11 +186,10 @@ class Stage2 extends StatelessWidget {
                         height: 50,
                         child: TextFormField(
                           controller:
-                          updateDetails.priceControllerUpdate ??
-                              TextEditingController(text: ''),
+                          updateDetails.priceControllerUpdate,
                           decoration: InputDecoration(
                             labelText:
-                            AppLocalizations.of(context).totalPrice,
+                            AppLocalizations.of(context)!.totalPrice,
                             fillColor: Colors.white,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(0.0),
@@ -207,16 +204,16 @@ class Stage2 extends StatelessWidget {
                           keyboardType: TextInputType.number,
                           minLines: 1,
                           maxLines: 1,
-                          validator: (String value) {
-                            if (value.isEmpty) {
-                              return AppLocalizations.of(context)
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
+                              return AppLocalizations.of(context)!
                                   .reqTotalPrice;
                             }
                             return null;
                           },
-                          onSaved: (String value) {
+                          onSaved: (String? value) {
                             updateDetails
-                                .setOnSavedTotalPriceUpdate(value);
+                                .setOnSavedTotalPriceUpdate(value!);
                           },
                         ),
                       ),
@@ -229,7 +226,7 @@ class Stage2 extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        AppLocalizations.of(context).aqarDesc,
+                        AppLocalizations.of(context)!.aqarDesc,
                         style: CustomTextStyle(
 
                           fontSize: 15,
@@ -243,10 +240,9 @@ class Stage2 extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                   child: TextFormField(
-                    controller: updateDetails.descControllerUpdate ??
-                        TextEditingController(text: ''),
+                    controller: updateDetails.descControllerUpdate,
                     decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context)
+                      labelText: AppLocalizations.of(context)!
                           .writeAdditionalDetailsHere,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
@@ -262,14 +258,14 @@ class Stage2 extends StatelessWidget {
                     keyboardType: TextInputType.text,
                     minLines: 1,
                     maxLines: 4,
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return AppLocalizations.of(context).reDesc;
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return AppLocalizations.of(context)!.reDesc;
                       }
                       return null;
                     },
-                    onSaved: (String value) {
-                      updateDetails.setOnSavedDetailsUpdate(value);
+                    onSaved: (String? value) {
+                      updateDetails.setOnSavedDetailsUpdate(value!);
                     },
                   ),
                 ),
@@ -287,7 +283,7 @@ class Stage2 extends StatelessWidget {
                           );
                         },
                         child: Text(
-                          AppLocalizations.of(context).advFees,
+                          AppLocalizations.of(context)!.advFees,
                           style: CustomTextStyle(
 
                             fontSize: 10,
@@ -297,7 +293,7 @@ class Stage2 extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        AppLocalizations.of(context).committed,
+                        AppLocalizations.of(context)!.committed,
                         style: CustomTextStyle(
 
                           fontSize: 10,
@@ -308,7 +304,7 @@ class Stage2 extends StatelessWidget {
                       TextButton(
                         onPressed: () {},
                         child: Text(
-                          AppLocalizations.of(context).usageTerms,
+                          AppLocalizations.of(context)!.usageTerms,
                           style: CustomTextStyle(
 
                             fontSize: 10,
@@ -318,7 +314,7 @@ class Stage2 extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        AppLocalizations.of(context).accept,
+                        AppLocalizations.of(context)!.accept,
                         style: CustomTextStyle(
 
                           fontSize: 10,
@@ -329,22 +325,22 @@ class Stage2 extends StatelessWidget {
                     ],
                   ),
                   value: updateDetails.AcceptedUpdate,
-                  onChanged: (bool value) {
+                  onChanged: (bool? value) {
                     updateDetails.setAcceptedUpdate(value);
                   },
                 ),
                 if (updateDetails.AcceptedUpdate == true)
                   TextButton(
                     onPressed: () {
-                      if (!_updateAdsKey.currentState.validate()) {
+                      if (!_updateAdsKey.currentState!.validate()) {
                         return;
                       }
-                      _updateAdsKey.currentState.save();
+                      _updateAdsKey.currentState!.save();
                       if(!updateDetails.isSending){
                         updateDetails.isSending = true;
                         updateDetails.updateDetails(
                             context,
-                            _id_description,
+                            _id_description!,
                             updateDetails.detailsAqarUpdate,
                             updateDetails.isFootballCourtUpdate.toString(),
                             updateDetails.isVolleyballCourtUpdate.toString(),
@@ -426,7 +422,7 @@ class Stage2 extends StatelessWidget {
                           LinearProgressIndicator()
                               :
                           Text(
-                            AppLocalizations.of(context).edit,
+                            AppLocalizations.of(context)!.edit,
                             style: CustomTextStyle(
 
                               fontSize: 15,

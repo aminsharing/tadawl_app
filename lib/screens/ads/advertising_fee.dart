@@ -10,7 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AdvertisingFee extends StatelessWidget {
   AdvertisingFee({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final AdvFeeProvider advFeeProvider = AdvFeeProvider();
@@ -48,7 +48,7 @@ class AdvertisingFee extends StatelessWidget {
                 ),
               ),
               title: Text(
-                AppLocalizations.of(context).advFees,
+                AppLocalizations.of(context)!.advFees,
                 style: CustomTextStyle(
                   fontSize: 20,
                   color: const Color(0xffffffff),
@@ -68,35 +68,6 @@ class AdvertisingFee extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ToggleButtons(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                              child: Text(
-                                AppLocalizations.of(context).officesMarketers,
-                                style: CustomTextStyle(
-                                  fontSize: 15,
-                                ).getTextStyle(),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                              child: Text(
-                                AppLocalizations.of(context).owner,
-                                style: CustomTextStyle(
-                                  fontSize: 15,
-                                ).getTextStyle(),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                              child: Text(
-                                AppLocalizations.of(context).leaseContracts,
-                                style: CustomTextStyle(
-                                  fontSize: 15,
-                                ).getTextStyle(),
-                              ),
-                            ),
-                          ],
                           onPressed: (int index) {
                             advFee.updateSelected1(index);
                           },
@@ -108,6 +79,35 @@ class AdvertisingFee extends StatelessWidget {
                           borderWidth: 1,
                           borderColor: const Color(0xffdddddd),
                           selectedBorderColor: const Color(0xffdddddd),
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                              child: Text(
+                                AppLocalizations.of(context)!.officesMarketers,
+                                style: CustomTextStyle(
+                                  fontSize: 15,
+                                ).getTextStyle(),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                              child: Text(
+                                AppLocalizations.of(context)!.owner,
+                                style: CustomTextStyle(
+                                  fontSize: 15,
+                                ).getTextStyle(),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                              child: Text(
+                                AppLocalizations.of(context)!.leaseContracts,
+                                style: CustomTextStyle(
+                                  fontSize: 15,
+                                ).getTextStyle(),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

@@ -7,7 +7,7 @@ import 'build_space.dart';
 import 'build_street_width.dart';
 
 class SelectedCategory18 extends StatelessWidget {
-  const SelectedCategory18({Key key}) : super(key: key);
+  const SelectedCategory18({Key? key}) : super(key: key);
 
 
   @override

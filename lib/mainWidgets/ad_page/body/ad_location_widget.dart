@@ -7,7 +7,7 @@ import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AdLocationWidget extends StatelessWidget {
-  AdLocationWidget({Key key}) : super(key: key);
+  AdLocationWidget({Key? key}) : super(key: key);
   
   Future<void> _openMap(double latitude, double longitude) async {
     var googleUrl = 'https://www.google.com/maps/dir/?api=1&destination=$latitude,$longitude';
@@ -35,7 +35,7 @@ class AdLocationWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
-                AppLocalizations.of(context).locServ,
+                AppLocalizations.of(context)!.locServ,
                 style: CustomTextStyle(
                   fontSize: 20,
                   color: const Color(0xff000000),
@@ -55,15 +55,15 @@ class AdLocationWidget extends StatelessWidget {
                   GoogleMap(
                     onTap: (value){
                       adsPage.stopVideoAdsPage();
-                      _openMap(double.parse(adsPage.adsPage.lat),
-                          double.parse(adsPage.adsPage.lng));
+                      _openMap(double.parse(adsPage.adsPage!.lat!),
+                          double.parse(adsPage.adsPage!.lng!));
                     },
                     initialCameraPosition: CameraPosition(
                         target: LatLng(
                             double.parse(
-                                adsPage.adsPage.lat),
+                                adsPage.adsPage!.lat!),
                             double.parse(
-                                adsPage.adsPage.lng)),
+                                adsPage.adsPage!.lng!)),
                         zoom: 15),
                     mapType: MapType.normal,
                     onMapCreated: _onMapCreated,

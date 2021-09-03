@@ -13,10 +13,10 @@ enum FieldType{
 
 class UpdateInfoTextField extends StatelessWidget {
   const UpdateInfoTextField({
-    Key key,
-    @required this.labelText,
-    @required this.fieldType,
-    @required this.icon,
+    Key? key,
+    required this.labelText,
+    required this.fieldType,
+    required this.icon,
   }) : super(key: key);
   final String labelText;
   final FieldType fieldType;
@@ -38,15 +38,15 @@ class UpdateInfoTextField extends StatelessWidget {
             labelText: labelText,
           ),
           initialValue:
-          fieldType == FieldType.username ? userMutual.users.username ?? ''
+          fieldType == FieldType.username ? userMutual.users!.username ?? ''
               :
-          fieldType == FieldType.email ? userMutual.users.email ?? ''
+          fieldType == FieldType.email ? userMutual.users!.email ?? ''
               :
-          fieldType == FieldType.about ? userMutual.users.about ?? ''
+          fieldType == FieldType.about ? userMutual.users!.about ?? ''
               :
-          fieldType == FieldType.companyName ? userMutual.users.company_name ?? ''
+          fieldType == FieldType.companyName ? userMutual.users!.company_name ?? ''
               :
-          fieldType == FieldType.officeTypeName ? userMutual.users.office_name ?? ''
+          fieldType == FieldType.officeTypeName ? userMutual.users!.office_name ?? ''
               :
           '',
           style: CustomTextStyle(
@@ -54,10 +54,10 @@ class UpdateInfoTextField extends StatelessWidget {
             color: Color(0xff989696),
           ).getTextStyle(),
           keyboardType: fieldType == FieldType.email ? TextInputType.emailAddress : TextInputType.text,
-          validator: (String value) {
+          validator: (String? value) {
             return null;
           },
-          onSaved: (String value) {
+          onSaved: (String? value) {
             //userUpdate.setUsernameController(value);
             // final userMutual = Provider.of<UserMutualProvider>(context, listen: false);
             if(fieldType == FieldType.username){

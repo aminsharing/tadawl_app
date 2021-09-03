@@ -5,7 +5,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class BuildApartments extends StatelessWidget {
-  const BuildApartments({Key key}) : super(key: key);
+  const BuildApartments({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class BuildApartments extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              AppLocalizations.of(context).apartments,
+              AppLocalizations.of(context)!.apartments,
               style: CustomTextStyle(
 
                 fontSize: 10,
@@ -35,6 +35,16 @@ class BuildApartments extends StatelessWidget {
             children: [
               Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
                 return ToggleButtons(
+                  onPressed: (int index) {
+                    searchDrawer.setApartmentsSearchDrawer(index);
+                  },
+                  isSelected: searchDrawer.apartmentsSearchDrawer,
+                  color: const Color(0xff00cccc),
+                  selectedColor: const Color(0xffffffff),
+                  fillColor: const Color(0xff00cccc),
+                  borderColor: const Color(0xff00cccc),
+                  selectedBorderColor: const Color(0xff00cccc),
+                  borderWidth: 1,
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -94,7 +104,7 @@ class BuildApartments extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                       child: Text(
-                        AppLocalizations.of(context).all,
+                        AppLocalizations.of(context)!.all,
                         style: CustomTextStyle(
 
                           fontSize: 10,
@@ -103,16 +113,6 @@ class BuildApartments extends StatelessWidget {
                       ),
                     ),
                   ],
-                  onPressed: (int index) {
-                    searchDrawer.setApartmentsSearchDrawer(index);
-                  },
-                  isSelected: searchDrawer.apartmentsSearchDrawer,
-                  color: const Color(0xff00cccc),
-                  selectedColor: const Color(0xffffffff),
-                  fillColor: const Color(0xff00cccc),
-                  borderColor: const Color(0xff00cccc),
-                  selectedBorderColor: const Color(0xff00cccc),
-                  borderWidth: 1,
                 );
               }),
             ],

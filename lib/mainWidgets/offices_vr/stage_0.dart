@@ -7,12 +7,12 @@ import 'package:tadawl_app/mainWidgets/offices_vr/stage_1.dart';
 import 'package:tadawl_app/provider/user_provider/offices_vr_provider.dart';
 
 class Stage0 extends StatelessWidget {
-  Stage0({Key key}) : super(key: key);
+  Stage0({Key? key}) : super(key: key);
   final GlobalKey<FormState> _officesVRKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final translate = AppLocalizations.of(context);
+    final translate = AppLocalizations.of(context)!;
     final mediaQuery = MediaQuery.of(context);
     final officesVR = Provider.of<OfficesVRProvider>(context, listen: false);
     return Scaffold(
@@ -71,7 +71,7 @@ class Stage0 extends StatelessWidget {
                   keyboardType: TextInputType.text,
                   labelText: translate.realEstateOfficesName,
                   onSaved: (value){
-                    officesVR.setOfficeName(value);
+                    officesVR.setOfficeName(value??'');
                   },
                   validator: (String value) {
                     if (value.isEmpty) {
@@ -112,8 +112,8 @@ class Stage0 extends StatelessWidget {
                     }
                     return null;
                   },
-                  onSaved: (String value) {
-                    officesVR.setCRNumber(value);
+                  onSaved: (String? value) {
+                    officesVR.setCRNumber(value??'');
                   },
                 ),
               ),
@@ -153,11 +153,11 @@ class Stage0 extends StatelessWidget {
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 image:
-                                officesVROn.imageOfficeVR == null
+                                (officesVROn.imageOfficeVR == null
                                     ?
                                 const AssetImage('assets/images/img4.png')
                                     :
-                                FileImage(officesVROn.imageOfficeVR),
+                                FileImage(officesVROn.imageOfficeVR!)) as ImageProvider<Object>,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -172,10 +172,10 @@ class Stage0 extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
                 child: TextButton(
                   onPressed: () async {
-                    if (!_officesVRKey.currentState.validate()) {
+                    if (!_officesVRKey.currentState!.validate()) {
                       return;
                     }
-                    _officesVRKey.currentState.save();
+                    _officesVRKey.currentState!.save();
                     if (officesVR.imageOfficeVR == null) {
                       await Fluttertoast.showToast(
                           msg: 'صورة السجل التجاري مطلوبة',
@@ -230,15 +230,15 @@ class Stage0 extends StatelessWidget {
 
 class BuildOfficeTextField extends StatelessWidget {
   const BuildOfficeTextField({
-    Key key,
-    @required this.labelText,
-    @required this.validator,
-    @required this.onSaved,
-    @required this.keyboardType,
+    Key? key,
+    required this.labelText,
+    required this.validator,
+    required this.onSaved,
+    required this.keyboardType,
   }) : super(key: key);
   final String labelText;
   final Function(String) validator;
-  final Function(String) onSaved;
+  final Function(String?) onSaved;
   final TextInputType keyboardType;
 
   @override
@@ -250,7 +250,7 @@ class BuildOfficeTextField extends StatelessWidget {
         color: const Color(0xffababab),
       ).getTextStyle(),
       keyboardType: keyboardType,
-      validator: validator,
+      validator: validator as String? Function(String?)?,
       onSaved: onSaved,
     );
   }

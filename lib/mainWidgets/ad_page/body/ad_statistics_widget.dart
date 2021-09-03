@@ -41,7 +41,7 @@ List<ViewsSeriesModel> dataa = [
 
 
 class AdStatisticsWidget extends StatelessWidget {
-  AdStatisticsWidget({Key key}) : super(key: key);
+  AdStatisticsWidget({Key? key}) : super(key: key);
 
 
   @override
@@ -50,7 +50,7 @@ class AdStatisticsWidget extends StatelessWidget {
     var mediaQuery = MediaQuery.of(context);
     return Consumer<AdPageProvider>(builder: (context, adsPage, child) {
       if (adsPage.adsUser != null) {
-        if (adsPage.adsUser.phone == locale.phone) {
+        if (adsPage.adsUser!.phone == locale.phone) {
           return Column(
             children: [
               Padding(
@@ -59,7 +59,7 @@ class AdStatisticsWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      AppLocalizations.of(context).advertisingStats,
+                      AppLocalizations.of(context)!.advertisingStats,
                       style: CustomTextStyle(
                         fontSize: 20,
                         color: const Color(0xff000000),
@@ -81,7 +81,7 @@ class AdStatisticsWidget extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              AppLocalizations.of(context).advertisingStats,
+                              AppLocalizations.of(context)!.advertisingStats,
                               style: CustomTextStyle(
                                 fontSize: 15,
                                 color: const Color(0xff00cccc),

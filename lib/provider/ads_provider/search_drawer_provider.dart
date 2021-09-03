@@ -21,11 +21,11 @@ class SearchDrawerProvider extends ChangeNotifier{
     super.dispose();
   }
 
-  int _menuFilter;
+  int? _menuFilter;
   set menuFilter(int i) => _menuFilter = i;
-  List _MenuAdsData = [];
-  String _idCategorySearch;
-  String _selectedCategory = '0',
+  List? _MenuAdsData = [];
+  String? _idCategorySearch;
+  String? _selectedCategory = '0',
       _minPriceSearchDrawer = '0',
       _maxSpaceSearchDrawer = '0',
       _minSpaceSearchDrawer = '0',
@@ -63,10 +63,10 @@ class SearchDrawerProvider extends ChangeNotifier{
       _bool_feature16SearchDrawer = false,
       _bool_feature17SearchDrawer = false,
       _bool_feature18SearchDrawer = false;
-  List _AdsData = [];
-  int _filter;
-  int _mainAdsCount;
-  int _menuAdsCount;
+  List? _AdsData = [];
+  int? _filter;
+  int? _mainAdsCount;
+  int? _menuAdsCount;
   final List<bool> _planSearchDrawer = List.generate(3, (_) => false);
   final List<bool> _loungesSearchDrawer = List.generate(4, (_) => false);
   final List<bool> _toiletsSearchDrawer = List.generate(4, (_) => false);
@@ -76,11 +76,11 @@ class SearchDrawerProvider extends ChangeNotifier{
   final List<bool> _typeAqarSearchDrawer = List.generate(3, (_) => false);
 
 
-  void setFilter(int assignedFilter) {
+  void setFilter(int? assignedFilter) {
     _filter = assignedFilter;
   }
 
-  void setIdCategorySearch(String val) {
+  void setIdCategorySearch(String? val) {
     _idCategorySearch = val;
     // notifyListeners();
   }
@@ -93,21 +93,21 @@ class SearchDrawerProvider extends ChangeNotifier{
     _menuFilter = null;
   }
 
-  void setMenuFilter(int assignedMenuFilter) {
+  void setMenuFilter(int? assignedMenuFilter) {
     _menuFilter = assignedMenuFilter;
   }
 
-  void setSelectedCategory(String value) {
+  void setSelectedCategory(String? value) {
     _selectedCategory = value;
     notifyListeners();
   }
 
-  void setMinPriceSearchDrawer(String value) {
+  void setMinPriceSearchDrawer(String? value) {
     _minPriceSearchDrawer = value;
     notifyListeners();
   }
 
-  void setMaxPriceSearchDrawer(String value) {
+  void setMaxPriceSearchDrawer(String? value) {
     _maxPriceSearchDrawer = value;
     notifyListeners();
   }
@@ -126,17 +126,17 @@ class SearchDrawerProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setInterfaceSelectedSearchDrawer(String newValue) {
+  void setInterfaceSelectedSearchDrawer(String? newValue) {
     _interfaceSelectedSearchDrawer = newValue;
     notifyListeners();
   }
 
-  void setStreetWidthSelectedSearchDrawer(String newValue) {
+  void setStreetWidthSelectedSearchDrawer(String? newValue) {
     _streetWidthSelectedSearchDrawer = newValue;
     notifyListeners();
   }
 
-  void setAgeOfRealEstateSelectedSearchDrawer(String newValue) {
+  void setAgeOfRealEstateSelectedSearchDrawer(String? newValue) {
     _ageOfRealEstateSelectedSearchDrawer = newValue;
     notifyListeners();
   }
@@ -197,22 +197,22 @@ class SearchDrawerProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setStoresSearchDrawer(String newValue) {
+  void setStoresSearchDrawer(String? newValue) {
     _storesSelectedSearchDrawer = newValue;
     notifyListeners();
   }
 
-  void setFloorSearchDrawer(String newValue) {
+  void setFloorSearchDrawer(String? newValue) {
     _floorSelectedSearchDrawer = newValue;
     notifyListeners();
   }
 
-  void setTreesSearchDrawer(String newValue) {
+  void setTreesSearchDrawer(String? newValue) {
     _treesSelectedSearchDrawer = newValue;
     notifyListeners();
   }
 
-  void setWellsSearchDrawer(String newValue) {
+  void setWellsSearchDrawer(String? newValue) {
     _wellsSelectedSearchDrawer = newValue;
     notifyListeners();
   }
@@ -329,12 +329,12 @@ class SearchDrawerProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setMaxSpaceSearchDrawer(String value) {
+  void setMaxSpaceSearchDrawer(String? value) {
     _maxSpaceSearchDrawer = value;
     notifyListeners();
   }
 
-  void setMinSpaceSearchDrawer(String value) {
+  void setMinSpaceSearchDrawer(String? value) {
     _minSpaceSearchDrawer = value;
     notifyListeners();
   }
@@ -399,9 +399,9 @@ class SearchDrawerProvider extends ChangeNotifier{
       Future.delayed(Duration(milliseconds: 0), () {
         Api().getadsFunc(area.target, getRadius(area.zoom)).then((value) {
           _AdsData = value;
-          setMainAdsCount(_AdsData.length);
+          setMainAdsCount(_AdsData!.length);
           Provider.of<MainPageProvider>(context, listen: false)
-              .getAds(context ,_AdsData, area.zoom);
+              .getAds(context ,_AdsData!, area.zoom);
         });
       });
     }
@@ -411,9 +411,9 @@ class SearchDrawerProvider extends ChangeNotifier{
         Api().getFilterAdsFunc(_idCategorySearch, area.target, getRadius(area.zoom))
             .then((value) {
           _AdsData = value;
-          setMainAdsCount(_AdsData.length);
+          setMainAdsCount(_AdsData!.length);
           Provider.of<MainPageProvider>(context, listen: false)
-              .getAds(context ,_AdsData, area.zoom);
+              .getAds(context ,_AdsData!, area.zoom);
         });
       });
     }
@@ -422,9 +422,9 @@ class SearchDrawerProvider extends ChangeNotifier{
       Future.delayed(Duration(milliseconds: 0), () {
         Api().getFilterTwoWeeksAgoFunc(area.target, getRadius(area.zoom)).then((value) {
           _AdsData = value;
-          setMainAdsCount(_AdsData.length);
+          setMainAdsCount(_AdsData!.length);
           Provider.of<MainPageProvider>(context, listen: false)
-              .getAds(context ,_AdsData, area.zoom);
+              .getAds(context ,_AdsData!, area.zoom);
         });
       });
     }
@@ -471,9 +471,9 @@ class SearchDrawerProvider extends ChangeNotifier{
             _bool_feature18SearchDrawer.toString())
             .then((value) {
           _AdsData = value;
-          setMainAdsCount(_AdsData.length);
+          setMainAdsCount(_AdsData!.length);
           Provider.of<MainPageProvider>(context, listen: false)
-              .getAds(context ,_AdsData, area.zoom);
+              .getAds(context ,_AdsData!, area.zoom);
         });
       });
     }
@@ -488,9 +488,9 @@ class SearchDrawerProvider extends ChangeNotifier{
       Future.delayed(Duration(milliseconds: 0), () {
         Api().filterUpToDateAdsFunc(area.target, getRadius(area.zoom)).then((value) {
           _MenuAdsData = value;
-          setMenuAdsCount(_MenuAdsData.length);
+          setMenuAdsCount(_MenuAdsData!.length);
           Provider.of<MenuProvider>(context, listen: false)
-              .getMenuAds(_MenuAdsData);
+              .getMenuAds(_MenuAdsData!);
         });
       });
     }
@@ -499,9 +499,9 @@ class SearchDrawerProvider extends ChangeNotifier{
       Future.delayed(Duration(milliseconds: 0), () {
         Api().getFilterTwoWeeksAgoFunc(area.target, getRadius(area.zoom)).then((value) {
           _MenuAdsData = value;
-          setMenuAdsCount(_MenuAdsData.length);
+          setMenuAdsCount(_MenuAdsData!.length);
           Provider.of<MenuProvider>(context, listen: false)
-              .getMenuAds(_MenuAdsData);
+              .getMenuAds(_MenuAdsData!);
         });
       });
     }
@@ -549,28 +549,28 @@ class SearchDrawerProvider extends ChangeNotifier{
         )
             .then((value) {
           _MenuAdsData = value;
-          setMenuAdsCount(_MenuAdsData.length);
+          setMenuAdsCount(_MenuAdsData!.length);
           Provider.of<MenuProvider>(context, listen: false)
-              .getMenuAds(_MenuAdsData);
+              .getMenuAds(_MenuAdsData!);
         });
       });
     }
   }
 
-  String get selectedCategory => _selectedCategory;
-  String get minPriceSearchDrawer => _minPriceSearchDrawer;
-  String get maxSpaceSearchDrawer => _maxSpaceSearchDrawer;
-  String get minSpaceSearchDrawer => _minSpaceSearchDrawer;
-  String get selectedLoungesSearchDrawer => _selectedLoungesSearchDrawer;
-  String get selectedToiletsSearchDrawer => _selectedToiletsSearchDrawer;
-  String get selectedRoomsSearchDrawer => _selectedRoomsSearchDrawer;
-  String get selectedApartmentsSearchDrawer => _selectedApartmentsSearchDrawer;
-  String get selectedPlanSearchDrawer => _selectedPlanSearchDrawer;
-  String get storesSelectedSearchDrawer => _storesSelectedSearchDrawer;
-  String get floorSelectedSearchDrawer => _floorSelectedSearchDrawer;
-  String get selectedFamilyTypeSearchDrawer => _selectedFamilyTypeSearchDrawer;
-  String get treesSelectedSearchDrawer => _treesSelectedSearchDrawer;
-  String get wellsSelectedSearchDrawer => _wellsSelectedSearchDrawer;
+  String? get selectedCategory => _selectedCategory;
+  String? get minPriceSearchDrawer => _minPriceSearchDrawer;
+  String? get maxSpaceSearchDrawer => _maxSpaceSearchDrawer;
+  String? get minSpaceSearchDrawer => _minSpaceSearchDrawer;
+  String? get selectedLoungesSearchDrawer => _selectedLoungesSearchDrawer;
+  String? get selectedToiletsSearchDrawer => _selectedToiletsSearchDrawer;
+  String? get selectedRoomsSearchDrawer => _selectedRoomsSearchDrawer;
+  String? get selectedApartmentsSearchDrawer => _selectedApartmentsSearchDrawer;
+  String? get selectedPlanSearchDrawer => _selectedPlanSearchDrawer;
+  String? get storesSelectedSearchDrawer => _storesSelectedSearchDrawer;
+  String? get floorSelectedSearchDrawer => _floorSelectedSearchDrawer;
+  String? get selectedFamilyTypeSearchDrawer => _selectedFamilyTypeSearchDrawer;
+  String? get treesSelectedSearchDrawer => _treesSelectedSearchDrawer;
+  String? get wellsSelectedSearchDrawer => _wellsSelectedSearchDrawer;
   bool get isTwoWeeksAgoSearchDrawer => _isTwoWeeksAgoSearchDrawer;
   bool get bool_feature1SearchDrawer => _bool_feature1SearchDrawer;
   bool get bool_feature2SearchDrawer => _bool_feature2SearchDrawer;
@@ -590,11 +590,11 @@ class SearchDrawerProvider extends ChangeNotifier{
   bool get bool_feature16SearchDrawer => _bool_feature16SearchDrawer;
   bool get bool_feature17SearchDrawer => _bool_feature17SearchDrawer;
   bool get bool_feature18SearchDrawer => _bool_feature18SearchDrawer;
-  String get maxPriceSearchDrawer => _maxPriceSearchDrawer;
-  String get selectedTypeAqarSearchDrawer => _selectedTypeAqarSearchDrawer;
-  String get interfaceSelectedSearchDrawer => _interfaceSelectedSearchDrawer;
-  String get streetWidthSelectedSearchDrawer => _streetWidthSelectedSearchDrawer;
-  String get ageOfRealEstateSelectedSearchDrawer => _ageOfRealEstateSelectedSearchDrawer;
+  String? get maxPriceSearchDrawer => _maxPriceSearchDrawer;
+  String? get selectedTypeAqarSearchDrawer => _selectedTypeAqarSearchDrawer;
+  String? get interfaceSelectedSearchDrawer => _interfaceSelectedSearchDrawer;
+  String? get streetWidthSelectedSearchDrawer => _streetWidthSelectedSearchDrawer;
+  String? get ageOfRealEstateSelectedSearchDrawer => _ageOfRealEstateSelectedSearchDrawer;
   List<bool> get planSearchDrawer => _planSearchDrawer;
   List<bool> get loungesSearchDrawer => _loungesSearchDrawer;
   List<bool> get toiletsSearchDrawer => _toiletsSearchDrawer;
@@ -602,9 +602,9 @@ class SearchDrawerProvider extends ChangeNotifier{
   List<bool> get apartmentsSearchDrawer => _apartmentsSearchDrawer;
   List<bool> get familyTypeSearchDrawer => _familyTypeSearchDrawer;
   List<bool> get typeAqarSearchDrawer => _typeAqarSearchDrawer;
-  int get filterSearch => _filter;
-  int get menuFilterSearch => _menuFilter;
-  int get mainAdsCount => _mainAdsCount;
-  int get menuAdsCount => _menuAdsCount;
+  int? get filterSearch => _filter;
+  int? get menuFilterSearch => _menuFilter;
+  int? get mainAdsCount => _mainAdsCount;
+  int? get menuAdsCount => _menuAdsCount;
 
 }

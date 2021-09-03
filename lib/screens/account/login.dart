@@ -15,19 +15,19 @@ import 'package:tadawl_app/screens/account/restoration_pass.dart';
 import 'package:tadawl_app/screens/account/verifyAccount.dart';
 import 'package:tadawl_app/screens/general/home.dart';
 
-String phone;
-String password;
+String? phone;
+String? password;
 String patternPhone =
     r'(^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$)';
 RegExp regExpPhone = RegExp(patternPhone);
 
 class Login extends StatelessWidget {
   Login({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final GlobalKey<FormState> _formLoginKey = GlobalKey<FormState>();
-  String filterPhone(var Phone) {
+  String? filterPhone(var Phone) {
     if (Phone.toString().length == 10 && Phone.toString().startsWith('05')) {
       Phone = Phone.toString().replaceFirst('0', '966');
       return Phone;
@@ -61,7 +61,7 @@ class Login extends StatelessWidget {
           leadingWidth: 70,
           title: Text(
             AppLocalizations
-                .of(context)
+                .of(context)!
                 .login,
             style: CustomTextStyle(
               fontSize: 30,
@@ -101,7 +101,7 @@ class Login extends StatelessWidget {
                         title: TextFormField(
                           decoration:
                           InputDecoration(
-                            labelText: translate.mobileNumber,
+                            labelText: translate!.mobileNumber,
                           ),
                           style: CustomTextStyle(
 
@@ -109,8 +109,8 @@ class Login extends StatelessWidget {
                             color: const Color(0xff989696),
                           ).getTextStyle(),
                           keyboardType: TextInputType.phone,
-                          validator: (String value) {
-                            if (value.isEmpty) {
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
                               return translate.reqMob;
                             }
                             else if (!regExpPhone.hasMatch(value)) {
@@ -118,7 +118,7 @@ class Login extends StatelessWidget {
                             }
                             return null;
                           },
-                          onSaved: (String value) {
+                          onSaved: (String? value) {
                             var valueFiltered = filterPhone(value);
                             phone = valueFiltered;
                           },
@@ -135,15 +135,15 @@ class Login extends StatelessWidget {
                             size: 30,
                           ),
                           trailing: InkWell(
+                            onTap: () {
+                              login.setPasswordVisibleState(!login.passwordVisible);
+                            },
                             child: Icon(
                               login.passwordVisible
                                   ? Icons.visibility
                                   : Icons.visibility_off,
                               color: const Color(0xff3f9d28),
                             ),
-                            onTap: () {
-                              login.setPasswordVisibleState(!login.passwordVisible);
-                            },
                           ),
                           title: Stack(
                             children: [
@@ -156,15 +156,15 @@ class Login extends StatelessWidget {
                                 ).getTextStyle(),
                                 textDirection: TextDirection.ltr,
                                 keyboardType: TextInputType.visiblePassword,
-                                validator: (String value) {
-                                  if (value.isEmpty) {
+                                validator: (String? value) {
+                                  if (value!.isEmpty) {
                                     return translate.reqPass;
                                   } else if (value.length < 8) {
                                     return translate.reqPassless8;
                                   }
                                   return null;
                                 },
-                                onSaved: (String value) {
+                                onSaved: (String? value) {
                                   password = value;
                                 },
                               )
@@ -185,25 +185,13 @@ class Login extends StatelessWidget {
                               width: 1.0, color: const Color(0xff3f9d28)),
                         ),
                         child: TextButton(
-                          child: Center(
-                            child: Text(
-                              AppLocalizations
-                                  .of(context)
-                                  .login,
-                              style: CustomTextStyle(
-                                fontSize: 20,
-                                color: const Color(0xff3f9d28),
-                              ).getTextStyle(),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
                           onPressed: () async {
-                            if (!_formLoginKey.currentState.validate()) {
+                            if (!_formLoginKey.currentState!.validate()) {
                               return;
                             }
-                            _formLoginKey.currentState.save();
+                            _formLoginKey.currentState!.save();
                             var url = 'https://www.tadawl-store.com/API/api_app/login/login.php';
-                            var response = await http.post(url, body: {
+                            var response = await http.post(Uri.parse(url), body: {
                               'phone': phone,
                               'password': password,
                               'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@'
@@ -280,6 +268,18 @@ class Login extends StatelessWidget {
                             }
                             ;
                           },
+                          child: Center(
+                            child: Text(
+                              AppLocalizations
+                                  .of(context)!
+                                  .login,
+                              style: CustomTextStyle(
+                                fontSize: 20,
+                                color: const Color(0xff3f9d28),
+                              ).getTextStyle(),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -295,7 +295,7 @@ class Login extends StatelessWidget {
                         width: double.infinity,
                         child: Text(
                           AppLocalizations
-                              .of(context)
+                              .of(context)!
                               .forgetPass,
                           style: CustomTextStyle(
 
@@ -312,7 +312,7 @@ class Login extends StatelessWidget {
                         width: double.infinity,
                         child: Text(
                           AppLocalizations
-                              .of(context)
+                              .of(context)!
                               .notReg,
                           style: CustomTextStyle(
 
@@ -347,7 +347,7 @@ class Login extends StatelessWidget {
                           child: Center(
                             child: Text(
                               AppLocalizations
-                                  .of(context)
+                                  .of(context)!
                                   .newAccount,
                               style: CustomTextStyle(
                                 fontSize: 20,

@@ -6,7 +6,7 @@ import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Furnished extends StatelessWidget {
-  const Furnished({Key key}) : super(key: key);
+  const Furnished({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class Furnished extends StatelessWidget {
         MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context).furnished,
+            AppLocalizations.of(context)!.furnished,
             style: CustomTextStyle(
 
               fontSize: 15,

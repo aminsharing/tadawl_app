@@ -7,8 +7,8 @@ import 'package:tadawl_app/provider/locale_provider.dart';
 
 class AdQFTable extends StatelessWidget {
   const AdQFTable({
-    Key key,
-    @required this.adsQF,
+    Key? key,
+    required this.adsQF,
   }) : super(key: key);
   final List<QFModel> adsQF;
 
@@ -53,7 +53,7 @@ class AdQFTable extends StatelessWidget {
                     MainAxisAlignment.center,
                     children: [
                       Text(
-                        adsQF[i].quantity,
+                        adsQF[i].quantity!,
                         style: CustomTextStyle(
                           fontSize: 13,
                           color:
@@ -62,7 +62,7 @@ class AdQFTable extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       Text(
-                        AppLocalizations.of(context).m,
+                        AppLocalizations.of(context)!.m,
                         style: CustomTextStyle(
                           fontSize: 15,
                           color:
@@ -109,7 +109,7 @@ class AdQFTable extends StatelessWidget {
                       MainAxisAlignment.center,
                       children: [
                         Text(
-                          adsQF[i].quantity,
+                          adsQF[i].quantity!,
                           style: CustomTextStyle(
                             fontSize: 15,
                             color: const Color(
@@ -118,7 +118,7 @@ class AdQFTable extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                         Text(
-                          AppLocalizations.of(context).year,
+                          AppLocalizations.of(context)!.year,
                           style: CustomTextStyle(
                             fontSize: 15,
                             color: const Color(0xff989696),
@@ -164,7 +164,7 @@ class AdQFTable extends StatelessWidget {
                       children: [
                         if (adsQF[i].quantity == '1')
                           Text(
-                            AppLocalizations.of(context).groundFloor,
+                            AppLocalizations.of(context)!.groundFloor,
                             style: CustomTextStyle(
                               fontSize: 15,
                               color: const Color(
@@ -175,7 +175,7 @@ class AdQFTable extends StatelessWidget {
                           )
                         else if (adsQF[i].quantity == '2')
                           Text(
-                            AppLocalizations.of(context).first,
+                            AppLocalizations.of(context)!.first,
                             style:
                             CustomTextStyle(
 
@@ -188,7 +188,7 @@ class AdQFTable extends StatelessWidget {
                           )
                         else
                           Text(
-                            adsQF[i].quantity,
+                            adsQF[i].quantity!,
                             style:
                             CustomTextStyle(
 
@@ -237,7 +237,7 @@ class AdQFTable extends StatelessWidget {
                         MainAxisAlignment.center,
                         children: [
                           Text(
-                            adsQF[i].quantity,
+                            adsQF[i].quantity!,
                             style: CustomTextStyle(
                               fontSize: 15,
                               color: const Color(

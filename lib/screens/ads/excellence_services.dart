@@ -6,7 +6,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 
 class ExcellenceServices extends StatelessWidget {
   ExcellenceServices({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -31,7 +31,7 @@ class ExcellenceServices extends StatelessWidget {
           ),
         ),
         title: Text(
-          AppLocalizations.of(context).excellenceServices,
+          AppLocalizations.of(context)!.excellenceServices,
           style: CustomTextStyle(
 
             fontSize: 20,
@@ -56,7 +56,7 @@ class ExcellenceServices extends StatelessWidget {
                     children: <Widget>[
                       Expanded(
                         child: Text(
-                          AppLocalizations.of(context).rule36,
+                          AppLocalizations.of(context)!.rule36,
                           style: CustomTextStyle(
 
                             fontSize: 15,
@@ -73,7 +73,7 @@ class ExcellenceServices extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        AppLocalizations.of(context).advantages,
+                        AppLocalizations.of(context)!.advantages,
                         style: CustomTextStyle(
 
                           fontSize: 15,
@@ -94,7 +94,7 @@ class ExcellenceServices extends StatelessWidget {
                           children: <Widget>[
                             Expanded(
                               child: Text(
-                                AppLocalizations.of(context).rule37,
+                                AppLocalizations.of(context)!.rule37,
                                 style: CustomTextStyle(
 
                                   fontSize: 10,
@@ -140,7 +140,7 @@ class ExcellenceServices extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          AppLocalizations.of(context).submitDistinctionRequest,
+                          AppLocalizations.of(context)!.submitDistinctionRequest,
                           style: CustomTextStyle(
 
                             fontSize: 15,

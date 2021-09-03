@@ -12,14 +12,14 @@ class CacheMarkerModel extends ChangeNotifier {
     super.dispose();
   }
 
-  Cache chache = SimpleCache<String, String>(
+  Cache chache = SimpleCache<String?, String?>(
       storage: InMemoryStorage<String, String>(200));
-  void updateCache(BuildContext context, String id_ads) {
+  void updateCache(BuildContext context, String? id_ads) {
     chache.set(id_ads, id_ads);
     notifyListeners();
   }
 
-  String getCache(BuildContext context, String id_ads) {
+  String? getCache(BuildContext context, String? id_ads) {
     return chache.get(id_ads);
   }
 

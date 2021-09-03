@@ -10,7 +10,7 @@ import 'package:tadawl_app/screens/account/login.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class About extends StatelessWidget {
-  const About({Key key}) : super(key: key);
+  const About({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class About extends StatelessWidget {
                               create: (_) => MsgProvider(context, locale.phone),
                               child: Discussion(
                                 userMutual.userPhone,
-                                username:userMutual.avatars.username,
+                                username:userMutual.avatars!.username,
                               ),
                             )
                         ),
@@ -75,7 +75,7 @@ class About extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        AppLocalizations.of(context).sendMess,
+                        AppLocalizations.of(context)!.sendMess,
                         style: CustomTextStyle(
                           fontSize: 15,
                           color: const Color(0xff00cccc),
@@ -87,7 +87,7 @@ class About extends StatelessWidget {
                 ),
               ),
             ),
-            UserAbout(about: userMutual.avatars.about),
+            UserAbout(about: userMutual.avatars!.about),
           ],
         );
       }),

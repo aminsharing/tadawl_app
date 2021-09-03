@@ -6,7 +6,7 @@ import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Kitchen extends StatelessWidget {
-  const Kitchen({Key key}) : super(key: key);
+  const Kitchen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class Kitchen extends StatelessWidget {
         MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context).kitchen,
+            AppLocalizations.of(context)!.kitchen,
             style: CustomTextStyle(
 
               fontSize: 15,

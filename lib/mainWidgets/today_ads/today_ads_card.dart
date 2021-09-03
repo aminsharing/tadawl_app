@@ -7,9 +7,9 @@ import 'package:tadawl_app/services/ad_page_helper.dart';
 
 class TodayAdsCard extends StatelessWidget {
   const TodayAdsCard({
-    Key key,
-    @required this.todayAds,
-    @required this.index,
+    Key? key,
+    required this.todayAds,
+    required this.index,
   }) : super(key: key);
   final List<AdsModel> todayAds;
   final int index;

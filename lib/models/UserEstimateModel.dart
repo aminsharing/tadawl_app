@@ -1,11 +1,11 @@
 class UserEstimateModel {
-  String id_UE;
-  String phone_user;
-  String phone_user_estimated;
-  String rate;
-  String comment;
-  String sum_estimates;
-  String count_estimates;
+  String? id_UE;
+  String? phone_user;
+  String? phone_user_estimated;
+  String? rate;
+  String? comment;
+  String? sum_estimates;
+  String? count_estimates;
   // ignore: sort_constructors_first
   UserEstimateModel({
     this.id_UE,

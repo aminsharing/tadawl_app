@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ExclusiveMarketing extends StatelessWidget {
   ExclusiveMarketing({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -31,7 +31,7 @@ class ExclusiveMarketing extends StatelessWidget {
           ),
         ),
         title: Text(
-          AppLocalizations.of(context).exclusiveMarketingCond,
+          AppLocalizations.of(context)!.exclusiveMarketingCond,
           style: CustomTextStyle(
 
             fontSize: 20,
@@ -52,7 +52,7 @@ class ExclusiveMarketing extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      AppLocalizations.of(context).exclusiveMarketingCondDesc,
+                      AppLocalizations.of(context)!.exclusiveMarketingCondDesc,
                       style: CustomTextStyle(
 
                         fontSize: 18,
@@ -72,7 +72,7 @@ class ExclusiveMarketing extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    AppLocalizations.of(context).watsappUs,
+                    AppLocalizations.of(context)!.watsappUs,
                     style: CustomTextStyle(
 
                       fontSize: 15,
@@ -125,7 +125,7 @@ class ExclusiveMarketing extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.center,
                     child: Text(
-                      AppLocalizations.of(context).contactUs,
+                      AppLocalizations.of(context)!.contactUs,
                       style: CustomTextStyle(
 
                         fontSize: 20,

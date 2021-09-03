@@ -5,7 +5,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
 
 class Stores extends StatelessWidget {
-  const Stores({Key key}) : super(key: key);
+  const Stores({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class Stores extends StatelessWidget {
               MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context).stores,
+                  AppLocalizations.of(context)!.stores,
                   style: CustomTextStyle(
                     fontSize: 15,
                     color: const Color(0xff000000),
@@ -28,7 +28,7 @@ class Stores extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 Text(
-                  updateDetails.StoresUpdate.floor()
+                  updateDetails.StoresUpdate!.floor()
                       .toString(),
                   style: CustomTextStyle(
 
@@ -42,11 +42,11 @@ class Stores extends StatelessWidget {
           ),
           Slider(
             activeColor: const Color(0xff04B404),
-            value: updateDetails.StoresUpdate,
+            value: updateDetails.StoresUpdate!,
             min: 0,
             max: 20,
             divisions: 20,
-            label: updateDetails.StoresUpdate.floor()
+            label: updateDetails.StoresUpdate!.floor()
                 .toString(),
             onChanged: (double value) {
               updateDetails.setStoresUpdate(value);

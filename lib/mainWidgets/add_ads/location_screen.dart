@@ -10,7 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class LocationScreen extends StatelessWidget {
-  const LocationScreen(this.addAdProvider,{Key key}) : super(key: key);
+  const LocationScreen(this.addAdProvider,{Key? key}) : super(key: key);
   final AddAdProvider addAdProvider;
 
   
@@ -27,14 +27,14 @@ class LocationScreen extends StatelessWidget {
       Provider.of<AddAdProvider>(context, listen: false).mapController = controller;
     }
 
-     Future<bool> _onLocationContinue(String ads_neighborhoodAddAds) {
+     Future<bool> _onLocationContinue(String? ads_neighborhoodAddAds) {
         return showDialog(
           context: context,
           builder: (context) =>
               AlertDialog(
                 title: Text(
                   AppLocalizations
-                      .of(context)
+                      .of(context)!
                       .confirmLocationPlace,
                   style: CustomTextStyle(
                     fontSize: 20,
@@ -44,7 +44,7 @@ class LocationScreen extends StatelessWidget {
                 ),
                 content: Text(
                   AppLocalizations
-                      .of(context)
+                      .of(context)!
                       .reLocationIn +
                       ' ( $ads_neighborhoodAddAds ) ',
                   style: CustomTextStyle(
@@ -68,7 +68,7 @@ class LocationScreen extends StatelessWidget {
                         ));
                       },
                       child: Text(
-                        AppLocalizations.of(context).yes,
+                        AppLocalizations.of(context)!.yes,
                         style: CustomTextStyle(
                           fontSize: 17,
                           color: const Color(0xff000000),
@@ -84,7 +84,7 @@ class LocationScreen extends StatelessWidget {
                       onTap: () => Navigator.of(context).pop(false),
                       child: Text(
                         AppLocalizations
-                            .of(context)
+                            .of(context)!
                             .no,
                         style: CustomTextStyle(
 
@@ -97,8 +97,7 @@ class LocationScreen extends StatelessWidget {
                   ),
                 ],
               ),
-        ) ??
-            false;
+        ).then((value) => value as bool);
       }
 
       return Scaffold(
@@ -109,7 +108,7 @@ class LocationScreen extends StatelessWidget {
             widthFactor: 2.0,
             child: Text(
               AppLocalizations
-                  .of(context)
+                  .of(context)!
                   .chooseLocation,
               style: CustomTextStyle(
                 fontSize: 20,
@@ -156,7 +155,7 @@ class LocationScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        AppLocalizations.of(context).city + '${addAds.ads_cityAddAds}',
+                        AppLocalizations.of(context)!.city + '${addAds.ads_cityAddAds}',
                         style: CustomTextStyle(
                           fontSize: 13,
                           color: const Color(0xff989696),
@@ -165,7 +164,7 @@ class LocationScreen extends StatelessWidget {
                         textDirection: TextDirection.rtl,
                       ),
                       Text(
-                        AppLocalizations.of(context).neighborhood + ' ${addAds.ads_neighborhoodAddAds}',
+                        AppLocalizations.of(context)!.neighborhood + ' ${addAds.ads_neighborhoodAddAds}',
                         style: CustomTextStyle(
                           fontSize: 13,
                           color: const Color(0xff989696),
@@ -204,7 +203,7 @@ class LocationScreen extends StatelessWidget {
                         myLocationEnabled: true,
                         mapType: MapType.normal,
                         initialCameraPosition: CameraPosition(
-                            target: addAds.customCameraPositionAddAds ?? addAds.initialCameraPosition, zoom: 13),
+                            target: addAds.customCameraPositionAddAds ?? addAds.initialCameraPosition!, zoom: 13),
                         onMapCreated: _onMapCreated,
                         onCameraMove: (CameraPosition position) {
                           addAds.handleCameraMoveAddAds(position);
@@ -253,7 +252,7 @@ class LocationScreen extends StatelessWidget {
                       child: Center(
                         child: Text(
                           AppLocalizations
-                              .of(context)
+                              .of(context)!
                               .continuee,
                           style: CustomTextStyle(
 

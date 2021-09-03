@@ -9,7 +9,7 @@ import 'package:tadawl_app/services/ad_page_helper.dart';
 
 class Favourite extends StatelessWidget {
   Favourite({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -24,7 +24,7 @@ class Favourite extends StatelessWidget {
       // adsFav.getUserAdsFavList(locale.phone);
 
       Future<Null> _refresh() async{
-        await adsFav.getUserAdsFavList(locale.phone);
+        adsFav.getUserAdsFavList(locale.phone);
         adsFav.update();
       }
 
@@ -49,7 +49,7 @@ class Favourite extends StatelessWidget {
               ),
             ),
             title: Text(
-              AppLocalizations.of(context).favourite,
+              AppLocalizations.of(context)!.favourite,
               style: CustomTextStyle(
 
                 fontSize: 20,

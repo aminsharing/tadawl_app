@@ -15,8 +15,8 @@ import 'package:tadawl_app/screens/account/my_account.dart';
 
 class AvatarWidget extends StatelessWidget {
   const AvatarWidget({
-    Key key,
-    @required this.myAccountProvider,
+    Key? key,
+    required this.myAccountProvider,
   }) : super(key: key);
   final MyAccountProvider myAccountProvider;
 
@@ -38,7 +38,7 @@ class AvatarWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    AppLocalizations.of(context).advertiserInformation,
+                    AppLocalizations.of(context)!.advertiserInformation,
                     style: CustomTextStyle(
                       fontSize: 20,
                       color: const Color(0xff000000),
@@ -101,11 +101,11 @@ class AvatarWidget extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
-                                      image: adsPage.adsUser.image == null || adsPage.adsUser.image.isEmpty
+                                      image: (adsPage.adsUser!.image == null || adsPage.adsUser!.image!.isEmpty
                                           ?
                                       const AssetImage('assets/images/avatar.png')
                                           :
-                                      CachedNetworkImageProvider('https://tadawl-store.com/API/assets/images/avatar/${adsPage.adsUser.image}'),
+                                      CachedNetworkImageProvider('https://tadawl-store.com/API/assets/images/avatar/${adsPage.adsUser!.image}')) as ImageProvider<Object>,
                                       fit: BoxFit.fill,
                                     ),
                                   ),
@@ -151,7 +151,7 @@ class AvatarWidget extends StatelessWidget {
                                           rating:
                                           myAccountProv.sumEstimates != null
                                               ?
-                                          (double.parse(myAccountProv.sumEstimates.sum_estimates ?? '0.0') / myAccountProv.estimates.length.toDouble()).toDouble()
+                                          (double.parse(myAccountProv.sumEstimates!.sum_estimates ?? '0.0') / myAccountProv.estimates.length.toDouble()).toDouble()
                                               : 3.0,
                                           // (
                                           //     double.parse(myAccountProv.sumEstimates == null ? '0' : myAccountProv.sumEstimates.sum_estimates?? '0') /
@@ -185,7 +185,7 @@ class AvatarWidget extends StatelessWidget {
                                       padding: const EdgeInsets.fromLTRB(
                                           5, 0, 5, 0),
                                       child: Text(
-                                        adsPage.adsUser.username ??
+                                        adsPage.adsUser!.username ??
                                             'UserName',
                                         style: CustomTextStyle(
                                           fontSize: 15,
@@ -207,7 +207,7 @@ class AvatarWidget extends StatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    if (adsPage.adsUser.phone !=
+                                    if (adsPage.adsUser!.phone !=
                                         locale.phone)
                                       TextButton(
                                         onPressed: () {
@@ -226,10 +226,10 @@ class AvatarWidget extends StatelessWidget {
                                                   builder: (context) =>
                                                       ChangeNotifierProvider<MsgProvider>(
                                                         create: (context) => MsgProvider(context, locale.phone, customMsg: 'بخصوص الإعلان رقم\n'
-                                                            '${adsPage.adsPage.idAds}',),
+                                                            '${adsPage.adsPage!.idAds}',),
                                                         child: Discussion(
-                                                          adsPage.adsUser.phone,
-                                                          username: adsPage.adsUser.username,
+                                                          adsPage.adsUser!.phone,
+                                                          username: adsPage.adsUser!.username,
                                                         ),
                                                       )
                                               ),
@@ -262,7 +262,7 @@ class AvatarWidget extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                    if (adsPage.adsUser.phone !=
+                                    if (adsPage.adsUser!.phone !=
                                         locale.phone)
                                       TextButton(
                                         onPressed: () {
@@ -273,7 +273,7 @@ class AvatarWidget extends StatelessWidget {
                                           }
                                           myAccountProv.callNumber(
                                               context,
-                                              adsPage.adsUser.phone
+                                              adsPage.adsUser!.phone
                                           );
                                         },
                                         child: Container(

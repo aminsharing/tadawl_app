@@ -15,7 +15,7 @@ import 'package:tadawl_app/screens/account/offices_Vr.dart';
 
 class RealEstateOffices extends StatelessWidget {
   RealEstateOffices({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -28,7 +28,7 @@ class RealEstateOffices extends StatelessWidget {
             AlertDialog(
               title: Text(
                 AppLocalizations
-                    .of(context)
+                    .of(context)!
                     .closeApp,
                 style: CustomTextStyle(
 
@@ -39,7 +39,7 @@ class RealEstateOffices extends StatelessWidget {
               ),
               content: Text(
                 AppLocalizations
-                    .of(context)
+                    .of(context)!
                     .areYouSureCloseApp,
                 style: CustomTextStyle(
 
@@ -55,7 +55,7 @@ class RealEstateOffices extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
                     child: Text(
                       AppLocalizations
-                          .of(context)
+                          .of(context)!
                           .yes,
                       style: CustomTextStyle(
 
@@ -72,7 +72,7 @@ class RealEstateOffices extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
                     child: Text(
                       AppLocalizations
-                          .of(context)
+                          .of(context)!
                           .no,
                       style: CustomTextStyle(
 
@@ -85,8 +85,7 @@ class RealEstateOffices extends StatelessWidget {
                 ),
               ],
             ),
-      ) ??
-          false;
+      ).then((value) => value as bool);
     }
 
     var mediaQuery = MediaQuery.of(context);
@@ -158,7 +157,7 @@ class RealEstateOffices extends StatelessWidget {
                                   Flexible(
                                     flex: 2,
                                     child: Text(
-                                      AppLocalizations.of(context).officesAccreditation,
+                                      AppLocalizations.of(context)!.officesAccreditation,
                                       style: CustomTextStyle(
                                         fontSize: _lang != 'en_US' ? mediaQuery.size.width * .035 >= 13 ? 13 : mediaQuery.size.width * .035 : mediaQuery.size.width * .035 >= 13 ? 13 : mediaQuery.size.width * .035,
                                         color: const Color(0xffffffff),
@@ -184,7 +183,7 @@ class RealEstateOffices extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                             child: Text(
-                              AppLocalizations.of(context).officesAccreditation2,
+                              AppLocalizations.of(context)!.officesAccreditation2,
                               style: CustomTextStyle(
                                 fontSize: _lang != 'en_US' ? mediaQuery.size.width * .035 >= 13 ? 13 : mediaQuery.size.width * .035 : mediaQuery.size.width * .035 >= 13 ? 13 : mediaQuery.size.width * .035,
                                 color: const Color(0xffe6e600),

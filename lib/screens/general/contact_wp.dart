@@ -11,7 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ContactWp extends StatelessWidget {
   ContactWp({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -35,7 +35,7 @@ class ContactWp extends StatelessWidget {
           ),
         ),
         title: Text(
-          AppLocalizations.of(context).contactUs,
+          AppLocalizations.of(context)!.contactUs,
           style: CustomTextStyle(
             fontSize: 20,
             color: const Color(0xffffffff),
@@ -56,7 +56,7 @@ class ContactWp extends StatelessWidget {
                 children: <Widget>[
                   Flexible(
                     child: Text(
-                      AppLocalizations.of(context).contactUsDet,
+                      AppLocalizations.of(context)!.contactUsDet,
                       style: CustomTextStyle(
                         fontSize: 15,
                         color: const Color(0xff989696),
@@ -75,7 +75,7 @@ class ContactWp extends StatelessWidget {
                   GestureDetector(
                     onTap: () => directSupport(context),
                     child: Text(
-                      AppLocalizations.of(context).support,
+                      AppLocalizations.of(context)!.support,
                       style: CustomTextStyle(
                         fontSize: 15,
                         color: const Color(0xff000000),
@@ -83,12 +83,12 @@ class ContactWp extends StatelessWidget {
                     ),
                   ),
                   TextButton(
+                    onPressed: () => directSupport(context),
                     child: Icon(
                       Icons.message_rounded,
                       color: Color(0xff04B404),
                       size: 30,
                     ),
-                    onPressed: () => directSupport(context),
                   ),
                 ],
               ),
@@ -101,7 +101,7 @@ class ContactWp extends StatelessWidget {
                   GestureDetector(
                     onTap: launchWhatsApp,
                     child: Text(
-                      AppLocalizations.of(context).watsappUs,
+                      AppLocalizations.of(context)!.watsappUs,
                       style: CustomTextStyle(
                         fontSize: 15,
                         color: const Color(0xff000000),

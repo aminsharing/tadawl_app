@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 
 class AppBarTitleWidget extends StatelessWidget {
-  AppBarTitleWidget({Key key}) : super(key: key);
+  AppBarTitleWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +14,11 @@ class AppBarTitleWidget extends StatelessWidget {
           onTap: () {
             adsPage.stopVideoAdsPage();
             adsPage.changeAdsFavState(context,
-                (adsPage.is_favAdsPage??adsPage.is_favAdsPageDB) ? 0 : 1
+                (adsPage.is_favAdsPage??adsPage.is_favAdsPageDB)! ? 0 : 1
                 , adsPage.idDescription);
           },
           child: Icon(
-            (adsPage.is_favAdsPage??adsPage.is_favAdsPageDB) ? Icons.star_rounded : Icons.star_border_rounded,
+            (adsPage.is_favAdsPage??adsPage.is_favAdsPageDB)! ? Icons.star_rounded : Icons.star_border_rounded,
             color: Color(0xffe6e600),
             size: 50,
           ),

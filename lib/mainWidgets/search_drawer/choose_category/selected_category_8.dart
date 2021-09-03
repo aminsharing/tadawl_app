@@ -16,7 +16,7 @@ import 'build_street_width.dart';
 import 'build_toilets.dart';
 
 class SelectedCategory8 extends StatelessWidget {
-  const SelectedCategory8({Key key}) : super(key: key);
+  const SelectedCategory8({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

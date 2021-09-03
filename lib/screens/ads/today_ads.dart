@@ -7,7 +7,7 @@ import 'package:tadawl_app/provider/ads_provider/today_ads_provider.dart';
 
 class TodayAds extends StatelessWidget {
   TodayAds({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -38,7 +38,7 @@ class TodayAds extends StatelessWidget {
             ),
           ),
           title: Text(
-            AppLocalizations.of(context).todayAds +
+            AppLocalizations.of(context)!.todayAds +
                 ' (${todayAds.countTodayAds()}) ',
             style: CustomTextStyle(
               fontSize: 20,
@@ -58,51 +58,6 @@ class TodayAds extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ToggleButtons(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Text(
-                            AppLocalizations.of(context).riyadh,
-                            style: CustomTextStyle(
-                              fontSize: 13,
-                            ).getTextStyle(),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Text(
-                            AppLocalizations.of(context).makkah,
-                            style: CustomTextStyle(
-
-                              fontSize: 13,
-                            ).getTextStyle(),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Text(
-                            AppLocalizations.of(context).esternRegion,
-                            style: CustomTextStyle(
-
-                              fontSize: 13,
-                            ).getTextStyle(),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Text(
-                            AppLocalizations.of(context).rest,
-                            style: CustomTextStyle(
-
-                              fontSize: 13,
-                            ).getTextStyle(),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
                       onPressed: (int index) {
                         todayAds.updateSelected5(context,index);
                       },
@@ -112,6 +67,51 @@ class TodayAds extends StatelessWidget {
                       fillColor: const Color(0xff00cccc),
                       borderColor: const Color(0xff00cccc),
                       borderWidth: 1,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Text(
+                            AppLocalizations.of(context)!.riyadh,
+                            style: CustomTextStyle(
+                              fontSize: 13,
+                            ).getTextStyle(),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Text(
+                            AppLocalizations.of(context)!.makkah,
+                            style: CustomTextStyle(
+
+                              fontSize: 13,
+                            ).getTextStyle(),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Text(
+                            AppLocalizations.of(context)!.esternRegion,
+                            style: CustomTextStyle(
+
+                              fontSize: 13,
+                            ).getTextStyle(),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Text(
+                            AppLocalizations.of(context)!.rest,
+                            style: CustomTextStyle(
+
+                              fontSize: 13,
+                            ).getTextStyle(),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -132,7 +132,7 @@ class TodayAds extends StatelessWidget {
                                   TodayAdsCard(todayAds: todayAds.todayAds, index: i,),
                             if (todayAds.countAdsRiyadh > 0) Container()
                             else Center(child: Text(
-                              AppLocalizations.of(context).noAdsAvailable,
+                              AppLocalizations.of(context)!.noAdsAvailable,
                               style: CustomTextStyle(
                                 fontSize: 12,
                                 color: const Color(
@@ -152,7 +152,7 @@ class TodayAds extends StatelessWidget {
 
                             if (todayAds.countAdsMekkah > 0) Container()
                             else Center(child: Text(
-                              AppLocalizations.of(context).noAdsAvailable,
+                              AppLocalizations.of(context)!.noAdsAvailable,
                               style: CustomTextStyle(
                                 fontSize: 12,
                                 color: const Color(
@@ -172,7 +172,7 @@ class TodayAds extends StatelessWidget {
 
                             if (todayAds.countAdsDammam > 0) Container()
                             else Center(child: Text(
-                              AppLocalizations.of(context).noAdsAvailable,
+                              AppLocalizations.of(context)!.noAdsAvailable,
                               style: CustomTextStyle(
                                 fontSize: 12,
                                 color: const Color(
@@ -195,7 +195,7 @@ class TodayAds extends StatelessWidget {
                               Container()
                             else
                               Center(child: Text(
-                              AppLocalizations.of(context).noAdsAvailable,
+                              AppLocalizations.of(context)!.noAdsAvailable,
                               style: CustomTextStyle(
                                 fontSize: 12,
                                 color: const Color(

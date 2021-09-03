@@ -7,21 +7,21 @@ import 'package:tadawl_app/screens/account/offices_Vr.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Certified extends StatelessWidget {
-  const Certified({Key key}) : super(key: key);
+  const Certified({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
     return Consumer<MyAccountProvider>(builder: (context, userMutual, child) {
       if (userMutual.offices != null) {
-        return CertifiedOffice(state: userMutual.offices.state,);
+        return CertifiedOffice(state: userMutual.offices!.state,);
       } else {
         return Column(
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
               child: Text(
-                AppLocalizations.of(context).member,
+                AppLocalizations.of(context)!.member,
                 style: CustomTextStyle(
                   fontSize: 15,
                   color: const Color(0xff989696),
@@ -49,7 +49,7 @@ class Certified extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(
-                    AppLocalizations.of(context)
+                    AppLocalizations.of(context)!
                         .officesAccreditation,
                     style: CustomTextStyle(
                       fontSize: 15,

@@ -5,7 +5,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 
 class FamilyORSingle extends StatelessWidget {
-  const FamilyORSingle({Key key}) : super(key: key);
+  const FamilyORSingle({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,32 +17,6 @@ class FamilyORSingle extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ToggleButtons(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      66, 0, 66, 0),
-                  child: Text(
-                    AppLocalizations.of(context).single,
-                    style: CustomTextStyle(
-
-                      fontSize: 13,
-                    ).getTextStyle(),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      66, 0, 66, 0),
-                  child: Text(
-                    AppLocalizations.of(context).family,
-                    style: CustomTextStyle(
-
-                      fontSize: 13,
-                    ).getTextStyle(),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
               onPressed: (int index) {
                 addAd.setFamilyAddAds(index);
               },
@@ -54,6 +28,32 @@ class FamilyORSingle extends StatelessWidget {
               selectedBorderColor:
               const Color(0xff04B404),
               borderWidth: 1,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                      66, 0, 66, 0),
+                  child: Text(
+                    AppLocalizations.of(context)!.single,
+                    style: CustomTextStyle(
+
+                      fontSize: 13,
+                    ).getTextStyle(),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                      66, 0, 66, 0),
+                  child: Text(
+                    AppLocalizations.of(context)!.family,
+                    style: CustomTextStyle(
+
+                      fontSize: 13,
+                    ).getTextStyle(),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
             ),
           ],
         ),

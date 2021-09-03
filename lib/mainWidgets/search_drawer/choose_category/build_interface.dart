@@ -7,7 +7,7 @@ import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 class BuildInterface extends StatelessWidget {
-  const BuildInterface({Key key}) : super(key: key);
+  const BuildInterface({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class BuildInterface extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              AppLocalizations.of(context).interface,
+              AppLocalizations.of(context)!.interface,
               style: CustomTextStyle(
 
                 fontSize: 10,
@@ -45,7 +45,7 @@ class BuildInterface extends StatelessWidget {
                     child: Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
                       return DropdownButton<String>(
                         hint: Text(
-                          AppLocalizations.of(context).interface,
+                          AppLocalizations.of(context)!.interface,
                           style: CustomTextStyle(
 
                             fontSize: 15,
@@ -55,7 +55,7 @@ class BuildInterface extends StatelessWidget {
                         ),
                         value:
                         searchDrawer.interfaceSelectedSearchDrawer ?? '0',
-                        onChanged: (String newValue) {
+                        onChanged: (String? newValue) {
                           searchDrawer
                               .setInterfaceSelectedSearchDrawer(newValue);
                         },

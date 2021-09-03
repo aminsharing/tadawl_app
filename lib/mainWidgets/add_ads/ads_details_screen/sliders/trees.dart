@@ -5,7 +5,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 
 class Trees extends StatelessWidget {
-  const Trees({Key key}) : super(key: key);
+  const Trees({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class Trees extends StatelessWidget {
               MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context).trees,
+                  AppLocalizations.of(context)!.trees,
                   style: CustomTextStyle(
                     fontSize: 15,
                     color: const Color(0xff000000),

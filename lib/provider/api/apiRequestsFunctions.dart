@@ -6,9 +6,9 @@ class ApiRequests {
   String BaseURL = 'https://www.tadawl-store.com/API/api_app';
 
   Future<dynamic> getUserRequestsListFunc(
-       String Phone) async {
+       String? Phone) async {
     var url = '$BaseURL/orders/get_user_requests.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'auth_key': _token,
       'phone': Phone,
     });
@@ -18,7 +18,7 @@ class ApiRequests {
 
   Future<dynamic> getNotificationsFunc( String phone) async {
     var url = '$BaseURL/notifications/get_notifications.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'auth_key': _token,
       'phone_user': phone,
     });
@@ -26,9 +26,9 @@ class ApiRequests {
     return jsonx;
   }
 
-  Future<dynamic> changeNotificationStateFunc( String phone, String idNotification) async {
+  Future<dynamic> changeNotificationStateFunc( String phone, String? idNotification) async {
     var url = '$BaseURL/notifications/notification_seen.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'auth_key': _token,
       'phone_user': phone,
       'id_notification': idNotification,

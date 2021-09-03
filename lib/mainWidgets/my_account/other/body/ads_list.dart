@@ -8,7 +8,7 @@ import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 import 'package:tadawl_app/services/ad_page_helper.dart';
 
 class AdsList extends StatelessWidget {
-  const AdsList({Key key}) : super(key: key);
+  const AdsList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class AdsList extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(50, 5, 50, 5),
                     child: Text(
-                      AppLocalizations.of(context).ads,
+                      AppLocalizations.of(context)!.ads,
                       style: CustomTextStyle(
                         fontSize: 15,
                         color: const Color(0xff00cccc),

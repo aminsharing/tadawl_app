@@ -1,7 +1,7 @@
 import 'package:tadawl_app/models/location.dart';
 
 class Geometry {
-  final Location location;
+  final Location? location;
   // ignore: sort_constructors_first
   Geometry({this.location});
 

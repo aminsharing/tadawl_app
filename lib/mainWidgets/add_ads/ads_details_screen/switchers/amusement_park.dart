@@ -6,7 +6,7 @@ import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AmusementPark extends StatelessWidget {
-  const AmusementPark({Key key}) : super(key: key);
+  const AmusementPark({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class AmusementPark extends StatelessWidget {
         MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context)
+            AppLocalizations.of(context)!
                 .amusementPark,
             style: CustomTextStyle(
 

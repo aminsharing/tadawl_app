@@ -8,15 +8,15 @@ class ConversationModel extends ChangeNotifier {
   // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<ConvModel> _conversations = [];
   final List<ConvModel> _comments = [];
-  List _ConversationsData = [];
-  List _CommentData = [];
+  List? _ConversationsData = [];
+  List? _CommentData = [];
 
   void getConversationsList(BuildContext context, String Phone) {
     _conversations.clear();
     Future.delayed(Duration(milliseconds: 0), () {
       Api().getDiscListFunc(Phone).then((value) {
         _ConversationsData = value;
-        _ConversationsData.forEach((element) {
+        _ConversationsData!.forEach((element) {
           _conversations.add(ConvModel.fromJson(element));
         });
       });
@@ -29,7 +29,7 @@ class ConversationModel extends ChangeNotifier {
     Future.delayed(Duration(milliseconds: 0), () {
       Api().getComments(Phone, OtherPhone).then((value) {
         _CommentData = value;
-        _CommentData.forEach((element) {
+        _CommentData!.forEach((element) {
           _comments.add(ConvModel.fromJson(element));
         });
       });
@@ -39,7 +39,7 @@ class ConversationModel extends ChangeNotifier {
 
   Future<void> sendMess(String Phone, String OtherPhone, String content) async {
     await http.post(
-        'https://www.tadawl-store.com/API/api_app/conversations/send_mes.php',
+        Uri.parse('https://www.tadawl-store.com/API/api_app/conversations/send_mes.php'),
         body: {
           'phone': Phone,
           'other_phone': OtherPhone,

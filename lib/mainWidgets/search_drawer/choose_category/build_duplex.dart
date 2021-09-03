@@ -6,7 +6,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class BuildDuplex extends StatelessWidget {
-  const BuildDuplex({Key key}) : super(key: key);
+  const BuildDuplex({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class BuildDuplex extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context).duplex,
+            AppLocalizations.of(context)!.duplex,
             style: CustomTextStyle(
 
               fontSize: 15,

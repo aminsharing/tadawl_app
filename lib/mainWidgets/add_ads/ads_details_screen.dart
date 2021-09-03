@@ -40,7 +40,7 @@ import 'ads_details_screen/switchers/yard.dart';
 
 
 class AdsDetailsScreen extends StatelessWidget {
-  const AdsDetailsScreen(this.addAdProvider ,{Key key}) : super(key: key);
+  const AdsDetailsScreen(this.addAdProvider ,{Key? key}) : super(key: key);
   final AddAdProvider addAdProvider;
 
   @override
@@ -54,7 +54,7 @@ class AdsDetailsScreen extends StatelessWidget {
             AlertDialog(
               content: Text(
                 AppLocalizations
-                    .of(context)
+                    .of(context)!
                     .reqInterface,
                 style: CustomTextStyle(
 
@@ -70,7 +70,7 @@ class AdsDetailsScreen extends StatelessWidget {
                     onTap: () => Navigator.of(context).pop(false),
                     child: Text(
                       AppLocalizations
-                          .of(context)
+                          .of(context)!
                           .accept,
                       style: CustomTextStyle(
 
@@ -83,8 +83,7 @@ class AdsDetailsScreen extends StatelessWidget {
                 ),
               ],
             ),
-      ) ??
-          false;
+      ).then((value) => value as bool);
     }
 
     return Scaffold(
@@ -95,7 +94,7 @@ class AdsDetailsScreen extends StatelessWidget {
           widthFactor: 1.3,
           child: Text(
             AppLocalizations
-                .of(context)
+                .of(context)!
                 .addAdsDetails,
             style: CustomTextStyle(
 
@@ -125,7 +124,7 @@ class AdsDetailsScreen extends StatelessWidget {
               if (addAds.id_category_finalAddAds != null)
                 Column(
                   children: [
-                    ...getPage()[addAds.id_category_finalAddAds]
+                    ...getPage()[addAds.id_category_finalAddAds!] as Iterable<Widget>
                   ],
                 ),
               TextButton(
@@ -174,7 +173,7 @@ class AdsDetailsScreen extends StatelessWidget {
                     child: Center(
                       child: Text(
                         AppLocalizations
-                            .of(context)
+                            .of(context)!
                             .continuee,
                         style: CustomTextStyle(
 

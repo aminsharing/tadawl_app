@@ -7,7 +7,7 @@ import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 class Interface extends StatelessWidget {
-  const Interface({Key key}) : super(key: key);
+  const Interface({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class Interface extends StatelessWidget {
                 MainAxisAlignment.start,
                 children: [
                   Text(
-                    AppLocalizations.of(context).interface,
+                    AppLocalizations.of(context)!.interface,
                     style: CustomTextStyle(
                       fontSize: 15,
                       color: const Color(0xff000000),
@@ -52,7 +52,7 @@ class Interface extends StatelessWidget {
                   alignedDropdown: true,
                   child: DropdownButton<String>(
                     hint: Text(
-                      AppLocalizations.of(context)
+                      AppLocalizations.of(context)!
                           .interface,
                       style: CustomTextStyle(
 
@@ -62,7 +62,7 @@ class Interface extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     value: updateDetails.interfaceSelectedUpdate,
-                    onChanged: (String newValue) {
+                    onChanged: (String? newValue) {
                       updateDetails
                           .setInterfaceSelectedUpdate(
                           newValue);

@@ -17,11 +17,11 @@ import 'ad_info_widget/ad_qf_table.dart';
 
 class AdInfoWidget extends StatelessWidget {
   AdInfoWidget({
-    Key key,
-    @required this.ads,
-    @required this.index,
+    Key? key,
+    required this.ads,
+    required this.index,
   }) : super(key: key);
-  final List<AdsModel> ads;
+  final List<AdsModel?> ads;
   final int index;
 
   @override
@@ -46,7 +46,7 @@ class AdInfoWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${adsPage.adsPage.ads_city??'غير محدد'} - ${adsPage.adsPage.ads_neighborhood??'غير محدد'}',
+                        '${adsPage.adsPage!.ads_city??'غير محدد'} - ${adsPage.adsPage!.ads_neighborhood??'غير محدد'}',
                         style: CustomTextStyle(
                           fontSize: 11,
                           color: Colors.grey,
@@ -54,7 +54,7 @@ class AdInfoWidget extends StatelessWidget {
                         textAlign: TextAlign.right,
                       ),
                       Text(
-                        '${adsPage.adsPage.ads_road??'غير محدد'}',
+                        '${adsPage.adsPage!.ads_road??'غير محدد'}',
                         style: CustomTextStyle(
                           fontSize: 11,
                           color: Colors.grey,
@@ -65,21 +65,21 @@ class AdInfoWidget extends StatelessWidget {
                   ),
                 ),
                 TextButton(
+                  onPressed: () {
+                    adsPage.stopVideoAdsPage();
+                    Share.share('${adsPage.qrData}');
+                  },
                   child: Icon(
                     Icons.share,
                     color: Colors.grey,
                     size: 40,
                   ),
-                  onPressed: () {
-                    adsPage.stopVideoAdsPage();
-                    Share.share('${adsPage.qrData}');
-                  },
                 ),
               ],
             ),
           ),
           if (adsPage.adsUser != null)
-            if (adsPage.adsUser.phone == locale.phone)
+            if (adsPage.adsUser!.phone == locale.phone)
               Wrap(
                 children: [
                   GestureDetector(
@@ -99,7 +99,7 @@ class AdInfoWidget extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            AppLocalizations.of(context).advUpgrade,
+                            AppLocalizations.of(context)!.advUpgrade,
                             style: CustomTextStyle(
                               fontSize: 16,
                               color: const Color(0xff989696),
@@ -135,7 +135,7 @@ class AdInfoWidget extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            AppLocalizations.of(context).reVR,
+                            AppLocalizations.of(context)!.reVR,
                             style: CustomTextStyle(
                               fontSize: 16,
                               color: const Color(0xff989696),
@@ -152,7 +152,7 @@ class AdInfoWidget extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         if(adsPage.videoControllerAdsPage != null) {
-                          adsPage.videoControllerAdsPage.pause();
+                          adsPage.videoControllerAdsPage!.pause();
                         }
                         Navigator.pushReplacement(
                             context,
@@ -223,7 +223,7 @@ class AdInfoWidget extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            AppLocalizations.of(context).verAqar,
+                            AppLocalizations.of(context)!.verAqar,
                             style: CustomTextStyle(
                               fontSize: 15,
                               color: const Color(0xffffffff),
@@ -237,7 +237,7 @@ class AdInfoWidget extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                       child: Text(
-                        AppLocalizations.of(context).rule33,
+                        AppLocalizations.of(context)!.rule33,
                         style: CustomTextStyle(
                           fontSize: 15,
                           color: const Color(0xff989696),
@@ -371,8 +371,8 @@ class AdInfoWidget extends StatelessWidget {
             child: Column(
               children: [
                 AdViewTable(
-                  views: adsPage.adsPage.views,
-                  idDescription: adsPage.adsPage.idAds,
+                  views: adsPage.adsPage!.views,
+                  idDescription: adsPage.adsPage!.idAds,
                 ),
               ],
             ),

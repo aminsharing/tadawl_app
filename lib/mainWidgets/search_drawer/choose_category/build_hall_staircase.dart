@@ -6,7 +6,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class BuildHallStaircase extends StatelessWidget {
-  const BuildHallStaircase({Key key}) : super(key: key);
+  const BuildHallStaircase({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class BuildHallStaircase extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context).hallStaircase,
+            AppLocalizations.of(context)!.hallStaircase,
             style: CustomTextStyle(
 
               fontSize: 15,

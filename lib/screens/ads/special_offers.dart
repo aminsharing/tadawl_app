@@ -9,7 +9,7 @@ import 'package:tadawl_app/services/ad_page_helper.dart';
 
 class SpecialOffers extends StatelessWidget {
   SpecialOffers({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -41,7 +41,7 @@ class SpecialOffers extends StatelessWidget {
             ),
           ),
           title: Text(
-            AppLocalizations.of(context).specialOffers +
+            AppLocalizations.of(context)!.specialOffers +
                 ' (${specialAds.countAdsSpecial()}) ',
             style: CustomTextStyle(
 

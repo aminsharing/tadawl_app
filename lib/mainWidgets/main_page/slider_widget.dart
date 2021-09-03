@@ -7,7 +7,7 @@ import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 class SliderWidget extends StatelessWidget {
-  SliderWidget({Key key}) : super(key: key);
+  SliderWidget({Key? key}) : super(key: key);
 
 
 

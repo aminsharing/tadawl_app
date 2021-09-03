@@ -9,8 +9,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/screens/account/my_account.dart';
 
 class CustomDrawerHeader extends StatelessWidget {
-  const CustomDrawerHeader(this._phone ,{Key key}) : super(key: key);
-  final String _phone;
+  const CustomDrawerHeader(this._phone ,{Key? key}) : super(key: key);
+  final String? _phone;
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +47,11 @@ class CustomDrawerHeader extends StatelessWidget {
                 height: 150.0,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: customDrawer.users.image == '' || customDrawer.users.image == null
+                    image: (customDrawer.users!.image == '' || customDrawer.users!.image == null
                         ?
                     const AssetImage('assets/images/avatar.png')
                         :
-                        CachedNetworkImageProvider('https://tadawl-store.com//API/assets/images/avatar/${customDrawer.users.image}'),
+                        CachedNetworkImageProvider('https://tadawl-store.com//API/assets/images/avatar/${customDrawer.users!.image}')) as ImageProvider<Object>,
                     // CachedNetworkImage(
                     //   placeholder: (context, url) => Center(child: CircularProgressIndicator()),
                     //   errorWidget: (context, url, error) => Icon(Icons.error),
@@ -64,7 +64,7 @@ class CustomDrawerHeader extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  customDrawer.users.username ?? 'UserName',
+                  customDrawer.users!.username ?? 'UserName',
                   style: CustomTextStyle(
                     fontSize: 15,
                     color: const Color(0xff1f2835),
@@ -105,7 +105,7 @@ class CustomDrawerHeader extends StatelessWidget {
                 );
               },
               child: Text(
-                AppLocalizations.of(context).login,
+                AppLocalizations.of(context)!.login,
                 style: CustomTextStyle(
                   fontSize: 20,
                   color: const Color(0xff00cccc),

@@ -1,6 +1,6 @@
 class PlaceSearch {
-  final String description;
-  final String placeId;
+  final String? description;
+  final String? placeId;
   // ignore: sort_constructors_first
   PlaceSearch({this.description, this.placeId});
   // ignore: sort_constructors_first

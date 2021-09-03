@@ -11,7 +11,7 @@ import 'package:tadawl_app/mainWidgets/open_images.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 
 class AdHeaderWidget extends StatelessWidget {
-  AdHeaderWidget({Key key}) : super(key: key);
+  AdHeaderWidget({Key? key}) : super(key: key);
 
 
   @override
@@ -26,7 +26,7 @@ class AdHeaderWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                if (adsPage.adsPage.idSpecial == '1')
+                if (adsPage.adsPage!.idSpecial == '1')
                   Padding(
                     padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
                     child: Icon(
@@ -36,7 +36,7 @@ class AdHeaderWidget extends StatelessWidget {
                     ),
                   ),
                 Text(
-                  adsPage.adsPage.title ?? '',
+                  adsPage.adsPage!.title ?? '',
                   style: CustomTextStyle(
                     fontSize: 20,
                     color: const Color(0xff000000),
@@ -52,7 +52,7 @@ class AdHeaderWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  adsPage.adsPage.price ?? '',
+                  adsPage.adsPage!.price ?? '',
                   style: CustomTextStyle(
                     fontSize: 20,
                     color: const Color(0xff00cccc),
@@ -62,7 +62,7 @@ class AdHeaderWidget extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
                   child: Text(
-                    AppLocalizations.of(context).rial,
+                    AppLocalizations.of(context)!.rial,
                     style: CustomTextStyle(
                       fontSize: 20,
                       color: const Color(0xff00cccc),
@@ -70,16 +70,16 @@ class AdHeaderWidget extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                if(adsPage.adsPage.idTypeRes != '0')
+                if(adsPage.adsPage!.idTypeRes != '0')
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
                     child: Text(
-                      adsPage.adsPage.idTypeRes == '1' ?
-                      AppLocalizations.of(context).daily :
-                      adsPage.adsPage.idTypeRes == '2'?
-                      AppLocalizations.of(context).monthly :
-                      adsPage.adsPage.idTypeRes == '3'?
-                      AppLocalizations.of(context).annual : '',
+                      adsPage.adsPage!.idTypeRes == '1' ?
+                      AppLocalizations.of(context)!.daily :
+                      adsPage.adsPage!.idTypeRes == '2'?
+                      AppLocalizations.of(context)!.monthly :
+                      adsPage.adsPage!.idTypeRes == '3'?
+                      AppLocalizations.of(context)!.annual : '',
                       style: CustomTextStyle(
                         fontSize: 20,
                         color: const Color(0xff00cccc),
@@ -91,7 +91,7 @@ class AdHeaderWidget extends StatelessWidget {
               ],
             ),
           ),
-          if ((adsPage.adsPage.video??'').isNotEmpty)
+          if ((adsPage.adsPage!.video??'').isNotEmpty)
             FutureBuilder(
                 future: adsPage.initializeFutureVideoPlyerAdsPage,
                 builder: (context, snapshot) {
@@ -106,7 +106,7 @@ class AdHeaderWidget extends StatelessWidget {
                         height: 400,
                         child: AspectRatio(
                           aspectRatio: adsPage
-                              .videoControllerAdsPage
+                              .videoControllerAdsPage!
                               .value
                               .aspectRatio,
                           child: Stack(
@@ -118,14 +118,14 @@ class AdHeaderWidget extends StatelessWidget {
                                       child: adsPage.chewieControllerAdsPage !=
                                           null &&
                                           adsPage
-                                              .chewieControllerAdsPage
+                                              .chewieControllerAdsPage!
                                               .videoPlayerController
                                               .value
-                                              .initialized
+                                              .isInitialized
                                           ?
                                       Chewie(
                                         controller: adsPage
-                                            .chewieControllerAdsPage,
+                                            .chewieControllerAdsPage!,
                                       )
                                           :
                                       Container(),

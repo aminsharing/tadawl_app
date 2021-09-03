@@ -6,7 +6,7 @@ import 'package:tadawl_app/screens/ads/main_page.dart';
 
 
 class InitScreen extends StatelessWidget {
-  InitScreen({Key key}) : super(key: key);
+  InitScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class InitScreen extends StatelessWidget {
           title: Center(
             widthFactor: 1.5,
             child: Text(
-              AppLocalizations.of(context).addAdsCond,
+              AppLocalizations.of(context)!.addAdsCond,
               style: CustomTextStyle(
                 fontSize: 20,
                 color: const Color(0xffffffff),
@@ -62,7 +62,7 @@ class InitScreen extends StatelessWidget {
                 children: <Widget>[
                   Flexible(
                     child: Text(
-                      AppLocalizations.of(context).rule26,
+                      AppLocalizations.of(context)!.rule26,
                       style: CustomTextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 15,
@@ -92,7 +92,7 @@ class InitScreen extends StatelessWidget {
                   child: Center(
                     child: Text(
                       AppLocalizations
-                          .of(context)
+                          .of(context)!
                           .accept,
                       style: CustomTextStyle(
 

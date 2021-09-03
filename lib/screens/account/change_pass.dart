@@ -12,7 +12,7 @@ import 'package:tadawl_app/provider/user_provider/change_pass_provider.dart';
 
 class ChangePass extends StatelessWidget {
   ChangePass({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final GlobalKey<FormState> _changePassKey = GlobalKey<FormState>();
@@ -47,7 +47,7 @@ class ChangePass extends StatelessWidget {
           ),
           title: Text(
             AppLocalizations
-                .of(context)
+                .of(context)!
                 .changePass,
             style: CustomTextStyle(
 
@@ -74,22 +74,22 @@ class ChangePass extends StatelessWidget {
                         width: mediaQuery.size.width * 0.7,
                         child: TextFormField(
                           decoration:
-                          InputDecoration(labelText: AppLocalizations.of(context).newPass),
+                          InputDecoration(labelText: AppLocalizations.of(context)!.newPass),
                           style: CustomTextStyle(
 
                             fontSize: 15,
                             color: const Color(0xff989696),
                           ).getTextStyle(),
                           keyboardType: TextInputType.visiblePassword,
-                          validator: (String value) {
-                            if (value.isEmpty) {
-                              return AppLocalizations.of(context).reqNewPass;
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
+                              return AppLocalizations.of(context)!.reqNewPass;
                             } else if (value.length < 8) {
-                              return AppLocalizations.of(context).reqPassless8;
+                              return AppLocalizations.of(context)!.reqPassless8;
                             }
                             return null;
                           },
-                          onSaved: (String value) {
+                          onSaved: (String? value) {
                             changePass.setNewPass(value);
                           },
                         ),
@@ -111,24 +111,24 @@ class ChangePass extends StatelessWidget {
                         width: mediaQuery.size.width * 0.7,
                         child: TextFormField(
                           decoration: InputDecoration(
-                              labelText: AppLocalizations.of(context).configNewPass),
+                              labelText: AppLocalizations.of(context)!.configNewPass),
                           style: CustomTextStyle(
 
                             fontSize: 15,
                             color: const Color(0xff989696),
                           ).getTextStyle(),
                           keyboardType: TextInputType.visiblePassword,
-                          validator: (String value) {
-                            if (value.isEmpty) {
-                              return AppLocalizations.of(context).reqConfirmNewPass;
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
+                              return AppLocalizations.of(context)!.reqConfirmNewPass;
                             } else if (value.length < 8) {
-                              return AppLocalizations.of(context).reqPassless8;
+                              return AppLocalizations.of(context)!.reqPassless8;
                             } //else if (value != changePass.newPass) {
                             //  return AppLocalizations.of(context).notMatch;
                             //}
                             return null;
                           },
-                          onSaved: (String value) {
+                          onSaved: (String? value) {
                             changePass.setReNewPass(value);
                           },
                         ),
@@ -145,13 +145,13 @@ class ChangePass extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(0, 30, 0, 30),
                   child: TextButton(
                     onPressed: () async {
-                      if (!_changePassKey.currentState.validate()) {
+                      if (!_changePassKey.currentState!.validate()) {
                         return;
                       } else {
-                        _changePassKey.currentState.save();
+                        _changePassKey.currentState!.save();
                         var url =
                             'https://tadawl-store.com/API/api_app/login/change_pass.php';
-                        var response = await http.post(url, body: {
+                        var response = await http.post(Uri.parse(url), body: {
                           'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
                           'phone': locale.phone,
                           'newPass': changePass.newPass,
@@ -211,7 +211,7 @@ class ChangePass extends StatelessWidget {
                       child: Center(
                         child: Text(
                             AppLocalizations
-                                .of(context)
+                                .of(context)!
                                 .changePass,
                             style: CustomTextStyle(
 

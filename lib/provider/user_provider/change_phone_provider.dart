@@ -6,10 +6,10 @@ class ChangePhoneProvider extends ChangeNotifier {
     print('init ChangePhoneProvider');
   }
 
-  String _newPhone;
-  String _currentPhone;
-  String _newAccountPhone;
-  String _verificationCode;
+  String? _newPhone;
+  String? _currentPhone;
+  String? _newAccountPhone;
+  String? _verificationCode;
 
   @override
   void dispose() {
@@ -17,19 +17,19 @@ class ChangePhoneProvider extends ChangeNotifier {
     super.dispose();
   }
 
-  void setNewPhone(String val) {
+  void setNewPhone(String? val) {
     _newPhone = filterPhone(val);
     notifyListeners();
   }
 
-  Future<void> saveSession(String phone) async {
+  Future<void> saveSession(String? phone) async {
     var p = await SharedPreferences.getInstance();
     await p.setString('token', phone.toString());
     // ignore: deprecated_member_use
     await p.commit();
   }
 
-  String filterPhone(var Phone) {
+  String? filterPhone(var Phone) {
     if (Phone.toString().length == 10 && Phone.toString().startsWith('05')) {
       Phone = Phone.toString().replaceFirst('0', '966');
       return Phone;
@@ -47,25 +47,25 @@ class ChangePhoneProvider extends ChangeNotifier {
     }
   }
 
-  void setCurrentPhone(String val) {
+  void setCurrentPhone(String? val) {
     _currentPhone = filterPhone(val);
     notifyListeners();
   }
 
-  void setNewAccountPhone(String val) {
+  void setNewAccountPhone(String? val) {
     _newAccountPhone = filterPhone(val);
     notifyListeners();
   }
 
-  void setVerCode(String verCode) {
+  void setVerCode(String? verCode) {
     _verificationCode = verCode;
     notifyListeners();
   }
 
 
 
-  String get newPhone => _newPhone;
-  String get currentPhone => _currentPhone;
-  String get newAccountPhone => _newAccountPhone;
-  String get verificationCode => _verificationCode;
+  String? get newPhone => _newPhone;
+  String? get currentPhone => _currentPhone;
+  String? get newAccountPhone => _newAccountPhone;
+  String? get verificationCode => _verificationCode;
 }

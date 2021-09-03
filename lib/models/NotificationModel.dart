@@ -1,12 +1,12 @@
 class NotificationModel {
-  String id_user_notification;
-  String id_notification;
-  String phone_user;
-  String response_phone_user;
-  String title;
-  String body;
-  String state;
-  String seen;
+  String? id_user_notification;
+  String? id_notification;
+  String? phone_user;
+  String? response_phone_user;
+  String? title;
+  String? body;
+  String? state;
+  String? seen;
 
   // ignore: sort_constructors_first
   NotificationModel({

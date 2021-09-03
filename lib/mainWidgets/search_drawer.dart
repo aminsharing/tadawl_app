@@ -14,8 +14,8 @@ import 'package:tadawl_app/screens/ads/search_ads.dart';
 
 class SearchDrawer extends StatelessWidget {
   const SearchDrawer({
-    Key key,
-    @required this.selectedPage
+    Key? key,
+    required this.selectedPage
   }) : super(key: key);
   final SelectedPage selectedPage;
 
@@ -74,7 +74,7 @@ class SearchDrawer extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          AppLocalizations.of(context).speedSearch,
+                          AppLocalizations.of(context)!.speedSearch,
                           style: CustomTextStyle(
 
                             fontSize: 17,

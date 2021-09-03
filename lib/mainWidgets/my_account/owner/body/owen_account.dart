@@ -12,8 +12,8 @@ import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 
 class OwenAccount extends StatelessWidget {
   const OwenAccount({
-    Key key,
-    @required this.myAccountProvider,
+    Key? key,
+    required this.myAccountProvider,
   }) : super(key: key);
   final MyAccountProvider myAccountProvider;
 

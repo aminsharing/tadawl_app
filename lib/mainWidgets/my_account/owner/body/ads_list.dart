@@ -9,7 +9,7 @@ import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 import 'package:tadawl_app/services/ad_page_helper.dart';
 
 class AdsList extends StatelessWidget {
-  const AdsList({Key key}) : super(key: key);
+  const AdsList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,30 +30,6 @@ class AdsList extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ToggleButtons(
-                    children: <Widget>[
-                      Padding(
-                        padding:
-                        const EdgeInsets.fromLTRB(50, 5, 50, 5),
-                        child: Text(
-                          AppLocalizations.of(context).ads,
-                          style: CustomTextStyle(
-                            fontSize: 15,
-                          ).getTextStyle(),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                        const EdgeInsets.fromLTRB(50, 5, 50, 5),
-                        child: Text(
-                          AppLocalizations.of(context).payments,
-                          style: CustomTextStyle(
-                            fontSize: 15,
-                          ).getTextStyle(),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
                     onPressed: (int index) {
                       avatar.updateSelected(index);
                     },
@@ -64,6 +40,30 @@ class AdsList extends StatelessWidget {
                     borderWidth: 2,
                     borderColor: const Color(0xffdddddd),
                     selectedBorderColor: const Color(0xffdddddd),
+                    children: <Widget>[
+                      Padding(
+                        padding:
+                        const EdgeInsets.fromLTRB(50, 5, 50, 5),
+                        child: Text(
+                          AppLocalizations.of(context)!.ads,
+                          style: CustomTextStyle(
+                            fontSize: 15,
+                          ).getTextStyle(),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                        const EdgeInsets.fromLTRB(50, 5, 50, 5),
+                        child: Text(
+                          AppLocalizations.of(context)!.payments,
+                          style: CustomTextStyle(
+                            fontSize: 15,
+                          ).getTextStyle(),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

@@ -8,7 +8,7 @@ import 'package:tadawl_app/provider/request_provider.dart';
 
 class Requests extends StatelessWidget {
   Requests({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -40,7 +40,7 @@ class Requests extends StatelessWidget {
             ),
           ),
           title: Text(
-            AppLocalizations.of(context).requests,
+            AppLocalizations.of(context)!.requests,
             style: CustomTextStyle(
 
               fontSize: 20,
@@ -79,7 +79,7 @@ class Requests extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
                       child: Text(
-                        AppLocalizations.of(context).requestsHint,
+                        AppLocalizations.of(context)!.requestsHint,
                         style: CustomTextStyle(
 
                           fontSize: 15,

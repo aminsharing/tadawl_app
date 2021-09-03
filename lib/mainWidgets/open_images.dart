@@ -9,8 +9,8 @@ import 'package:tadawl_app/models/AdsModel.dart';
 
 class OpenImages extends StatelessWidget {
   OpenImages({
-    Key key,
-    @required this.images,
+    Key? key,
+    required this.images,
   }) : super(key: key);
   final List<AdsModel> images;
 
@@ -36,7 +36,7 @@ class OpenImages extends StatelessWidget {
           ),
         ),
         title: Text(
-          AppLocalizations.of(context).adsImages,
+          AppLocalizations.of(context)!.adsImages,
           style: CustomTextStyle(
 
             fontSize: 20,

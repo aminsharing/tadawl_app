@@ -5,7 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class BuildPrice extends StatelessWidget {
-  const BuildPrice({Key key}) : super(key: key);
+  const BuildPrice({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class BuildPrice extends StatelessWidget {
             height: 50,
             child: TextFormField(
               decoration: InputDecoration(
-                labelText: AppLocalizations.of(context).maxPrice,
+                labelText: AppLocalizations.of(context)!.maxPrice,
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(0.0),
@@ -34,7 +34,7 @@ class BuildPrice extends StatelessWidget {
               keyboardType: TextInputType.number,
               minLines: 1,
               maxLines: 1,
-              onSaved: (String value) {
+              onSaved: (String? value) {
                 searchDrawer.setMaxPriceSearchDrawer(value);
               },
             ),
@@ -52,7 +52,7 @@ class BuildPrice extends StatelessWidget {
             height: 50,
             child: TextFormField(
               decoration: InputDecoration(
-                labelText: AppLocalizations.of(context).minPrice,
+                labelText: AppLocalizations.of(context)!.minPrice,
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(0.0),
@@ -66,7 +66,7 @@ class BuildPrice extends StatelessWidget {
               keyboardType: TextInputType.number,
               minLines: 1,
               maxLines: 1,
-              onSaved: (String value) {
+              onSaved: (String? value) {
                 searchDrawer.setMinPriceSearchDrawer(value);
               },
             ),

@@ -5,7 +5,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class BuildSingleFamily extends StatelessWidget {
-  const BuildSingleFamily({Key key}) : super(key: key);
+  const BuildSingleFamily({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,30 +16,6 @@ class BuildSingleFamily extends StatelessWidget {
         children: [
           Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
             return ToggleButtons(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: Text(
-                    AppLocalizations.of(context).family,
-                    style: CustomTextStyle(
-
-                      fontSize: 10,
-                    ).getTextStyle(),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: Text(
-                    AppLocalizations.of(context).single,
-                    style: CustomTextStyle(
-
-                      fontSize: 10,
-                    ).getTextStyle(),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
               onPressed: (int index) {
                 searchDrawer.setFamilyTypeSearchDrawer(index);
               },
@@ -50,6 +26,30 @@ class BuildSingleFamily extends StatelessWidget {
               borderColor: const Color(0xff00cccc),
               selectedBorderColor: const Color(0xff00cccc),
               borderWidth: 1,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: Text(
+                    AppLocalizations.of(context)!.family,
+                    style: CustomTextStyle(
+
+                      fontSize: 10,
+                    ).getTextStyle(),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: Text(
+                    AppLocalizations.of(context)!.single,
+                    style: CustomTextStyle(
+
+                      fontSize: 10,
+                    ).getTextStyle(),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
             );
           }),
         ],

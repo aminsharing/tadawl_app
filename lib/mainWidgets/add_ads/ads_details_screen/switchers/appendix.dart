@@ -7,7 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class Appendix extends StatelessWidget {
-  const Appendix({Key key}) : super(key: key);
+  const Appendix({Key? key}) : super(key: key);
 
 
   @override
@@ -20,7 +20,7 @@ class Appendix extends StatelessWidget {
         MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context).appendix,
+            AppLocalizations.of(context)!.appendix,
             style: CustomTextStyle(
 
               fontSize: 15,

@@ -6,7 +6,7 @@ import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 
 
 class StreetWidth extends StatelessWidget {
-  const StreetWidth({Key key}) : super(key: key);
+  const StreetWidth({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class StreetWidth extends StatelessWidget {
               MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context).streetWidth,
+                  AppLocalizations.of(context)!.streetWidth,
                   style: CustomTextStyle(
 
                     fontSize: 15,

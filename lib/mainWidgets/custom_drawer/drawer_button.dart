@@ -3,10 +3,10 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 
 class DrawerButton extends StatelessWidget {
   const DrawerButton({
-    Key key,
-    @required this.icon,
-    @required this.text,
-    @required this.onPressed
+    Key? key,
+    required this.icon,
+    required this.text,
+    required this.onPressed
   }) : super(key: key);
   final IconData icon;
   final String text;
@@ -15,7 +15,7 @@ class DrawerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: onPressed,
+      onPressed: onPressed as void Function()?,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10.0),
         child: Container(

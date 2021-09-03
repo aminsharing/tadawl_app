@@ -7,7 +7,7 @@ import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 class BuildWells extends StatelessWidget {
-  const BuildWells({Key key}) : super(key: key);
+  const BuildWells({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class BuildWells extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              AppLocalizations.of(context).wells,
+              AppLocalizations.of(context)!.wells,
               style: CustomTextStyle(
 
                 fontSize: 10,
@@ -45,7 +45,7 @@ class BuildWells extends StatelessWidget {
                     child: Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
                       return DropdownButton<String>(
                         hint: Text(
-                          AppLocalizations.of(context).wells,
+                          AppLocalizations.of(context)!.wells,
                           style: CustomTextStyle(
 
                             fontSize: 15,
@@ -54,7 +54,7 @@ class BuildWells extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                         value: searchDrawer.wellsSelectedSearchDrawer ?? '0',
-                        onChanged: (String newValue) {
+                        onChanged: (String? newValue) {
                           searchDrawer.setWellsSearchDrawer(newValue);
                         },
                         items:

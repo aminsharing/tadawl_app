@@ -6,13 +6,13 @@ import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 
 class MyAccount extends StatelessWidget {
   MyAccount({
-    Key key,
-    @required this.myAccountProvider,
-    @required this.phone,
+    Key? key,
+    required this.myAccountProvider,
+    required this.phone,
   }) : super(key: key);
 
   final MyAccountProvider myAccountProvider;
-  final String phone;
+  final String? phone;
 
   @override
   Widget build(BuildContext context) {

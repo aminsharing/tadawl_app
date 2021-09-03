@@ -12,7 +12,7 @@ class PlacesService {
     var url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$search&key=$key';
     var specificCountry = '&components=country:SA';
     var searchType = '&types=geocode';
-    var response = await http.get(url+searchType+specificCountry, headers: {
+    var response = await http.get(Uri.parse(url+searchType+specificCountry), headers: {
       'Accept-Language': 'ar'
     });
     var json = convert.jsonDecode(response.body);
@@ -20,9 +20,9 @@ class PlacesService {
     return jsonResults.map((place) => PlaceSearch.fromJson(place)).toList();
   }
 
-  Future<Place> getPlace(String placeId) async {
+  Future<Place> getPlace(String? placeId) async {
     var url = 'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$key';
-    var response = await http.get(url, headers: {
+    var response = await http.get(Uri.parse(url), headers: {
       'Accept-Language': 'ar'
     });
     var json = convert.jsonDecode(response.body);

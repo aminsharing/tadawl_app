@@ -15,8 +15,8 @@ enum SelectedPage{
 
 class SearchOnMap extends StatelessWidget {
   SearchOnMap({
-    Key key,
-    @required this.selectedPage,
+    Key? key,
+    required this.selectedPage,
   }) : super(key: key);
   final SelectedPage selectedPage;
 
@@ -37,7 +37,7 @@ class SearchOnMap extends StatelessWidget {
                       boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 20, spreadRadius: 10)],
                     ),
                     width: MediaQuery.of(context).size.width,
-                    height: (searchOnMap.searchResults??[]).isNotEmpty ? 60.0 + (searchOnMap.searchResults.length*25.0) : 60.0,
+                    height: (searchOnMap.searchResults??[]).isNotEmpty ? 60.0 + (searchOnMap.searchResults!.length*25.0) : 60.0,
                     child: ListView(
                       padding: EdgeInsets.zero,
                       children: [
@@ -48,7 +48,7 @@ class SearchOnMap extends StatelessWidget {
                             textCapitalization: TextCapitalization.words,
                             autofocus: false,
                             decoration: InputDecoration(
-                              hintText: AppLocalizations.of(context).currentMapLocation,
+                              hintText: AppLocalizations.of(context)!.currentMapLocation,
                               border: InputBorder.none,
                               contentPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
                               hintStyle: TextStyle(
@@ -65,11 +65,11 @@ class SearchOnMap extends StatelessWidget {
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width,
-                          height: searchOnMap.searchResults != null && searchOnMap.searchResults.isNotEmpty ? 100.0 : 0.0,
+                          height: searchOnMap.searchResults != null && searchOnMap.searchResults!.isNotEmpty ? 100.0 : 0.0,
                           child: Stack(
                             children: [
                               if (searchOnMap.searchResults != null &&
-                                  searchOnMap.searchResults.isNotEmpty)
+                                  searchOnMap.searchResults!.isNotEmpty)
                                 Container(
                                     height: 100.0,
                                     width: MediaQuery.of(context).size.width,
@@ -81,26 +81,26 @@ class SearchOnMap extends StatelessWidget {
                                   height: 100.0,
                                   width: MediaQuery.of(context).size.width,
                                   child: ListView.builder(
-                                      itemCount: searchOnMap.searchResults.length,
+                                      itemCount: searchOnMap.searchResults!.length,
                                       padding: EdgeInsets.zero,
                                       itemBuilder: (context, index) {
                                         return ListTile(
                                           title: Text(
-                                            searchOnMap.searchResults[index].description,
+                                            searchOnMap.searchResults![index].description!,
                                             style: TextStyle(color: Colors.black),
                                           ),
                                           onTap: () async{
                                             await searchOnMap.setSelectedLocation(
-                                                searchOnMap.searchResults[index].placeId).then((value) async {
-                                              Provider.of<LocaleProvider>(context, listen: false).initialCameraPosition = CameraPosition(target: LatLng(searchOnMap.selectedLocationStatic.geometry.location.lat, searchOnMap.selectedLocationStatic.geometry.location.lng), zoom: 13);
+                                                searchOnMap.searchResults![index].placeId).then((value) async {
+                                              Provider.of<LocaleProvider>(context, listen: false).initialCameraPosition = CameraPosition(target: LatLng(searchOnMap.selectedLocationStatic!.geometry!.location!.lat!, searchOnMap.selectedLocationStatic!.geometry!.location!.lng!), zoom: 13);
                                               if(selectedPage == SelectedPage.mainPage) {
                                                 Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
-                                                Provider.of<MainPageProvider>(context, listen: false).animateToLocation(LatLng(searchOnMap.selectedLocationStatic.geometry.location.lat, searchOnMap.selectedLocationStatic.geometry.location.lng), 13);
-                                                await Navigator.pop(context);
+                                                Provider.of<MainPageProvider>(context, listen: false).animateToLocation(LatLng(searchOnMap.selectedLocationStatic!.geometry!.location!.lat!, searchOnMap.selectedLocationStatic!.geometry!.location!.lng!), 13);
+                                                Navigator.pop(context);
                                               }else if(selectedPage == SelectedPage.locationScreen){
-                                                Provider.of<AddAdProvider>(context, listen: false).animateToLocation(LatLng(searchOnMap.selectedLocationStatic.geometry.location.lat, searchOnMap.selectedLocationStatic.geometry.location.lng), 13);
+                                                Provider.of<AddAdProvider>(context, listen: false).animateToLocation(LatLng(searchOnMap.selectedLocationStatic!.geometry!.location!.lat!, searchOnMap.selectedLocationStatic!.geometry!.location!.lng!), 13);
                                               }else if(selectedPage == SelectedPage.menu){
-                                                await Navigator.pop(context);
+                                                Navigator.pop(context);
                                               }
 
                                             });

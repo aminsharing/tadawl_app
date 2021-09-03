@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -6,23 +8,22 @@ import 'package:tadawl_app/provider/api/apiRequestsFunctions.dart';
 
 class NotificationProvider extends ChangeNotifier {
   final List<NotificationModel> _notifications = [];
-  FlutterLocalNotificationsPlugin _localNotification;
+  late FlutterLocalNotificationsPlugin _localNotification;
 
   Future<void> getNotificationsList(String phone) async {
     Future.delayed(Duration(milliseconds: 0), () async{
-      if(phone != null) {
-        _notifications.clear();
-        List<dynamic> value = await ApiRequests().getNotificationsFunc(phone);
-        value.forEach((element) {
-          _notifications.add(NotificationModel.fromJson(element));
-        });
-      }
+      _notifications.clear();
+      // ignore: omit_local_variable_types
+      List<dynamic> value = await ApiRequests().getNotificationsFunc(phone);
+      value.forEach((element) {
+        _notifications.add(NotificationModel.fromJson(element));
+      });
     });
   }
 
 
 
-  Future<void> changeNotificationState( String phone, String idNotification) async{
+  Future<void> changeNotificationState( String phone, String? idNotification) async{
     await ApiRequests().changeNotificationStateFunc(phone, idNotification);
   }
 
@@ -42,7 +43,7 @@ class NotificationProvider extends ChangeNotifier {
             var generalNotificationDetails =
             NotificationDetails(android: androidDetails, iOS: iosDetails);
             await _localNotification.show(
-                int.parse(notifications.id_notification),
+                int.parse(notifications.id_notification!),
                 '${notifications.title}',
                 '${notifications.body}',
                 generalNotificationDetails);

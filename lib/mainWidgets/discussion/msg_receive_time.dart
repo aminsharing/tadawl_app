@@ -7,11 +7,11 @@ class MsgReceiveTime extends StatelessWidget {
   const MsgReceiveTime(
       this._phone,
       {
-        Key key,
-        @required this.msgs,
+        Key? key,
+        required this.msgs,
       }) : super(key: key);
   final ConvModel msgs;
-  final String _phone;
+  final String? _phone;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class MsgReceiveTime extends StatelessWidget {
           child: Text(
             DateFormat('yyyy-MM-dd  hh:mm a')
                 .format(DateTime.parse(
-                msgs.timeAdded)),
+                msgs.timeAdded!)),
             textAlign: msgs.phone_user_sender != _phone ? TextAlign.left : TextAlign.right, /// right
             style: CustomTextStyle(
                 fontSize: 8,

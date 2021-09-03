@@ -8,7 +8,7 @@ import 'package:tadawl_app/provider/user_provider/transfer_form_provider.dart';
 
 class TransferForm extends StatelessWidget {
   TransferForm({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final GlobalKey<FormState> _transferKey = GlobalKey<FormState>();
@@ -41,7 +41,7 @@ class TransferForm extends StatelessWidget {
             ),
           ),
           title: Text(
-            AppLocalizations.of(context).transferForm,
+            AppLocalizations.of(context)!.transferForm,
             style: CustomTextStyle(
 
               fontSize: 20,
@@ -64,7 +64,7 @@ class TransferForm extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        AppLocalizations.of(context).userInfo,
+                        AppLocalizations.of(context)!.userInfo,
                         style: CustomTextStyle(
 
                           fontSize: 15,
@@ -80,7 +80,7 @@ class TransferForm extends StatelessWidget {
                     enabled: false,
                     controller: TextEditingController(text: locale.phone),
                     decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context).mobileNumber,
+                      labelText: AppLocalizations.of(context)!.mobileNumber,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
@@ -101,7 +101,7 @@ class TransferForm extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                   child: TextFormField(
                     decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context).fullName,
+                      labelText: AppLocalizations.of(context)!.fullName,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
@@ -116,13 +116,13 @@ class TransferForm extends StatelessWidget {
                     keyboardType: TextInputType.text,
                     minLines: 1,
                     maxLines: 1,
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return AppLocalizations.of(context).reqFullName;
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return AppLocalizations.of(context)!.reqFullName;
                       }
                       return null;
                     },
-                    onSaved: (String value) {
+                    onSaved: (String? value) {
                       transfer.setFullName(value);
                     },
                   ),
@@ -133,7 +133,7 @@ class TransferForm extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        AppLocalizations.of(context).payType,
+                        AppLocalizations.of(context)!.payType,
                         style: CustomTextStyle(
 
                           fontSize: 15,
@@ -155,38 +155,6 @@ class TransferForm extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: ToggleButtons(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Text(
-                                AppLocalizations.of(context).memSubs,
-                                style: CustomTextStyle(
-                                  fontSize: 15,
-                                ).getTextStyle(),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Text(
-                                AppLocalizations.of(context).saleRentalFees,
-                                style: CustomTextStyle(
-                                  fontSize: 15,
-                                ).getTextStyle(),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Text(
-                                AppLocalizations.of(context).upgradeAd,
-                                style: CustomTextStyle(
-                                  fontSize: 15,
-                                ).getTextStyle(),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
                           onPressed: (int index) {
                             transfer.updateTransferChoice(index);
                           },
@@ -198,6 +166,38 @@ class TransferForm extends StatelessWidget {
                           borderWidth: 2,
                           borderColor: const Color(0xff8d8d8d),
                           selectedBorderColor: const Color(0xff8d8d8d),
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text(
+                                AppLocalizations.of(context)!.memSubs,
+                                style: CustomTextStyle(
+                                  fontSize: 15,
+                                ).getTextStyle(),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text(
+                                AppLocalizations.of(context)!.saleRentalFees,
+                                style: CustomTextStyle(
+                                  fontSize: 15,
+                                ).getTextStyle(),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text(
+                                AppLocalizations.of(context)!.upgradeAd,
+                                style: CustomTextStyle(
+                                  fontSize: 15,
+                                ).getTextStyle(),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -220,7 +220,7 @@ class TransferForm extends StatelessWidget {
                                 value: 1,
                                 activeColor: Color(0xff00cccc),
                                 groupValue: transfer.radioValue1,
-                                onChanged: (int value) {
+                                onChanged: (int? value) {
                                   transfer.handleRadioValueChange1(1);
                                 },
                               ),
@@ -237,7 +237,7 @@ class TransferForm extends StatelessWidget {
                                 value: 2,
                                 activeColor: Color(0xff00cccc),
                                 groupValue: transfer.radioValue1,
-                                onChanged: (int value) {
+                                onChanged: (int? value) {
                                   transfer.handleRadioValueChange1(2);
                                 },
                               ),
@@ -254,7 +254,7 @@ class TransferForm extends StatelessWidget {
                                 value: 3,
                                 activeColor: Color(0xff00cccc),
                                 groupValue: transfer.radioValue1,
-                                onChanged: (int value) {
+                                onChanged: (int? value) {
                                   transfer.handleRadioValueChange1(3);
                                 },
                               ),
@@ -290,7 +290,7 @@ class TransferForm extends StatelessWidget {
                                 value: 4,
                                 activeColor: Color(0xff00cccc),
                                 groupValue: transfer.radioValue1,
-                                onChanged: (int value) {
+                                onChanged: (int? value) {
                                   transfer.handleRadioValueChange1(4);
                                 },
                               ),
@@ -307,7 +307,7 @@ class TransferForm extends StatelessWidget {
                                 value: 5,
                                 activeColor: Color(0xff00cccc),
                                 groupValue: transfer.radioValue1,
-                                onChanged: (int value) {
+                                onChanged: (int? value) {
                                   transfer.handleRadioValueChange1(5);
                                 },
                               ),
@@ -346,7 +346,7 @@ class TransferForm extends StatelessWidget {
                                     value: 6,
                                     activeColor: Color(0xff00cccc),
                                     groupValue: transfer.radioValue1,
-                                    onChanged: (int value) {
+                                    onChanged: (int? value) {
                                       transfer.handleRadioValueChange1(6);
                                     },
                                   ),
@@ -363,7 +363,7 @@ class TransferForm extends StatelessWidget {
                                     value: 7,
                                     activeColor: Color(0xff00cccc),
                                     groupValue: transfer.radioValue1,
-                                    onChanged: (int value) {
+                                    onChanged: (int? value) {
                                       transfer.handleRadioValueChange1(7);
                                     },
                                   ),
@@ -385,7 +385,7 @@ class TransferForm extends StatelessWidget {
                                     value: 8,
                                     activeColor: Color(0xff00cccc),
                                     groupValue: transfer.radioValue1,
-                                    onChanged: (int value) {
+                                    onChanged: (int? value) {
                                       transfer.handleRadioValueChange1(8);
                                     },
                                   ),
@@ -402,7 +402,7 @@ class TransferForm extends StatelessWidget {
                                     value: 9,
                                     activeColor: Color(0xff00cccc),
                                     groupValue: transfer.radioValue1,
-                                    onChanged: (int value) {
+                                    onChanged: (int? value) {
                                       transfer.handleRadioValueChange1(9);
                                     },
                                   ),
@@ -429,7 +429,7 @@ class TransferForm extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        AppLocalizations.of(context).userInfo,
+                        AppLocalizations.of(context)!.userInfo,
                         style: CustomTextStyle(
 
                           fontSize: 15,
@@ -443,7 +443,7 @@ class TransferForm extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                   child: TextFormField(
                     decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context).reasonTransfer,
+                      labelText: AppLocalizations.of(context)!.reasonTransfer,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
@@ -458,13 +458,13 @@ class TransferForm extends StatelessWidget {
                     keyboardType: TextInputType.text,
                     minLines: 1,
                     maxLines: 1,
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return AppLocalizations.of(context).reqReasonTransfer;
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return AppLocalizations.of(context)!.reqReasonTransfer;
                       }
                       return null;
                     },
-                    onSaved: (String value) {
+                    onSaved: (String? value) {
                       transfer.setReason(value);
                     },
                   ),
@@ -473,7 +473,7 @@ class TransferForm extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                   child: TextFormField(
                     decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context).refNumber,
+                      labelText: AppLocalizations.of(context)!.refNumber,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
@@ -488,13 +488,13 @@ class TransferForm extends StatelessWidget {
                     keyboardType: TextInputType.number,
                     minLines: 1,
                     maxLines: 1,
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return AppLocalizations.of(context).reqRefNumber;
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return AppLocalizations.of(context)!.reqRefNumber;
                       }
                       return null;
                     },
-                    onSaved: (String value) {
+                    onSaved: (String? value) {
                       transfer.setRefrencedNumber(value);
                     },
                   ),
@@ -505,7 +505,7 @@ class TransferForm extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        AppLocalizations.of(context).copyReceipt,
+                        AppLocalizations.of(context)!.copyReceipt,
                         style: CustomTextStyle(
 
                           fontSize: 15,
@@ -531,22 +531,22 @@ class TransferForm extends StatelessWidget {
                               shape: BoxShape.rectangle,
                               image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: FileImage(transfer.imageInvoice),
+                                image: FileImage(transfer.imageInvoice!),
                               ),
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(5, 10, 0, 0),
                             child: TextButton(
+                              onPressed: () {
+                                transfer.deleteImageInvoice();
+                                //buildGridView();
+                              },
                               child: Icon(
                                 Icons.delete_forever_rounded,
                                 color: Color(0xff00cccc),
                                 size: 40,
                               ),
-                              onPressed: () {
-                                transfer.deleteImageInvoice();
-                                //buildGridView();
-                              },
                             ),
                           ),
                         ],
@@ -572,7 +572,7 @@ class TransferForm extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            AppLocalizations.of(context).uplaodImage,
+                            AppLocalizations.of(context)!.uplaodImage,
                             style: CustomTextStyle(
 
                               fontSize: 15,
@@ -599,7 +599,7 @@ class TransferForm extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          AppLocalizations.of(context).rule25,
+                          AppLocalizations.of(context)!.rule25,
                           style: CustomTextStyle(
 
                             fontSize: 15,
@@ -613,7 +613,7 @@ class TransferForm extends StatelessWidget {
                   subtitle: TextButton(
                     onPressed: () {},
                     child: Text(
-                      AppLocalizations.of(context).termsReturn,
+                      AppLocalizations.of(context)!.termsReturn,
                       style: CustomTextStyle(
 
                         fontSize: 15,
@@ -623,17 +623,17 @@ class TransferForm extends StatelessWidget {
                     ),
                   ),
                   value: transfer.Accepted,
-                  onChanged: (bool value) {
+                  onChanged: (bool? value) {
                     transfer.updateAccepted(value);
                   },
                 ),
                 if (transfer.Accepted == true)
                   TextButton(
                     onPressed: () {
-                      if (!_transferKey.currentState.validate()) {
+                      if (!_transferKey.currentState!.validate()) {
                         return;
                       }
-                      _transferKey.currentState.save();
+                      _transferKey.currentState!.save();
                       transfer.sendTransfer(
                           context,
                           locale.phone,
@@ -656,7 +656,7 @@ class TransferForm extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            AppLocalizations.of(context).send,
+                            AppLocalizations.of(context)!.send,
                             style: CustomTextStyle(
 
                               fontSize: 15,
@@ -694,7 +694,7 @@ class TransferForm extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            AppLocalizations.of(context).send,
+                            AppLocalizations.of(context)!.send,
                             style: CustomTextStyle(
 
                               fontSize: 15,

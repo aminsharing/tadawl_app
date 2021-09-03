@@ -6,7 +6,7 @@ import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 
 
 class Rooms extends StatelessWidget {
-  const Rooms({Key key}) : super(key: key);
+  const Rooms({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class Rooms extends StatelessWidget {
               MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context).rooms,
+                  AppLocalizations.of(context)!.rooms,
                   style: CustomTextStyle(
 
                     fontSize: 15,

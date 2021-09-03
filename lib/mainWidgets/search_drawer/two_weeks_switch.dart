@@ -8,8 +8,8 @@ import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class TwoWeeksSwitch extends StatelessWidget {
   const TwoWeeksSwitch({
-    Key key,
-    @required this.selectedPage
+    Key? key,
+    required this.selectedPage
   }) : super(key: key);
   final SelectedPage selectedPage;
 
@@ -23,7 +23,7 @@ class TwoWeeksSwitch extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: Text(
-              AppLocalizations.of(context).twoWeeksAgoAds,
+              AppLocalizations.of(context)!.twoWeeksAgoAds,
               style: CustomTextStyle(
                 fontSize: 15,
                 color: const Color(0xff818181),

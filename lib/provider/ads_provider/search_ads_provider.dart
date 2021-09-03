@@ -11,21 +11,21 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/services/ad_page_helper.dart';
 
 class SearchAdsProvider extends ChangeNotifier{
-  String _search;
-  List _KeyData = [];
+  String? _search;
+  List? _KeyData = [];
   final List<KeySearchModel> _key = [];
 
-  void setSearchKey(String value) {
+  void setSearchKey(String? value) {
     _search = filterPhone(value);
     notifyListeners();
   }
 
-  void searchKeyInfo(BuildContext context, String keySearch) async {
+  void searchKeyInfo(BuildContext context, String? keySearch) async {
     Future.delayed(Duration(milliseconds: 0), () {
       Api().searchKeyFunc(keySearch).then((value) {
         if (value == 'false') {
           Fluttertoast.showToast(
-              msg: AppLocalizations.of(context).notFoundToast,
+              msg: AppLocalizations.of(context)!.notFoundToast,
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
               timeInSecForIosWeb: 1,
@@ -34,7 +34,7 @@ class SearchAdsProvider extends ChangeNotifier{
               fontSize: 15.0);
         } else {
           _KeyData = value;
-          _KeyData.forEach((element) {
+          _KeyData!.forEach((element) {
             _key.add(KeySearchModel.fromJson(element));
           });
           if (_key.isNotEmpty) {
@@ -106,7 +106,7 @@ class SearchAdsProvider extends ChangeNotifier{
     });
   }
 
-  String filterPhone(var Phone) {
+  String? filterPhone(var Phone) {
     if (Phone.toString().length == 10 && Phone.toString().startsWith('05')) {
       Phone = Phone.toString().replaceFirst('0', '966');
       return Phone;
@@ -126,7 +126,7 @@ class SearchAdsProvider extends ChangeNotifier{
 
 
 
-  String get search => _search;
+  String? get search => _search;
   List<KeySearchModel> get key => _key;
 
 }

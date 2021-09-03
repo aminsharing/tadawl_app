@@ -15,8 +15,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AvatarInfo extends StatelessWidget {
   const AvatarInfo({
-    Key key,
-    @required this.myAccountProvider,
+    Key? key,
+    required this.myAccountProvider,
   }) : super(key: key);
   final MyAccountProvider myAccountProvider;
 
@@ -52,9 +52,9 @@ class AvatarInfo extends StatelessWidget {
 
           void _showRatingDialog() {
             final _dialog = RatingDialog(
-              title: AppLocalizations.of(context).ratingDialog,
-              commentHint: AppLocalizations.of(context).ratingCommentHint,
-              message: AppLocalizations.of(context).ratingHint,
+              title: AppLocalizations.of(context)!.ratingDialog,
+              commentHint: AppLocalizations.of(context)!.ratingCommentHint,
+              message: AppLocalizations.of(context)!.ratingHint,
               image: Container(
                 width: 100.0,
                 height: 100.0,
@@ -66,7 +66,7 @@ class AvatarInfo extends StatelessWidget {
                   ),
                 ),
               ),
-              submitButton: AppLocalizations.of(context).send,
+              submitButton: AppLocalizations.of(context)!.send,
               onSubmitted: (response) {
                 userMutual.setRating(response.rating.toString());
                 userMutual.setCommentRating(response.comment.toString());
@@ -98,7 +98,7 @@ class AvatarInfo extends StatelessWidget {
             if (userMutual.userPhone == locale.phone) {
               var number = '+${locale.phone}';
               await FlutterPhoneDirectCaller.callNumber(number).then((value) {
-                if(value){
+                if(value!){
                   Future.delayed(Duration(seconds: 5), (){
                     _showRatingDialog();
                   });
@@ -107,7 +107,7 @@ class AvatarInfo extends StatelessWidget {
             } else {
               var number = '+${userMutual.userPhone}';
               await FlutterPhoneDirectCaller.callNumber(number).then((value) {
-                if(value){
+                if(value!){
                   Future.delayed(Duration(seconds: 5), (){
                     _showRatingDialog();
                   });
@@ -127,7 +127,7 @@ class AvatarInfo extends StatelessWidget {
                 children: [
                   userMutual.avatars != null
                       ?
-                  UserImage(imageName: userMutual.avatars.image??'',)
+                  UserImage(imageName: userMutual.avatars!.image??'',)
                       :
                   Container(
                     width: 150.0,
@@ -152,9 +152,9 @@ class AvatarInfo extends StatelessWidget {
                 mainAxisAlignment:
                 MainAxisAlignment.center,
                 children: [
-                  UserName(username: userMutual.avatars.username),
-                  UserRegisteredDate(timeRegistered: userMutual.avatars.timeRegistered),
-                  UserLastSeen(lastSeen: Jiffy(DateTime.parse(userMutual.avatars.lastActive ?? '').add(Duration(hours: 3))).fromNow()),
+                  UserName(username: userMutual.avatars!.username),
+                  UserRegisteredDate(timeRegistered: userMutual.avatars!.timeRegistered),
+                  UserLastSeen(lastSeen: Jiffy(DateTime.parse(userMutual.avatars!.lastActive ?? '').add(Duration(hours: 3))).fromNow()),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(
                         0, 30, 0, 30),

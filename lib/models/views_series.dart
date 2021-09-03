@@ -1,10 +1,10 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 
 class ViewsSeriesModel {
-  String day;
-  String title;
-  int views;
-  charts.Color barColor;
+  String? day;
+  String? title;
+  int? views;
+  charts.Color? barColor;
   // ignore: sort_constructors_first
   ViewsSeriesModel({
     this.day,

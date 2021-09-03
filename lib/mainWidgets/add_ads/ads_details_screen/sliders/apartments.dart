@@ -5,7 +5,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 
 class Apartments extends StatelessWidget {
-  const Apartments({Key key}) : super(key: key);
+  const Apartments({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class Apartments extends StatelessWidget {
               MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context).apartments,
+                  AppLocalizations.of(context)!.apartments,
                   style: CustomTextStyle(
 
                     fontSize: 15,

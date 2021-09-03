@@ -7,7 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LeaseContracts extends StatelessWidget {
   LeaseContracts({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   void launchWhatsApp() async {
@@ -40,7 +40,7 @@ class LeaseContracts extends StatelessWidget {
           ),
         ),
         title: Text(
-          AppLocalizations.of(context).leaseContracts,
+          AppLocalizations.of(context)!.leaseContracts,
           style: CustomTextStyle(
 
             fontSize: 20,
@@ -62,7 +62,7 @@ class LeaseContracts extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: Text(
-                      AppLocalizations.of(context).leaseContractDesc,
+                      AppLocalizations.of(context)!.leaseContractDesc,
                       style: CustomTextStyle(
 
                         fontSize: 15,
@@ -77,7 +77,7 @@ class LeaseContracts extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          AppLocalizations.of(context).watsappUs,
+                          AppLocalizations.of(context)!.watsappUs,
                           style: CustomTextStyle(
 
                             fontSize: 15,
@@ -130,7 +130,7 @@ class LeaseContracts extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.center,
                           child: Text(
-                            AppLocalizations.of(context).contactUs,
+                            AppLocalizations.of(context)!.contactUs,
                             style: CustomTextStyle(
 
                               fontSize: 20,

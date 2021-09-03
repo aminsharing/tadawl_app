@@ -14,24 +14,24 @@ import 'package:tadawl_app/services/ad_page_helper.dart';
 class UpdateDetails extends StatelessWidget {
   UpdateDetails(
   this._id_description, {
-        Key key,
-        @required this.ads,
-        @required this.adsBF,
-        @required this.adsQF,
-        @required this.adsPage,
-        @required this.index,
+        Key? key,
+        required this.ads,
+        required this.adsBF,
+        required this.adsQF,
+        required this.adsPage,
+        required this.index,
       }) : super(key: key);
-  final List<AdsModel> ads;
+  final List<AdsModel?> ads;
   final int index;
-  final String _id_description;
+  final String? _id_description;
   final List<BFModel> adsBF;
   final List<QFModel> adsQF;
-  final AdsModel adsPage;
+  final AdsModel? adsPage;
 
   @override
   Widget build(BuildContext context) {
     // ignore: omit_local_variable_types
-    final UpdateDetailsProvider updateDetailsProvider = UpdateDetailsProvider(context, _id_description, adsBF, adsQF, adsPage);
+    final UpdateDetailsProvider updateDetailsProvider = UpdateDetailsProvider(context, _id_description, adsBF, adsQF, adsPage!);
     var mediaQuery = MediaQuery.of(context);
     var provider = Provider.of<LocaleProvider>(context, listen: false);
     var _lang = provider.locale.toString();
@@ -54,7 +54,7 @@ class UpdateDetails extends StatelessWidget {
             backgroundColor: const Color(0xff1f2835),
             leadingWidth: 70,
             title: Text(
-              AppLocalizations.of(context)
+              AppLocalizations.of(context)!
                   .chooseCategory,
               style: CustomTextStyle(
 
@@ -85,12 +85,12 @@ class UpdateDetails extends StatelessWidget {
                 return ListView.builder(
                   itemCount: updateDetails.categoryUpdate.length,
                   itemBuilder: (context, i){
-                    if (updateDetails.adsUpdateDetails.idCategory == updateDetails.categoryUpdate[i].id_category) {
+                    if (updateDetails.adsUpdateDetails!.idCategory == updateDetails.categoryUpdate[i].id_category) {
                       return TextButton(
                         onPressed: () {
                           updateDetails.updateCategoryDetails(
                               int.parse(updateDetails
-                                  .categoryUpdate[i].id_category),
+                                  .categoryUpdate[i].id_category!),
                               updateDetails
                                   .categoryUpdate[i].name);
                           // updateDetails
@@ -122,10 +122,10 @@ class UpdateDetails extends StatelessWidget {
                                 Text(
                                   _lang != 'en_US'
                                       ? updateDetails
-                                      .categoryUpdate[i].name
+                                      .categoryUpdate[i].name!
                                       : updateDetails
                                       .categoryUpdate[i]
-                                      .en_name,
+                                      .en_name!,
                                   style: CustomTextStyle(
 
                                     fontSize: 15,
@@ -150,7 +150,7 @@ class UpdateDetails extends StatelessWidget {
                         onPressed: () {
                           updateDetails.updateCategoryDetails(
                               int.parse(updateDetails
-                                  .categoryUpdate[i].id_category),
+                                  .categoryUpdate[i].id_category!),
                               updateDetails
                                   .categoryUpdate[i].name);
                           Navigator.push(context, MaterialPageRoute(builder: (context) =>
@@ -182,10 +182,10 @@ class UpdateDetails extends StatelessWidget {
                                 Text(
                                   _lang != 'en_US'
                                       ? updateDetails
-                                      .categoryUpdate[i].name
+                                      .categoryUpdate[i].name!
                                       : updateDetails
                                       .categoryUpdate[i]
-                                      .en_name,
+                                      .en_name!,
                                   style: CustomTextStyle(
 
                                     fontSize: 15,

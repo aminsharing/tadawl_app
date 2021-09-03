@@ -8,7 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 
 class SelectedNav0 extends StatelessWidget {
-  const SelectedNav0({Key key, @required this.advFeeProvider}) : super(key: key);
+  const SelectedNav0({Key? key, required this.advFeeProvider}) : super(key: key);
   final AdvFeeProvider advFeeProvider;
 
   void launchWhatsApp() async {
@@ -23,27 +23,27 @@ class SelectedNav0 extends StatelessWidget {
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
     var selectedNav2 = <String>[
-      AppLocalizations.of(context).rule1,
-      AppLocalizations.of(context).rule2,
-      AppLocalizations.of(context).rule3,
-      AppLocalizations.of(context).rule4,
-      AppLocalizations.of(context).rule5,
-      AppLocalizations.of(context).rule6,
-      AppLocalizations.of(context).rule7,
+      AppLocalizations.of(context)!.rule1,
+      AppLocalizations.of(context)!.rule2,
+      AppLocalizations.of(context)!.rule3,
+      AppLocalizations.of(context)!.rule4,
+      AppLocalizations.of(context)!.rule5,
+      AppLocalizations.of(context)!.rule6,
+      AppLocalizations.of(context)!.rule7,
     ];
     var selectedNav1 = <String>[
-      AppLocalizations.of(context).rule8,
-      AppLocalizations.of(context).rule9,
-      AppLocalizations.of(context).rule10,
-      AppLocalizations.of(context).rule11,
-      AppLocalizations.of(context).rule12,
-      AppLocalizations.of(context).rule13,
-      AppLocalizations.of(context).rule14,
+      AppLocalizations.of(context)!.rule8,
+      AppLocalizations.of(context)!.rule9,
+      AppLocalizations.of(context)!.rule10,
+      AppLocalizations.of(context)!.rule11,
+      AppLocalizations.of(context)!.rule12,
+      AppLocalizations.of(context)!.rule13,
+      AppLocalizations.of(context)!.rule14,
     ];
 
     var selectedNav0 = <String>[
-      AppLocalizations.of(context).rule15,
-      AppLocalizations.of(context).rule16,
+      AppLocalizations.of(context)!.rule15,
+      AppLocalizations.of(context)!.rule16,
     ];
 
     return Consumer<AdvFeeProvider>(builder: (context, advFee, child) {
@@ -54,40 +54,6 @@ class SelectedNav0 extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               ToggleButtons(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                    child: Text(
-                      AppLocalizations.of(context).basicMembership,
-                      style: CustomTextStyle(
-
-                        fontSize: 15,
-                      ).getTextStyle(),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                    child: Text(
-                      AppLocalizations.of(context).proMembership,
-                      style: CustomTextStyle(
-
-                        fontSize: 15,
-                      ).getTextStyle(),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                    child: Text(
-                      AppLocalizations.of(context).specialMembership,
-                      style: CustomTextStyle(
-
-                        fontSize: 15,
-                      ).getTextStyle(),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ],
                 onPressed: (int index) {
                   advFee.updateSelected2(index);
                 },
@@ -99,6 +65,40 @@ class SelectedNav0 extends StatelessWidget {
                 borderWidth: 1,
                 borderColor: const Color(0xffdddddd),
                 selectedBorderColor: const Color(0xffdddddd),
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                    child: Text(
+                      AppLocalizations.of(context)!.basicMembership,
+                      style: CustomTextStyle(
+
+                        fontSize: 15,
+                      ).getTextStyle(),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                    child: Text(
+                      AppLocalizations.of(context)!.proMembership,
+                      style: CustomTextStyle(
+
+                        fontSize: 15,
+                      ).getTextStyle(),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                    child: Text(
+                      AppLocalizations.of(context)!.specialMembership,
+                      style: CustomTextStyle(
+
+                        fontSize: 15,
+                      ).getTextStyle(),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -160,7 +160,7 @@ class SelectedNav0 extends StatelessWidget {
                             ),
                             Flexible(
                               child: Text(
-                                AppLocalizations.of(context)
+                                AppLocalizations.of(context)!
                                     .marketingSol,
                                 style: CustomTextStyle(
                                   fontSize: 13,
@@ -190,7 +190,7 @@ class SelectedNav0 extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.center,
                             child: Text(
-                              AppLocalizations.of(context).clickHere,
+                              AppLocalizations.of(context)!.clickHere,
                               style: CustomTextStyle(
 
                                 fontSize: 15,

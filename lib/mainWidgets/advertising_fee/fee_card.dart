@@ -13,17 +13,17 @@ enum CardType{
 
 class FeeCard extends StatelessWidget {
   const FeeCard({
-    Key key,
-    @required this.selectedNav,
-    @required this.price,
-    @required this.type,
-    @required this.cardType,
-    @required this.advFeeProvider,
+    Key? key,
+    required this.selectedNav,
+    required this.price,
+    required this.type,
+    required this.cardType,
+    required this.advFeeProvider,
     this.title,
   }) : super(key: key);
 
   final List<String> selectedNav;
-  final String price, type, title;
+  final String? price, type, title;
   final CardType cardType;
   final AdvFeeProvider advFeeProvider;
 
@@ -93,7 +93,7 @@ class FeeCard extends StatelessWidget {
                             const EdgeInsets.fromLTRB(
                                 5, 0, 0, 0),
                             child: Text(
-                              price,
+                              price!,
                               style: CustomTextStyle(
                                 fontSize: 20,
                                 color:
@@ -102,7 +102,7 @@ class FeeCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            AppLocalizations.of(context).rial,
+                            AppLocalizations.of(context)!.rial,
                             style: CustomTextStyle(
                               fontSize: 20,
                               color: const Color(0xff00cccc),
@@ -120,9 +120,9 @@ class FeeCard extends StatelessWidget {
                           Text(
                             cardType == CardType.small
                                 ?
-                            title
+                            title!
                                 :
-                            AppLocalizations.of(context).annual,
+                            AppLocalizations.of(context)!.annual,
                             style: CustomTextStyle(
                               fontSize: 13,
                               color: const Color(0xffa8a8a8),
@@ -160,9 +160,9 @@ class FeeCard extends StatelessWidget {
                                 child: Text(
                                   cardType == CardType.big
                                       ?
-                                  AppLocalizations.of(context).subscribe
+                                  AppLocalizations.of(context)!.subscribe
                                       :
-                                  AppLocalizations.of(context).payFees,
+                                  AppLocalizations.of(context)!.payFees,
                                   style: CustomTextStyle(
 
                                     fontSize: cardType == CardType.big ? 20 : 15,

@@ -6,8 +6,8 @@ import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 
 class BuildCommercialHousing extends StatelessWidget {
-  const BuildCommercialHousing({Key key, this.searchDrawer}) : super(key: key);
-  final SearchDrawerProvider searchDrawer;
+  const BuildCommercialHousing({Key? key, this.searchDrawer}) : super(key: key);
+  final SearchDrawerProvider? searchDrawer;
 
   @override
   Widget build(BuildContext context) {
@@ -18,40 +18,6 @@ class BuildCommercialHousing extends StatelessWidget {
         children: [
           Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
             return ToggleButtons(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: Text(
-                    AppLocalizations.of(context).commHousing,
-                    style: CustomTextStyle(
-                      fontSize: 10,
-                    ).getTextStyle(),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: Text(
-                    AppLocalizations.of(context).commercial,
-                    style: CustomTextStyle(
-
-                      fontSize: 10,
-                    ).getTextStyle(),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: Text(
-                    AppLocalizations.of(context).housing,
-                    style: CustomTextStyle(
-
-                      fontSize: 10,
-                    ).getTextStyle(),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
               onPressed: (int index) {
                 searchDrawer.setTypeAqarSearchDrawer(index);
               },
@@ -62,6 +28,40 @@ class BuildCommercialHousing extends StatelessWidget {
               borderColor: const Color(0xff00cccc),
               selectedBorderColor: const Color(0xff00cccc),
               borderWidth: 1,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: Text(
+                    AppLocalizations.of(context)!.commHousing,
+                    style: CustomTextStyle(
+                      fontSize: 10,
+                    ).getTextStyle(),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: Text(
+                    AppLocalizations.of(context)!.commercial,
+                    style: CustomTextStyle(
+
+                      fontSize: 10,
+                    ).getTextStyle(),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: Text(
+                    AppLocalizations.of(context)!.housing,
+                    style: CustomTextStyle(
+
+                      fontSize: 10,
+                    ).getTextStyle(),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
             );
           }),
         ],

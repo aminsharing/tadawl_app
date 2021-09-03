@@ -13,7 +13,7 @@ import 'package:tadawl_app/screens/general/regions.dart';
 import 'package:tadawl_app/services/ad_page_helper.dart';
 
 class MapWidget extends StatelessWidget {
-  MapWidget({Key key}) : super(key: key);
+  MapWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -170,9 +170,8 @@ class MapWidget extends StatelessWidget {
                                               Icon(Icons.error),
                                           imageUrl: 'https://tadawl-store.com/API/assets/images/ads/' +
                                               mainPage
-                                                  .SelectedAdsModelMainPage
-                                                  .ads_image ??
-                                              '',
+                                                  .SelectedAdsModelMainPage!
+                                                  .ads_image!,
                                           height: 150,
                                           width: 180,
                                           fit: BoxFit.cover,
@@ -208,7 +207,7 @@ class MapWidget extends StatelessWidget {
                                             .spaceBetween,
                                         children: <Widget>[
                                           Text(
-                                            mainPage.SelectedAdsModelMainPage
+                                            mainPage.SelectedAdsModelMainPage!
                                                 .title ??
                                                 '',
                                             style: CustomTextStyle(
@@ -221,7 +220,7 @@ class MapWidget extends StatelessWidget {
                                             children: [
                                               Text(
                                                 mainPage
-                                                    .SelectedAdsModelMainPage
+                                                    .SelectedAdsModelMainPage!
                                                     .price
                                                     .toString(),
                                                 style:
@@ -255,8 +254,8 @@ class MapWidget extends StatelessWidget {
                                             children: [
                                               Text(
                                                 mainPage
-                                                    .SelectedAdsModelMainPage
-                                                    .space,
+                                                    .SelectedAdsModelMainPage!
+                                                    .space!,
                                                 style:
                                                 CustomTextStyle(
 
@@ -284,14 +283,14 @@ class MapWidget extends StatelessWidget {
                                               ),
                                             ],
                                           ),
-                                          if (mainPage.SelectedAdsModelMainPage.ads_city != null ||
-                                              mainPage.SelectedAdsModelMainPage.ads_neighborhood != null)
+                                          if (mainPage.SelectedAdsModelMainPage!.ads_city != null ||
+                                              mainPage.SelectedAdsModelMainPage!.ads_neighborhood != null)
                                             Flexible(
                                               child: Text(
                                                 '${mainPage
-                                                    .SelectedAdsModelMainPage
+                                                    .SelectedAdsModelMainPage!
                                                     .ads_city} - ${mainPage
-                                                    .SelectedAdsModelMainPage
+                                                    .SelectedAdsModelMainPage!
                                                     .ads_neighborhood}',
                                                 style:
                                                 CustomTextStyle(
@@ -325,7 +324,7 @@ class MapWidget extends StatelessWidget {
                   Center(
                     child: Text(
                       AppLocalizations
-                          .of(context)
+                          .of(context)!
                           .noAdsAvailableNear,
                       style: CustomTextStyle(
                           fontSize: 15,

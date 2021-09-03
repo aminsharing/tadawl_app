@@ -1,6 +1,6 @@
+import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
-import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -23,7 +23,7 @@ class MainPageProvider extends ChangeNotifier{
   void dispose() {
     print('dispose MainPageProvider');
     try{
-    _entry.remove();
+    _entry!.remove();
     }catch(e){
       print('Entry remove error: $e');
     }
@@ -37,21 +37,20 @@ class MainPageProvider extends ChangeNotifier{
   int _inItMainPageDone = 0;
   int _adsOnMap = 1;
   int _allAds = 0;
-  int _zoomOutOfRange = 0;
+  int zoomOutOfRange = 0;
   bool _isMove = false;
   bool _showDiaogSearchDrawer = false;
   bool _waitMainPage = false;
   bool _slider_state = false;
   var _markersMainPage = <Marker>[];
-  GoogleMapController _mapControllerMainPAge;
+  GoogleMapController? _mapControllerMainPAge;
   final List<AdsModel> _Ads = [];
-  AdsModel _SelectedAdsModelMainPage;
-  int _SelectedAdsIndex;
-  OverlayEntry _entry;
-  String _idCategorySearch;
+  AdsModel? _SelectedAdsModelMainPage;
+  int? _SelectedAdsIndex;
+  OverlayEntry? _entry;
+  String? _idCategorySearch;
 
 
-  set zoomOutOfRange(int val) => _zoomOutOfRange = val;
 
   void setInItMainPageDone(int val) {
     _inItMainPageDone= val;
@@ -65,7 +64,7 @@ class MainPageProvider extends ChangeNotifier{
   }
 
   void animateToLocation(LatLng position, double zoom) async{
-    await _mapControllerMainPAge.animateCamera(CameraUpdate.newCameraPosition(
+    await _mapControllerMainPAge!.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
         target: LatLng(position.latitude, position.longitude),
         zoom: zoom,
@@ -108,7 +107,7 @@ class MainPageProvider extends ChangeNotifier{
       // });
       Future.delayed(Duration(seconds: 4), () {
         if(_markersMainPage.isEmpty){
-          if(_zoomOutOfRange == 0){
+          if(zoomOutOfRange == 0){
             _adsOnMap = 0;
             if(hasListeners){
               notifyListeners();
@@ -128,7 +127,7 @@ class MainPageProvider extends ChangeNotifier{
 
       _entry = OverlayEntry(
           builder: (ctxt) {
-            return _MarkerHelper(
+            return MarkerHelper(
               markerWidgets: markerWidgets(ctxt),
               callback: (bitmaps) {
                 _markersMainPage = mapBitmapsToMarkersMainPage(ctxt, bitmaps);
@@ -159,24 +158,23 @@ class MainPageProvider extends ChangeNotifier{
         'en_US'
         ? c.idSpecial == '1'
         ? getMarkerSpecialWidget(
-        ' ${arNumberFormat(int.parse(c.price))} ', size)
+        ' ${arNumberFormat(int.parse(c.price!))} ', size)
         : Provider.of<CacheMarkerModel>(context, listen: false)
         .getCache(context, c.idAds) ==
         c.idAds
         ? getMarkerViewedWidget(
-        ' ${arNumberFormat(int.parse(c.price))} ', size)
-        : getMarkerWidget(' ${arNumberFormat(int.parse(c.price))} ', size)
+        ' ${arNumberFormat(int.parse(c.price!))} ', size)
+        : getMarkerWidget(' ${arNumberFormat(int.parse(c.price!))} ', size)
         : c.idSpecial == '1'
         ? getMarkerSpecialWidget(
-        ' ${numberFormat(int.parse(c.price))} ', size)
+        ' ${numberFormat(int.parse(c.price!))} ', size)
         : Provider.of<CacheMarkerModel>(context, listen: false)
         .getCache(context, c.idAds) ==
         c.idAds
         ? getMarkerViewedWidget(
-        ' ${numberFormat(int.parse(c.price))} ', size)
+        ' ${numberFormat(int.parse(c.price!))} ', size)
         : getMarkerWidget(
-        ' ${numberFormat(int.parse(c.price))} ', size))?.toList() ??
-        [];
+        ' ${numberFormat(int.parse(c.price!))} ', size)).toList();
   }
 
   List<Marker> mapBitmapsToMarkersMainPage(BuildContext context, List<Uint8List> bitmaps) {
@@ -185,7 +183,7 @@ class MainPageProvider extends ChangeNotifier{
       var ad = _Ads[i];
       markersList.add(Marker(
           markerId: MarkerId(' ${ad.price}'),
-          position: LatLng(double.parse(ad.lat), double.parse(ad.lng)),
+          position: LatLng(double.parse(ad.lat!), double.parse(ad.lng!)),
           onTap: () {
             Provider.of<CacheMarkerModel>(context, listen: false)
                 .updateCache(context, ad.idAds);
@@ -218,23 +216,23 @@ class MainPageProvider extends ChangeNotifier{
         ?
     c.idSpecial == '1'
         ?
-    getMarkerSpecialWidget(' ${arNumberFormat(int.parse(c.price))} ', size)
+    getMarkerSpecialWidget(' ${arNumberFormat(int.parse(c.price!))} ', size)
         :
     Provider.of<CacheMarkerModel>(context, listen: false).getCache(context, c.idDescription) == c.idDescription
         ?
-    getMarkerViewedWidget(' ${arNumberFormat(int.parse(c.price))} ', size)
+    getMarkerViewedWidget(' ${arNumberFormat(int.parse(c.price!))} ', size)
         :
-    getMarkerWidget(' ${arNumberFormat(int.parse(c.price))} ', size)
+    getMarkerWidget(' ${arNumberFormat(int.parse(c.price!))} ', size)
         :
     c.idSpecial == '1'
         ?
-    getMarkerSpecialWidget(' ${numberFormat(int.parse(c.price))} ', size)
+    getMarkerSpecialWidget(' ${numberFormat(int.parse(c.price!))} ', size)
         :
     Provider.of<CacheMarkerModel>(context, listen: false).getCache(context, c.idDescription) == c.idDescription
         ?
-    getMarkerViewedWidget(' ${numberFormat(int.parse(c.price))} ', size)
+    getMarkerViewedWidget(' ${numberFormat(int.parse(c.price!))} ', size)
         :
-    getMarkerWidget(' ${numberFormat(int.parse(c.price))} ', size) ?? [];
+    (getMarkerWidget(' ${numberFormat(int.parse(c.price!))} ', size));
   }
 
   void closeAds(double zoom){
@@ -249,11 +247,11 @@ class MainPageProvider extends ChangeNotifier{
           // ignore: omit_local_variable_types
           bool _isRemovable = calculateDistance(
               LatLng(
-                  double.tryParse(firstAd.lat),
-                  double.tryParse(firstAd.lng)),
+                  double.tryParse(firstAd.lat!)!,
+                  double.tryParse(firstAd.lng!)!),
               LatLng(
-                  double.tryParse(secondAd.lat),
-                  double.tryParse(secondAd.lng)),
+                  double.tryParse(secondAd.lat!)!,
+                  double.tryParse(secondAd.lng!)!),
               zoom
           );
           if(_isRemovable){
@@ -455,7 +453,7 @@ class MainPageProvider extends ChangeNotifier{
   void getAds(BuildContext context,List<dynamic> _AdsData, double zoom){
     if(_entry != null){
       try{
-        _entry.remove();
+        _entry!.remove();
       }catch(e){
         print('Entry remove error: $e');
       }
@@ -466,12 +464,12 @@ class MainPageProvider extends ChangeNotifier{
       _AdsData.forEach((element) {
         _Ads.add(AdsModel.ads(element));
       });
-      if(_zoomOutOfRange == 0){
+      if(zoomOutOfRange == 0){
         specificAreaAds(context, zoom);
         notifyListeners();
       }
     }else{
-      if(_zoomOutOfRange == 0){
+      if(zoomOutOfRange == 0){
         _adsOnMap = 1;
         notifyListeners();
         Future.delayed(Duration(seconds: 3), (){
@@ -504,83 +502,18 @@ class MainPageProvider extends ChangeNotifier{
   }
 
   int get inItMainPageDone => _inItMainPageDone;
-  String get idCategorySearch => _idCategorySearch;
+  String? get idCategorySearch => _idCategorySearch;
   bool get isMove => _isMove;
   bool get showDiaogSearchDrawer => _showDiaogSearchDrawer;
   List<Marker> get markersMainPage => _markersMainPage;
-  AdsModel get SelectedAdsModelMainPage => _SelectedAdsModelMainPage;
-  int get SelectedAdsIndex => _SelectedAdsIndex;
+  AdsModel? get SelectedAdsModelMainPage => _SelectedAdsModelMainPage;
+  int? get SelectedAdsIndex => _SelectedAdsIndex;
   int get adsOnMap => _adsOnMap;
   int get allAds => _allAds;
   bool get waitMainPage => _waitMainPage;
-  GoogleMapController get mapControllerMainPAge => _mapControllerMainPAge;
+  GoogleMapController? get mapControllerMainPAge => _mapControllerMainPAge;
   List<AdsModel> get ads => _Ads;
   bool get slider_state => _slider_state;
-  int get zoomOutOfRange => _zoomOutOfRange;
 }
 
 
-
-class _MarkerHelper extends StatefulWidget {
-  final List<Widget> markerWidgets;
-  final Function(List<Uint8List>) callback;
-  // ignore: sort_constructors_first
-  const _MarkerHelper({Key key, this.markerWidgets, this.callback})
-      : super(key: key);
-  @override
-  _MarkerHelperState createState() => _MarkerHelperState();
-}
-
-class _MarkerHelperState extends State<_MarkerHelper> with AfterLayoutMixin {
-  List<GlobalKey> globalKeys = <GlobalKey>[];
-  @override
-  void afterFirstLayout(BuildContext context) {
-    _getBitmaps(context).then((list) {
-      widget.callback(list);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Transform.translate(
-      offset: Offset(MediaQuery.of(context).size.width, 0),
-      child: Material(
-        type: MaterialType.transparency,
-        child: Stack(
-          children: widget.markerWidgets.map((i) {
-            final markerKey = GlobalKey();
-            globalKeys.add(markerKey);
-            return RepaintBoundary(
-              key: markerKey,
-              child: i,
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
-
-  Future<List<Uint8List>> _getBitmaps(BuildContext context) async {
-    var futures = globalKeys.map((key) => _getUint8List(key));
-    return Future.wait(futures);
-  }
-
-  Future<Uint8List> _getUint8List(GlobalKey markerKey) async {
-    RenderRepaintBoundary boundary =
-    markerKey.currentContext.findRenderObject();
-    var image = await boundary.toImage(pixelRatio: 2.0);
-    var byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    return byteData.buffer.asUint8List();
-  }
-}
-
-mixin AfterLayoutMixin<T extends StatefulWidget> on State<T> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => afterFirstLayout(context));
-  }
-
-  void afterFirstLayout(BuildContext context);
-}

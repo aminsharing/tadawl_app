@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 
 class UserName extends StatelessWidget {
-  const UserName({Key key, @required this.username}) : super(key: key);
-  final String username;
+  const UserName({Key? key, required this.username}) : super(key: key);
+  final String? username;
 
   @override
   Widget build(BuildContext context) {

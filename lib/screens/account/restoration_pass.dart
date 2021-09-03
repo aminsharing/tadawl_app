@@ -15,7 +15,7 @@ RegExp regExpPhone = RegExp(pattternPhone);
 
 class RestorationPass extends StatelessWidget {
   RestorationPass({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final GlobalKey<FormState> _restorationPassKey = GlobalKey<FormState>();
@@ -31,7 +31,7 @@ class RestorationPass extends StatelessWidget {
           centerTitle: true,
           title: Text(
             AppLocalizations
-                .of(context)
+                .of(context)!
                 .restorationPass,
             style: CustomTextStyle(
 
@@ -68,22 +68,22 @@ class RestorationPass extends StatelessWidget {
                           width: mediaQuery.size.width * 0.7,
                           child: TextFormField(
                             decoration:
-                            InputDecoration(labelText: AppLocalizations.of(context).mobileNumber),
+                            InputDecoration(labelText: AppLocalizations.of(context)!.mobileNumber),
                             style: CustomTextStyle(
 
                               fontSize: 15,
                               color: const Color(0xff989696),
                             ).getTextStyle(),
                             keyboardType: TextInputType.phone,
-                            validator: (String value) {
-                              if (value.isEmpty) {
-                                return AppLocalizations.of(context).reqMob;
+                            validator: (String? value) {
+                              if (value!.isEmpty) {
+                                return AppLocalizations.of(context)!.reqMob;
                               } else if (!regExpPhone.hasMatch(value)) {
-                                return AppLocalizations.of(context).reqSaudiMob;
+                                return AppLocalizations.of(context)!.reqSaudiMob;
                               }
                               return null;
                             },
-                            onSaved: (String value) {
+                            onSaved: (String? value) {
                               Provider.of<ChangePhoneProvider>(context, listen: false).setCurrentPhone(value);
                             },
                           ),
@@ -100,13 +100,13 @@ class RestorationPass extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(0, 30, 0, 30),
                       child: TextButton(
                         onPressed: () async {
-                          if (!_restorationPassKey.currentState.validate()) {
+                          if (!_restorationPassKey.currentState!.validate()) {
                             return;
                           }
-                          _restorationPassKey.currentState.save();
+                          _restorationPassKey.currentState!.save();
                           var url = 'https://www.tadawl-store.com/API/api_app/login/restoration_pass.php';
 
-                          var response = await http.post(url, body: {
+                          var response = await http.post(Uri.parse(url), body: {
                             'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
                             'phone': restorationPass.currentPhone,
                           });
@@ -155,7 +155,7 @@ class RestorationPass extends StatelessWidget {
                             alignment: Alignment.center,
                             child: Text(
                               AppLocalizations
-                                  .of(context)
+                                  .of(context)!
                                   .restorationPass,
                               style: CustomTextStyle(
 

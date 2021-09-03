@@ -9,8 +9,8 @@ class MenuProvider extends ChangeNotifier{
   @override
   void dispose() {
     print('dispose MenuProvider');
-    PaintingBinding.instance.imageCache.clear();
-    PaintingBinding.instance.imageCache.clearLiveImages();
+    PaintingBinding.instance!.imageCache!.clear();
+    PaintingBinding.instance!.imageCache!.clearLiveImages();
     clearExpendedMenuListCount();
     super.dispose();
   }
@@ -166,7 +166,7 @@ class MenuProvider extends ChangeNotifier{
       _MenuAds.remove(element);
     });
     _MenuAds.sort((a, b) {
-      return a.timeUpdated.compareTo(b.timeUpdated);
+      return a.timeUpdated!.compareTo(b.timeUpdated!);
     });
     _MenuAds = [..._specialAds, ..._MenuAds.reversed.toList()];
     if(_MenuAdsData.isEmpty){

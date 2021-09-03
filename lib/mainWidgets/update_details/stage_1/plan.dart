@@ -5,7 +5,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
 
 class Plan extends StatelessWidget {
-  const Plan({Key key}) : super(key: key);
+  const Plan({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +22,23 @@ class Plan extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ToggleButtons(
+              onPressed: (int index) {
+                updateDetails.setPlanUpdate(index, true);
+              },
+              isSelected: updateDetails.planUpdate,
+              color: const Color(0xff04B404),
+              selectedColor: const Color(0xffffffff),
+              fillColor: const Color(0xff04B404),
+              borderColor: const Color(0xff04B404),
+              selectedBorderColor:
+              const Color(0xff04B404),
+              borderWidth: 1,
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.fromLTRB(
                       37, 0, 37, 0),
                   child: Text(
-                    AppLocalizations.of(context).daily,
+                    AppLocalizations.of(context)!.daily,
                     style: CustomTextStyle(
 
                       fontSize: 13,
@@ -39,7 +50,7 @@ class Plan extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(
                       37, 0, 37, 0),
                   child: Text(
-                    AppLocalizations.of(context)
+                    AppLocalizations.of(context)!
                         .monthly,
                     style: CustomTextStyle(
 
@@ -52,7 +63,7 @@ class Plan extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(
                       37, 0, 37, 0),
                   child: Text(
-                    AppLocalizations.of(context).annual,
+                    AppLocalizations.of(context)!.annual,
                     style: CustomTextStyle(
 
                       fontSize: 13,
@@ -61,17 +72,6 @@ class Plan extends StatelessWidget {
                   ),
                 ),
               ],
-              onPressed: (int index) {
-                updateDetails.setPlanUpdate(index, true);
-              },
-              isSelected: updateDetails.planUpdate,
-              color: const Color(0xff04B404),
-              selectedColor: const Color(0xffffffff),
-              fillColor: const Color(0xff04B404),
-              borderColor: const Color(0xff04B404),
-              selectedBorderColor:
-              const Color(0xff04B404),
-              borderWidth: 1,
             ),
           ],
         ),

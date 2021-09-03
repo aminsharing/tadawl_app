@@ -3,9 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_absolute_path/flutter_absolute_path.dart';
+// import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -14,13 +13,14 @@ import 'package:tadawl_app/models/ConvModel.dart';
 import 'package:tadawl_app/models/message_model.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart' as picker;
 
 class MsgProvider extends ChangeNotifier{
 
-  MsgProvider(BuildContext context ,String _phone, {this.customMsg}){
+  MsgProvider(BuildContext context ,String? _phone, {this.customMsg}){
     print('init MsgProvider');
     if(customMsg != null){
-      _messageController.text = customMsg;
+      _messageController.text = customMsg!;
       _isTyping = true;
     }
     getConvInfo(_phone).then((value) {
@@ -41,14 +41,14 @@ class MsgProvider extends ChangeNotifier{
     deleteDir();
     _streamChatController.close();
     if(_timer != null) {
-      _timer.cancel();
+      _timer!.cancel();
     }
     super.dispose();
   }
 
   final FocusNode myFocusNode = FocusNode();
-  final String customMsg;
-  String _recAvatarUserName = 'Username';
+  final String? customMsg;
+  String? _recAvatarUserName = 'Username';
   final StreamController<List<ConvModel>> _streamChatController = StreamController<List<ConvModel>>.broadcast();
   final ScrollController _scrollChatController = ScrollController();
   final TextEditingController _messageController = TextEditingController();
@@ -56,22 +56,24 @@ class MsgProvider extends ChangeNotifier{
   final List<ConvModel> _conv = [];
   final List<ConvModel> _comment = [];
   List<File> _imagesListUpdate = [];
-  IconData _recordIcon;
-  Timer _timer;
+  IconData? _recordIcon;
+  Timer? _timer;
   int _recordLengthMin = 0;
   int _recordLengthSec = 0;
   int _recordDuration = 0;
-  String _randomName;
+  String? _randomName;
   bool _isTyping = false;
   bool _isRecording = false;
-  File _voiceMsg;
+  File? _voiceMsg;
   bool _noMsgs = true;
+  final Record _recorder = Record();
 
 
-  Future<void> getConvInfo(String _phone) async {
+  Future<void> getConvInfo(String? _phone) async {
     if(_phone != null) {
       _conv.clear();
-      List<dynamic> value = await Api().getDiscListFunc(_phone);
+      // ignore: omit_local_variable_types
+      List<dynamic> value = await (Api().getDiscListFunc(_phone) as FutureOr<List<dynamic>>);
       value.forEach((element) {
         _conv.add(ConvModel.fromJson(element));
       });
@@ -86,7 +88,7 @@ class MsgProvider extends ChangeNotifier{
     }
   }
 
-  Future<void> getUnreadMsgs(String _phone) async{
+  Future<void> getUnreadMsgs(String? _phone) async{
     if(_conv.isNotEmpty){
       _conv.forEach((element) async{
         if(_phone != element.phone_user_sender){
@@ -98,7 +100,7 @@ class MsgProvider extends ChangeNotifier{
     }
   }
 
-  Future<void> setReadMsgs(String _phone, String _other_phone) async{
+  Future<void> setReadMsgs(String? _phone, String? _other_phone) async{
     if(_phone != null) {
       await Api().setReadMessagesFunc(_phone, _other_phone).then((value) {
         notifyListeners();
@@ -112,20 +114,22 @@ class MsgProvider extends ChangeNotifier{
     // ignore: omit_local_variable_types
     Directory tempPath = Directory(temp.path + '/voiceChat');
     if(tempPath.existsSync()){
-      await tempPath.deleteSync(recursive: true);
+      tempPath.deleteSync(recursive: true);
     }
   }
 
-  Future<void> getCommentUser(String phone_user, String _phone) async {
+  Future<void> getCommentUser(String? phone_user, String? _phone) async {
     if (_comment.isEmpty) {
-      List<dynamic> value = await Api().getComments(_phone, phone_user);
+      // ignore: omit_local_variable_types
+      List<dynamic> value = await (Api().getComments(_phone, phone_user) as FutureOr<List<dynamic>>);
       value.forEach((element) {
         _comment.add(ConvModel.fromJson(element));
       });
       _streamChatController.add(_comment);
     }
     else {
-      List<dynamic> value = await Api().getComments(_phone, phone_user);
+      // ignore: omit_local_variable_types
+      List<dynamic> value = await (Api().getComments(_phone, phone_user) as FutureOr<List<dynamic>>);
       _comment.clear();
       value.forEach((element) {
         _comment.add(ConvModel.fromJson(element));
@@ -137,12 +141,12 @@ class MsgProvider extends ChangeNotifier{
   Future<void> sendMess(
       BuildContext context,
       List<File> imagesList,
-      File voiceMsg,
-      String content,
+      File? voiceMsg,
+      String? content,
       String phone_user,
       String _phone,
       String msgType,
-      int msgDuration,
+      int? msgDuration,
       {bool isAuto = true}) async {
     print('msgDurationn: $msgDuration');
     _messageController.clear();
@@ -224,12 +228,13 @@ class MsgProvider extends ChangeNotifier{
     }
   }
 
-  void setRecAvatarUserName(String username) {
+  void setRecAvatarUserName(String? username) {
     _recAvatarUserName = username;
     notifyListeners();
   }
 
   void startRecorder() async{
+
     await Permission.speech.request().then((value) async{
       if(value == PermissionStatus.granted){
         var temp = await getTemporaryDirectory();
@@ -238,7 +243,7 @@ class MsgProvider extends ChangeNotifier{
           await newDir.create(recursive: true);
         }
         _randomName = '${DateTime.now().millisecondsSinceEpoch}';
-        await Record.start(
+        await _recorder.start(
           path: newDir.path + '/$randomName.m4a',
           ).then((value) {
           startTimer();
@@ -261,9 +266,9 @@ class MsgProvider extends ChangeNotifier{
 
   }
 
-  void stopRecorder(bool delete, String phone_user, String _phone, BuildContext context) async{
+  void stopRecorder(bool delete, String? phone_user, String? _phone, BuildContext context) async{
     if(delete){
-      await Record.stop().then((value) async{
+      await _recorder.stop().then((value) async{
         _isRecording = false;
         _recordIcon = Icons.mic;
         deleteFile('$randomName');
@@ -272,7 +277,7 @@ class MsgProvider extends ChangeNotifier{
       });
     }
     else{
-      await Record.stop().then((value) async{
+      await _recorder.stop().then((value) async{
         if(_recordLengthSec <= 1){
           _isRecording = false;
           _recordIcon = Icons.mic;
@@ -291,7 +296,7 @@ class MsgProvider extends ChangeNotifier{
         else{
           var temp = await getTemporaryDirectory();
           var newDir = Directory(temp.path + '/voiceChat');
-          _voiceMsg = await File(newDir.path + '/$randomName.m4a');
+          _voiceMsg = File(newDir.path + '/$randomName.m4a');
           _isRecording = false;
           _recordIcon = Icons.mic;
           notifyListeners();
@@ -300,8 +305,8 @@ class MsgProvider extends ChangeNotifier{
               [],
               _voiceMsg,
               null,
-              phone_user,
-              _phone,
+              phone_user!,
+              _phone!,
               MessType.VOICE,
             _recordDuration,
           ).then((value) {
@@ -318,7 +323,7 @@ class MsgProvider extends ChangeNotifier{
   void deleteFile(String path) async{
     var temp = await getTemporaryDirectory();
     try{
-      var file = await File('${temp.path}/voiceChat/$path.aac');
+      var file = File('${temp.path}/voiceChat/$path.aac');
       // File file = await File(path);
       await file.delete();
     }catch(e){
@@ -341,7 +346,7 @@ class MsgProvider extends ChangeNotifier{
 
   void stopTimer(){
     if(timer != null){
-      timer.cancel();
+      timer!.cancel();
       _timer = null;
       _recordLengthSec = 0;
       _recordLengthMin = 0;
@@ -356,22 +361,38 @@ class MsgProvider extends ChangeNotifier{
   Future sendImages(String phone_user, String _phone, BuildContext context) async {
     _imagesListUpdate = [];
 
-    var resultList = await MultiImagePicker.pickImages(
-      maxImages: 10,
-      enableCamera: true,
-      materialOptions: MaterialOptions(
-        actionBarColor: '#00cccc',
-        actionBarTitle: 'تداول العقاري',
-        allViewTitle: 'كل الصور',
-        useDetailsView: true,
-        selectCircleStrokeColor: '#00cccc',
-      ),
-    );
-    for (var x = 0; x < resultList.length; x++) {
-      var image =
-      await FlutterAbsolutePath.getAbsolutePath(resultList[x].identifier);
-      _imagesListUpdate.add(File(image));
-    }
+    await picker.AssetPicker.pickAssets(
+        context,
+        maxAssets: 10,
+        textDelegate: picker.ArabicTextDelegate()
+    ).then((List<picker.AssetEntity>? assets) {
+      if(assets != null) {
+        assets.forEach((element) {
+          element.file.then((value) {
+            print(value!.path);
+            _imagesListUpdate.add(value);
+            notifyListeners();
+          });
+        });
+      }
+    });
+
+    // var resultList = await MultiImagePicker.pickImages(
+    //   maxImages: 10,
+    //   enableCamera: true,
+    //   materialOptions: MaterialOptions(
+    //     actionBarColor: '#00cccc',
+    //     actionBarTitle: 'تداول العقاري',
+    //     allViewTitle: 'كل الصور',
+    //     useDetailsView: true,
+    //     selectCircleStrokeColor: '#00cccc',
+    //   ),
+    // );
+    // for (var x = 0; x < resultList.length; x++) {
+    //   // var image =
+    //   // await FlutterAbsolutePath.getAbsolutePath(resultList[x].identifier);
+    //   // _imagesListUpdate.add(File(image));
+    // }
     await sendMess(
         context,
         _imagesListUpdate,
@@ -390,20 +411,20 @@ class MsgProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  String get recAvatarUserName => _recAvatarUserName;
+  String? get recAvatarUserName => _recAvatarUserName;
   StreamController get streamChatController => _streamChatController;
   ScrollController get scrollChatController => _scrollChatController;
   TextEditingController get messageController => _messageController;
   bool get atBottom => _atBottom;
   List<ConvModel> get conv => _conv;
   List<File> get imagesListUpdate => _imagesListUpdate;
-  IconData get recordIcon => _recordIcon;
-  Timer get timer => _timer;
+  IconData? get recordIcon => _recordIcon;
+  Timer? get timer => _timer;
   int get recordLengthMin => _recordLengthMin;
   int get recordLengthSec => _recordLengthSec;
-  String get randomName => _randomName;
+  String? get randomName => _randomName;
   bool get isTyping => _isTyping;
   bool get isRecording => _isRecording;
-  File get voiceMsg => _voiceMsg;
+  File? get voiceMsg => _voiceMsg;
   bool get noMsgs => _noMsgs;
 }

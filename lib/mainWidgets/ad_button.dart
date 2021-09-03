@@ -6,40 +6,40 @@ import 'custom_text_style.dart';
 
 class AdButton extends StatelessWidget {
   const AdButton({
-    Key key,
-    @required this.onPressed,
-    @required this.ads_image,
-    @required this.title,
-    @required this.idSpecial,
-    @required this.price,
-    @required this.space,
-    @required this.ads_city,
-    @required this.ads_neighborhood,
-    @required this.ads_road,
-    @required this.video,
+    Key? key,
+    required this.onPressed,
+    required this.ads_image,
+    required this.title,
+    required this.idSpecial,
+    required this.price,
+    required this.space,
+    required this.ads_city,
+    required this.ads_neighborhood,
+    required this.ads_road,
+    required this.video,
     this.timeUpdated,
     this.updateBtn = false,
     this.updateBtnPressed,
   }) : super(key: key);
   final Function onPressed;
-  final String ads_image;
-  final String title;
-  final String idSpecial;
-  final String price;
-  final String space;
-  final String ads_city;
-  final String ads_neighborhood;
-  final String ads_road;
-  final String video;
-  final String timeUpdated;
+  final String? ads_image;
+  final String? title;
+  final String? idSpecial;
+  final String? price;
+  final String? space;
+  final String? ads_city;
+  final String? ads_neighborhood;
+  final String? ads_road;
+  final String? video;
+  final String? timeUpdated;
   final bool updateBtn;
-  final Function updateBtnPressed;
+  final Function? updateBtnPressed;
 
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
     return TextButton(
-      onPressed: onPressed,
+      onPressed: onPressed as void Function()?,
       child: Container(
         width: mediaQuery.size.width,
         height: mediaQuery.size.width*.34,
@@ -85,10 +85,10 @@ class AdButton extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
                     child:
-                    DateTime.now().difference(DateTime.parse(timeUpdated)).inMinutes - 180 > 60
+                    DateTime.now().difference(DateTime.parse(timeUpdated!)).inMinutes - 180 > 60
                         ?
                     TextButton(
-                      onPressed: updateBtnPressed,
+                      onPressed: updateBtnPressed as void Function()?,
                       child: Container(
                         width: mediaQuery.size.width *
                             0.15,
@@ -105,7 +105,7 @@ class AdButton extends StatelessWidget {
                         child: Center(
                           child: Text(
                             AppLocalizations.of(
-                                context)
+                                context)!
                                 .updateAds,
                             style:
                             CustomTextStyle(
@@ -125,7 +125,7 @@ class AdButton extends StatelessWidget {
                       onPressed: (){
                         Fluttertoast.showToast(
                             msg:
-                            'ستتمكن من التحديث بعد ${60-(DateTime.now().difference(DateTime.parse(timeUpdated)).inMinutes - 180)} دقيقة',
+                            'ستتمكن من التحديث بعد ${60-(DateTime.now().difference(DateTime.parse(timeUpdated!)).inMinutes - 180)} دقيقة',
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.BOTTOM,
                             timeInSecForIosWeb: 1,
@@ -147,7 +147,7 @@ class AdButton extends StatelessWidget {
                         child: Center(
                           child: Text(
                             AppLocalizations.of(
-                                context)
+                                context)!
                                 .updateAds,
                             style:
                             CustomTextStyle(
@@ -208,7 +208,7 @@ class AdButton extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
                         child: Text(
-                          AppLocalizations.of(context).rial,
+                          AppLocalizations.of(context)!.rial,
                           style: CustomTextStyle(
                             fontSize: 15,
                             color: const Color(0xff00cccc),
@@ -216,7 +216,7 @@ class AdButton extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        price,
+                        price!,
                         style: CustomTextStyle(
                           fontSize: 15,
                           color: const Color(0xff00cccc),
@@ -231,7 +231,7 @@ class AdButton extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
                         child: Text(
-                          AppLocalizations.of(context).m2,
+                          AppLocalizations.of(context)!.m2,
                           style: CustomTextStyle(
                             fontSize: 15,
                             color: const Color(0xff000000),
@@ -239,7 +239,7 @@ class AdButton extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        space,
+                        space!,
                         style: CustomTextStyle(
                           fontSize: 15,
                           color: const Color(0xff000000),
@@ -255,7 +255,7 @@ class AdButton extends StatelessWidget {
                       children: [
                         if (ads_city != null)
                           Text(
-                            '$ads_city ${ads_neighborhood != null ? '-' + ads_neighborhood : ''} ${ads_road != null ? '-' + ads_road : ''}',
+                            '$ads_city ${ads_neighborhood != null ? '-' + ads_neighborhood! : ''} ${ads_road != null ? '-' + ads_road! : ''}',
                             style: CustomTextStyle(
                               fontSize: 10,
                               color: const Color(0xff000000),

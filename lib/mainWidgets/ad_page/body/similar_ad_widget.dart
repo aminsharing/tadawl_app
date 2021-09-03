@@ -8,7 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/services/ad_page_helper.dart';
 
 class SimilarAdWidget extends StatelessWidget {
-  SimilarAdWidget({Key key}) : super(key: key);
+  SimilarAdWidget({Key? key}) : super(key: key);
 
 
   @override
@@ -25,7 +25,7 @@ class SimilarAdWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
-                AppLocalizations.of(context).similarAds,
+                AppLocalizations.of(context)!.similarAds,
                 style: CustomTextStyle(
                   fontSize: 20,
                   color: const Color(0xff000000),

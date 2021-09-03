@@ -6,8 +6,8 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class BuildConditioner extends StatelessWidget {
-  const BuildConditioner({Key key, this.searchDrawer}) : super(key: key);
-  final SearchDrawerProvider searchDrawer;
+  const BuildConditioner({Key? key, this.searchDrawer}) : super(key: key);
+  final SearchDrawerProvider? searchDrawer;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class BuildConditioner extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context).conditioner,
+            AppLocalizations.of(context)!.conditioner,
             style: CustomTextStyle(
               fontSize: 15,
               color: const Color(0xff000000),

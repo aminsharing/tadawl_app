@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:geocoder/geocoder.dart';
+import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
@@ -15,17 +15,17 @@ class UpdateLocationProvider extends ChangeNotifier{
     });
   }
 
-  String _adss_city;
-  String _adss_neighborhood;
-  LatLng _adss_cordinates;
-  String _adss_road;
-  double _adss_cordinates_lat;
-  double _adss_cordinates_lng;
+  String? _adss_city;
+  String? _adss_neighborhood;
+  LatLng? _adss_cordinates;
+  String? _adss_road;
+  double? _adss_cordinates_lat;
+  double? _adss_cordinates_lng;
   final Location _location = Location();
-  LatLng _initialCameraPosition;
-  double _zoom;
-  bool _serviceEnabled;
-  PermissionStatus _permissionGranted;
+  LatLng? _initialCameraPosition;
+  double? _zoom;
+  bool? _serviceEnabled;
+  PermissionStatus? _permissionGranted;
   bool _isSending = false;
 
 
@@ -57,12 +57,14 @@ class UpdateLocationProvider extends ChangeNotifier{
     if(_permissionGranted == PermissionStatus.granted){
       if(_serviceEnabled?? false){
         await _location.getLocation().then((LocationData location) async{
-          _initialCameraPosition = LatLng(location.latitude, location.longitude);
+          _initialCameraPosition = LatLng(location.latitude!, location.longitude!);
           _zoom = 17;
-          var addresses = await Geocoder.google(
-              'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
-              language: 'ar')
-              .findAddressesFromCoordinates(Coordinates(location.latitude, location.longitude));
+          // ignore: omit_local_variable_types
+          List<geocoding.Placemark> addresses = await geocoding.placemarkFromCoordinates(location.latitude!, location.longitude!, localeIdentifier: 'ar');
+          // var addresses = await Geocoder.google(
+          //     'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
+          //     language: 'ar')
+          //     .findAddressesFromCoordinates(Coordinates(location.latitude, location.longitude));
           if (addresses.isNotEmpty) {
             _adss_city = '${addresses.first.locality.toString()}';
             _adss_neighborhood = '${addresses.first.subLocality.toString()}';
@@ -109,12 +111,13 @@ class UpdateLocationProvider extends ChangeNotifier{
     _adss_cordinates = position.target;
     _adss_cordinates_lat = position.target.latitude;
     _adss_cordinates_lng = position.target.longitude;
-
-    var addresses = await Geocoder.google(
-        'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
-        language: 'ar')
-        .findAddressesFromCoordinates(
-        Coordinates(_adss_cordinates_lat, _adss_cordinates_lng));
+// ignore: omit_local_variable_types
+    List<geocoding.Placemark> addresses = await geocoding.placemarkFromCoordinates(position.target.latitude, position.target.longitude, localeIdentifier: 'ar');
+    // var addresses = await Geocoder.google(
+    //     'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
+    //     language: 'ar')
+    //     .findAddressesFromCoordinates(
+    //     Coordinates(_adss_cordinates_lat, _adss_cordinates_lng));
     if (addresses.isNotEmpty) {
       _adss_city = '${addresses.first.locality.toString()}';
       _adss_neighborhood = '${addresses.first.subLocality.toString()}';
@@ -125,13 +128,13 @@ class UpdateLocationProvider extends ChangeNotifier{
 
   void updateLocation(
       BuildContext context,
-      String id_description,
-      String ads_city,
-      String ads_neighborhood,
-      String ads_road,
+      String? id_description,
+      String? ads_city,
+      String? ads_neighborhood,
+      String? ads_road,
       String ads_cordinates_lat,
       String ads_cordinates_lng,
-      List<AdsModel> ads,
+      List<AdsModel?> ads,
       int index
       ) async {
     await Api().updateLocationFunc(
@@ -155,15 +158,15 @@ class UpdateLocationProvider extends ChangeNotifier{
   }
 
 
-  String get ads_city => _adss_city;
-  String get ads_neighborhood => _adss_neighborhood;
-  LatLng get ads_cordinates => _adss_cordinates;
-  String get ads_road => _adss_road;
-  double get ads_cordinates_lat => _adss_cordinates_lat;
-  double get ads_cordinates_lng => _adss_cordinates_lng;
+  String? get ads_city => _adss_city;
+  String? get ads_neighborhood => _adss_neighborhood;
+  LatLng? get ads_cordinates => _adss_cordinates;
+  String? get ads_road => _adss_road;
+  double? get ads_cordinates_lat => _adss_cordinates_lat;
+  double? get ads_cordinates_lng => _adss_cordinates_lng;
   Location get location => _location;
-  LatLng get initialCameraPosition => _initialCameraPosition;
-  double get zoom => _zoom;
+  LatLng? get initialCameraPosition => _initialCameraPosition;
+  double? get zoom => _zoom;
   bool get isSending => _isSending;
 
 

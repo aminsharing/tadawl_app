@@ -10,8 +10,8 @@ import 'package:http/http.dart' as http;
 import 'package:tadawl_app/provider/user_provider/change_pass_provider.dart';
 
 class Stage2 extends StatelessWidget {
-  Stage2(this.currentPhone ,{Key key}) : super(key: key);
-  final String currentPhone;
+  Stage2(this.currentPhone ,{Key? key}) : super(key: key);
+  final String? currentPhone;
   final GlobalKey<FormState> _formVerAccountKey = GlobalKey<FormState>();
 
   @override
@@ -22,7 +22,7 @@ class Stage2 extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color(0xff00cccc),
         title: Text(
-          AppLocalizations.of(context)
+          AppLocalizations.of(context)!
               .configNewPass,
           style: CustomTextStyle(
             fontSize: 20,
@@ -44,21 +44,21 @@ class Stage2 extends StatelessWidget {
                   SizedBox(
                     width: mediaQuery.size.width * 0.7,
                     child: TextFormField(
-                      decoration: InputDecoration(labelText: AppLocalizations.of(context).newPass),
+                      decoration: InputDecoration(labelText: AppLocalizations.of(context)!.newPass),
                       style: CustomTextStyle(
                         fontSize: 15,
                         color: const Color(0xff989696),
                       ).getTextStyle(),
                       keyboardType: TextInputType.visiblePassword,
-                      validator: (String value) {
-                        if (value.isEmpty) {
-                          return AppLocalizations.of(context).reqNewPass;
+                      validator: (String? value) {
+                        if (value!.isEmpty) {
+                          return AppLocalizations.of(context)!.reqNewPass;
                         } else if (value.length < 8) {
-                          return AppLocalizations.of(context).reqPassless8;
+                          return AppLocalizations.of(context)!.reqPassless8;
                         }
                         return null;
                       },
-                      onSaved: (String value) {
+                      onSaved: (String? value) {
                         Provider.of<ChangePassProvider>(context, listen: false).setNewPass(value);
                       },
                     ),
@@ -80,24 +80,24 @@ class Stage2 extends StatelessWidget {
                     width: mediaQuery.size.width * 0.7,
                     child: TextFormField(
                       decoration: InputDecoration(
-                          labelText: AppLocalizations.of(context).confirmNewPass),
+                          labelText: AppLocalizations.of(context)!.confirmNewPass),
                       style: CustomTextStyle(
 
                         fontSize: 15,
                         color: const Color(0xff989696),
                       ).getTextStyle(),
                       keyboardType: TextInputType.visiblePassword,
-                      validator: (String value) {
-                        if (value.isEmpty) {
-                          return AppLocalizations.of(context).reqConfirmNewPass;
+                      validator: (String? value) {
+                        if (value!.isEmpty) {
+                          return AppLocalizations.of(context)!.reqConfirmNewPass;
                         } else if (value.length < 8) {
-                          return AppLocalizations.of(context).reqPassless8;
+                          return AppLocalizations.of(context)!.reqPassless8;
                         } //else if (value != verifyAcc.newPass) {
                         // return AppLocalizations.of(context).notMatch;
                         // }
                         return null;
                       },
-                      onSaved: (String value) {
+                      onSaved: (String? value) {
                         Provider.of<ChangePassProvider>(context, listen: false).setReNewPass(value);
                       },
                     ),
@@ -112,12 +112,12 @@ class Stage2 extends StatelessWidget {
             ),
             TextButton(
               onPressed: () async {
-                if (!_formVerAccountKey.currentState.validate()) {
+                if (!_formVerAccountKey.currentState!.validate()) {
                   return;
                 }
-                _formVerAccountKey.currentState.save();
+                _formVerAccountKey.currentState!.save();
                 var url = 'https://www.tadawl-store.com/API/api_app/login/config_pass.php';
-                var response = await http.post(url, body: {
+                var response = await http.post(Uri.parse(url), body: {
                   'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
                   'phone': currentPhone,
                   'password': Provider.of<ChangePassProvider>(context, listen: false).newPass,
@@ -176,7 +176,7 @@ class Stage2 extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      AppLocalizations.of(context).continuee,
+                      AppLocalizations.of(context)!.continuee,
                       style: CustomTextStyle(
                         fontSize: 20,
                         color: const Color(0xffffffff),

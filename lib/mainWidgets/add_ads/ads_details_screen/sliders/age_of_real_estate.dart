@@ -5,7 +5,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 
 class AgeOfRealEstate extends StatelessWidget {
-  const AgeOfRealEstate({Key key}) : super(key: key);
+  const AgeOfRealEstate({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class AgeOfRealEstate extends StatelessWidget {
               MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context).ageOfRealEstate,
+                  AppLocalizations.of(context)!.ageOfRealEstate,
                   style: CustomTextStyle(
                     fontSize: 15,
                     color: const Color(0xff000000),
@@ -29,7 +29,7 @@ class AgeOfRealEstate extends StatelessWidget {
                 ),
                 if (addAd.AgeOfRealEstateAddAds == -1)
                   Text(
-                    AppLocalizations.of(context).undefined,
+                    AppLocalizations.of(context)!.undefined,
                     style: CustomTextStyle(
                       fontSize: 15,
                       color: const Color(0xff000000),
@@ -38,7 +38,7 @@ class AgeOfRealEstate extends StatelessWidget {
                   )
                 else if (addAd.AgeOfRealEstateAddAds == 0)
                   Text(
-                    AppLocalizations.of(context).lessYear,
+                    AppLocalizations.of(context)!.lessYear,
                     style: CustomTextStyle(
                       fontSize: 15,
                       color: const Color(0xff000000),

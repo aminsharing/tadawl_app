@@ -5,10 +5,10 @@ import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 
 class AvatarWidgetHelper extends StatelessWidget {
   const AvatarWidgetHelper({
-    Key key,
-    @required this.phone,
+    Key? key,
+    required this.phone,
   }) : super(key: key);
-  final String phone;
+  final String? phone;
 
   @override
   Widget build(BuildContext context) {

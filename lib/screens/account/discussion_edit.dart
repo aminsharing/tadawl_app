@@ -13,14 +13,14 @@ import 'package:tadawl_app/screens/account/discussion_main.dart';
 
 class DiscussionEdit extends StatelessWidget {
   DiscussionEdit({
-    Key key,
-    @required this.msgProvider,
+    Key? key,
+    required this.msgProvider,
   }) : super(key: key);
   final MsgProvider msgProvider;
 
-  Future _deleteConv(String phone_user_recipient, String phone_user_sender) async {
+  Future _deleteConv(String? phone_user_recipient, String? phone_user_sender) async {
     var res = await http.post(
-        'https://tadawl-store.com/API/api_app/conversations/delete_conv.php',
+        Uri.parse('https://tadawl-store.com/API/api_app/conversations/delete_conv.php'),
         body: {
           'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
           'phone_user_recipient': phone_user_recipient,
@@ -76,7 +76,7 @@ class DiscussionEdit extends StatelessWidget {
             ),
           ),
           title: Text(
-            AppLocalizations.of(context).messages,
+            AppLocalizations.of(context)!.messages,
             style: CustomTextStyle(
 
               fontSize: 20,
@@ -150,6 +150,14 @@ class DiscussionEdit extends StatelessWidget {
                           top: 5,
                           left: 10),
                       padding: EdgeInsets.all(13),
+                      decoration: BoxDecoration(
+                        // color: Colors.white,
+                          color: convEdit.conv[i].phone_user_sender == locale.phone
+                              ? Colors.grey[100]
+                              : Color(0xff00cccc),
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0))
+                      ),
                       child: Row(
                         mainAxisAlignment:
                         MainAxisAlignment.spaceBetween,
@@ -172,11 +180,11 @@ class DiscussionEdit extends StatelessWidget {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                  image: (convEdit.conv[i].image??'').isNotEmpty
+                                  image: ((convEdit.conv[i].image??'').isNotEmpty
                                       ?
                                   CachedNetworkImageProvider('https://tadawl-store.com/API/assets/images/avatar/${convEdit.conv[i].image}')
                                       :
-                                  AssetImage('assets/images/avatar.png'),
+                                  AssetImage('assets/images/avatar.png')) as ImageProvider<Object>,
                                   fit: BoxFit.fill),
                             ),
                           ),
@@ -210,7 +218,7 @@ class DiscussionEdit extends StatelessWidget {
                                       DateFormat('yyyy-MM-dd')
                                           .format(DateTime
                                           .parse(convEdit.conv[i]
-                                          .timeAdded)), //hh:mm a
+                                          .timeAdded!)), //hh:mm a
                                       textAlign:
                                       TextAlign.left,
                                       style:
@@ -228,7 +236,7 @@ class DiscussionEdit extends StatelessWidget {
                                 ],
                               ),
                               Text(
-                                convEdit.conv[i].comment,
+                                convEdit.conv[i].comment!,
                                 textAlign: TextAlign.right,
                                 style: CustomTextStyle(
 
@@ -244,14 +252,6 @@ class DiscussionEdit extends StatelessWidget {
                           ),
                         ],
                       ),
-                      decoration: BoxDecoration(
-                        // color: Colors.white,
-                          color: convEdit.conv[i].phone_user_sender == locale.phone
-                              ? Colors.grey[100]
-                              : Color(0xff00cccc),
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.all(Radius.circular(5.0))
-                      ),
                     ),
                   ),
                 ),
@@ -262,7 +262,7 @@ class DiscussionEdit extends StatelessWidget {
                 :
             Center(
               child: Text(
-                AppLocalizations.of(context).noMessages,
+                AppLocalizations.of(context)!.noMessages,
                 style: CustomTextStyle(
                   fontSize: 15,
                   color: Color(0xff848282),

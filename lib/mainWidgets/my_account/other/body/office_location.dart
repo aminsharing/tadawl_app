@@ -7,7 +7,7 @@ import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OfficeLocation extends StatelessWidget {
-  const OfficeLocation({Key key}) : super(key: key);
+  const OfficeLocation({Key? key}) : super(key: key);
 
   void _onMapCreated(GoogleMapController controller) {
     controller.setMapStyle(Utils.mapStyle);
@@ -30,7 +30,7 @@ class OfficeLocation extends StatelessWidget {
     return Consumer<MyAccountProvider>(builder: (context, userMutual, child) {
       return userMutual.offices != null
           ?
-      userMutual.offices.state == '1'
+      userMutual.offices!.state == '1'
           ?
         Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +38,7 @@ class OfficeLocation extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5.0),
             child: Text(
-              AppLocalizations.of(context).officeLoc,
+              AppLocalizations.of(context)!.officeLoc,
               style: CustomTextStyle(
                 fontSize: 20,
                 color: const Color(0xff000000),
@@ -58,12 +58,12 @@ class OfficeLocation extends StatelessWidget {
               children: <Widget>[
                 GoogleMap(
                   onTap: (value){
-                    _openMap(double.parse(userMutual.offices.office_lat),
-                        double.parse(userMutual.offices.office_lng));
+                    _openMap(double.parse(userMutual.offices!.office_lat!),
+                        double.parse(userMutual.offices!.office_lng!));
                   },
                   initialCameraPosition: CameraPosition(
-                      target: LatLng(double.parse(userMutual.offices.office_lat),
-                          double.parse(userMutual.offices.office_lng)),
+                      target: LatLng(double.parse(userMutual.offices!.office_lat!),
+                          double.parse(userMutual.offices!.office_lng!)),
                       zoom: 15),
                   mapType: MapType.normal,
                   onMapCreated: _onMapCreated,
@@ -77,8 +77,8 @@ class OfficeLocation extends StatelessWidget {
                 Center(
                   child: IconButton(
                     onPressed: (){
-                      _openMap(double.parse(userMutual.offices.office_lat),
-                          double.parse(userMutual.offices.office_lng));
+                      _openMap(double.parse(userMutual.offices!.office_lat!),
+                          double.parse(userMutual.offices!.office_lng!));
                     },
                     icon: Icon(
                       Icons.my_location_rounded,

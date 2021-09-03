@@ -14,7 +14,7 @@ import 'build_verse.dart';
 import 'build_volleyball_court.dart';
 
 class SelectedCategory12 extends StatelessWidget {
-  const SelectedCategory12({Key key}) : super(key: key);
+  const SelectedCategory12({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

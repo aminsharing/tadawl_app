@@ -7,7 +7,7 @@ import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 class ChooseCategory extends StatelessWidget {
-  const ChooseCategory({Key key}) : super(key: key);
+  const ChooseCategory({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class ChooseCategory extends StatelessWidget {
                   child: Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
                     return DropdownButton<String>(
                       hint: Text(
-                        AppLocalizations.of(context).chooseCategory,
+                        AppLocalizations.of(context)!.chooseCategory,
                         style: CustomTextStyle(
                           fontSize: 15,
                           color: const Color(0xff1f2835),
@@ -35,7 +35,7 @@ class ChooseCategory extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       value: searchDrawer.selectedCategory,
-                      onChanged: (String newValue) {
+                      onChanged: (String? newValue) {
                         if (newValue == '0') {
                           searchDrawer.setSelectedCategory(newValue);
                         } else {

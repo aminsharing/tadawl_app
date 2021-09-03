@@ -8,8 +8,8 @@ import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 
 class Estimate extends StatelessWidget {
   Estimate({
-    Key key,
-    @required this.myAccountProvider,
+    Key? key,
+    required this.myAccountProvider,
   }) : super(key: key);
   final MyAccountProvider myAccountProvider;
 
@@ -53,9 +53,9 @@ class Estimate extends StatelessWidget {
                   children: [
                     Text(
                       estimateUser.sumEstimates != null
-                          ? AppLocalizations.of(context).estimate +
-                              ' ${(double.parse(estimateUser.sumEstimates.sum_estimates) / estimateUser.estimates.length).toDouble().toStringAsFixed(1)} '
-                          : AppLocalizations.of(context).estimate,
+                          ? AppLocalizations.of(context)!.estimate +
+                              ' ${(double.parse(estimateUser.sumEstimates!.sum_estimates!) / estimateUser.estimates.length).toDouble().toStringAsFixed(1)} '
+                          : AppLocalizations.of(context)!.estimate,
                       style: CustomTextStyle(
                         fontSize: 25,
                         color: const Color(0xff00cccc),
@@ -76,7 +76,7 @@ class Estimate extends StatelessWidget {
                         ),
                         if (estimateUser.sumEstimates != null)
                           RatingBar(
-                            rating: (double.parse(estimateUser.sumEstimates.sum_estimates) / estimateUser.estimates.length).toDouble(),
+                            rating: (double.parse(estimateUser.sumEstimates!.sum_estimates!) / estimateUser.estimates.length).toDouble(),
                             icon: Icon(
                               Icons.star,
                               size: 20,
@@ -115,7 +115,7 @@ class Estimate extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                       child: Text(
-                        AppLocalizations.of(context).estimate + ' (0.0) ',
+                        AppLocalizations.of(context)!.estimate + ' (0.0) ',
                         style: CustomTextStyle(
 
                           fontSize: 20,
@@ -189,8 +189,7 @@ class Estimate extends StatelessWidget {
                                       padding: const EdgeInsets.fromLTRB(
                                           0, 10, 0, 15),
                                       child: RatingBar(
-                                        rating: double.parse(
-                                            estimateUser.estimates[i].rate),
+                                        rating: double.parse(estimateUser.estimates[i].rate!),
                                         icon: Icon(
                                           Icons.star,
                                           size: 30,
@@ -212,7 +211,7 @@ class Estimate extends StatelessWidget {
                                       : MainAxisAlignment.end,
                                   children: <Widget>[
                                     Text(
-                                      estimateUser.estimates[i].comment,
+                                      estimateUser.estimates[i].comment!,
                                       style: CustomTextStyle(
 
                                         fontSize: 15,

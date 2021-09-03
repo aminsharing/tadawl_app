@@ -1,7 +1,7 @@
 class CategoryModel {
-  String id_category;
-  String name;
-  String en_name;
+  String? id_category;
+  String? name;
+  String? en_name;
   // ignore: sort_constructors_first
   CategoryModel({
     this.id_category,

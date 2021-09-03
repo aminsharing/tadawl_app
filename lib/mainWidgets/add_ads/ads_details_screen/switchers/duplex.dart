@@ -6,7 +6,7 @@ import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Duplex extends StatelessWidget {
-  const Duplex({Key key}) : super(key: key);
+  const Duplex({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class Duplex extends StatelessWidget {
         MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context).duplex,
+            AppLocalizations.of(context)!.duplex,
             style: CustomTextStyle(
 
               fontSize: 15,

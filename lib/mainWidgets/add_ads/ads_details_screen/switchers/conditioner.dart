@@ -7,7 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class Conditioner extends StatelessWidget {
-  const Conditioner({Key key}) : super(key: key);
+  const Conditioner({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class Conditioner extends StatelessWidget {
         MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context).conditioner,
+            AppLocalizations.of(context)!.conditioner,
             style: CustomTextStyle(
 
               fontSize: 15,

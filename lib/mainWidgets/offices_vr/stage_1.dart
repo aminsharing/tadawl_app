@@ -11,14 +11,14 @@ import 'package:tadawl_app/provider/user_provider/offices_vr_provider.dart';
 
 class Stage1 extends StatelessWidget {
   const Stage1({
-    Key key,
-    @required this.officeName,
-    @required this.CRNumber,
-    @required this.imageOfficeVR,
+    Key? key,
+    required this.officeName,
+    required this.CRNumber,
+    required this.imageOfficeVR,
   }) : super(key: key);
-  final String CRNumber;
-  final String officeName;
-  final File imageOfficeVR;
+  final String? CRNumber;
+  final String? officeName;
+  final File? imageOfficeVR;
 
   void _onMapCreated(GoogleMapController controller) {
     controller.setMapStyle(Utils.mapStyle);
@@ -27,7 +27,7 @@ class Stage1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
-    final translate = AppLocalizations.of(context);
+    final translate = AppLocalizations.of(context)!;
 
 
     return Scaffold(
@@ -98,7 +98,7 @@ class Stage1 extends StatelessWidget {
                             myLocationEnabled: true,
                             mapType: MapType.normal,
                             initialCameraPosition: CameraPosition(
-                                target: officesVR.initialCameraPosition,
+                                target: officesVR.initialCameraPosition!,
                                 zoom: 13),
                             onMapCreated: _onMapCreated,
                             onCameraMove: (CameraPosition position) {
@@ -149,8 +149,8 @@ class Stage1 extends StatelessWidget {
                                   locale.phone,
                                   CRNumber,
                                   officeName,
-                                  officesVR.initialCameraPosition.latitude.toString(),
-                                  officesVR.initialCameraPosition.longitude.toString(),
+                                  officesVR.initialCameraPosition!.latitude.toString(),
+                                  officesVR.initialCameraPosition!.longitude.toString(),
                                   imageOfficeVR);
                             }
                           }
@@ -167,7 +167,7 @@ class Stage1 extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.center,
                             child: Text(
-                              AppLocalizations.of(context)
+                              AppLocalizations.of(context)!
                                   .officesAccreditation,
                               style: CustomTextStyle(
                                 fontSize: 15,
@@ -193,7 +193,7 @@ class Stage1 extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.center,
                           child: Text(
-                            AppLocalizations.of(context)
+                            AppLocalizations.of(context)!
                                 .officesAccreditation,
                             style: CustomTextStyle(
                               fontSize: 15,

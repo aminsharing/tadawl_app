@@ -5,7 +5,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
 
 class Floor extends StatelessWidget {
-  const Floor({Key key}) : super(key: key);
+  const Floor({Key? key}) : super(key: key);
 
 
   @override
@@ -21,7 +21,7 @@ class Floor extends StatelessWidget {
               MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context).floor,
+                  AppLocalizations.of(context)!.floor,
                   style: CustomTextStyle(
 
                     fontSize: 15,
@@ -31,7 +31,7 @@ class Floor extends StatelessWidget {
                 ),
                 if (updateDetails.FloorUpdate == 0)
                   Text(
-                    AppLocalizations.of(context).undefined,
+                    AppLocalizations.of(context)!.undefined,
                     style: CustomTextStyle(
 
                       fontSize: 15,
@@ -41,7 +41,7 @@ class Floor extends StatelessWidget {
                   )
                 else if (updateDetails.FloorUpdate == 1)
                   Text(
-                    AppLocalizations.of(context)
+                    AppLocalizations.of(context)!
                         .groundFloor,
                     style: CustomTextStyle(
 
@@ -52,7 +52,7 @@ class Floor extends StatelessWidget {
                   )
                 else if (updateDetails.FloorUpdate == 2)
                     Text(
-                      AppLocalizations.of(context).first,
+                      AppLocalizations.of(context)!.first,
                       style: CustomTextStyle(
 
                         fontSize: 15,
@@ -60,7 +60,7 @@ class Floor extends StatelessWidget {
                       ).getTextStyle(),
                       textAlign: TextAlign.center,
                     )
-                  else if (updateDetails.FloorUpdate > 20)
+                  else if (updateDetails.FloorUpdate! > 20)
                       Text(
                         '+20',
                         style: CustomTextStyle(
@@ -72,7 +72,7 @@ class Floor extends StatelessWidget {
                       )
                     else
                       Text(
-                        updateDetails.FloorUpdate.floor()
+                        updateDetails.FloorUpdate!.floor()
                             .toString(),
                         style: CustomTextStyle(
 
@@ -86,11 +86,11 @@ class Floor extends StatelessWidget {
           ),
           Slider(
             activeColor: const Color(0xff04B404),
-            value: updateDetails.FloorUpdate,
+            value: updateDetails.FloorUpdate!,
             min: 0,
             max: 20,
             divisions: 20,
-            label: updateDetails.FloorUpdate.floor()
+            label: updateDetails.FloorUpdate!.floor()
                 .toString(),
             onChanged: (double value) {
               updateDetails.setFloorUpdate(value);

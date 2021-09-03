@@ -29,18 +29,18 @@ class LocaleProvider extends ChangeNotifier {
     super.dispose();
   }
 
-  String _phone;
-  Locale _locale;
-  Locale get locale => _locale;
-  GoogleMapController _mapControllerMainPAge;
+  String? _phone;
+  Locale? _locale;
+  Locale? get locale => _locale;
+  late GoogleMapController _mapControllerMainPAge;
   set mapControllerMainPAge(GoogleMapController val) => _mapControllerMainPAge = val;
   int _currentPage = 0;
-  int _unreadMsgs = 0;
-  bool _serviceEnabled;
-  PermissionStatus _permissionGranted;
+  int? _unreadMsgs = 0;
+  bool? _serviceEnabled;
+  PermissionStatus? _permissionGranted;
   final Location _location = Location();
-  CameraPosition _initialCameraPosition;
-  CameraPosition _savedPosition;
+  CameraPosition? initialCameraPosition;
+  CameraPosition? _savedPosition;
 
   void setLocale(Locale locale) {
     if (!L10n.all.contains(locale)) return;
@@ -56,7 +56,7 @@ class LocaleProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getUnreadMsgs(String _phone) async{
+  Future<void> getUnreadMsgs(String? _phone) async{
     if(_phone != null) {
       await Api().getUnreadMessagesFunc(_phone).then((value) {
         _unreadMsgs = value;
@@ -64,7 +64,7 @@ class LocaleProvider extends ChangeNotifier {
     }
   }
 
-  Future<String> getSession() async {
+  Future<String?> getSession() async {
     var p = await SharedPreferences.getInstance();
     _phone = p.getString('token');
     return _phone;
@@ -79,7 +79,7 @@ class LocaleProvider extends ChangeNotifier {
     await p.commit();
   }
 
-  Future<CameraPosition> getCurrentLocation() async {
+  Future<CameraPosition?> getCurrentLocation() async {
     var p = await SharedPreferences.getInstance();
     var lat = p.getDouble('current_lat');
     var lng = p.getDouble('current_lng');
@@ -87,7 +87,7 @@ class LocaleProvider extends ChangeNotifier {
     if(lat != null && lng != null && zoom != null){
       _savedPosition = CameraPosition(target: LatLng(lat, lng), zoom: zoom);
     }
-    _initialCameraPosition = _savedPosition;
+    initialCameraPosition = _savedPosition;
     return _savedPosition;
   }
 
@@ -98,7 +98,7 @@ class LocaleProvider extends ChangeNotifier {
 
   void animateToMyLocation(BuildContext context) async{
     final searchProv = Provider.of<SearchDrawerProvider>(context, listen: false);
-    LocationData currentLocation;
+    LocationData? currentLocation;
     var location = Location();
     try {
       currentLocation = await location.getLocation();
@@ -107,7 +107,7 @@ class LocaleProvider extends ChangeNotifier {
     }
     await _mapControllerMainPAge.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
-        target: LatLng(currentLocation.latitude, currentLocation.longitude),
+        target: LatLng(currentLocation!.latitude!, currentLocation.longitude!),
         zoom: 17,
       ),
     ),
@@ -137,17 +137,17 @@ class LocaleProvider extends ChangeNotifier {
     if(_permissionGranted == PermissionStatus.granted){
       if(_serviceEnabled?? false){
         await _location.getLocation().then((LocationData location) async{
-          _initialCameraPosition = CameraPosition(target: LatLng(location.latitude, location.longitude), zoom: 17);
+          initialCameraPosition = CameraPosition(target: LatLng(location.latitude!, location.longitude!), zoom: 17);
           // notifyListeners();
         });
       }
       else {
-        _initialCameraPosition = _savedPosition ?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
+        initialCameraPosition = _savedPosition ?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
         // notifyListeners();
       }
     }
     else if(_permissionGranted == PermissionStatus.denied){
-      _initialCameraPosition = _savedPosition ?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
+      initialCameraPosition = _savedPosition ?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
       Future.delayed(Duration(seconds: 1), (){
         if(hasListeners) {
           notifyListeners();
@@ -155,18 +155,16 @@ class LocaleProvider extends ChangeNotifier {
       });
     }
     if(_permissionGranted == PermissionStatus.deniedForever){
-      _initialCameraPosition = _savedPosition ?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
+      initialCameraPosition = _savedPosition ?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
       // notifyListeners();
     }
   }
 
-  String get phone => _phone;
+  String? get phone => _phone;
   // CameraPosition get currentArea => _currentArea;
   int get currentPage => _currentPage;
-  int get unreadMsgs => _unreadMsgs;
+  int? get unreadMsgs => _unreadMsgs;
   Location get location => _location;
-  CameraPosition get initialCameraPosition => _initialCameraPosition;
-  set initialCameraPosition(CameraPosition val) => _initialCameraPosition = val;
   // double get zoom => _zoom;
   // CameraPosition get savedPosition => _savedPosition;
 }

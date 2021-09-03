@@ -21,9 +21,9 @@ class TodayAdsProvider extends ChangeNotifier{
   }
 
   final List<bool> _isSelected5 = List.generate(4, (_) => false);
-  int _filterCity;
+  int? _filterCity;
   final List<AdsModel> _TodayAds = [];
-  List _TodayAdsData = [];
+  List? _TodayAdsData = [];
   int _countAdsRiyadh = 0;
   int _countAdsMekkah = 0;
   int _countAdsDammam = 0;
@@ -61,9 +61,9 @@ class TodayAdsProvider extends ChangeNotifier{
       _TodayAds.clear();
       final locale = Provider.of<LocaleProvider>(context, listen: false);
       locale.initialCameraPosition = locale.initialCameraPosition?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
-      Api().getadsFunc(locale.initialCameraPosition.target, locale.initialCameraPosition.zoom.toString()).then((value) {
+      Api().getadsFunc(locale.initialCameraPosition!.target, locale.initialCameraPosition!.zoom.toString()).then((value) {
         _TodayAdsData = value;
-        _TodayAdsData.forEach((element) {
+        _TodayAdsData!.forEach((element) {
           var now = DateTime.now();
           var adsDateTime = DateTime.parse(element['timeAdded']);
           var def = now.difference(adsDateTime).inDays;
@@ -97,7 +97,7 @@ class TodayAdsProvider extends ChangeNotifier{
 
 
   List<bool> get isSelected5 => _isSelected5;
-  int get filterCity => _filterCity;
+  int? get filterCity => _filterCity;
   List<AdsModel> get todayAds => _TodayAds;
   int get countAdsRiyadh => _countAdsRiyadh;
   int get countAdsMekkah => _countAdsMekkah;

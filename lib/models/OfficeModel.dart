@@ -1,12 +1,12 @@
 class OfficeModel {
-  String id_offices;
-  String office_name;
-  String office_lat;
-  String office_lng;
-  String sejel;
-  String sejel_image;
-  String state;
-  String phone_user;
+  String? id_offices;
+  String? office_name;
+  String? office_lat;
+  String? office_lng;
+  String? sejel;
+  String? sejel_image;
+  String? state;
+  String? phone_user;
   // ignore: sort_constructors_first
   OfficeModel(
       {this.id_offices,

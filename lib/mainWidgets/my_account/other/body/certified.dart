@@ -6,7 +6,7 @@ import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Certified extends StatelessWidget {
-  const Certified({Key key}) : super(key: key);
+  const Certified({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +15,12 @@ class Certified extends StatelessWidget {
         return Center(child: CircularProgressIndicator());
       }
       if (userMutual.offices != null) {
-        return CertifiedOffice(state: userMutual.offices.state,);
+        return CertifiedOffice(state: userMutual.offices!.state,);
       } else {
         return Padding(
           padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
           child: Text(
-            AppLocalizations.of(context).member,
+            AppLocalizations.of(context)!.member,
             style: CustomTextStyle(
               fontSize: 15,
               color: const Color(0xff989696),

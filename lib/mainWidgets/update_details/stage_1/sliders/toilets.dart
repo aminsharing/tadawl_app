@@ -5,7 +5,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
 
 class Toilets extends StatelessWidget {
-  const Toilets({Key key}) : super(key: key);
+  const Toilets({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class Toilets extends StatelessWidget {
               MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context).toilets,
+                  AppLocalizations.of(context)!.toilets,
                   style: CustomTextStyle(
 
                     fontSize: 15,
@@ -28,7 +28,7 @@ class Toilets extends StatelessWidget {
                   ).getTextStyle(),
                   textAlign: TextAlign.center,
                 ),
-                if (updateDetails.ToiletsUpdateUpdate > 5)
+                if (updateDetails.ToiletsUpdateUpdate! > 5)
                   Text(
                     '+5',
                     style: CustomTextStyle(
@@ -40,7 +40,7 @@ class Toilets extends StatelessWidget {
                   )
                 else
                   Text(
-                    updateDetails.ToiletsUpdateUpdate.floor().toString(),
+                    updateDetails.ToiletsUpdateUpdate!.floor().toString(),
                     style: CustomTextStyle(
 
                       fontSize: 15,
@@ -53,11 +53,11 @@ class Toilets extends StatelessWidget {
           ),
           Slider(
             activeColor: const Color(0xff04B404),
-            value: updateDetails.ToiletsUpdateUpdate,
+            value: updateDetails.ToiletsUpdateUpdate!,
             min: 0,
             max: 5,
             divisions: 5,
-            label: updateDetails.ToiletsUpdateUpdate.floor()
+            label: updateDetails.ToiletsUpdateUpdate!.floor()
                 .toString(),
             onChanged: (double value) {
               updateDetails.setToiletsUpdate(value);

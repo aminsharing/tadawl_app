@@ -6,7 +6,7 @@ import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 
 
 class Stores extends StatelessWidget {
-  const Stores({Key key}) : super(key: key);
+  const Stores({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class Stores extends StatelessWidget {
               MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context).stores,
+                  AppLocalizations.of(context)!.stores,
                   style: CustomTextStyle(
                     fontSize: 15,
                     color: const Color(0xff000000),

@@ -7,7 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class HallStaircase extends StatelessWidget {
-  const HallStaircase({Key key}) : super(key: key);
+  const HallStaircase({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class HallStaircase extends StatelessWidget {
         MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context)
+            AppLocalizations.of(context)!
                 .hallStaircase,
             style: CustomTextStyle(
 

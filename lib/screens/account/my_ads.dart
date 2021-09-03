@@ -10,7 +10,7 @@ import 'package:tadawl_app/services/ad_page_helper.dart';
 
 class MyAds extends StatelessWidget {
   MyAds({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -37,7 +37,7 @@ class MyAds extends StatelessWidget {
             ),
           ),
           title: Text(
-            AppLocalizations.of(context).myAds + ' (${myAds.countUserAds()}) ',
+            AppLocalizations.of(context)!.myAds + ' (${myAds.countUserAds()}) ',
             style: CustomTextStyle(
 
               fontSize: 20,

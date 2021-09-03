@@ -9,7 +9,7 @@ import 'package:tadawl_app/provider/ads_provider/aqar_vr_provider.dart';
 
 class AqarVR extends StatelessWidget {
   AqarVR({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final GlobalKey<FormState> _aqarVRKey = GlobalKey<FormState>();
@@ -21,7 +21,7 @@ class AqarVR extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(
           title: Text(
-            AppLocalizations.of(context).reVR,
+            AppLocalizations.of(context)!.reVR,
             style: CustomTextStyle(
               fontSize: 20,
               color: const Color(0xffffffff),
@@ -56,7 +56,7 @@ class AqarVR extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        AppLocalizations.of(context).rule35,
+                        AppLocalizations.of(context)!.rule35,
                         style: CustomTextStyle(
                           fontSize: 15,
                           color: const Color(0xff989696),
@@ -75,7 +75,7 @@ class AqarVR extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              AppLocalizations.of(context).saqNumber,
+                              AppLocalizations.of(context)!.saqNumber,
                               style: CustomTextStyle(
                                 fontSize: 11,
                                 color: const Color(0xff000000),
@@ -88,20 +88,20 @@ class AqarVR extends StatelessWidget {
                                 height: 50,
                                 child: TextFormField(
                                   decoration: InputDecoration(
-                                      labelText: AppLocalizations.of(context).enterSaqNumber),
+                                      labelText: AppLocalizations.of(context)!.enterSaqNumber),
                                   style: CustomTextStyle(
                                     fontSize: 10,
                                     color: const Color(0xffababab),
                                   ).getTextStyle(),
                                   keyboardType: TextInputType.number,
-                                  validator: (String value) {
-                                    if (value.isEmpty) {
+                                  validator: (String? value) {
+                                    if (value!.isEmpty) {
                                       aqarVR.setButtonClickedAqarVR(null);
-                                      return AppLocalizations.of(context).reqSaqNumber;
+                                      return AppLocalizations.of(context)!.reqSaqNumber;
                                     }
                                     return null;
                                   },
-                                  onSaved: (String value) {
+                                  onSaved: (String? value) {
                                     aqarVR.setSaqNumber(value);
                                   },
                                 ),
@@ -117,7 +117,7 @@ class AqarVR extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              AppLocalizations.of(context).saqImage,
+                              AppLocalizations.of(context)!.saqImage,
                               style: CustomTextStyle(
                                 fontSize: 11,
                                 color: const Color(0xff000000),
@@ -141,11 +141,11 @@ class AqarVR extends StatelessWidget {
                                           height: mediaQuery.size.height * 0.25,
                                           decoration: BoxDecoration(
                                             image: DecorationImage(
-                                              image: aqarVR.imageAqarVR == null
+                                              image: (aqarVR.imageAqarVR == null
                                                   ?
                                               const AssetImage('assets/images/img4.png')
                                                   :
-                                              FileImage(aqarVR.imageAqarVR),
+                                              FileImage(aqarVR.imageAqarVR!)) as ImageProvider<Object>,
                                               fit: BoxFit.cover,
                                             ),
                                           ),
@@ -168,7 +168,7 @@ class AqarVR extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              AppLocalizations.of(context).idType,
+                              AppLocalizations.of(context)!.idType,
                               style: CustomTextStyle(
                                 fontSize: 11,
                                 color: const Color(0xff000000),
@@ -184,44 +184,6 @@ class AqarVR extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     ToggleButtons(
-                                      children: <Widget>[
-                                        Padding(
-                                          padding:
-                                          const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                                          child: Text(
-                                            AppLocalizations.of(context).commRec,
-                                            style: CustomTextStyle(
-
-                                              fontSize: 10,
-                                            ).getTextStyle(),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                          const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                                          child: Text(
-                                            AppLocalizations.of(context)
-                                                .accommodation,
-                                            style: CustomTextStyle(
-                                                fontSize: 10).getTextStyle(),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                          const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                                          child: Text(
-                                            AppLocalizations.of(context)
-                                                .nationalIdentity,
-                                            style: CustomTextStyle(
-
-                                              fontSize: 10,
-                                            ).getTextStyle(),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                      ],
                                       onPressed: (int index) {
                                         aqarVR.updateIdentityType(index);
                                       },
@@ -232,6 +194,44 @@ class AqarVR extends StatelessWidget {
                                       borderColor: const Color(0xff04B404),
                                       selectedBorderColor: const Color(0xff04B404),
                                       borderWidth: 1,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding:
+                                          const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                          child: Text(
+                                            AppLocalizations.of(context)!.commRec,
+                                            style: CustomTextStyle(
+
+                                              fontSize: 10,
+                                            ).getTextStyle(),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                          const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                          child: Text(
+                                            AppLocalizations.of(context)!
+                                                .accommodation,
+                                            style: CustomTextStyle(
+                                                fontSize: 10).getTextStyle(),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                          const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                          child: Text(
+                                            AppLocalizations.of(context)!
+                                                .nationalIdentity,
+                                            style: CustomTextStyle(
+
+                                              fontSize: 10,
+                                            ).getTextStyle(),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -249,7 +249,7 @@ class AqarVR extends StatelessWidget {
                           children: <Widget>[
                             Expanded(
                               child: Text(
-                                AppLocalizations.of(context).idSaq,
+                                AppLocalizations.of(context)!.idSaq,
                                 style: CustomTextStyle(
                                   fontSize: 8,
                                   color: const Color(0xff000000),
@@ -263,21 +263,21 @@ class AqarVR extends StatelessWidget {
                                 height: 50,
                                 child: TextFormField(
                                   decoration: InputDecoration(
-                                      labelText: AppLocalizations.of(context).enterIDSaq),
+                                      labelText: AppLocalizations.of(context)!.enterIDSaq),
                                   style: CustomTextStyle(
 
                                     fontSize: 8,
                                     color: const Color(0xffababab),
                                   ).getTextStyle(),
                                   keyboardType: TextInputType.number,
-                                  validator: (String value) {
-                                    if (value.isEmpty) {
+                                  validator: (String? value) {
+                                    if (value!.isEmpty) {
                                       aqarVR.setButtonClickedAqarVR(null);
-                                      return AppLocalizations.of(context).reqIDSaq;
+                                      return AppLocalizations.of(context)!.reqIDSaq;
                                     }
                                     return null;
                                   },
-                                  onSaved: (String value) {
+                                  onSaved: (String? value) {
                                     aqarVR.setIdentityNumber(value);
                                   },
                                 ),
@@ -293,10 +293,10 @@ class AqarVR extends StatelessWidget {
                           child: TextButton(
                             onPressed: () async {
                               aqarVR.setButtonClickedAqarVR(1);
-                              if (!_aqarVRKey.currentState.validate()) {
+                              if (!_aqarVRKey.currentState!.validate()) {
                                 return;
                               }
-                              _aqarVRKey.currentState.save();
+                              _aqarVRKey.currentState!.save();
                               if (aqarVR.imageAqarVR == null) {
                                 await Fluttertoast.showToast(
                                     msg: 'صورة الصك مطلوبة',
@@ -330,7 +330,7 @@ class AqarVR extends StatelessWidget {
                               child: Align(
                                 alignment: Alignment.center,
                                 child: Text(
-                                  AppLocalizations.of(context).reqVR,
+                                  AppLocalizations.of(context)!.reqVR,
                                   style: CustomTextStyle(
                                     fontSize: 15,
                                     color: const Color(0xff04B404),
@@ -355,7 +355,7 @@ class AqarVR extends StatelessWidget {
                             child: Align(
                               alignment: Alignment.center,
                               child: Text(
-                                AppLocalizations.of(context).reqVR,
+                                AppLocalizations.of(context)!.reqVR,
                                 style: CustomTextStyle(
 
                                   fontSize: 15,

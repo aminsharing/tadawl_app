@@ -1,11 +1,14 @@
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class MarkerGenerator {
-  final OverlayEntry entry;
+  final OverlayEntry? entry;
   // ignore: sort_constructors_first
   MarkerGenerator(this.entry);
   void generate(BuildContext context) {
-    WidgetsBinding.instance
+    WidgetsBinding.instance!
         .addPostFrameCallback((_) => afterFirstLayout(context));
   }
 
@@ -14,8 +17,71 @@ class MarkerGenerator {
   }
 
   void addOverlay(BuildContext context) {
-    var overlayState = Overlay.of(context);
-    overlayState.insert(entry);
+    var overlayState = Overlay.of(context)!;
+    overlayState.insert(entry!);
   }
 }
 
+
+class MarkerHelper extends StatefulWidget {
+  final List<Widget>? markerWidgets;
+  final Function(List<Uint8List>)? callback;
+  // ignore: sort_constructors_first
+  const MarkerHelper({Key? key, this.markerWidgets, this.callback})
+      : super(key: key);
+  @override
+  _MarkerHelperState createState() => _MarkerHelperState();
+}
+
+class _MarkerHelperState extends State<MarkerHelper> with AfterLayoutMixin {
+  List<GlobalKey> globalKeys = <GlobalKey>[];
+  @override
+  void afterFirstLayout(BuildContext context) {
+    _getBitmaps(context).then((list) {
+      widget.callback!(list);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Transform.translate(
+      offset: Offset(MediaQuery.of(context).size.width, 0),
+      child: Material(
+        type: MaterialType.transparency,
+        child: Stack(
+          children: widget.markerWidgets!.map((i) {
+            final markerKey = GlobalKey();
+            globalKeys.add(markerKey);
+            return RepaintBoundary(
+              key: markerKey,
+              child: i,
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
+  Future<List<Uint8List>> _getBitmaps(BuildContext context) async {
+    var futures = globalKeys.map((key) => _getUint8List(key));
+    return Future.wait(futures);
+  }
+
+  Future<Uint8List> _getUint8List(GlobalKey markerKey) async {
+    var boundary = markerKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+    var image = await boundary.toImage(pixelRatio: 2.0);
+    var byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    return byteData!.buffer.asUint8List();
+  }
+}
+
+mixin AfterLayoutMixin<T extends StatefulWidget> on State<T> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!
+        .addPostFrameCallback((_) => afterFirstLayout(context));
+  }
+
+  void afterFirstLayout(BuildContext context);
+}

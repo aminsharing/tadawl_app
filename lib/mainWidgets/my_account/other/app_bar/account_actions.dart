@@ -34,8 +34,8 @@ class EngUserConstants {
 }
 
 class AccountActions extends StatelessWidget {
-  const AccountActions({Key key, @required this.userPhone}) : super(key: key);
-  final String userPhone;
+  const AccountActions({Key? key, required this.userPhone}) : super(key: key);
+  final String? userPhone;
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +48,9 @@ class AccountActions extends StatelessWidget {
 
     void _showRatingDialog() {
       final _dialog = RatingDialog(
-        title: AppLocalizations.of(context).ratingDialog,
-        commentHint: AppLocalizations.of(context).ratingCommentHint,
-        message: AppLocalizations.of(context).ratingHint,
+        title: AppLocalizations.of(context)!.ratingDialog,
+        commentHint: AppLocalizations.of(context)!.ratingCommentHint,
+        message: AppLocalizations.of(context)!.ratingHint,
         image: Container(
           width: 100.0,
           height: 100.0,
@@ -62,7 +62,7 @@ class AccountActions extends StatelessWidget {
             ),
           ),
         ),
-        submitButton: AppLocalizations.of(context).send,
+        submitButton: AppLocalizations.of(context)!.send,
         onSubmitted: (response) {
           sendEstimate(response.rating.toString(), response.comment.toString());
         },

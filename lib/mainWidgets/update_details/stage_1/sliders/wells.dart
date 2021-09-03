@@ -5,7 +5,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
 
 class Wells extends StatelessWidget {
-  const Wells({Key key}) : super(key: key);
+  const Wells({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class Wells extends StatelessWidget {
               MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context).wells,
+                  AppLocalizations.of(context)!.wells,
                   style: CustomTextStyle(
 
                     fontSize: 15,
@@ -29,7 +29,7 @@ class Wells extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 Text(
-                  updateDetails.WellsUpdate.floor()
+                  updateDetails.WellsUpdate!.floor()
                       .toString(),
                   style: CustomTextStyle(
 
@@ -43,11 +43,11 @@ class Wells extends StatelessWidget {
           ),
           Slider(
             activeColor: const Color(0xff04B404),
-            value: updateDetails.WellsUpdate,
+            value: updateDetails.WellsUpdate!,
             min: 0,
             max: 10,
             divisions: 10,
-            label: updateDetails.WellsUpdate.floor()
+            label: updateDetails.WellsUpdate!.floor()
                 .toString(),
             onChanged: (double value) {
               updateDetails.setWellsUpdate(value);

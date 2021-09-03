@@ -16,8 +16,8 @@ RegExp regExpPhone = RegExp(patternPhone);
 
 class ChangePhone extends StatelessWidget {
   ChangePhone({
-    Key key,
-    @required this.changePhoneProvider,
+    Key? key,
+    required this.changePhoneProvider,
   }) : super(key: key);
   final ChangePhoneProvider changePhoneProvider;
 
@@ -32,23 +32,23 @@ class ChangePhone extends StatelessWidget {
       Widget _buildPhone() {
         return TextFormField(
           decoration:
-          InputDecoration(labelText: AppLocalizations.of(context).newPhone),
+          InputDecoration(labelText: AppLocalizations.of(context)!.newPhone),
           style: CustomTextStyle(
 
             fontSize: 15,
             color: const Color(0xff989696),
           ).getTextStyle(),
           keyboardType: TextInputType.number,
-          validator: (String value) {
-            if (value.isEmpty) {
-              return AppLocalizations.of(context).reqNewPhone;
+          validator: (String? value) {
+            if (value!.isEmpty) {
+              return AppLocalizations.of(context)!.reqNewPhone;
             } else if (!regExpPhone.hasMatch(value)) {
-              return AppLocalizations.of(context).reqSaudiMob;
+              return AppLocalizations.of(context)!.reqSaudiMob;
             }
 
             return null;
           },
-          onSaved: (String value) {
+          onSaved: (String? value) {
             changePhone.setNewPhone(value);
           },
         );
@@ -76,7 +76,7 @@ class ChangePhone extends StatelessWidget {
             ),
           ),
           title: Text(
-            AppLocalizations.of(context).changePhone,
+            AppLocalizations.of(context)!.changePhone,
             style: CustomTextStyle(
 
               fontSize: 20,
@@ -114,15 +114,15 @@ class ChangePhone extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(0, 30, 0, 30),
                   child: TextButton(
                     onPressed: () async {
-                      if (!_changePhoneKey.currentState.validate()) {
+                      if (!_changePhoneKey.currentState!.validate()) {
                         return;
                       }
 
-                      _changePhoneKey.currentState.save();
+                      _changePhoneKey.currentState!.save();
 
                       var url =
                           'https://tadawl-store.com/API/api_app/login/change_phone.php';
-                      var response = await http.post(url, body: {
+                      var response = await http.post(Uri.parse(url), body: {
                         'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',//0550610804
                         'oldPhone': locale.phone,
                         'newPhone': changePhone.newPhone,
@@ -161,7 +161,7 @@ class ChangePhone extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.center,
                         child: Text(
-                          AppLocalizations.of(context).continuee,
+                          AppLocalizations.of(context)!.continuee,
                           style: CustomTextStyle(
 
                             fontSize: 15,

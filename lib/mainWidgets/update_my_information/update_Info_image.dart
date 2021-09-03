@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 
 class UpdateInfoImage extends StatelessWidget {
-  const UpdateInfoImage({Key key}) : super(key: key);
+  const UpdateInfoImage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +32,13 @@ class UpdateInfoImage extends StatelessWidget {
                             ?
                         const AssetImage('assets/images/avatar.png')
                             :
-                        (userMutual.users.image??'').isEmpty
+                        ((userMutual.users!.image??'').isEmpty
                             ?
                         const AssetImage('assets/images/avatar.png')
                             :
-                        CachedNetworkImageProvider('https://tadawl-store.com/API/assets/images/avatar/${userMutual.users.image}')
+                        CachedNetworkImageProvider('https://tadawl-store.com/API/assets/images/avatar/${userMutual.users!.image}')) as ImageProvider<Object>
                             :
-                        FileImage(userMutual.imageUpdateProfile),
+                        FileImage(userMutual.imageUpdateProfile!),
                         fit: BoxFit.contain,
                         onError: (uri, stack) => const AssetImage('assets/images/avatar.png')
                     ),

@@ -7,7 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class MaidRoom extends StatelessWidget {
-  const MaidRoom({Key key}) : super(key: key);
+  const MaidRoom({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class MaidRoom extends StatelessWidget {
         MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context).maidRoom,
+            AppLocalizations.of(context)!.maidRoom,
             style: CustomTextStyle(
 
               fontSize: 15,

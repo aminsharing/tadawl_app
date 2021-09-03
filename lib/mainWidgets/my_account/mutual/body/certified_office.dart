@@ -3,8 +3,8 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CertifiedOffice extends StatelessWidget {
-  const CertifiedOffice({Key key, @required this.state}) : super(key: key);
-  final String state;
+  const CertifiedOffice({Key? key, required this.state}) : super(key: key);
+  final String? state;
 
 
   @override
@@ -26,7 +26,7 @@ class CertifiedOffice extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    AppLocalizations.of(context).certifiedOffice,
+                    AppLocalizations.of(context)!.certifiedOffice,
                     style: CustomTextStyle(
                       fontSize: 15,
                       color: const Color(0xffffffff),
@@ -48,7 +48,7 @@ class CertifiedOffice extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
               child: Text(
-                AppLocalizations.of(context).certifiedOfficeAwait,
+                AppLocalizations.of(context)!.certifiedOfficeAwait,
                 style: CustomTextStyle(
                   fontSize: 15,
                   color: const Color(0xff989696),

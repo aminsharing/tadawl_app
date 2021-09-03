@@ -7,12 +7,12 @@ import 'package:tadawl_app/screens/account/login.dart';
 
 class EPayment extends StatelessWidget {
   const EPayment({
-    Key key,
-    @required this.price,
-    @required this.type
+    Key? key,
+    required this.price,
+    required this.type
   }) : super(key: key);
-  final String price;
-  final String type;
+  final String? price;
+  final String? type;
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +26,9 @@ class EPayment extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
-                AppLocalizations.of(context).cost +
+                AppLocalizations.of(context)!.cost +
                     ' $price ' +
-                    AppLocalizations.of(context).to +
+                    AppLocalizations.of(context)!.to +
                     ' $type ',
                 style: CustomTextStyle(
                   fontSize: 13,
@@ -49,7 +49,7 @@ class EPayment extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    AppLocalizations.of(context).enterCoupon,
+                    AppLocalizations.of(context)!.enterCoupon,
                     style: CustomTextStyle(
                       fontSize: 13,
                       color: const Color(0xff989696),
@@ -64,7 +64,7 @@ class EPayment extends StatelessWidget {
                   height: 30,
                   child: TextFormField(
                     decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context).coupon,
+                      labelText: AppLocalizations.of(context)!.coupon,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
@@ -76,9 +76,9 @@ class EPayment extends StatelessWidget {
                       color: const Color(0xff989696),
                     ).getTextStyle(),
                     keyboardType: TextInputType.number,
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return AppLocalizations.of(context).reqCoupon;
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return AppLocalizations.of(context)!.reqCoupon;
                       }
                       return null;
                     },
@@ -99,7 +99,7 @@ class EPayment extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      AppLocalizations.of(context).apply,
+                      AppLocalizations.of(context)!.apply,
                       style: CustomTextStyle(
                         fontSize: 15,
                         color: const Color(0xffffffff),
@@ -119,7 +119,7 @@ class EPayment extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
-                AppLocalizations.of(context).cardNumber,
+                AppLocalizations.of(context)!.cardNumber,
                 style: CustomTextStyle(
                   fontSize: 15,
                   color: const Color(0xff000000),
@@ -133,7 +133,7 @@ class EPayment extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
           child: TextFormField(
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context).cardNumber,
+              labelText: AppLocalizations.of(context)!.cardNumber,
               fillColor: Colors.white,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(5.0),
@@ -147,9 +147,9 @@ class EPayment extends StatelessWidget {
             keyboardType: TextInputType.text,
             minLines: 1,
             maxLines: 1,
-            validator: (String value) {
-              if (value.isEmpty) {
-                return AppLocalizations.of(context).reqCardNumber;
+            validator: (String? value) {
+              if (value!.isEmpty) {
+                return AppLocalizations.of(context)!.reqCardNumber;
               }
               return null;
             },
@@ -165,7 +165,7 @@ class EPayment extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
-                AppLocalizations.of(context).cardNumberName,
+                AppLocalizations.of(context)!.cardNumberName,
                 style: CustomTextStyle(
 
                   fontSize: 15,
@@ -181,7 +181,7 @@ class EPayment extends StatelessWidget {
           child: TextFormField(
             decoration: InputDecoration(
               labelText:
-              AppLocalizations.of(context).cardNumberName,
+              AppLocalizations.of(context)!.cardNumberName,
               fillColor: Colors.white,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(5.0),
@@ -196,9 +196,9 @@ class EPayment extends StatelessWidget {
             keyboardType: TextInputType.text,
             minLines: 1,
             maxLines: 1,
-            validator: (String value) {
-              if (value.isEmpty) {
-                return AppLocalizations.of(context)
+            validator: (String? value) {
+              if (value!.isEmpty) {
+                return AppLocalizations.of(context)!
                     .reqCardNumberName;
               }
               return null;
@@ -223,7 +223,7 @@ class EPayment extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          AppLocalizations.of(context).cvv,
+                          AppLocalizations.of(context)!.cvv,
                           style: CustomTextStyle(
                             fontSize: 15,
                             color: const Color(0xff000000),
@@ -239,7 +239,7 @@ class EPayment extends StatelessWidget {
                         child: TextFormField(
                           decoration: InputDecoration(
                             labelText:
-                            AppLocalizations.of(context).cvv,
+                            AppLocalizations.of(context)!.cvv,
                             fillColor: Colors.white,
                             border: OutlineInputBorder(
                               borderRadius:
@@ -252,9 +252,9 @@ class EPayment extends StatelessWidget {
                             color: const Color(0xff989696),
                           ).getTextStyle(),
                           keyboardType: TextInputType.number,
-                          validator: (String value) {
-                            if (value.isEmpty) {
-                              return AppLocalizations.of(context)
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
+                              return AppLocalizations.of(context)!
                                   .reqCvv;
                             }
                             return null;
@@ -275,7 +275,7 @@ class EPayment extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        AppLocalizations.of(context).endDate,
+                        AppLocalizations.of(context)!.endDate,
                         style: CustomTextStyle(
                           fontSize: 15,
                           color: const Color(0xff000000),
@@ -296,7 +296,7 @@ class EPayment extends StatelessWidget {
                             height: 50,
                             child: TextFormField(
                               decoration: InputDecoration(
-                                labelText: AppLocalizations.of(context).year,
+                                labelText: AppLocalizations.of(context)!.year,
                                 fillColor: Colors.white,
                                 border: OutlineInputBorder(
                                   borderRadius:
@@ -309,10 +309,10 @@ class EPayment extends StatelessWidget {
                                 color: const Color(0xff989696),
                               ).getTextStyle(),
                               keyboardType: TextInputType.number,
-                              validator: (String value) {
-                                if (value.isEmpty) {
+                              validator: (String? value) {
+                                if (value!.isEmpty) {
                                   return AppLocalizations.of(
-                                      context)
+                                      context)!
                                       .reqYear;
                                 }
                                 return null;
@@ -331,7 +331,7 @@ class EPayment extends StatelessWidget {
                           child: TextFormField(
                             decoration: InputDecoration(
                               labelText:
-                              AppLocalizations.of(context)
+                              AppLocalizations.of(context)!
                                   .month,
                               fillColor: Colors.white,
                               border: OutlineInputBorder(
@@ -346,9 +346,9 @@ class EPayment extends StatelessWidget {
                               color: const Color(0xff989696),
                             ).getTextStyle(),
                             keyboardType: TextInputType.number,
-                            validator: (String value) {
-                              if (value.isEmpty) {
-                                return AppLocalizations.of(context)
+                            validator: (String? value) {
+                              if (value!.isEmpty) {
+                                return AppLocalizations.of(context)!
                                     .reqMonth;
                               }
                               return null;
@@ -390,7 +390,7 @@ class EPayment extends StatelessWidget {
             child: Align(
               alignment: Alignment.center,
               child: Text(
-                AppLocalizations.of(context).pay,
+                AppLocalizations.of(context)!.pay,
                 style: CustomTextStyle(
                   fontSize: 15,
                   color: const Color(0xff3f9d28),
@@ -405,7 +405,7 @@ class EPayment extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  AppLocalizations.of(context).rule22,
+                  AppLocalizations.of(context)!.rule22,
                   style: CustomTextStyle(
 
                     fontSize: 13,

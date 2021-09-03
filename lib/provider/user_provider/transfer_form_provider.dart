@@ -18,15 +18,15 @@ class TransferFormProvider extends ChangeNotifier{
   }
 
   final List<bool> _isSelected2 = List.generate(3, (_) => false);
-  int _selectedNav2;
+  int? _selectedNav2;
   int _radioValue1 = -1;
-  File _imageInvoice;
-  bool _Accepted = false;
-  String _fullName, _reason, _refrencedNumber;
+  File? _imageInvoice;
+  bool? _Accepted = false;
+  String? _fullName, _reason, _refrencedNumber;
   final _picker3 = ImagePicker();
 
 
-  void setFullName(String fullName) {
+  void setFullName(String? fullName) {
     _fullName = fullName;
     notifyListeners();
   }
@@ -51,12 +51,12 @@ class TransferFormProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setReason(String reason) {
+  void setReason(String? reason) {
     _reason = reason;
     notifyListeners();
   }
 
-  void setRefrencedNumber(String refrencedNumber) {
+  void setRefrencedNumber(String? refrencedNumber) {
     _refrencedNumber = refrencedNumber;
     notifyListeners();
   }
@@ -67,7 +67,7 @@ class TransferFormProvider extends ChangeNotifier{
   }
 
   Future<void> getImageInvoice() async {
-    final _pickedFile3 = await _picker3.getImage(
+    final _pickedFile3 = await _picker3.pickImage(
       source: ImageSource.gallery,
     );
     if (_pickedFile3 != null) {
@@ -76,19 +76,19 @@ class TransferFormProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void updateAccepted(bool Accepted) {
+  void updateAccepted(bool? Accepted) {
     _Accepted = Accepted;
     notifyListeners();
   }
 
   Future<void> sendTransfer(
       BuildContext context,
-      String phone,
-      String fullName,
-      String reason,
-      String refrencedNumber,
+      String? phone,
+      String? fullName,
+      String? reason,
+      String? refrencedNumber,
       String radioValue1,
-      File imageInvoice) async {
+      File? imageInvoice) async {
     Future.delayed(Duration(seconds: 0), () {
       Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
       Navigator.pushAndRemoveUntil(
@@ -101,13 +101,13 @@ class TransferFormProvider extends ChangeNotifier{
 
 
   List<bool> get isSelected2 => _isSelected2;
-  int get selectedNav2 => _selectedNav2;
+  int? get selectedNav2 => _selectedNav2;
   int get radioValue1 => _radioValue1;
-  File get imageInvoice => _imageInvoice;
-  bool get Accepted => _Accepted;
-  String get fullName => _fullName;
-  String get reason => _reason;
-  String get refrencedNumber => _refrencedNumber;
+  File? get imageInvoice => _imageInvoice;
+  bool? get Accepted => _Accepted;
+  String? get fullName => _fullName;
+  String? get reason => _reason;
+  String? get refrencedNumber => _refrencedNumber;
 
 
 }

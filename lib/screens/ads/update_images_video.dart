@@ -17,14 +17,14 @@ class UpdateImgVed extends StatelessWidget {
   UpdateImgVed(
   this._idDescription,
   {
-    Key key,
-    @required this.ads,
-    @required this.adsPageImages,
-    @required this.index,
+    Key? key,
+    required this.ads,
+    required this.adsPageImages,
+    required this.index,
   }) : super(key: key);
-  final List<AdsModel> ads;
+  final List<AdsModel?> ads;
   final int index;
-  final String _idDescription;
+  final String? _idDescription;
   final List<AdsModel> adsPageImages;
 
 
@@ -81,7 +81,7 @@ class UpdateImgVed extends StatelessWidget {
               ),
             ),
             title: Text(
-              AppLocalizations.of(context).updateImgVid,
+              AppLocalizations.of(context)!.updateImgVid,
               style: CustomTextStyle(
                 fontSize: 20,
                 color: const Color(0xffffffff),
@@ -101,7 +101,7 @@ class UpdateImgVed extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                         child: Text(
-                          AppLocalizations.of(context).currentAdsGallery,
+                          AppLocalizations.of(context)!.currentAdsGallery,
                           style: CustomTextStyle(
 
                             fontSize: 15,
@@ -249,9 +249,7 @@ class UpdateImgVed extends StatelessWidget {
                                       children: [
                                         PinchZoomImage(
                                           image: Image.file(
-                                            updateImgVed
-                                                    .imagesListUpdate[position] ??
-                                                '',
+                                            updateImgVed.imagesListUpdate[position],
                                             width:
                                                 MediaQuery.of(context).size.width,
                                             height: MediaQuery.of(context)
@@ -305,7 +303,7 @@ class UpdateImgVed extends StatelessWidget {
                                     if (updateImgVed.imagesListUpdate.length < 10)
                                       InkWell(
                                         onTap: () {
-                                          updateImgVed.getImagesUpdate();
+                                          updateImgVed.getImagesUpdate(context);
                                         },
                                         child: Container(
                                           padding: EdgeInsets.all(4),
@@ -327,7 +325,7 @@ class UpdateImgVed extends StatelessWidget {
                                                   width: 4,
                                                 ),
                                                 Text(
-                                                  AppLocalizations.of(context)
+                                                  AppLocalizations.of(context)!
                                                       .addImages,
                                                   style: CustomTextStyle(
 
@@ -403,6 +401,9 @@ class UpdateImgVed extends StatelessWidget {
                         child: Container(
                           child: Center(
                             child: InkWell(
+                              onTap: () {
+                                updateImgVed.getImagesUpdate(context);
+                              },
                               child: Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                                 child: Container(
@@ -419,7 +420,7 @@ class UpdateImgVed extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Text(
-                                        AppLocalizations.of(context).uplaodImages,
+                                        AppLocalizations.of(context)!.uplaodImages,
                                         style: CustomTextStyle(
 
                                           fontSize: 15,
@@ -440,9 +441,6 @@ class UpdateImgVed extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              onTap: () {
-                                updateImgVed.getImagesUpdate();
-                              },
                             ),
                           ),
                         ),
@@ -452,15 +450,15 @@ class UpdateImgVed extends StatelessWidget {
                     width: mediaQuery.size.width,
                     height: mediaQuery.size.height * 0.4,
                     child: AspectRatio(
-                      aspectRatio: updateImgVed.videoControllerUpdate.value.aspectRatio,
+                      aspectRatio: updateImgVed.videoControllerUpdate!.value.aspectRatio,
                       child: Stack(
                         children: [
-                          VideoPlayer(updateImgVed.videoControllerUpdate),
+                          VideoPlayer(updateImgVed.videoControllerUpdate!),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(5, 200, 5, 5),
                             child: Column(
                               children: [
-                                if (updateImgVed.videoControllerUpdate.value.isPlaying)
+                                if (updateImgVed.videoControllerUpdate!.value.isPlaying)
                                   TextButton(
                                     onPressed: () {
                                       updateImgVed.pausePlayVideoUpdate();
@@ -482,14 +480,14 @@ class UpdateImgVed extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(5.0),
                             child: TextButton(
+                              onPressed: () {
+                                updateImgVed.deleteVideoUpdate();
+                              },
                               child: Icon(
                                 Icons.delete_forever_rounded,
                                 color: Color(0xffff0000),
                                 size: 40,
                               ),
-                              onPressed: () {
-                                updateImgVed.deleteVideoUpdate();
-                              },
                             ),
                           ),
                           Padding(
@@ -520,7 +518,7 @@ class UpdateImgVed extends StatelessWidget {
                     height: 400,
                     child: AspectRatio(
                       aspectRatio: updateImgVed
-                          .videoControllerAdsPage
+                          .videoControllerAdsPage!
                           .value
                           .aspectRatio,
                       child: Stack(
@@ -531,13 +529,13 @@ class UpdateImgVed extends StatelessWidget {
                                 child: Center(
                                   child: updateImgVed.chewieControllerAdsPage !=
                                       null && updateImgVed
-                                          .chewieControllerAdsPage
+                                          .chewieControllerAdsPage!
                                           .videoPlayerController
                                           .value
-                                          .initialized
+                                          .isInitialized
                                       ? Chewie(
                                     controller:
-                                    updateImgVed.chewieControllerAdsPage,
+                                    updateImgVed.chewieControllerAdsPage!,
                                   )
                                       : Container(),
                                 ),
@@ -587,7 +585,7 @@ class UpdateImgVed extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            AppLocalizations.of(context).addVed,
+                            AppLocalizations.of(context)!.addVed,
                             style: CustomTextStyle(
 
                               fontSize: 15,
@@ -624,7 +622,7 @@ class UpdateImgVed extends StatelessWidget {
                         updateImgVed.isSending = true;
                         updateImgVed.updateImgVed(
                           context,
-                          _idDescription,
+                          _idDescription!,
                           updateImgVed.imagesListUpdate,
                           updateImgVed.videoUpdate,
                           ads,
@@ -651,7 +649,7 @@ class UpdateImgVed extends StatelessWidget {
                             LinearProgressIndicator()
                             :
                         Text(
-                          AppLocalizations.of(context).edit,
+                          AppLocalizations.of(context)!.edit,
                           style: CustomTextStyle(
                             fontSize: 15,
                             color: const Color(0xff3f9d28),
@@ -669,7 +667,7 @@ class UpdateImgVed extends StatelessWidget {
                     children: <Widget>[
                       Expanded(
                         child: Text(
-                          AppLocalizations.of(context).rule32,
+                          AppLocalizations.of(context)!.rule32,
                           style: CustomTextStyle(
 
                             fontSize: 15,

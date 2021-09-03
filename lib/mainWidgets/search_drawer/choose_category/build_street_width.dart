@@ -8,7 +8,7 @@ import 'package:tadawl_app/provider/locale_provider.dart';
 
 
 class BuildStreetWidth extends StatelessWidget {
-  const BuildStreetWidth({Key key}) : super(key: key);
+  const BuildStreetWidth({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class BuildStreetWidth extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              AppLocalizations.of(context).streetWidth,
+              AppLocalizations.of(context)!.streetWidth,
               style: CustomTextStyle(
 
                 fontSize: 10,
@@ -46,7 +46,7 @@ class BuildStreetWidth extends StatelessWidget {
                     child: Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
                       return DropdownButton<String>(
                         hint: Text(
-                          AppLocalizations.of(context).streetWidth,
+                          AppLocalizations.of(context)!.streetWidth,
                           style: CustomTextStyle(
 
                             fontSize: 15,
@@ -56,7 +56,7 @@ class BuildStreetWidth extends StatelessWidget {
                         ),
                         value: searchDrawer.streetWidthSelectedSearchDrawer ??
                             '0',
-                        onChanged: (String newValue) {
+                        onChanged: (String? newValue) {
                           searchDrawer
                               .setStreetWidthSelectedSearchDrawer(newValue);
                         },

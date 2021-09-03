@@ -14,7 +14,7 @@ import 'build_space.dart';
 import 'build_toilets.dart';
 
 class SelectedCategory15 extends StatelessWidget {
-  const SelectedCategory15({Key key}) : super(key: key);
+  const SelectedCategory15({Key? key}) : super(key: key);
 
 
   @override

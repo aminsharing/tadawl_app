@@ -7,7 +7,7 @@ import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 class BuildAgeOfRealEstate extends StatelessWidget {
-  const BuildAgeOfRealEstate({Key key}) : super(key: key);
+  const BuildAgeOfRealEstate({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class BuildAgeOfRealEstate extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              AppLocalizations.of(context).ageOfRealEstate,
+              AppLocalizations.of(context)!.ageOfRealEstate,
               style: CustomTextStyle(
 
                 fontSize: 10,
@@ -45,7 +45,7 @@ class BuildAgeOfRealEstate extends StatelessWidget {
                     child: Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
                       return DropdownButton<String>(
                         hint: Text(
-                          AppLocalizations.of(context).ageOfRealEstate,
+                          AppLocalizations.of(context)!.ageOfRealEstate,
                           style: CustomTextStyle(
 
                             fontSize: 15,
@@ -56,7 +56,7 @@ class BuildAgeOfRealEstate extends StatelessWidget {
                         value: searchDrawer
                             .ageOfRealEstateSelectedSearchDrawer ??
                             '0',
-                        onChanged: (String newValue) {
+                        onChanged: (String? newValue) {
                           searchDrawer.setAgeOfRealEstateSelectedSearchDrawer(
                               newValue);
                         },

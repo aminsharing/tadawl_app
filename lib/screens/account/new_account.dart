@@ -16,7 +16,7 @@ RegExp regExpPhone = RegExp(pattternPhone);
 
 class NewAcount extends StatelessWidget {
   NewAcount({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
 
@@ -32,7 +32,7 @@ class NewAcount extends StatelessWidget {
             leadingWidth: 70,
             title: Text(
               AppLocalizations
-                  .of(context)
+                  .of(context)!
                   .newAccount,
               style: CustomTextStyle(
                 fontSize: 30,
@@ -65,7 +65,7 @@ class NewAcount extends StatelessWidget {
                         width: double.infinity,
                         child: Text(
                           AppLocalizations
-                              .of(context)
+                              .of(context)!
                               .enterMob,
                           style: CustomTextStyle(
 
@@ -90,7 +90,7 @@ class NewAcount extends StatelessWidget {
                               title: TextFormField(
                                 decoration: InputDecoration(
                                     labelText: AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .mobileNumber),
                                 style: CustomTextStyle(
 
@@ -98,19 +98,19 @@ class NewAcount extends StatelessWidget {
                                   color: const Color(0xff989696),
                                 ).getTextStyle(),
                                 keyboardType: TextInputType.phone,
-                                validator: (String value) {
-                                  if (value.isEmpty) {
+                                validator: (String? value) {
+                                  if (value!.isEmpty) {
                                     return AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .reqMob;
                                   } else if (!regExpPhone.hasMatch(value)) {
                                     return AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .reqSaudiMob;
                                   }
                                   return null;
                                 },
-                                onSaved: (String value) {
+                                onSaved: (String? value) {
                                   newAccount.setNewAccountPhone(value);
                                 },
                               ),
@@ -128,26 +128,13 @@ class NewAcount extends StatelessWidget {
                                     width: 1.0, color: const Color(0xff04B404)),
                               ),
                               child: TextButton(
-                                child: Center(
-                                  child: Text(
-                                    AppLocalizations
-                                        .of(context)
-                                        .sendVR,
-                                    style: CustomTextStyle(
-
-                                      fontSize: 20,
-                                      color: const Color(0xff00cccc),
-                                    ).getTextStyle(),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
                                 onPressed: () async {
-                                  if (!_formNewAccountKey.currentState.validate()) {
+                                  if (!_formNewAccountKey.currentState!.validate()) {
                                     return;
                                   }
-                                  _formNewAccountKey.currentState.save();
+                                  _formNewAccountKey.currentState!.save();
                                   var url = 'https://www.tadawl-store.com/API/api_app/login/new_account.php';
-                                  var response = await http.post(url, body: {
+                                  var response = await http.post(Uri.parse(url), body: {
                                     'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
                                     'phone': newAccount.newAccountPhone,
                                   });
@@ -179,6 +166,19 @@ class NewAcount extends StatelessWidget {
                                     );
                                   }
                                 },
+                                child: Center(
+                                  child: Text(
+                                    AppLocalizations
+                                        .of(context)!
+                                        .sendVR,
+                                    style: CustomTextStyle(
+
+                                      fontSize: 20,
+                                      color: const Color(0xff00cccc),
+                                    ).getTextStyle(),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -192,7 +192,7 @@ class NewAcount extends StatelessWidget {
                         width: double.infinity,
                         child: Text(
                           AppLocalizations
-                              .of(context)
+                              .of(context)!
                               .mobHint,
                           style: CustomTextStyle(
 
@@ -209,7 +209,7 @@ class NewAcount extends StatelessWidget {
                         width: double.infinity,
                         child: Text(
                           AppLocalizations
-                              .of(context)
+                              .of(context)!
                               .haveAccount,
                           style: CustomTextStyle(
 
@@ -241,7 +241,7 @@ class NewAcount extends StatelessWidget {
                           child: Center(
                             child: Text(
                               AppLocalizations
-                                  .of(context)
+                                  .of(context)!
                                   .login,
                               style: CustomTextStyle(
 

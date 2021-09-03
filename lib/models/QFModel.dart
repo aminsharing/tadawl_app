@@ -1,10 +1,10 @@
 class QFModel {
-  String id_QF_aqar;
-  String quantity;
-  String id_description;
-  String id_QFAT;
-  String title;
-  String eng_title;
+  String? id_QF_aqar;
+  String? quantity;
+  String? id_description;
+  String? id_QFAT;
+  String? title;
+  String? eng_title;
   // ignore: sort_constructors_first
   QFModel({
     this.id_QF_aqar,

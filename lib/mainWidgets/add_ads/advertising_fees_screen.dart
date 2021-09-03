@@ -9,7 +9,7 @@ import 'package:tadawl_app/screens/ads/advertising_fee.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AdvertisingFeesScreen extends StatelessWidget {
-  AdvertisingFeesScreen(this.addAdProvider,{Key key}) : super(key: key);
+  AdvertisingFeesScreen(this.addAdProvider,{Key? key}) : super(key: key);
   final AddAdProvider addAdProvider;
 
   @override
@@ -24,7 +24,7 @@ class AdvertisingFeesScreen extends StatelessWidget {
           widthFactor: 2.0,
           child: Text(
             AppLocalizations
-                .of(context)
+                .of(context)!
                 .advFees,
             style: CustomTextStyle(
               fontSize: 20,
@@ -56,7 +56,7 @@ class AdvertisingFeesScreen extends StatelessWidget {
                   Expanded(
                     child: Text(
                       AppLocalizations
-                          .of(context)
+                          .of(context)!
                           .title1,
                       style: CustomTextStyle(
                         fontWeight: FontWeight.w400,
@@ -75,7 +75,7 @@ class AdvertisingFeesScreen extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     AppLocalizations
-                        .of(context)
+                        .of(context)!
                         .rule27,
                     style: CustomTextStyle(
                       fontWeight: FontWeight.w400,
@@ -94,7 +94,7 @@ class AdvertisingFeesScreen extends StatelessWidget {
                   Expanded(
                     child: Text(
                       AppLocalizations
-                          .of(context)
+                          .of(context)!
                           .title2,
                       style: CustomTextStyle(
                         fontWeight: FontWeight.w400,
@@ -114,7 +114,7 @@ class AdvertisingFeesScreen extends StatelessWidget {
                   Expanded(
                     child: Text(
                       AppLocalizations
-                          .of(context)
+                          .of(context)!
                           .rule28,
                       style: CustomTextStyle(
                         fontWeight: FontWeight.w400,
@@ -136,7 +136,7 @@ class AdvertisingFeesScreen extends StatelessWidget {
                       text: TextSpan(
                           children: <TextSpan>[
                             TextSpan(
-                              text: AppLocalizations.of(context).rule29,
+                              text: AppLocalizations.of(context)!.rule29,
                               style: CustomTextStyle(
                                 fontSize: 15,
                                 color: const Color(0xff8d8d8d),
@@ -144,7 +144,7 @@ class AdvertisingFeesScreen extends StatelessWidget {
                             ),
                             TextSpan(text: ' '),
                             TextSpan(
-                                text: AppLocalizations.of(context).advFees,
+                                text: AppLocalizations.of(context)!.advFees,
                                 style: CustomTextStyle(
                                   fontSize: 15,
                                   color: const Color(0xff0000ff),
@@ -171,7 +171,7 @@ class AdvertisingFeesScreen extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     AppLocalizations
-                        .of(context)
+                        .of(context)!
                         .marketingSolution,
                     style: CustomTextStyle(
                       fontWeight: FontWeight.w400,
@@ -192,7 +192,7 @@ class AdvertisingFeesScreen extends StatelessWidget {
                       text: TextSpan(
                           children: <TextSpan>[
                             TextSpan(
-                              text: AppLocalizations.of(context).contactEmail,
+                              text: AppLocalizations.of(context)!.contactEmail,
                               style: CustomTextStyle(
                                 fontSize: 15,
                                 color: const Color(0xff8d8d8d),
@@ -223,7 +223,7 @@ class AdvertisingFeesScreen extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     AppLocalizations
-                        .of(context)
+                        .of(context)!
                         .explanatoryPoints,
                     style: CustomTextStyle(
                       fontSize: 17,
@@ -241,7 +241,7 @@ class AdvertisingFeesScreen extends StatelessWidget {
                   Flexible(
                     child: Text(
                       AppLocalizations
-                          .of(context)
+                          .of(context)!
                           .rule30,
                       style: CustomTextStyle(
                         fontSize: 15,
@@ -281,7 +281,7 @@ class AdvertisingFeesScreen extends StatelessWidget {
                   child: Center(
                     child: Text(
                       AppLocalizations
-                          .of(context)
+                          .of(context)!
                           .rule31,
                       style: CustomTextStyle(
 

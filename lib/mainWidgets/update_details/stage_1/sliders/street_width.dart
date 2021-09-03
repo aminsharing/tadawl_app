@@ -5,7 +5,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
 
 class StreetWidth extends StatelessWidget {
-  const StreetWidth({Key key}) : super(key: key);
+  const StreetWidth({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class StreetWidth extends StatelessWidget {
               MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context).streetWidth,
+                  AppLocalizations.of(context)!.streetWidth,
                   style: CustomTextStyle(
 
                     fontSize: 15,
@@ -29,7 +29,7 @@ class StreetWidth extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 Text(
-                  updateDetails.StreetWidthUpdate.floor()
+                  updateDetails.StreetWidthUpdate!.floor()
                       .toString(),
                   style: CustomTextStyle(
 
@@ -43,11 +43,11 @@ class StreetWidth extends StatelessWidget {
           ),
           Slider(
             activeColor: const Color(0xff04B404),
-            value: updateDetails.StreetWidthUpdate,
+            value: updateDetails.StreetWidthUpdate!,
             min: 0,
             max: 99,
             divisions: 99,
-            label: updateDetails.StreetWidthUpdate.floor().toString(),
+            label: updateDetails.StreetWidthUpdate!.floor().toString(),
             onChanged: (double value) {
               updateDetails.setStreetWidthUpdate(value);
             },

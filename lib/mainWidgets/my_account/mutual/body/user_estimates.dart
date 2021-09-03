@@ -8,13 +8,13 @@ import 'package:tadawl_app/screens/account/estimateUser.dart';
 
 class UserEstimates extends StatelessWidget {
   const UserEstimates({
-    Key key,
-    @required this.estimates,
-    @required this.sumEstimates,
-    @required this.myAccountProvider,
+    Key? key,
+    required this.estimates,
+    required this.sumEstimates,
+    required this.myAccountProvider,
   }) : super(key: key);
   final List<UserEstimateModel> estimates;
-  final UserEstimateModel sumEstimates;
+  final UserEstimateModel? sumEstimates;
   final MyAccountProvider myAccountProvider;
 
   @override
@@ -60,7 +60,7 @@ class UserEstimates extends StatelessWidget {
               rating:
               sumEstimates != null
                   ?
-              (double.parse(sumEstimates.sum_estimates ?? '0') / estimates.length).toDouble()
+              (double.parse(sumEstimates!.sum_estimates ?? '0') / estimates.length).toDouble()
                   : 3,
               icon: Icon(
                 Icons.star,

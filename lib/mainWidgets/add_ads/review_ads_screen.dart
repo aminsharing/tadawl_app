@@ -14,7 +14,7 @@ import 'package:tadawl_app/screens/ads/advertising_fee.dart';
 import 'package:tadawl_app/screens/general/terms_of_use.dart';
 
 class ReviewAdsScreen extends StatelessWidget {
-  const ReviewAdsScreen(this.addAdProvider,{Key key}) : super(key: key);
+  const ReviewAdsScreen(this.addAdProvider,{Key? key}) : super(key: key);
   final AddAdProvider addAdProvider;
 
   @override
@@ -32,7 +32,7 @@ class ReviewAdsScreen extends StatelessWidget {
                 widthFactor: 2.0,
                 child: Text(
                   AppLocalizations
-                      .of(context)
+                      .of(context)!
                       .adReview,
                   style: CustomTextStyle(
                     fontSize: 20,
@@ -66,7 +66,7 @@ class ReviewAdsScreen extends StatelessWidget {
                           height: 500,
                           child: AspectRatio(
                             aspectRatio: addAds
-                                .videoControllerAddAds.value.aspectRatio,
+                                .videoControllerAddAds!.value.aspectRatio,
                             child: Stack(
                               children: [
                                 Column(
@@ -77,13 +77,13 @@ class ReviewAdsScreen extends StatelessWidget {
                                             .chewieControllerAddAds !=
                                             null &&
                                             addAds
-                                                .chewieControllerAddAds
+                                                .chewieControllerAddAds!
                                                 .videoPlayerController
                                                 .value
-                                                .initialized
+                                                .isInitialized
                                             ? Chewie(
                                           controller: addAds
-                                              .chewieControllerAddAds,
+                                              .chewieControllerAddAds!,
                                         )
                                             : Container(),
                                       ),
@@ -133,7 +133,7 @@ class ReviewAdsScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            addAds.totalPricAddAds,
+                            addAds.totalPricAddAds!,
                             style: CustomTextStyle(
 
                               fontSize: 20,
@@ -145,7 +145,7 @@ class ReviewAdsScreen extends StatelessWidget {
                             padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
                             child: Text(
                               AppLocalizations
-                                  .of(context)
+                                  .of(context)!
                                   .rial,
                               style: CustomTextStyle(
 
@@ -161,7 +161,7 @@ class ReviewAdsScreen extends StatelessWidget {
                               const EdgeInsets.fromLTRB(5, 0, 0, 0),
                               child: Text(
                                 AppLocalizations
-                                    .of(context)
+                                    .of(context)!
                                     .annual,
                                 style: CustomTextStyle(
 
@@ -177,7 +177,7 @@ class ReviewAdsScreen extends StatelessWidget {
                               const EdgeInsets.fromLTRB(5, 0, 0, 0),
                               child: Text(
                                 AppLocalizations
-                                    .of(context)
+                                    .of(context)!
                                     .monthly,
                                 style: CustomTextStyle(
 
@@ -193,7 +193,7 @@ class ReviewAdsScreen extends StatelessWidget {
                               const EdgeInsets.fromLTRB(5, 0, 0, 0),
                               child: Text(
                                 AppLocalizations
-                                    .of(context)
+                                    .of(context)!
                                     .daily,
                                 style: CustomTextStyle(
 
@@ -240,9 +240,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                     children: [
                                       PinchZoomImage(
                                         image: Image.file(
-                                          addAds.imagesListAddAds[
-                                          position] ??
-                                              '',
+                                          addAds.imagesListAddAds[position],
                                           width:
                                           MediaQuery
                                               .of(context)
@@ -354,7 +352,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .space,
                                     style: CustomTextStyle(
 
@@ -372,7 +370,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                     MainAxisAlignment.center,
                                     children: <Widget>[
                                       Text(
-                                        addAds.totalSpaceAddAds,
+                                        addAds.totalSpaceAddAds!,
                                         style: CustomTextStyle(
 
                                           fontSize: 15,
@@ -385,7 +383,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                             0, 5, 5, 5),
                                         child: Text(
                                           AppLocalizations
-                                              .of(context)
+                                              .of(context)!
                                               .m2,
                                           style: CustomTextStyle(
 
@@ -411,7 +409,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .interface,
                                     style: CustomTextStyle(
 
@@ -425,7 +423,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   padding:
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
-                                    addAds.interfaceSelectedAddAds,
+                                    addAds.interfaceSelectedAddAds!,
                                     style: CustomTextStyle(
 
                                       fontSize: 15,
@@ -447,7 +445,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .category,
                                     style: CustomTextStyle(
 
@@ -462,7 +460,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .single,
                                     style: CustomTextStyle(
                                       fontSize: 15,
@@ -484,7 +482,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .category,
                                     style: CustomTextStyle(
 
@@ -499,7 +497,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .family,
                                     style: CustomTextStyle(
 
@@ -522,7 +520,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .aqarType,
                                     style: CustomTextStyle(
 
@@ -537,7 +535,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .commHousing,
                                     style: CustomTextStyle(
 
@@ -560,7 +558,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .aqarType,
                                     style: CustomTextStyle(
 
@@ -575,7 +573,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .commercial,
                                     style: CustomTextStyle(
 
@@ -598,7 +596,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .aqarType,
                                     style: CustomTextStyle(
 
@@ -613,7 +611,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .housing,
                                     style: CustomTextStyle(
 
@@ -636,7 +634,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .lounges,
                                     style: CustomTextStyle(
 
@@ -672,7 +670,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .toilets,
                                     style: CustomTextStyle(
 
@@ -708,7 +706,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .rooms,
                                     style: CustomTextStyle(
 
@@ -744,7 +742,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .ageOfRealEstate,
                                     style: CustomTextStyle(
 
@@ -760,7 +758,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                         5, 5, 5, 5),
                                     child: Text(
                                       AppLocalizations
-                                          .of(context)
+                                          .of(context)!
                                           .neww,
                                       style: CustomTextStyle(
 
@@ -784,7 +782,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                               0, 5, 5, 5),
                                           child: Text(
                                             AppLocalizations
-                                                .of(context)
+                                                .of(context)!
                                                 .year,
                                             style: CustomTextStyle(
 
@@ -822,7 +820,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .apartments,
                                     style: CustomTextStyle(
 
@@ -859,7 +857,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .stores,
                                     style: CustomTextStyle(
 
@@ -895,7 +893,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .wells,
                                     style: CustomTextStyle(
 
@@ -931,7 +929,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .trees,
                                     style: CustomTextStyle(
 
@@ -967,7 +965,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .floor,
                                     style: CustomTextStyle(
 
@@ -983,7 +981,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                         5, 5, 5, 5),
                                     child: Text(
                                       AppLocalizations
-                                          .of(context)
+                                          .of(context)!
                                           .groundFloor,
                                       style: CustomTextStyle(
 
@@ -1000,7 +998,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                           5, 5, 5, 5),
                                       child: Text(
                                         AppLocalizations
-                                            .of(context)
+                                            .of(context)!
                                             .first,
                                         style: CustomTextStyle(
 
@@ -1038,7 +1036,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .streetWidth,
                                     style: CustomTextStyle(
 
@@ -1070,7 +1068,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                             0, 5, 5, 5),
                                         child: Text(
                                           AppLocalizations
-                                              .of(context)
+                                              .of(context)!
                                               .m,
                                           style: CustomTextStyle(
 
@@ -1096,7 +1094,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .furnished,
                                     style: CustomTextStyle(
 
@@ -1128,7 +1126,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .kitchen,
                                     style: CustomTextStyle(
 
@@ -1160,7 +1158,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .appendix,
                                     style: CustomTextStyle(
 
@@ -1192,7 +1190,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .carEntrance,
                                     style: CustomTextStyle(
 
@@ -1224,7 +1222,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .elevator,
                                     style: CustomTextStyle(
 
@@ -1256,7 +1254,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .conditioner,
                                     style: CustomTextStyle(
 
@@ -1288,7 +1286,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .hallStaircase,
                                     style: CustomTextStyle(
 
@@ -1320,7 +1318,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .duplex,
                                     style: CustomTextStyle(
 
@@ -1352,7 +1350,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .driverRoom,
                                     style: CustomTextStyle(
 
@@ -1384,7 +1382,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .swimmingPool,
                                     style: CustomTextStyle(
 
@@ -1416,7 +1414,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .maidRoom,
                                     style: CustomTextStyle(
 
@@ -1448,7 +1446,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .yard,
                                     style: CustomTextStyle(
 
@@ -1480,7 +1478,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .verse,
                                     style: CustomTextStyle(
 
@@ -1512,7 +1510,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .cellar,
                                     style: CustomTextStyle(
 
@@ -1544,7 +1542,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .familyPartition,
                                     style: CustomTextStyle(
 
@@ -1576,7 +1574,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .amusementPark,
                                     style: CustomTextStyle(
 
@@ -1608,7 +1606,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .volleyballCourt,
                                     style: CustomTextStyle(
 
@@ -1640,7 +1638,7 @@ class ReviewAdsScreen extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                   child: Text(
                                     AppLocalizations
-                                        .of(context)
+                                        .of(context)!
                                         .footballCourt,
                                     style: CustomTextStyle(
 
@@ -1671,7 +1669,7 @@ class ReviewAdsScreen extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             AppLocalizations
-                                .of(context)
+                                .of(context)!
                                 .desc,
                             style: CustomTextStyle(
 
@@ -1690,7 +1688,7 @@ class ReviewAdsScreen extends StatelessWidget {
                         children: <Widget>[
                           Flexible(
                             child: Text(
-                              addAds.detailsAqarAddAds,
+                              addAds.detailsAqarAddAds!,
                               style: CustomTextStyle(
 
                                 fontSize: 15,
@@ -1708,7 +1706,7 @@ class ReviewAdsScreen extends StatelessWidget {
                         children: [
                           Text(
                             AppLocalizations
-                                .of(context)
+                                .of(context)!
                                 .accept,
                             style: CustomTextStyle(
 
@@ -1732,7 +1730,7 @@ class ReviewAdsScreen extends StatelessWidget {
                             },
                             child: Text(
                               AppLocalizations
-                                  .of(context)
+                                  .of(context)!
                                   .usageTerms,
                               style: CustomTextStyle(
 
@@ -1744,7 +1742,7 @@ class ReviewAdsScreen extends StatelessWidget {
                           ),
                           Text(
                             AppLocalizations
-                                .of(context)
+                                .of(context)!
                                 .committed,
                             style: CustomTextStyle(
 
@@ -1763,7 +1761,7 @@ class ReviewAdsScreen extends StatelessWidget {
                             },
                             child: Text(
                               AppLocalizations
-                                  .of(context)
+                                  .of(context)!
                                   .advFees,
                               style: CustomTextStyle(
 
@@ -1776,7 +1774,7 @@ class ReviewAdsScreen extends StatelessWidget {
                         ],
                       ),
                       value: addAds.AcceptedAddAds,
-                      onChanged: (bool value) {
+                      onChanged: (bool? value) {
                         addAds.setAcceptedAddAds(value);
                       },
                     ),
@@ -1819,7 +1817,7 @@ class ReviewAdsScreen extends StatelessWidget {
                             addAds.LoungesAddAds.toString(),
                             addAds.selectedTypeAqarAddAds.toString(),
                             addAds.selectedFamilyAddAds.toString(),
-                            addAds.interfaceSelectedAddAds,
+                            addAds.interfaceSelectedAddAds!,
                             addAds.totalSpaceAddAds,
                             addAds.totalPricAddAds,
                             addAds.selectedPlanAddAds.toString(),
@@ -1856,7 +1854,7 @@ class ReviewAdsScreen extends StatelessWidget {
                               LinearProgressIndicator()
                                   :
                               Text(
-                                AppLocalizations.of(context).postAdvertisement,
+                                AppLocalizations.of(context)!.postAdvertisement,
                                 style: CustomTextStyle(
                                   fontSize: 15,
                                   color: const Color(0xff3f9d28),
@@ -1895,7 +1893,7 @@ class ReviewAdsScreen extends StatelessWidget {
                             child: Center(
                               child: Text(
                                 AppLocalizations
-                                    .of(context)
+                                    .of(context)!
                                     .postAdvertisement,
                                 style: CustomTextStyle(
 

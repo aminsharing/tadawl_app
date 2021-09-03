@@ -1,9 +1,9 @@
 import 'geometry.dart';
 
 class Place {
-  final Geometry geometry;
-  final String name;
-  final String vicinity;
+  final Geometry? geometry;
+  final String? name;
+  final String? vicinity;
   // ignore: sort_constructors_first
   Place({this.geometry,this.name,this.vicinity});
   // ignore: sort_constructors_first

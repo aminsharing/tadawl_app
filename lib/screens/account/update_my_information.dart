@@ -8,7 +8,7 @@ import 'package:tadawl_app/mainWidgets/update_my_information/update_info_text_fi
 
 class UpdateMyInformation extends StatelessWidget {
   UpdateMyInformation({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final GlobalKey<FormState> _updateMyInfoKey = GlobalKey<FormState>();
@@ -49,7 +49,7 @@ class UpdateMyInformation extends StatelessWidget {
                 ),
                 title: Text(
                   AppLocalizations
-                      .of(context)
+                      .of(context)!
                       .updateMyInfo,
                   style: CustomTextStyle(
 
@@ -78,17 +78,17 @@ class UpdateMyInformation extends StatelessWidget {
                               children: [
                                 UpdateInfoImage(),
                                 UpdateInfoTextField(
-                                  labelText: AppLocalizations.of(context).name,
+                                  labelText: AppLocalizations.of(context)!.name,
                                   fieldType: FieldType.username,
                                   icon: Icons.person,
                                 ),
                                 UpdateInfoTextField(
-                                  labelText: AppLocalizations.of(context).email,
+                                  labelText: AppLocalizations.of(context)!.email,
                                   fieldType: FieldType.email,
                                   icon: Icons.email_outlined,
                                 ),
                                 UpdateInfoTextField(
-                                  labelText: AppLocalizations.of(context).aboutMe,
+                                  labelText: AppLocalizations.of(context)!.aboutMe,
                                   fieldType: FieldType.about,
                                   icon: Icons.message_rounded,
                                 ),
@@ -99,7 +99,7 @@ class UpdateMyInformation extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
-                                        AppLocalizations.of(context).memType,
+                                        AppLocalizations.of(context)!.memType,
                                         style: CustomTextStyle(
                                           fontSize: 15,
                                           color: Color(0xff989696),

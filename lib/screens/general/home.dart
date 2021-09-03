@@ -7,7 +7,7 @@ import 'package:tadawl_app/screens/ads/main_page.dart';
 
 class Home extends StatelessWidget {
   Home({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

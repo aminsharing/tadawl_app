@@ -1,6 +1,6 @@
 class Location{
-  final double lat;
-  final double lng;
+  final double? lat;
+  final double? lng;
 
   // ignore: sort_constructors_first
   Location({this.lat, this.lng});

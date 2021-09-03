@@ -18,7 +18,7 @@ import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainPage extends StatelessWidget {
-  MainPage({Key key}) : super(key: key);
+  MainPage({Key? key}) : super(key: key);
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final MainPageProvider mainPageProvider = MainPageProvider();
@@ -32,7 +32,7 @@ class MainPage extends StatelessWidget {
         context: context,
         builder: (context) => AlertDialog(
           title: Text(
-            AppLocalizations.of(context).closeApp,
+            AppLocalizations.of(context)!.closeApp,
             style: CustomTextStyle(
               fontSize: 20,
               color: const Color(0xff00cccc),
@@ -40,7 +40,7 @@ class MainPage extends StatelessWidget {
             textAlign: TextAlign.right,
           ),
           content: Text(
-            AppLocalizations.of(context).areYouSureCloseApp,
+            AppLocalizations.of(context)!.areYouSureCloseApp,
             style: CustomTextStyle(
               fontSize: 17,
               color: const Color(0xff000000),
@@ -53,7 +53,7 @@ class MainPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
                 child: Text(
-                  AppLocalizations.of(context).yes,
+                  AppLocalizations.of(context)!.yes,
                   style: CustomTextStyle(
                     fontSize: 17,
                     color: const Color(0xff000000),
@@ -67,7 +67,7 @@ class MainPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
                 child: Text(
-                  AppLocalizations.of(context).no,
+                  AppLocalizations.of(context)!.no,
                   style: CustomTextStyle(
                     fontSize: 17,
                     color: const Color(0xff000000),
@@ -78,7 +78,7 @@ class MainPage extends StatelessWidget {
             ),
           ],
         ),
-      ) ?? false;
+      ).then((value) => value as bool);
     }
 
     return ChangeNotifierProvider<MainPageProvider>(
@@ -108,7 +108,7 @@ class MainPage extends StatelessWidget {
                   child: TextButton(
                     onPressed: () {
                       // _scaffoldKey.currentState.openDrawer();
-                      _scaffoldKey.currentState.openEndDrawer();
+                      _scaffoldKey.currentState!.openEndDrawer();
                     },
                     child: Container(
                       decoration: BoxDecoration(

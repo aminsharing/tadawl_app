@@ -6,7 +6,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class BuildDriverRoom extends StatelessWidget {
-  const BuildDriverRoom({Key key}) : super(key: key);
+  const BuildDriverRoom({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class BuildDriverRoom extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context).driverRoom,
+            AppLocalizations.of(context)!.driverRoom,
             style: CustomTextStyle(
 
               fontSize: 15,

@@ -3,8 +3,8 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserAbout extends StatelessWidget {
-  const UserAbout({Key key, @required this.about}) : super(key: key);
-  final String about;
+  const UserAbout({Key? key, required this.about}) : super(key: key);
+  final String? about;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class UserAbout extends StatelessWidget {
           padding:
           const EdgeInsets.fromLTRB(20, 0, 20, 0),
           child: Text(
-            AppLocalizations.of(context).aboutMe,
+            AppLocalizations.of(context)!.aboutMe,
             style: CustomTextStyle(
               fontSize: 15,
               color: const Color(0xff000000),

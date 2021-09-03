@@ -6,7 +6,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class BuildElevator extends StatelessWidget {
-  const BuildElevator({Key key}) : super(key: key);
+  const BuildElevator({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class BuildElevator extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context).elevator,
+            AppLocalizations.of(context)!.elevator,
             style: CustomTextStyle(
 
               fontSize: 15,

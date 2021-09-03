@@ -6,7 +6,7 @@ import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 
 
 class Toilets extends StatelessWidget {
-  const Toilets({Key key}) : super(key: key);
+  const Toilets({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class Toilets extends StatelessWidget {
               MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context).toilets,
+                  AppLocalizations.of(context)!.toilets,
                   style: CustomTextStyle(
 
                     fontSize: 15,

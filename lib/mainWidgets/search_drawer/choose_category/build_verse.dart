@@ -6,7 +6,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class BuildVerse extends StatelessWidget {
-  const BuildVerse({Key key}) : super(key: key);
+  const BuildVerse({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class BuildVerse extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context).verse,
+            AppLocalizations.of(context)!.verse,
             style: CustomTextStyle(
 
               fontSize: 15,

@@ -16,7 +16,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class About extends StatelessWidget {
   About({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -29,7 +29,7 @@ class About extends StatelessWidget {
         title: Padding(
           padding: const EdgeInsets.fromLTRB(80, 0, 80, 0),
           child: Text(
-            AppLocalizations.of(context).about,
+            AppLocalizations.of(context)!.about,
             style: CustomTextStyle(
 
               fontSize: 20,
@@ -70,7 +70,7 @@ class About extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        AppLocalizations.of(context).tadawl,
+                        AppLocalizations.of(context)!.tadawl,
                         style: CustomTextStyle(
 
                           fontSize: 20,
@@ -89,7 +89,7 @@ class About extends StatelessWidget {
                       TextButton(
                         onPressed: () => directSupport(context),
                         child: Text(
-                          AppLocalizations.of(context).support,
+                          AppLocalizations.of(context)!.support,
                           style: CustomTextStyle(
 
                             fontSize: 20,
@@ -98,12 +98,12 @@ class About extends StatelessWidget {
                         ),
                       ),
                       TextButton(
+                        onPressed: () => directSupport(context),
                         child: Icon(
                           Icons.message_rounded,
                           color: Color(0xff04B404),
                           size: 40,
                         ),
-                        onPressed: () => directSupport(context),
                       ),
                     ],
                   ),
@@ -126,6 +126,7 @@ class About extends StatelessWidget {
                         ),
                       ),
                       TextButton(
+                        onPressed: launchWhatsApp,
                         child: Container(
                           width: 39.0,
                           height: 33.0,
@@ -136,7 +137,6 @@ class About extends StatelessWidget {
                             ),
                           ),
                         ),
-                        onPressed: launchWhatsApp,
                       ),
                     ],
                   ),
@@ -159,6 +159,7 @@ class About extends StatelessWidget {
                         ),
                       ),
                       TextButton(
+                        onPressed: _launchURLTwitter,
                         child: Container(
                           width: 39.0,
                           height: 33.0,
@@ -169,7 +170,6 @@ class About extends StatelessWidget {
                             ),
                           ),
                         ),
-                        onPressed: _launchURLTwitter,
                       ),
                     ],
                   ),
@@ -191,6 +191,7 @@ class About extends StatelessWidget {
                         ),
                       ),
                       TextButton(
+                        onPressed: _launchURLFacebook,
                         child: Container(
                           width: 39.0,
                           height: 39.0,
@@ -201,7 +202,6 @@ class About extends StatelessWidget {
                             ),
                           ),
                         ),
-                        onPressed: _launchURLFacebook,
                       ),
                     ],
                   ),
@@ -222,6 +222,7 @@ class About extends StatelessWidget {
                         ),
                       ),
                       TextButton(
+                        onPressed: _launchURLInstagram,
                         child: Container(
                           width: 39.0,
                           height: 39.0,
@@ -232,7 +233,6 @@ class About extends StatelessWidget {
                             ),
                           ),
                         ),
-                        onPressed: _launchURLInstagram,
                       ),
                     ],
                   ),
@@ -254,6 +254,7 @@ class About extends StatelessWidget {
                         ),
                       ),
                       TextButton(
+                        onPressed: _launchURLTadawl,
                         child: Container(
                           width: 39.0,
                           height: 39.0,
@@ -265,7 +266,6 @@ class About extends StatelessWidget {
                             ),
                           ),
                         ),
-                        onPressed: _launchURLTadawl,
                       ),
                     ],
                   ),
@@ -285,7 +285,7 @@ class About extends StatelessWidget {
                           }
                         },
                         child: Text(
-                          AppLocalizations.of(context).shareApp,
+                          AppLocalizations.of(context)!.shareApp,
                           style: CustomTextStyle(
                             fontSize: 20,
                             color: const Color(0xff04B404),
@@ -293,11 +293,6 @@ class About extends StatelessWidget {
                         ),
                       ),
                       TextButton(
-                        child: Icon(
-                          Icons.share,
-                          color: Colors.grey,
-                          size: 40,
-                        ),
                         onPressed: () {
                           if(Platform.isAndroid){
                             Share.share('https://play.google.com/store/apps/details?id=com.tadawlapp.tadawl_app');
@@ -305,6 +300,11 @@ class About extends StatelessWidget {
                             Share.share('https://apps.apple.com/sa/app/id1569963764');
                           }
                         },
+                        child: Icon(
+                          Icons.share,
+                          color: Colors.grey,
+                          size: 40,
+                        ),
                       ),
                     ],
                   ),
@@ -336,6 +336,7 @@ class About extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
+                        onPressed: _launchURLSnapchat,
                         child: Container(
                           width: 200.0,
                           height: 200.0,
@@ -349,7 +350,6 @@ class About extends StatelessWidget {
                             ),
                           ),
                         ),
-                        onPressed: _launchURLSnapchat,
                       ),
                     ],
                   ),
@@ -366,7 +366,7 @@ class About extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        AppLocalizations.of(context).directoryServices,
+                        AppLocalizations.of(context)!.directoryServices,
                         style: CustomTextStyle(
 
                           fontSize: 20,
@@ -389,7 +389,7 @@ class About extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        AppLocalizations.of(context).commonQuestions,
+                        AppLocalizations.of(context)!.commonQuestions,
                         style: CustomTextStyle(
 
                           fontSize: 20,
@@ -403,7 +403,7 @@ class About extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                   child: Text(
-                    AppLocalizations.of(context).tadawl,
+                    AppLocalizations.of(context)!.tadawl,
                     style: CustomTextStyle(
 
                       fontSize: 10,
@@ -428,7 +428,7 @@ class About extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                         child: Text(
-                          AppLocalizations.of(context).developedCompany,
+                          AppLocalizations.of(context)!.developedCompany,
                           style: CustomTextStyle(
 
                             fontSize: 13,
@@ -438,6 +438,7 @@ class About extends StatelessWidget {
                         ),
                       ),
                       TextButton(
+                        onPressed: _launchURLWebsite,
                         child: Container(
                           width: 100.0,
                           height: 30.0,
@@ -449,7 +450,6 @@ class About extends StatelessWidget {
                             ),
                           ),
                         ),
-                        onPressed: _launchURLWebsite,
                       ),
                     ],
                   ),

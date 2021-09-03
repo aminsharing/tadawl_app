@@ -6,7 +6,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class BuildFamilyPartition extends StatelessWidget {
-  const BuildFamilyPartition({Key key}) : super(key: key);
+  const BuildFamilyPartition({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class BuildFamilyPartition extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context).familyPartition,
+            AppLocalizations.of(context)!.familyPartition,
             style: CustomTextStyle(
 
               fontSize: 15,

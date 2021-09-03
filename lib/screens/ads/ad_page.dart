@@ -22,12 +22,12 @@ import 'package:tadawl_app/provider/locale_provider.dart';
 
 class AdPage extends StatelessWidget {
   AdPage({
-    Key key,
-    @required this.ads,
-    @required this.selectedScreen,
-    @required this.index,
+    Key? key,
+    required this.ads,
+    required this.selectedScreen,
+    required this.index,
   }) : super(key: key);
-  final List<AdsModel> ads;
+  final List<AdsModel?> ads;
   final SelectedScreen selectedScreen;
   final int index;
 
@@ -52,7 +52,7 @@ class AdPage extends StatelessWidget {
             centerTitle: true,
             actions: [
               if(adsPage.adsUser != null)
-                if(adsPage.adsUser.phone == locale.phone)
+                if(adsPage.adsUser!.phone == locale.phone)
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: PopupMenuButton<String>(
@@ -125,7 +125,7 @@ class AdPage extends StatelessWidget {
                           AdDescriptionWidget(),
 // end description ...................
 //  avatar .............
-                          AvatarWidgetHelper(phone: adsPage.adsPage.phone_faved_user,),
+                          AvatarWidgetHelper(phone: adsPage.adsPage!.phone_faved_user,),
 // end avatar .............
 //  statistics ads ........................
                           AdStatisticsWidget(),
@@ -177,12 +177,12 @@ class AdPage extends StatelessWidget {
                         if (ads.isNotEmpty)
                           Row(
                             mainAxisAlignment:
-                            adsPage.idDescription == ads.first.idDescription ?
+                            adsPage.idDescription == ads.first!.idDescription ?
                             MainAxisAlignment.end :MainAxisAlignment.spaceBetween,
                             children: [
                               for (var i = 0; i < ads.length; i++)
-                                if (ads[i].idDescription == adsPage.idDescription &&
-                                    ads[i].idDescription != ads.first.idDescription)
+                                if (ads[i]!.idDescription == adsPage.idDescription &&
+                                    ads[i]!.idDescription != ads.first!.idDescription)
                                   Container(
                                     width: 50.0,
                                     child: InkWell(
@@ -225,8 +225,8 @@ class AdPage extends StatelessWidget {
                                     ),
                                   ),
                               for (var i = 0; i < ads.length; i++)
-                                if (ads[i].idDescription == adsPage.idDescription &&
-                                    ads[i].idDescription != ads.last.idDescription)
+                                if (ads[i]!.idDescription == adsPage.idDescription &&
+                                    ads[i]!.idDescription != ads.last!.idDescription)
                                   Container(
                                     width: 50.0,
                                     child: InkWell(

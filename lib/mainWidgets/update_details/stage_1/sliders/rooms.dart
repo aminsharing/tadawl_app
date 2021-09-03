@@ -5,7 +5,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
 
 class Rooms extends StatelessWidget {
-  const Rooms({Key key}) : super(key: key);
+  const Rooms({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class Rooms extends StatelessWidget {
               MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context).rooms,
+                  AppLocalizations.of(context)!.rooms,
                   style: CustomTextStyle(
 
                     fontSize: 15,
@@ -28,7 +28,7 @@ class Rooms extends StatelessWidget {
                   ).getTextStyle(),
                   textAlign: TextAlign.center,
                 ),
-                if (updateDetails.RoomsUpdate > 5)
+                if (updateDetails.RoomsUpdate! > 5)
                   Text(
                     '+5',
                     style: CustomTextStyle(
@@ -39,7 +39,7 @@ class Rooms extends StatelessWidget {
                   )
                 else
                   Text(
-                    updateDetails.RoomsUpdate.floor()
+                    updateDetails.RoomsUpdate!.floor()
                         .toString(),
                     style: CustomTextStyle(
 
@@ -53,11 +53,11 @@ class Rooms extends StatelessWidget {
           ),
           Slider(
             activeColor: const Color(0xff04B404),
-            value: updateDetails.RoomsUpdate,
+            value: updateDetails.RoomsUpdate!,
             min: 0,
             max: 5,
             divisions: 5,
-            label: updateDetails.RoomsUpdate.floor()
+            label: updateDetails.RoomsUpdate!.floor()
                 .toString(),
             onChanged: (double value) {
               updateDetails.setRoomsUpdate(value);

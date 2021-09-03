@@ -7,7 +7,7 @@ import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 class BuildFloor extends StatelessWidget {
-  const BuildFloor({Key key}) : super(key: key);
+  const BuildFloor({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class BuildFloor extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              AppLocalizations.of(context).floor,
+              AppLocalizations.of(context)!.floor,
               style: CustomTextStyle(
 
                 fontSize: 10,
@@ -45,7 +45,7 @@ class BuildFloor extends StatelessWidget {
                     child: Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
                       return DropdownButton<String>(
                         hint: Text(
-                          AppLocalizations.of(context).floor,
+                          AppLocalizations.of(context)!.floor,
                           style: CustomTextStyle(
 
                             fontSize: 15,
@@ -54,7 +54,7 @@ class BuildFloor extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                         value: searchDrawer.floorSelectedSearchDrawer ?? '0',
-                        onChanged: (String newValue) {
+                        onChanged: (String? newValue) {
                           searchDrawer.setFloorSearchDrawer(newValue);
                         },
                         items:

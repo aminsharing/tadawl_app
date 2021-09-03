@@ -10,9 +10,9 @@ class SearchOnMapProvider extends ChangeNotifier{
 
   //Variables
   final TextEditingController locationController = TextEditingController();
-  List<PlaceSearch> searchResults;
-  StreamController<Place> selectedLocation = StreamController<Place>();
-  Place selectedLocationStatic;
+  List<PlaceSearch>? searchResults;
+  StreamController<Place?> selectedLocation = StreamController<Place?>();
+  Place? selectedLocationStatic;
 
 
   Future searchPlaces(String searchTerm) async {
@@ -21,7 +21,7 @@ class SearchOnMapProvider extends ChangeNotifier{
   }
 
 
-  Future setSelectedLocation(String placeId) async {
+  Future setSelectedLocation(String? placeId) async {
     var sLocation = await placesService.getPlace(placeId);
     selectedLocation.add(sLocation);
     selectedLocationStatic = sLocation;

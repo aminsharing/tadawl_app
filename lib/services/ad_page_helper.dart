@@ -7,12 +7,12 @@ import 'package:tadawl_app/screens/ads/ad_page.dart';
 
 class AdPageHelper extends StatelessWidget {
   const AdPageHelper({
-    Key key,
-    @required this.ads,
-    @required this.index,
+    Key? key,
+    required this.ads,
+    required this.index,
   }) : super(key: key);
-  final List<AdsModel> ads;
-  final int index;
+  final List<AdsModel?> ads;
+  final int? index;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +20,11 @@ class AdPageHelper extends StatelessWidget {
       create: (_) => AdPageHelperProvider(),
       builder: (context, _){
         return PageView.builder(
-          controller: Provider.of<AdPageHelperProvider>(context, listen: false).setControllerIndex(index),
+          controller: Provider.of<AdPageHelperProvider>(context, listen: false).setControllerIndex(index!),
           itemCount: ads.length,
           itemBuilder: (context, i){
             return ChangeNotifierProvider<AdPageProvider>(
-              create: (_) => AdPageProvider(context, ads[i].idDescription, ads[i].idCategory),
+              create: (_) => AdPageProvider(context, ads[i]!.idDescription, ads[i]!.idCategory),
               child: AdPage(ads: ads, selectedScreen: SelectedScreen.menu, index: i),
             );
           },

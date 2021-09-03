@@ -6,7 +6,7 @@ import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 
 class BuildRooms extends StatelessWidget {
-  const BuildRooms({Key key}) : super(key: key);
+  const BuildRooms({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,52 +17,6 @@ class BuildRooms extends StatelessWidget {
         children: [
           Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
             return ToggleButtons(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: Text(
-                    AppLocalizations.of(context).moreRooms,
-                    style: CustomTextStyle(
-
-                      fontSize: 10,
-                    ).getTextStyle(),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: Text(
-                    AppLocalizations.of(context).fourRooms,
-                    style: CustomTextStyle(
-
-                      fontSize: 10,
-                    ).getTextStyle(),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: Text(
-                    AppLocalizations.of(context).threeRooms,
-                    style: CustomTextStyle(
-
-                      fontSize: 10,
-                    ).getTextStyle(),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: Text(
-                    AppLocalizations.of(context).twoRooms,
-                    style: CustomTextStyle(
-
-                      fontSize: 10,
-                    ).getTextStyle(),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
               onPressed: (int index) {
                 searchDrawer.setRoomsSearchDrawer(index);
               },
@@ -73,6 +27,52 @@ class BuildRooms extends StatelessWidget {
               borderColor: const Color(0xff00cccc),
               selectedBorderColor: const Color(0xff00cccc),
               borderWidth: 1,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: Text(
+                    AppLocalizations.of(context)!.moreRooms,
+                    style: CustomTextStyle(
+
+                      fontSize: 10,
+                    ).getTextStyle(),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: Text(
+                    AppLocalizations.of(context)!.fourRooms,
+                    style: CustomTextStyle(
+
+                      fontSize: 10,
+                    ).getTextStyle(),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: Text(
+                    AppLocalizations.of(context)!.threeRooms,
+                    style: CustomTextStyle(
+
+                      fontSize: 10,
+                    ).getTextStyle(),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: Text(
+                    AppLocalizations.of(context)!.twoRooms,
+                    style: CustomTextStyle(
+
+                      fontSize: 10,
+                    ).getTextStyle(),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
             );
           }),
         ],

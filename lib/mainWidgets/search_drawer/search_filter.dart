@@ -27,7 +27,7 @@ import 'choose_category/selected_category_9.dart';
 
 
 class SearchFilter extends StatelessWidget {
-  const SearchFilter({Key key}) : super(key: key);
+  const SearchFilter({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

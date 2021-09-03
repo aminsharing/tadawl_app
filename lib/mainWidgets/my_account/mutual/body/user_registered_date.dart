@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 
 class UserRegisteredDate extends StatelessWidget {
-  const UserRegisteredDate({Key key, @required this.timeRegistered}) : super(key: key);
-  final String timeRegistered;
+  const UserRegisteredDate({Key? key, required this.timeRegistered}) : super(key: key);
+  final String? timeRegistered;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class UserRegisteredDate extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(
               5, 0, 15, 0),
           child: Text(
-            AppLocalizations.of(context)
+            AppLocalizations.of(context)!
                 .registered,
             style: CustomTextStyle(
               fontSize: 15,
@@ -31,7 +31,7 @@ class UserRegisteredDate extends StatelessWidget {
               15, 0, 15, 0),
           child: Text(
             DateFormat('yyyy-MM-dd').format(
-                DateTime.parse(timeRegistered)),
+                DateTime.parse(timeRegistered!)),
             style: CustomTextStyle(
               fontSize: 15,
               color: const Color(0xff989696),

@@ -5,10 +5,10 @@ import 'package:tadawl_app/provider/user_provider/change_pass_provider.dart';
 
 class VerifyAccount extends StatelessWidget {
   VerifyAccount({
-    Key key,
-    @required this.currentPhone,
+    Key? key,
+    required this.currentPhone,
   }) : super(key: key);
-  final String currentPhone;
+  final String? currentPhone;
   final ChangePassProvider changePassProvider = ChangePassProvider();
 
   @override

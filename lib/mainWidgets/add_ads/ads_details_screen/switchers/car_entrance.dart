@@ -7,7 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class CarEntrance extends StatelessWidget {
-  const CarEntrance({Key key}) : super(key: key);
+  const CarEntrance({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class CarEntrance extends StatelessWidget {
         MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context).carEntrance,
+            AppLocalizations.of(context)!.carEntrance,
             style: CustomTextStyle(
 
               fontSize: 15,

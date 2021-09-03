@@ -8,12 +8,12 @@ import 'package:tadawl_app/provider/ads_provider/adv_fee_provider.dart';
 
 class PaymentOfFees extends StatelessWidget {
   PaymentOfFees({
-    Key key,
-    @required this.price,
-    @required this.type
+    Key? key,
+    required this.price,
+    required this.type
   }) : super(key: key);
-  final String price;
-  final String type;
+  final String? price;
+  final String? type;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class PaymentOfFees extends StatelessWidget {
             ),
           ),
           title: Text(
-            AppLocalizations.of(context).payFees,
+            AppLocalizations.of(context)!.payFees,
             style: CustomTextStyle(
               fontSize: 20,
               color: const Color(0xffffffff),
@@ -75,28 +75,6 @@ class PaymentOfFees extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: ToggleButtons(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Text(
-                                AppLocalizations.of(context).transferBank,
-                                style: CustomTextStyle(
-                                  fontSize: 15,
-                                ).getTextStyle(),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Text(
-                                AppLocalizations.of(context).onlinePay,
-                                style: CustomTextStyle(
-                                  fontSize: 15,
-                                ).getTextStyle(),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
                           onPressed: (int index) {
                             payFee.updateSelected3(index);
                           },
@@ -108,6 +86,28 @@ class PaymentOfFees extends StatelessWidget {
                           borderWidth: 2,
                           borderColor: const Color(0xff3f9d28),
                           selectedBorderColor: const Color(0xff3f9d28),
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text(
+                                AppLocalizations.of(context)!.transferBank,
+                                style: CustomTextStyle(
+                                  fontSize: 15,
+                                ).getTextStyle(),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text(
+                                AppLocalizations.of(context)!.onlinePay,
+                                style: CustomTextStyle(
+                                  fontSize: 15,
+                                ).getTextStyle(),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],

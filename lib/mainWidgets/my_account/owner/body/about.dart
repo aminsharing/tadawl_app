@@ -4,7 +4,7 @@ import 'package:tadawl_app/mainWidgets/my_account/mutual/body/user_about.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 
 class About extends StatelessWidget {
-  const About({Key key}) : super(key: key);
+  const About({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class About extends StatelessWidget {
             ?
         Center(child: CircularProgressIndicator(),)
             :
-          UserAbout(about: userMutual.users.about,);
+          UserAbout(about: userMutual.users!.about,);
       }),
     );
   }

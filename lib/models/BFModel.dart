@@ -1,10 +1,10 @@
 class BFModel {
-  String id_BF_aqar;
-  String state;
-  String id_description;
-  String id_BFAT;
-  String title;
-  String eng_title;
+  String? id_BF_aqar;
+  String? state;
+  String? id_description;
+  String? id_BFAT;
+  String? title;
+  String? eng_title;
   // ignore: sort_constructors_first
   BFModel({
     this.id_BF_aqar,

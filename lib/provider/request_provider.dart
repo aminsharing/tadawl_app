@@ -14,17 +14,17 @@ class RequestProvider extends ChangeNotifier {
   }
 
   final List<RequestModel> _requests = [];
-  List __requestsData = [];
+  List? __requestsData = [];
 
 
-  void getUserRequestsList(String Phone) {
+  void getUserRequestsList(String? Phone) {
     Future.delayed(Duration(milliseconds: 0), () {
       if (_requests.isEmpty) {
         ApiRequests()
             .getUserRequestsListFunc(Phone)
             .then((value) {
           __requestsData = value;
-          __requestsData.forEach((element) {
+          __requestsData!.forEach((element) {
             _requests.add(RequestModel.fromJson(element));
           });
         });
@@ -34,7 +34,7 @@ class RequestProvider extends ChangeNotifier {
             .then((value) {
           __requestsData = value;
           _requests.clear();
-          __requestsData.forEach((element) {
+          __requestsData!.forEach((element) {
             _requests.add(RequestModel.fromJson(element));
           });
         });

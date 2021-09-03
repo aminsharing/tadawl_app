@@ -5,7 +5,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
 
 class Lounges extends StatelessWidget {
-  const Lounges({Key key}) : super(key: key);
+  const Lounges({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class Lounges extends StatelessWidget {
               MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context).lounges,
+                  AppLocalizations.of(context)!.lounges,
                   style: CustomTextStyle(
 
                     fontSize: 15,
@@ -28,7 +28,7 @@ class Lounges extends StatelessWidget {
                   ).getTextStyle(),
                   textAlign: TextAlign.center,
                 ),
-                if (updateDetails.LoungesUpdateUpdate > 5)
+                if (updateDetails.LoungesUpdateUpdate! > 5)
                   Text(
                     '+5',
                     style: CustomTextStyle(
@@ -39,7 +39,7 @@ class Lounges extends StatelessWidget {
                   )
                 else
                   Text(
-                    updateDetails.LoungesUpdateUpdate
+                    updateDetails.LoungesUpdateUpdate!
                         .floor()
                         .toString(),
                     style: CustomTextStyle(
@@ -54,11 +54,11 @@ class Lounges extends StatelessWidget {
           ),
           Slider(
             activeColor: const Color(0xff04B404),
-            value: updateDetails.LoungesUpdateUpdate,
+            value: updateDetails.LoungesUpdateUpdate!,
             min: 0,
             max: 5,
             divisions: 5,
-            label: updateDetails.LoungesUpdateUpdate.floor()
+            label: updateDetails.LoungesUpdateUpdate!.floor()
                 .toString(),
             onChanged: (double value) {
               updateDetails.setLoungesUpdate(value);

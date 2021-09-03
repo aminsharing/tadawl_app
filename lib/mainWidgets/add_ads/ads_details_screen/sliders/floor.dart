@@ -5,7 +5,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 
 class Floor extends StatelessWidget {
-  const Floor({Key key}) : super(key: key);
+  const Floor({Key? key}) : super(key: key);
 
 
   @override
@@ -21,7 +21,7 @@ class Floor extends StatelessWidget {
               MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context).floor,
+                  AppLocalizations.of(context)!.floor,
                   style: CustomTextStyle(
 
                     fontSize: 15,
@@ -31,7 +31,7 @@ class Floor extends StatelessWidget {
                 ),
                 if (addAd.FloorAddAds == 0)
                   Text(
-                    AppLocalizations.of(context).undefined,
+                    AppLocalizations.of(context)!.undefined,
                     style: CustomTextStyle(
 
                       fontSize: 15,
@@ -41,7 +41,7 @@ class Floor extends StatelessWidget {
                   )
                 else if (addAd.FloorAddAds == 1)
                   Text(
-                    AppLocalizations.of(context)
+                    AppLocalizations.of(context)!
                         .groundFloor,
                     style: CustomTextStyle(
 
@@ -52,7 +52,7 @@ class Floor extends StatelessWidget {
                   )
                 else if (addAd.FloorAddAds == 2)
                     Text(
-                      AppLocalizations.of(context).first,
+                      AppLocalizations.of(context)!.first,
                       style: CustomTextStyle(
 
                         fontSize: 15,

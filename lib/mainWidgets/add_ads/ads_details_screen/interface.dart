@@ -7,7 +7,7 @@ import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 class Interface extends StatelessWidget {
-  const Interface({Key key}) : super(key: key);
+  const Interface({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class Interface extends StatelessWidget {
               MainAxisAlignment.start,
               children: [
                 Text(
-                  AppLocalizations.of(context).interface,
+                  AppLocalizations.of(context)!.interface,
                   style: CustomTextStyle(
                     fontSize: 15,
                     color: const Color(0xff000000),
@@ -51,7 +51,7 @@ class Interface extends StatelessWidget {
                 child: Consumer<AddAdProvider>(builder: (context, addAd, _) {
                   return DropdownButton<String>(
                     hint: Text(
-                      AppLocalizations.of(context).interface,
+                      AppLocalizations.of(context)!.interface,
                       style: CustomTextStyle(
                         fontSize: 15,
                         color: const Color(0xff989696),
@@ -59,7 +59,7 @@ class Interface extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     value: addAd.interfaceSelectedAddAds,
-                    onChanged: (String newValue) {
+                    onChanged: (String? newValue) {
                       addAd.setInterfaceSelectedAddAds(newValue);
                     },
                     items: (_lang != 'en_US'?InterfaceCons:EnInterfaceCons).map(

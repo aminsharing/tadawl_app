@@ -7,7 +7,7 @@ import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 class BuildStores extends StatelessWidget {
-  const BuildStores({Key key}) : super(key: key);
+  const BuildStores({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class BuildStores extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              AppLocalizations.of(context).stores,
+              AppLocalizations.of(context)!.stores,
               style: CustomTextStyle(
 
                 fontSize: 10,
@@ -45,7 +45,7 @@ class BuildStores extends StatelessWidget {
                     child: Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
                       return DropdownButton<String>(
                         hint: Text(
-                          AppLocalizations.of(context).stores,
+                          AppLocalizations.of(context)!.stores,
                           style: CustomTextStyle(
 
                             fontSize: 15,
@@ -54,7 +54,7 @@ class BuildStores extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                         value: searchDrawer.storesSelectedSearchDrawer ?? '0',
-                        onChanged: (String newValue) {
+                        onChanged: (String? newValue) {
                           searchDrawer.setStoresSearchDrawer(newValue);
                         },
                         items:

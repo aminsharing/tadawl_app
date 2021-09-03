@@ -7,7 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CouponRequest extends StatelessWidget {
   CouponRequest({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   void launchWhatsApp() async {
@@ -40,7 +40,7 @@ class CouponRequest extends StatelessWidget {
           ),
         ),
         title: Text(
-          AppLocalizations.of(context).couponRequests,
+          AppLocalizations.of(context)!.couponRequests,
           style: CustomTextStyle(
             fontSize: 20,
             color: const Color(0xffffffff),
@@ -61,7 +61,7 @@ class CouponRequest extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: Text(
-                      AppLocalizations.of(context).couponDesc,
+                      AppLocalizations.of(context)!.couponDesc,
                       style: CustomTextStyle(
                         fontSize: 15,
                         color: const Color(0xff000000),
@@ -75,7 +75,7 @@ class CouponRequest extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          AppLocalizations.of(context).watsappUs,
+                          AppLocalizations.of(context)!.watsappUs,
                           style: CustomTextStyle(
                             fontSize: 15,
                             color: const Color(0xff000000),
@@ -125,7 +125,7 @@ class CouponRequest extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.center,
                           child: Text(
-                            AppLocalizations.of(context).contactUs,
+                            AppLocalizations.of(context)!.contactUs,
                             style: CustomTextStyle(
 
                               fontSize: 20,

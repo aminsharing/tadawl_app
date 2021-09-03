@@ -1,10 +1,9 @@
+import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/rendering.dart';
-import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/Gist.dart';
@@ -29,7 +28,7 @@ class OfficeMarkerProvider extends ChangeNotifier{
   void dispose(){
     super.dispose();
     print('dispose OfficeMarkerProvider');
-    _entry.remove();
+    _entry!.remove();
     _entry = null;
     _markers.clear();
     // _officesList.clear();
@@ -37,7 +36,7 @@ class OfficeMarkerProvider extends ChangeNotifier{
 
   var _markers = <Marker>[];
   final List<OfficeModel> _officesList = [];
-  OverlayEntry _entry;
+  OverlayEntry? _entry;
 
 
 
@@ -102,8 +101,8 @@ class OfficeMarkerProvider extends ChangeNotifier{
         // ignore: unrelated_type_equality_checks
         markersList.add(Marker(
             markerId: MarkerId('${office.office_name ?? ""}'),
-            position: LatLng(double.parse(office.office_lat),
-                double.parse(office.office_lng)),
+            position: LatLng(double.parse(office.office_lat!),
+                double.parse(office.office_lng!)),
             onTap: () {
               final locale = Provider.of<LocaleProvider>(context, listen: false);
               // ignore: omit_local_variable_types
@@ -126,7 +125,7 @@ class OfficeMarkerProvider extends ChangeNotifier{
     Future.delayed(Duration(milliseconds: 0), () {
       _entry = OverlayEntry(
           builder: (context) {
-            return _MarkerHelper(
+            return MarkerHelper(
               markerWidgets: markerWidgets(),
               callback: (bitmaps) {
                 _markers = mapBitmapsToMarkers(bitmaps);
@@ -141,6 +140,7 @@ class OfficeMarkerProvider extends ChangeNotifier{
   }
 
   Future aO() async {
+    // ignore: omit_local_variable_types
     List<dynamic> value = await Api().getsOfficeFunc();
     _officesList.clear();
     value.forEach((element) {
@@ -161,67 +161,68 @@ class OfficeMarkerProvider extends ChangeNotifier{
 }
 
 
-class _MarkerHelper extends StatefulWidget {
-  final List<Widget> markerWidgets;
-  final Function(List<Uint8List>) callback;
-  // ignore: sort_constructors_first
-  const _MarkerHelper({Key key, this.markerWidgets, this.callback})
-      : super(key: key);
-  @override
-  _MarkerHelperState createState() => _MarkerHelperState();
-}
-
-class _MarkerHelperState extends State<_MarkerHelper> with AfterLayoutMixin {
-  List<GlobalKey> globalKeys = <GlobalKey>[];
-  @override
-  void afterFirstLayout(BuildContext context) {
-    _getBitmaps(context).then((list) {
-      widget.callback(list);
-    });
-  }
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Transform.translate(
-      offset: Offset(MediaQuery.of(context).size.width, 0),
-      child: Material(
-        type: MaterialType.transparency,
-        child: Stack(
-          children: widget.markerWidgets.map((i) {
-            final markerKey = GlobalKey();
-            globalKeys.add(markerKey);
-            return RepaintBoundary(
-              key: markerKey,
-              child: i,
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
-
-  Future<List<Uint8List>> _getBitmaps(BuildContext context) async {
-    var futures = globalKeys.map((key) => _getUint8List(key));
-    return Future.wait(futures);
-  }
-
-  Future<Uint8List> _getUint8List(GlobalKey markerKey) async {
-    RenderRepaintBoundary boundary =
-    markerKey.currentContext.findRenderObject();
-    var image = await boundary.toImage(pixelRatio: 2.0);
-    var byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    return byteData.buffer.asUint8List();
-  }
-}
-
-mixin AfterLayoutMixin<T extends StatefulWidget> on State<T> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => afterFirstLayout(context));
-  }
-
-  void afterFirstLayout(BuildContext context);
-}
+// class _MarkerHelper extends StatefulWidget {
+//   final List<Widget>? markerWidgets;
+//   final Function(List<Uint8List>)? callback;
+//   // ignore: sort_constructors_first
+//   const _MarkerHelper({Key? key, this.markerWidgets, this.callback})
+//       : super(key: key);
+//   @override
+//   _MarkerHelperState createState() => _MarkerHelperState();
+// }
+//
+// class _MarkerHelperState extends State<_MarkerHelper> with AfterLayoutMixin {
+//   List<GlobalKey> globalKeys = <GlobalKey>[];
+//   @override
+//   void afterFirstLayout(BuildContext context) {
+//     _getBitmaps(context).then((list) {
+//       widget.callback!(list);
+//     });
+//   }
+//
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Transform.translate(
+//       offset: Offset(MediaQuery.of(context).size.width, 0),
+//       child: Material(
+//         type: MaterialType.transparency,
+//         child: Stack(
+//           children: widget.markerWidgets!.map((i) {
+//             final markerKey = GlobalKey();
+//             globalKeys.add(markerKey);
+//             return RepaintBoundary(
+//               key: markerKey,
+//               child: i,
+//             );
+//           }).toList(),
+//         ),
+//       ),
+//     );
+//   }
+//
+//   Future<List<Uint8List>> _getBitmaps(BuildContext context) async {
+//     var futures = globalKeys.map((key) => _getUint8List(key));
+//     return Future.wait(futures);
+//   }
+//
+//   Future<Uint8List> _getUint8List(GlobalKey markerKey) async {
+//     // ignore: omit_local_variable_types
+//     RenderRepaintBoundary boundary =
+//     markerKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+//     var image = await boundary.toImage(pixelRatio: 2.0);
+//     var byteData = await (image.toByteData(format: ui.ImageByteFormat.png) as FutureOr<ByteData>);
+//     return byteData.buffer.asUint8List();
+//   }
+// }
+//
+// mixin AfterLayoutMixin<T extends StatefulWidget> on State<T> {
+//   @override
+//   void initState() {
+//     super.initState();
+//     WidgetsBinding.instance!
+//         .addPostFrameCallback((_) => afterFirstLayout(context));
+//   }
+//
+//   void afterFirstLayout(BuildContext context);
+// }

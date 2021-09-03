@@ -7,8 +7,8 @@ import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class SearchButton extends StatelessWidget {
   const SearchButton({
-    Key key,
-    @required this.selectedPage
+    Key? key,
+    required this.selectedPage
   }) : super(key: key);
   final SelectedPage selectedPage;
 
@@ -45,7 +45,7 @@ class SearchButton extends StatelessWidget {
                   children: [
                     Center(
                       child: Text(
-                        AppLocalizations.of(context).search,
+                        AppLocalizations.of(context)!.search,
                         style: CustomTextStyle(
                           fontSize: 20,
                           color: const Color(0xff04B404),
@@ -55,9 +55,9 @@ class SearchButton extends StatelessWidget {
                     ),
                     Center(
                       child: Text(
-                        ' ${AppLocalizations.of(context).search}  ${
+                        ' ${AppLocalizations.of(context)!.search}  ${
                             (selectedPage == SelectedPage.mainPage ? searchDrawer.mainAdsCount : searchDrawer.menuAdsCount)??''
-                        }  ${AppLocalizations.of(context).advertisement}  ',
+                        }  ${AppLocalizations.of(context)!.advertisement}  ',
                         style: CustomTextStyle(
                           fontSize: 12,
                           color: const Color(0xff1f2835),

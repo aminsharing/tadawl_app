@@ -12,7 +12,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DiscussionList extends StatelessWidget {
   DiscussionList({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
 
@@ -38,7 +38,7 @@ class DiscussionList extends StatelessWidget {
               backgroundColor: const Color(0xff3d4653),
               leading: Container(),
               title: Text(
-                AppLocalizations.of(context).messages,
+                AppLocalizations.of(context)!.messages,
                 style: CustomTextStyle(
                   fontSize: 20,
                   color: const Color(0xffffffff),
@@ -47,11 +47,6 @@ class DiscussionList extends StatelessWidget {
               ),
               actions: [
                 TextButton(
-                  child: Icon(
-                    Icons.edit,
-                    color: const Color(0xff04B404),
-                    size: 40,
-                  ),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -64,6 +59,11 @@ class DiscussionList extends StatelessWidget {
                       ),
                     );
                   },
+                  child: Icon(
+                    Icons.edit,
+                    color: const Color(0xff04B404),
+                    size: 40,
+                  ),
                 ),
               ],
             ),
@@ -113,7 +113,7 @@ class DiscussionList extends StatelessWidget {
                   ?
               Center(
                 child: Text(
-                  AppLocalizations.of(context).noMessages,
+                  AppLocalizations.of(context)!.noMessages,
                   style: CustomTextStyle(
                     fontSize: 15,
                     color: Color(0xff848282),

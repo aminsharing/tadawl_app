@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/provider/ads_provider/adv_fee_provider.dart';
 
 class SelectedNav2 extends StatelessWidget {
-  const SelectedNav2({Key key, @required this.advFeeProvider}) : super(key: key);
+  const SelectedNav2({Key? key, required this.advFeeProvider}) : super(key: key);
   final AdvFeeProvider advFeeProvider;
 
   @override
@@ -24,7 +24,7 @@ class SelectedNav2 extends StatelessWidget {
               type: 'العقد التجاري',
               cardType: CardType.small,
               title: AppLocalizations
-                  .of(context)
+                  .of(context)!
                   .commercialContract,
             advFeeProvider: advFeeProvider,
           ),
@@ -33,7 +33,7 @@ class SelectedNav2 extends StatelessWidget {
               type: 'العقد السكني',
               cardType: CardType.small,
               title: AppLocalizations
-                  .of(context)
+                  .of(context)!
                   .housingContract,
             advFeeProvider: advFeeProvider,
           ),

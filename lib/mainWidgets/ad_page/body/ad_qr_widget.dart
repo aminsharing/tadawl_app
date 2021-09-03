@@ -7,7 +7,7 @@ import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AdQRWidget extends StatelessWidget {
-  AdQRWidget({Key key}) : super(key: key);
+  AdQRWidget({Key? key}) : super(key: key);
 
 
 
@@ -17,7 +17,7 @@ class AdQRWidget extends StatelessWidget {
     
     return Consumer<AdPageProvider>(builder: (context, adsPage, child) {
       void _launchQRLink() async {
-        await adsPage.stopVideoAdsPage();
+        adsPage.stopVideoAdsPage();
         var url = '${adsPage.qrData}';
         await launch(url);
         // if (await canLaunch(url)) {
@@ -84,15 +84,15 @@ class AdQRWidget extends StatelessWidget {
                 Flexible(
                   flex: 2,
                   child: TextButton(
+                    onPressed: () {
+                      adsPage.stopVideoAdsPage();
+                      Share.share('${adsPage.qrData}');
+                    },
                     child: Icon(
                       Icons.share,
                       color: Colors.grey,
                       size: 40,
                     ),
-                    onPressed: () {
-                      adsPage.stopVideoAdsPage();
-                      Share.share('${adsPage.qrData}');
-                    },
                   ),
                 ),
               ],

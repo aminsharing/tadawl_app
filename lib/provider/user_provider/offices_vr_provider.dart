@@ -24,23 +24,23 @@ class OfficesVRProvider extends ChangeNotifier{
   }
 
   int _currentStageOfficeVR = 0;
-  File _imageOfficeVR;
-  int _buttonClicked;
-  String _CRNumber, _officeName;
+  File? _imageOfficeVR;
+  int? _buttonClicked;
+  String? _CRNumber, _officeName;
   final _picker = ImagePicker();
 
   final Set<Marker> _markersOfficesVR = {};
-  BitmapDescriptor _mapMarker;
-  double _office_cordinates_lat;
-  double _office_cordinates_lng;
-  LatLng _office_cordinates;
+  BitmapDescriptor? _mapMarker;
+  double? _office_cordinates_lat;
+  double? _office_cordinates_lng;
+  LatLng? _office_cordinates;
   final Location _location = Location();
-  LatLng _initialCameraPosition;
-  double _zoom;
-  bool _serviceEnabled;
-  PermissionStatus _permissionGranted;
+  LatLng? _initialCameraPosition;
+  double? _zoom;
+  bool? _serviceEnabled;
+  PermissionStatus? _permissionGranted;
 
-  void setButtonClicked(int state) {
+  void setButtonClicked(int? state) {
     _buttonClicked = state;
     notifyListeners();
   }
@@ -61,7 +61,7 @@ class OfficesVRProvider extends ChangeNotifier{
   }
 
   Future<void> getImageOfficesVR() async {
-    final _pickedFile = await _picker.getImage(
+    final _pickedFile = await _picker.pickImage(
       source: ImageSource.gallery,
       imageQuality: 50,
     );
@@ -73,15 +73,15 @@ class OfficesVRProvider extends ChangeNotifier{
 
   Future<void> sendOfficesVRInfo(
       BuildContext context,
-      String phone,
-      String CRNumber,
-      String officeName,
+      String? phone,
+      String? CRNumber,
+      String? officeName,
       String office_cordinates_lat,
       String office_cordinates_lng,
-      File image) async {
+      File? image) async {
     Future.delayed(Duration(milliseconds: 0), () {
-      Api().sendOfficesVRInfo(phone, CRNumber, officeName,
-          office_cordinates_lat, office_cordinates_lng, image);
+      Api().sendOfficesVRInfo(phone!, CRNumber!, officeName!,
+          office_cordinates_lat, office_cordinates_lng, image!);
     });
 
     // var userMutual = Provider.of<UserMutualProvider>(context, listen: false);
@@ -109,14 +109,14 @@ class OfficesVRProvider extends ChangeNotifier{
       _markersOfficesVR.add(Marker(
         markerId: MarkerId(position.target.toString()),
         position: position.target,
-        icon: mapMarker,
+        icon: mapMarker!,
       ));
     } else {
       _markersOfficesVR.clear();
       _markersOfficesVR.add(Marker(
         markerId: MarkerId(position.target.toString()),
         position: position.target,
-        icon: mapMarker,
+        icon: mapMarker!,
       ));
     }
     _office_cordinates = position.target;
@@ -134,7 +134,7 @@ class OfficesVRProvider extends ChangeNotifier{
     if(_permissionGranted == PermissionStatus.granted){
       if(_serviceEnabled?? false){
         await _location.getLocation().then((LocationData location) async{
-          _initialCameraPosition = LatLng(location.latitude, location.longitude);
+          _initialCameraPosition = LatLng(location.latitude!, location.longitude!);
           _zoom = 17;
           notifyListeners();
         });
@@ -166,16 +166,16 @@ class OfficesVRProvider extends ChangeNotifier{
 
 
   Set<Marker> get markersOfficesVR => _markersOfficesVR;
-  BitmapDescriptor get mapMarker => _mapMarker;
-  double get office_cordinates_lat => _office_cordinates_lat;
-  double get office_cordinates_lng => _office_cordinates_lng;
-  LatLng get office_cordinates => _office_cordinates;
-  LatLng get initialCameraPosition => _initialCameraPosition;
-  double get zoom => _zoom;
+  BitmapDescriptor? get mapMarker => _mapMarker;
+  double? get office_cordinates_lat => _office_cordinates_lat;
+  double? get office_cordinates_lng => _office_cordinates_lng;
+  LatLng? get office_cordinates => _office_cordinates;
+  LatLng? get initialCameraPosition => _initialCameraPosition;
+  double? get zoom => _zoom;
 
   int get currentStageOfficeVR => _currentStageOfficeVR;
-  File get imageOfficeVR => _imageOfficeVR;
-  int get buttonClicked => _buttonClicked;
-  String get CRNumber => _CRNumber;
-  String get officeName => _officeName;
+  File? get imageOfficeVR => _imageOfficeVR;
+  int? get buttonClicked => _buttonClicked;
+  String? get CRNumber => _CRNumber;
+  String? get officeName => _officeName;
 }

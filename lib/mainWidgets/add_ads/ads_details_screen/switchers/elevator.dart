@@ -6,7 +6,7 @@ import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Elevator extends StatelessWidget {
-  const Elevator({Key key}) : super(key: key);
+  const Elevator({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class Elevator extends StatelessWidget {
         MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context).elevator,
+            AppLocalizations.of(context)!.elevator,
             style: CustomTextStyle(
 
               fontSize: 15,

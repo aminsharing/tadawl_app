@@ -5,10 +5,10 @@ import 'package:tadawl_app/models/OfficeModel.dart';
 
 class MyDocuments extends StatelessWidget {
   const MyDocuments({
-    Key key,
-    @required this.office,
+    Key? key,
+    required this.office,
   }) : super(key: key);
-  final OfficeModel office;
+  final OfficeModel? office;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class MyDocuments extends StatelessWidget {
         ),
         leadingWidth: 70.0,
         title: Text(
-            "مستنداتي",
+            'مستنداتي',
           style: CustomTextStyle(
 
           ).getTextStyle(),
@@ -44,7 +44,7 @@ class MyDocuments extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "وئائق المكتب",
+                'وئائق المكتب',
                 style: CustomTextStyle().getTextStyle(),
               ),
               Container(
@@ -56,7 +56,7 @@ class MyDocuments extends StatelessWidget {
                     width: 1.0,
                   ),
                   image: DecorationImage(
-                    image: CachedNetworkImageProvider('https://tadawl-store.com/API/assets/images/offices/${office.sejel_image}'),
+                    image: CachedNetworkImageProvider('https://tadawl-store.com/API/assets/images/offices/${office!.sejel_image}'),
                     fit: BoxFit.contain
                   )
                 ),

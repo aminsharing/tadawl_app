@@ -10,7 +10,7 @@ import 'package:tadawl_app/screens/account/login.dart';
 import 'package:tadawl_app/screens/account/transfer_form.dart';
 
 class BankPayment extends StatelessWidget {
-  const BankPayment({Key key, @required this.payFee}) : super(key: key);
+  const BankPayment({Key? key, required this.payFee}) : super(key: key);
   final AdvFeeProvider payFee;
 
   @override
@@ -25,7 +25,7 @@ class BankPayment extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              AppLocalizations.of(context).tadawlAppCC,
+              AppLocalizations.of(context)!.tadawlAppCC,
               style: CustomTextStyle(
 
                 fontSize: 15,
@@ -39,7 +39,7 @@ class BankPayment extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              AppLocalizations.of(context).bankAccounts,
+              AppLocalizations.of(context)!.bankAccounts,
               style: CustomTextStyle(
 
                 fontSize: 13,
@@ -137,7 +137,7 @@ class BankPayment extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      AppLocalizations.of(context).accountNumber,
+                      AppLocalizations.of(context)!.accountNumber,
                       style: CustomTextStyle(
 
                         fontSize: 13,
@@ -175,7 +175,7 @@ class BankPayment extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      AppLocalizations.of(context).iBANnumber,
+                      AppLocalizations.of(context)!.iBANnumber,
                       style: CustomTextStyle(
 
                         fontSize: 13,
@@ -214,7 +214,7 @@ class BankPayment extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      AppLocalizations.of(context).rule23,
+                      AppLocalizations.of(context)!.rule23,
                       style: CustomTextStyle(
 
                         fontSize: 13,
@@ -237,7 +237,7 @@ class BankPayment extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      AppLocalizations.of(context).accountNumber,
+                      AppLocalizations.of(context)!.accountNumber,
                       style: CustomTextStyle(
 
                         fontSize: 13,
@@ -275,7 +275,7 @@ class BankPayment extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      AppLocalizations.of(context).iBANnumber,
+                      AppLocalizations.of(context)!.iBANnumber,
                       style: CustomTextStyle(
 
                         fontSize: 13,
@@ -314,7 +314,7 @@ class BankPayment extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      AppLocalizations.of(context).rule23,
+                      AppLocalizations.of(context)!.rule23,
                       style: CustomTextStyle(
 
                         fontSize: 13,
@@ -359,7 +359,7 @@ class BankPayment extends StatelessWidget {
                           ),
                           Expanded(
                             child: Text(
-                              AppLocalizations.of(context).rule24,
+                              AppLocalizations.of(context)!.rule24,
                               style: CustomTextStyle(
 
                                 fontSize: 11,
@@ -414,7 +414,7 @@ class BankPayment extends StatelessWidget {
                                 alignment: Alignment.center,
                                 child: Center(
                                   child: Text(
-                                    AppLocalizations.of(context)
+                                    AppLocalizations.of(context)!
                                         .clickHere,
                                     style: CustomTextStyle(
 

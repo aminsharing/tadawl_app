@@ -10,7 +10,7 @@ class Api {
   String BaseURL = 'https://www.tadawl-store.com/API/api_app';
   Future<dynamic> getadsFunc(LatLng area, String rad) async {
     final response = await http.post(
-        '$BaseURL/coordinate/coordinate.php',
+        Uri.parse('$BaseURL/coordinate/coordinate.php'),
       // '$BaseURL/ads/all_ads.php',
       body: {
         'auth_key': _token,
@@ -28,7 +28,7 @@ class Api {
 
   Future<dynamic> getFilterTwoWeeksAgoFunc(LatLng area, String rad) async {
     final response = await http.post(
-      '$BaseURL/ads/two_weeks_ago_ads.php',
+      Uri.parse('$BaseURL/ads/two_weeks_ago_ads.php'),
       body: {
         'auth_key': _token,
         'lat': area.latitude.toString(),
@@ -43,9 +43,9 @@ class Api {
     }
   }
 
-  Future<dynamic> searchKeyFunc( String key) async {
+  Future<dynamic> searchKeyFunc( String? key) async {
     var url = '$BaseURL/ads/search_key.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'key': key,
       'auth_key': _token
     });
@@ -58,9 +58,9 @@ class Api {
   }
 
   Future<dynamic> getComments(
-       String phone, String other_phone) async {
+       String? phone, String? other_phone) async {
     var url = '$BaseURL/conversations/user_messages.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'auth_key': _token,
       'phone': phone,
       'other_phone': other_phone,
@@ -72,10 +72,10 @@ class Api {
   }
 
   Future<dynamic> getEstimates(
-    String user_phone,
+    String? user_phone,
   ) async {
     var url = '$BaseURL/userEstimate/select_estimates.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'phone': user_phone,
       'auth_key': _token
     });
@@ -85,10 +85,10 @@ class Api {
 
   Future<dynamic> getSumEstimates(
     
-    String user_phone,
+    String? user_phone,
   ) async {
     var url = '$BaseURL/userEstimate/sum_rates.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'phone': user_phone,
       'auth_key': _token
     });
@@ -101,7 +101,7 @@ class Api {
     String user_phone,
   ) async {
     var url = '$BaseURL/userEstimate/count_estimates.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'phone': user_phone,
       'auth_key': _token
     });
@@ -111,13 +111,13 @@ class Api {
 
   Future<dynamic> sendEstimateFunc(
     
-    String phone,
-    String user_phone,
-    String rating,
-    String comment,
+    String? phone,
+    String? user_phone,
+    String? rating,
+    String? comment,
   ) async {
     var url = '$BaseURL/userEstimate/user_estimate.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'phone_user': phone,
       'phone_user_estimated': user_phone,
       'rate': rating,
@@ -150,7 +150,7 @@ class Api {
 
   Future<dynamic> filterPriceAdsFunc() async {
     final response = await http.post(
-      '$BaseURL/ads/filter_price.php',
+      Uri.parse('$BaseURL/ads/filter_price.php'),
       body: {
         'auth_key': _token
       }
@@ -164,7 +164,7 @@ class Api {
 
   Future<dynamic> filterSpaceAdsFunc() async {
     final response = await http.post(
-      '$BaseURL/ads/filter_space.php',
+      Uri.parse('$BaseURL/ads/filter_space.php'),
       body: {
         'auth_key': _token
       }
@@ -178,7 +178,7 @@ class Api {
 
   Future<dynamic> filterUpToDateAdsFunc(LatLng area, String rad) async {
     final response = await http.post(
-      '$BaseURL/ads/filter_uptodate.php',
+      Uri.parse('$BaseURL/ads/filter_uptodate.php'),
       body: {
         'auth_key': _token,
         'lat': area.latitude.toString(),
@@ -195,7 +195,7 @@ class Api {
 
   Future<dynamic> getNavigationFunc() async {
     final response = await http.post(
-      '$BaseURL/ads/navigation.php',
+      Uri.parse('$BaseURL/ads/navigation.php'),
       body: {
         'auth_key': _token
       }
@@ -209,7 +209,7 @@ class Api {
 
   Future<dynamic> getCategoryFunc() async {
     final response = await http.post(
-      '$BaseURL/categoryAqar/getdata.php',
+      Uri.parse('$BaseURL/categoryAqar/getdata.php'),
       body: {
         'auth_key': _token
       }
@@ -221,9 +221,9 @@ class Api {
     }
   }
 
-  Future<dynamic> getFilterAdsFunc(String id_category, LatLng area, String rad) async {
+  Future<dynamic> getFilterAdsFunc(String? id_category, LatLng area, String rad) async {
     var url = '$BaseURL/ads/filter_category.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'auth_key': _token,
       'id_category': id_category,
       'lat': area.latitude.toString(),
@@ -238,9 +238,9 @@ class Api {
   }
 
   Future<dynamic> getViewsChartFunc(
-       String id_description) async {
+       String? id_description) async {
     var url = '$BaseURL/ads/views_chart.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'id_description': id_description,
       'auth_key': _token
     });
@@ -252,9 +252,9 @@ class Api {
   }
 
   Future<dynamic> getSimilarAdsFunc(
-       String id_category, String id_ads) async {
+       String id_category, String? id_ads) async {
     var url = '$BaseURL/ads/similar_ads.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'id_category': id_category,
       'id_ads': id_ads,
       'auth_key': _token
@@ -267,9 +267,9 @@ class Api {
   }
 
   Future<dynamic> updateViewsFunc(
-       String id_ads, String views) async {
+       String? id_ads, String views) async {
     var url = '$BaseURL/ads/update_ads_views.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'id_ads': id_ads,
       'views': views,
       'auth_key': _token
@@ -282,9 +282,9 @@ class Api {
   }
 
   Future<dynamic> changeAdsFavStateFunc(
-       String id_ads, String phone_user) async {
+       String? id_ads, String? phone_user) async {
     var url = '$BaseURL/ads/fav_ads.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'id_ads': id_ads,
       'phone_user': phone_user,
       'auth_key': _token
@@ -297,9 +297,9 @@ class Api {
     }
   }
 
-  Future<dynamic> getUserAdsFunc( String Phone) async {
+  Future<dynamic> getUserAdsFunc( String? Phone) async {
     var url = '$BaseURL/ads/user_ads.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'phone': Phone,
       'auth_key': _token
     });
@@ -310,10 +310,10 @@ class Api {
     }
   }
 
-  Future<dynamic> getFavAdsFunc( String Phone) async {
+  Future<dynamic> getFavAdsFunc( String? Phone) async {
     var url = '$BaseURL/ads/fav_list_ads.php';
     try{
-      var response = await http.post(url, body: {
+      var response = await http.post(Uri.parse(url), body: {
         'phone': Phone,
         'auth_key': _token
       });
@@ -327,9 +327,9 @@ class Api {
     }
   }
 
-  Future<dynamic> getFavStatusFunc(String Phone, String idDescription) async {
+  Future<dynamic> getFavStatusFunc(String? Phone, String? idDescription) async {
     var url = '$BaseURL/ads/get_fav_status.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'auth_key': _token,
       'phone': Phone,
       'id_description': idDescription,
@@ -342,9 +342,9 @@ class Api {
   }
 
   Future<dynamic> getAdsPageFunc(
-       String id_description) async {
+       String? id_description) async {
     var url = '$BaseURL/ads/ads_page.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'id_description': id_description,
       'auth_key': _token
     });
@@ -356,9 +356,9 @@ class Api {
   }
 
   Future<dynamic> getAqarVRFunc(
-       String id_description) async {
+       String? id_description) async {
     var url = '$BaseURL/ads/data_aqar_vr.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'auth_key': _token,
       'id_description': id_description,
     });
@@ -370,9 +370,9 @@ class Api {
   }
 
   Future<dynamic> getImagesAdsPageFunc(
-       String id_description) async {
+       String? id_description) async {
     var url = '$BaseURL/ads/images_ads.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'id_description': id_description,
       'auth_key': _token
     });
@@ -383,9 +383,9 @@ class Api {
     }
   }
 
-  Future<dynamic> getBFAdsPageFunc( String id_description) async {
+  Future<dynamic> getBFAdsPageFunc( String? id_description) async {
     var url = '$BaseURL/ads/ads_BF.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'id_description': id_description,
       'auth_key': _token
     });
@@ -397,9 +397,9 @@ class Api {
   }
 
   Future<dynamic> getQFAdsPageFunc(
-       String id_description) async {
+       String? id_description) async {
     var url = '$BaseURL/ads/ads_QF.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'id_description': id_description,
       'auth_key': _token
     });
@@ -412,7 +412,7 @@ class Api {
 
   Future<dynamic> getDiscListFunc( String Phone) async {
     var url = '$BaseURL/conversations/conversations_list.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'phone': Phone,
       'auth_key': _token
     });
@@ -434,7 +434,7 @@ class Api {
   Future<dynamic> getUnreadMessagesFunc(
        String phone) async {
     var url = '$BaseURL/conversations/unread_messages.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'auth_key': _token,
       'phone': phone,
     });
@@ -445,9 +445,9 @@ class Api {
     }
   }
 
-  Future<dynamic> getUnreadMessagesByUserFunc(String phone, String otherPhone) async {
+  Future<dynamic> getUnreadMessagesByUserFunc(String? phone, String? otherPhone) async {
     var url = '$BaseURL/conversations/unreaded_messages_user.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'auth_key': _token,
       'phone': phone,
       'other_phone': otherPhone,
@@ -460,9 +460,9 @@ class Api {
   }
 
   Future<dynamic> setReadMessagesFunc(
-       String phone, String other_phone) async {
+       String phone, String? other_phone) async {
     var url = '$BaseURL/conversations/set_read_messages.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'auth_key': _token,
       'phone': phone,
       'other_phone': other_phone,
@@ -476,7 +476,7 @@ class Api {
 
   Future<dynamic> getsOfficeFunc() async {
     final response = await http.post(
-      '$BaseURL/officesAqar/getdata.php',
+      Uri.parse('$BaseURL/officesAqar/getdata.php'),
       body: {
         'auth_key': _token
       }
@@ -488,9 +488,9 @@ class Api {
     }
   }
 
-  Future<dynamic> getUserInfoFunc( String Phone) async {
+  Future<dynamic> getUserInfoFunc( String? Phone) async {
     var url = '$BaseURL/login/account_info.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'phone': Phone,
       'auth_key': _token
     });
@@ -499,16 +499,16 @@ class Api {
 
   Future getUserAccountInfoFunc( String Phone) async {
     var url = '$BaseURL/ads/user_info.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'phone': Phone,
       'auth_key': _token
     });
     return jsonDecode(response.body);
   }
 
-  Future getOfficeCheckFunc(String Phone) async {
+  Future getOfficeCheckFunc(String? Phone) async {
     var url = '$BaseURL/officesAqar/check.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'auth_key': _token,
       'phone': Phone,
     });
@@ -517,7 +517,7 @@ class Api {
 
   Future getAdsInfoFunc( String Phone) async {
     var url = '$BaseURL/ads/user_info.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'phone': Phone,
       'auth_key': _token
     });
@@ -526,9 +526,9 @@ class Api {
 
   Future<dynamic> deleteAdsFunc(
       BuildContext context,
-       String id_description) async {
+       String? id_description) async {
     var url = '$BaseURL/ads/delete_ads.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'id_description': id_description,
       'auth_key': _token
     });
@@ -555,15 +555,15 @@ class Api {
 
   Future<dynamic> updateLocationFunc(
     
-    String id_description,
-    String ads_city,
-    String ads_neighborhood,
-    String ads_road,
+    String? id_description,
+    String? ads_city,
+    String? ads_neighborhood,
+    String? ads_road,
     String lat,
     String lng,
   ) async {
     var url = '$BaseURL/ads/update_location.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'auth_key': _token,
       'id_description': id_description,
       'ads_city': ads_city,
@@ -598,8 +598,8 @@ class Api {
     
     String id_description,
     List<File> imagesList,
-    File _video,
-    List<String> deletedImageNames,
+    File? _video,
+    List<String?> deletedImageNames,
   ) async {
     final uri = Uri.parse('$BaseURL/ads/update_img_ved.php');
     var request = http.MultipartRequest('POST', uri);
@@ -607,7 +607,7 @@ class Api {
     request.fields['id_description'] = id_description;
     // ignore: omit_local_variable_types
     for (int i = 0; i < deletedImageNames.length; i++) {
-      request.fields['deleted_image_names[$i]'] = deletedImageNames[i];
+      request.fields['deleted_image_names[$i]'] = deletedImageNames[i]!;
     }
     for (var i = 0; i < imagesList.length; i++) {
       await http.MultipartFile.fromPath('image[]', imagesList[i].path)
@@ -646,7 +646,7 @@ class Api {
   Future<dynamic> updateDetailsFunc(
     
     String id_description,
-    String detailsAqar,
+    String? detailsAqar,
     String isFootballCourt,
     String isVolleyballCourt,
     String isAmusementPark,
@@ -677,13 +677,13 @@ class Api {
     String Lounges,
     String selectedTypeAqar,
     String selectedFamily,
-    String interfaceSelected,
-    String totalSpace,
-    String totalPrice,
+    String? interfaceSelected,
+    String? totalSpace,
+    String? totalPrice,
     String selectedPlan,
     String id_category_final,
-    String selectedAdderRelation,
-    String selectedMarketerRelation,
+    String? selectedAdderRelation,
+    String? selectedMarketerRelation,
   ) async {
     final uri = Uri.parse('$BaseURL/ads/update_datails.php');
     var request = http.MultipartRequest('POST', uri);
@@ -751,24 +751,24 @@ class Api {
   }
 
   Future<dynamic> getAdvancedSearchFunc(
-      String category,
-      String min_price,
-      String max_price,
-      String min_space,
-      String max_space,
-      String type_aqar,
-      String interface,
-      String plan,
-      String age_of_real_estate,
-      String apartements,
-      String floor,
-      String lounges,
-      String rooms,
-      String stores,
-      String street_width,
-      String toilets,
-      String trees,
-      String wells,
+      String? category,
+      String? min_price,
+      String? max_price,
+      String? min_space,
+      String? max_space,
+      String? type_aqar,
+      String? interface,
+      String? plan,
+      String? age_of_real_estate,
+      String? apartements,
+      String? floor,
+      String? lounges,
+      String? rooms,
+      String? stores,
+      String? street_width,
+      String? toilets,
+      String? trees,
+      String? wells,
       String bool_feature1,
       String bool_feature2,
       String bool_feature3,
@@ -836,9 +836,9 @@ class Api {
     }
   }
 
-  Future<dynamic> updateAdsFunc(String id_ads) async {
+  Future<dynamic> updateAdsFunc(String? id_ads) async {
     var url = '$BaseURL/ads/update_ad.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'auth_key': _token,
       'id_ads': id_ads,
     });
@@ -852,7 +852,7 @@ class Api {
 
   Future<dynamic> setLastSeenFunc(String phone) async {
     var url = '$BaseURL/login/set_last_seen.php';
-    var response = await http.post(url, body: {
+    var response = await http.post(Uri.parse(url), body: {
       'auth_key': _token,
       'phone': phone,
     });
@@ -864,7 +864,7 @@ class Api {
   }
 
   Future<dynamic> addNewAdsFunc(
-    String detailsAqar,
+    String? detailsAqar,
     String isFootballCourt,
     String isVolleyballCourt,
     String isAmusementPark,
@@ -896,19 +896,19 @@ class Api {
     String selectedTypeAqar,
     String selectedFamily,
     String interfaceSelected,
-    String totalSpace,
-    String totalPrice,
+    String? totalSpace,
+    String? totalPrice,
     String selectedPlan,
     String id_category,
     String ads_cordinates_lat,
     String ads_cordinates_lng,
-    String selectedAdderRelation,
-    String selectedMarketerRelation,
-    String phone,
-    String ads_city,
-    String ads_neighborhood,
-    String ads_road,
-    File video,
+    String? selectedAdderRelation,
+    String? selectedMarketerRelation,
+    String? phone,
+    String? ads_city,
+    String? ads_neighborhood,
+    String? ads_road,
+    File? video,
     List<File> imagesList,
   ) async {
     var uri = Uri.parse('$BaseURL/ads/add_new_ads.php');
@@ -983,14 +983,14 @@ class Api {
 
   // Future sendMessFunc( String content, String phone, String phone_user) async {
   //   var url = '$BaseURL/conversations/send_mes.php';
-  //   await http.post(url, body: {
+  //   await http.post(Uri.parse(url), body: {
   //     'phone': phone,
   //     'other_phone': phone_user,
   //     'message': content,
   //   });
   // }
 
-  Future sendMessFunc(List<File> imagesList, File voiceMsg, String content, String phone, String phone_user, String msgType, int voiceDuration) async {
+  Future sendMessFunc(List<File> imagesList, File? voiceMsg, String? content, String phone, String phone_user, String msgType, int? voiceDuration) async {
     var uri = Uri.parse('$BaseURL/conversations/send_mes.php');
     var request = http.MultipartRequest('POST', uri);
 
@@ -1067,14 +1067,14 @@ class Api {
 
   Future updateMyProfileFunc(
       
-      int selectedMembership,
-      String userName,
-      String company_name,
-      String office_name,
-      String email,
-      String personalProfile,
+      int? selectedMembership,
+      String? userName,
+      String? company_name,
+      String? office_name,
+      String? email,
+      String? personalProfile,
       String phone,
-      File image
+      File? image
       ) async {
     final uri =
     Uri.parse('$BaseURL/login/uploadAvatar.php');

@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             // ignore: missing_return
             localeListResolutionCallback: (locales, supportedLocales) {
-              for (var i = 0; i < locales.length; i++) {
+              for (var i = 0; i < locales!.length; i++) {
                 if (provider.locale == null) {
                   return Locale('ar', 'SA');
                 }

@@ -4,12 +4,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AdViewTable extends StatelessWidget {
   const AdViewTable({
-    Key key,
-    @required this.views,
-    @required this.idDescription,
+    Key? key,
+    required this.views,
+    required this.idDescription,
   }) : super(key: key);
-  final String views;
-  final String idDescription;
+  final String? views;
+  final String? idDescription;
 
 
   @override
@@ -30,7 +30,7 @@ class AdViewTable extends StatelessWidget {
               padding:
               const EdgeInsets.fromLTRB(5, 5, 5, 5),
               child: Text(
-                AppLocalizations.of(context).views,
+                AppLocalizations.of(context)!.views,
                 style: CustomTextStyle(
                   fontSize: 15,
                   color: const Color(0xff989696),
@@ -68,7 +68,7 @@ class AdViewTable extends StatelessWidget {
               padding:
               const EdgeInsets.fromLTRB(5, 5, 5, 5),
               child: Text(
-                AppLocalizations.of(context).advID,
+                AppLocalizations.of(context)!.advID,
                 style: CustomTextStyle(
                   fontSize: 15,
                   color: const Color(0xff989696),

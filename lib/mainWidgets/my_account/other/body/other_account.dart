@@ -13,12 +13,12 @@ import 'office_location.dart';
 
 class OtherAccount extends StatelessWidget {
   const OtherAccount({
-    Key key,
-    @required this.myAccountProvider,
-    @required this.userPhone,
+    Key? key,
+    required this.myAccountProvider,
+    required this.userPhone,
   }) : super(key: key);
   final MyAccountProvider myAccountProvider;
-  final String userPhone;
+  final String? userPhone;
 
   @override
   Widget build(BuildContext context) {

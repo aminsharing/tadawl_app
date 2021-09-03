@@ -24,7 +24,7 @@ import 'build_verse.dart';
 import 'build_yard.dart';
 
 class SelectedCategory1 extends StatelessWidget {
-  const SelectedCategory1({Key key}) : super(key: key);
+  const SelectedCategory1({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

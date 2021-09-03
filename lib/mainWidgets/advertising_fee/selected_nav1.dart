@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 
 class SelectedNav1 extends StatelessWidget {
-  const SelectedNav1({Key key, @required this.advFeeProvider}) : super(key: key);
+  const SelectedNav1({Key? key, required this.advFeeProvider}) : super(key: key);
   final AdvFeeProvider advFeeProvider;
 
   void launchWhatsApp2() async {
@@ -40,14 +40,14 @@ class SelectedNav1 extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     FeeCard(
-                      selectedNav: [AppLocalizations.of(context).rentalFees,AppLocalizations.of(context).rule17],
+                      selectedNav: [AppLocalizations.of(context)!.rentalFees,AppLocalizations.of(context)!.rule17],
                       price: '60',
                       type: 'رسوم التأجير',
                       cardType: CardType.medium,
                       advFeeProvider: advFeeProvider,
                     ),
                     FeeCard(
-                        selectedNav: [AppLocalizations.of(context).sellingFees,AppLocalizations.of(context).rule18],
+                        selectedNav: [AppLocalizations.of(context)!.sellingFees,AppLocalizations.of(context)!.rule18],
                         price: '475',
                         type: 'رسوم البيع',
                         cardType: CardType.medium,
@@ -90,7 +90,7 @@ class SelectedNav1 extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              AppLocalizations.of(context).explanatoryPoints,
+                              AppLocalizations.of(context)!.explanatoryPoints,
                               style: CustomTextStyle(
                                 fontSize: 15,
                                 color: const Color(0xff000000),
@@ -120,7 +120,7 @@ class SelectedNav1 extends StatelessWidget {
                             ),
                             Expanded(
                               child: Text(
-                                AppLocalizations.of(context).rule19,
+                                AppLocalizations.of(context)!.rule19,
                                 style: CustomTextStyle(
                                   fontSize: 10,
                                   color: const Color(0xffa8a8a8),
@@ -152,7 +152,7 @@ class SelectedNav1 extends StatelessWidget {
                             ),
                             Expanded(
                               child: Text(
-                                AppLocalizations.of(context).rule20,
+                                AppLocalizations.of(context)!.rule20,
                                 style: CustomTextStyle(
                                   fontSize: 10,
                                   color: const Color(0xffa8a8a8),
@@ -201,7 +201,7 @@ class SelectedNav1 extends StatelessWidget {
                             ),
                             Flexible(
                               child: Text(
-                                AppLocalizations.of(context).xMark,
+                                AppLocalizations.of(context)!.xMark,
                                 style: CustomTextStyle(
                                   fontSize: 13,
                                   color: const Color(0xffa8a8a8),
@@ -228,7 +228,7 @@ class SelectedNav1 extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.center,
                             child: Text(
-                              AppLocalizations.of(context).clickHere,
+                              AppLocalizations.of(context)!.clickHere,
                               style: CustomTextStyle(
                                 fontSize: 15,
                                 color: const Color(0xff3f9d28),
@@ -249,7 +249,7 @@ class SelectedNav1 extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    AppLocalizations.of(context).rule21,
+                    AppLocalizations.of(context)!.rule21,
                     style: CustomTextStyle(
                       fontSize: 10,
                       color: const Color(0xffa8a8a8),

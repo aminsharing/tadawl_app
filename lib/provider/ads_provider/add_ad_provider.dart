@@ -1,15 +1,14 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:chewie/chewie.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_absolute_path/flutter_absolute_path.dart';
-import 'package:geocoder/geocoder.dart';
+import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
@@ -20,7 +19,7 @@ import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/screens/general/home.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-// import 'package:wechat_assets_picker/wechat_assets_picker.dart' as picker;
+import 'package:wechat_assets_picker/wechat_assets_picker.dart' as picker;
 
 class AddAdProvider extends ChangeNotifier{
 
@@ -43,30 +42,29 @@ class AddAdProvider extends ChangeNotifier{
     _controllerAddAds.dispose();
   }
 
-  VideoPlayerController _videoControllerAddAds;
-  ChewieController _chewieControllerAddAds;
-  File _videoAddAds;
+  VideoPlayerController? _videoControllerAddAds;
+  ChewieController? _chewieControllerAddAds;
+  File? _videoAddAds;
   final _pickerAddAdsVid = ImagePicker();
-  bool _AcceptedAddAds = false;
-  List _CategoryDataAddAds = [];
+  bool? _AcceptedAddAds = false;
+  List? _CategoryDataAddAds = [];
   final List<CategoryModel> _categoryAddAds = [];
-  int _id_category_finalAddAds;
-  String _category_finalAddAds;
-  int _currentStageAddAds;
+  int? _id_category_finalAddAds;
+  String? _category_finalAddAds;
   final Set<Marker> _markersAddAds = {};
-  String _ads_cityAddAds;
-  String _ads_neighborhoodAddAds;
-  String _ads_roadAddAds;
-  LatLng _ads_cordinatesAddAds;
-  double _ads_cordinates_latAddAds;
-  double _ads_cordinates_lngAddAds;
-  LatLng _customCameraPositionAddAds;
+  String? _ads_cityAddAds;
+  String? _ads_neighborhoodAddAds;
+  String? _ads_roadAddAds;
+  LatLng? _ads_cordinatesAddAds;
+  double? _ads_cordinates_latAddAds;
+  double? _ads_cordinates_lngAddAds;
+  LatLng? _customCameraPositionAddAds;
   final TextEditingController _priceControllerAddAds = TextEditingController();
   final TextEditingController _spaceControllerAddAds = TextEditingController();
   final TextEditingController _meterPriceControllerAddAds = TextEditingController();
   final TextEditingController _descControllerAddAds = TextEditingController();
-  int _meterPriceAddAds;
-  String _interfaceSelectedAddAds = '0';
+  int? _meterPriceAddAds;
+  String? _interfaceSelectedAddAds = '0';
   bool _isFurnishedAddAds = false;
   bool _isKitchenAddAds = false;
   bool _isAppendixAddAds = false;
@@ -95,9 +93,9 @@ class AddAdProvider extends ChangeNotifier{
   double _TreesAddAds = 0;
   double _FloorAddAds = 0;
   double _StreetWidthAddAds = 0;
-  String _totalPricAddAds;
-  String _totalSpaceAddAds;
-  String _detailsAqarAddAds;
+  String? _totalPricAddAds;
+  String? _totalSpaceAddAds;
+  String? _detailsAqarAddAds;
   final List<bool> _planAddAds = List.generate(3, (_) => false);
   int _selectedPlanAddAds = -1;
   final List<bool> _familyAddAds = List.generate(2, (_) => false);
@@ -107,20 +105,17 @@ class AddAdProvider extends ChangeNotifier{
   List<File> _imagesListAddAds = [];
   int _currentControllerPageAddAds = 0;
   final PageController _controllerAddAds = PageController();
-  int _userAdsCount;
+  int? _userAdsCount;
   final Location _location = Location();
-  LatLng _initialCameraPosition;
-  double _zoom;
-  bool _serviceEnabled;
-  PermissionStatus _permissionGranted;
-  GoogleMapController _mapController;
-  set mapController(GoogleMapController val) => _mapController = val;
-  GoogleMapController get mapController => _mapController;
+  LatLng? _initialCameraPosition;
+  double? _zoom;
+  bool? _serviceEnabled;
+  PermissionStatus? _permissionGranted;
+  GoogleMapController? mapController;
   bool _isSending = false;
 
 
   void clearChacheAddAds() {
-    _currentStageAddAds = null;
     _detailsAqarAddAds = null;
     _isFootballCourtAddAds = false;
     _isVolleyballCourtAddAds= false;
@@ -176,7 +171,7 @@ class AddAdProvider extends ChangeNotifier{
   }
 
   void animateToLocation(LatLng position, double zoom) async{
-    await _mapController.animateCamera(CameraUpdate.newCameraPosition(
+    await mapController!.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
         target: LatLng(position.latitude, position.longitude),
         zoom: zoom,
@@ -185,7 +180,7 @@ class AddAdProvider extends ChangeNotifier{
     );
   }
 
-  Future<int> getSession() async {
+  Future<int?> getSession() async {
     var p = await SharedPreferences.getInstance();
     _userAdsCount = p.getInt('userAdsCount');
     return _userAdsCount;
@@ -198,35 +193,19 @@ class AddAdProvider extends ChangeNotifier{
     await p.commit();
   }
 
-  void setCurrentStageAddAds(int value) {
-    _currentStageAddAds = value;
-    notifyListeners();
-  }
-
   set isSending(bool val){
     _isSending = val;
     notifyListeners();
   }
 
-  void setCurrentStageBackAddAds() {
-    _currentStageAddAds -= 1;
-    notifyListeners();
-  }
-
   void setInitSelectionsAddAds() {
-    if (_selectedTypeAqarAddAds != null) {
-      _typeAqarAddAds[_selectedTypeAqarAddAds] = true;
-    }
-    if (_selectedFamilyAddAds != null) {
-      _familyAddAds[_selectedFamilyAddAds] = true;
-    }
-    if (_selectedPlanAddAds != null) {
-      _planAddAds[_selectedPlanAddAds] = true;
-    }
+    _typeAqarAddAds[_selectedTypeAqarAddAds] = true;
+    _familyAddAds[_selectedFamilyAddAds] = true;
+    _planAddAds[_selectedPlanAddAds] = true;
     // notifyListeners();
   }
 
-  void setAcceptedAddAds(bool state) {
+  void setAcceptedAddAds(bool? state) {
     _AcceptedAddAds = state;
     notifyListeners();
   }
@@ -250,13 +229,15 @@ class AddAdProvider extends ChangeNotifier{
     if(_permissionGranted == PermissionStatus.granted){
       if(_serviceEnabled?? false){
         await _location.getLocation().then((LocationData location) async{
-          _initialCameraPosition = LatLng(location.latitude, location.longitude);
+          _initialCameraPosition = LatLng(location.latitude!, location.longitude!);
           _zoom = 17;
-          var addresses = await Geocoder.google(
-              'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
-              language: 'ar')
-              .findAddressesFromCoordinates(
-              Coordinates(location.latitude, location.longitude));
+          // ignore: omit_local_variable_types
+          List<geocoding.Placemark> addresses = await geocoding.placemarkFromCoordinates(location.latitude!, location.longitude!, localeIdentifier: 'ar');
+          // var addresses = await Geocoder.google(
+          //     'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
+          //     language: 'ar')
+          //     .findAddressesFromCoordinates(
+          //     Coordinates(location.latitude, location.longitude));
           if (addresses.isNotEmpty) {
             _ads_cityAddAds = '${addresses.first.locality.toString()}';
             _ads_neighborhoodAddAds = '${addresses.first.subLocality.toString()}';
@@ -274,11 +255,13 @@ class AddAdProvider extends ChangeNotifier{
     else if(_permissionGranted == PermissionStatus.denied){
       _initialCameraPosition = cities.first.position;
       _zoom = cities.first.zoom;
-      var addresses = await Geocoder.google(
-          'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
-          language: 'ar')
-          .findAddressesFromCoordinates(
-          Coordinates(_initialCameraPosition.latitude, _initialCameraPosition.longitude));
+      // ignore: omit_local_variable_types
+      List<geocoding.Placemark> addresses = await geocoding.placemarkFromCoordinates(_initialCameraPosition!.latitude, _initialCameraPosition!.longitude, localeIdentifier: 'ar');
+      // var addresses = await Geocoder.google(
+      //     'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
+      //     language: 'ar')
+      //     .findAddressesFromCoordinates(
+      //     Coordinates(_initialCameraPosition.latitude, _initialCameraPosition.longitude));
       if (addresses.isNotEmpty) {
         _ads_cityAddAds = '${addresses.first.locality.toString()}';
         _ads_neighborhoodAddAds = '${addresses.first.subLocality.toString()}';
@@ -289,11 +272,13 @@ class AddAdProvider extends ChangeNotifier{
     if(_permissionGranted == PermissionStatus.deniedForever){
       _initialCameraPosition = cities.first.position;
       _zoom = cities.first.zoom;
-      var addresses = await Geocoder.google(
-          'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
-          language: 'ar')
-          .findAddressesFromCoordinates(
-          Coordinates(_initialCameraPosition.latitude, _initialCameraPosition.longitude));
+      // ignore: omit_local_variable_types
+      List<geocoding.Placemark> addresses = await geocoding.placemarkFromCoordinates(_initialCameraPosition!.latitude, _initialCameraPosition!.longitude, localeIdentifier: 'ar');
+      // var addresses = await Geocoder.google(
+      //     'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
+      //     language: 'ar')
+      //     .findAddressesFromCoordinates(
+      //     Coordinates(_initialCameraPosition.latitude, _initialCameraPosition.longitude));
       if (addresses.isNotEmpty) {
         _ads_cityAddAds = '${addresses.first.locality.toString()}';
         _ads_neighborhoodAddAds = '${addresses.first.subLocality.toString()}';
@@ -321,12 +306,14 @@ class AddAdProvider extends ChangeNotifier{
     _ads_cordinatesAddAds = position.target;
     _ads_cordinates_latAddAds = position.target.latitude;
     _ads_cordinates_lngAddAds = position.target.longitude;
-    _customCameraPositionAddAds = LatLng(_ads_cordinates_latAddAds, _ads_cordinates_lngAddAds);
-    var addresses = await Geocoder.google(
-        'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
-        language: 'ar')
-        .findAddressesFromCoordinates(
-        Coordinates(_ads_cordinates_latAddAds, _ads_cordinates_lngAddAds));
+    _customCameraPositionAddAds = LatLng(_ads_cordinates_latAddAds!, _ads_cordinates_lngAddAds!);
+    // ignore: omit_local_variable_types
+    List<geocoding.Placemark> addresses = await geocoding.placemarkFromCoordinates(_customCameraPositionAddAds!.latitude, _customCameraPositionAddAds!.longitude, localeIdentifier: 'ar');
+    // var addresses = await Geocoder.google(
+    //     'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
+    //     language: 'ar')
+    //     .findAddressesFromCoordinates(
+    //     Coordinates(_ads_cordinates_latAddAds, _ads_cordinates_lngAddAds));
     if (addresses.isNotEmpty) {
       _ads_cityAddAds = '${addresses.first.locality.toString()}';
       _ads_neighborhoodAddAds = '${addresses.first.subLocality.toString()}';
@@ -335,12 +322,12 @@ class AddAdProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setAdsCordinatesAddAds(LatLng val){
+  void setAdsCordinatesAddAds(LatLng? val){
     _ads_cordinatesAddAds = val;
     notifyListeners();
   }
 
-  void setInterfaceSelectedAddAds(String interfaceSelectedAddAds) {
+  void setInterfaceSelectedAddAds(String? interfaceSelectedAddAds) {
     _interfaceSelectedAddAds = interfaceSelectedAddAds;
     notifyListeners();
   }
@@ -530,24 +517,24 @@ class AddAdProvider extends ChangeNotifier{
   void setOnChangedSpaceAddAds(String value) {
     if (_meterPriceAddAds != null) {
       _priceControllerAddAds
-        ..text = (int.parse(value) * int.parse('$_meterPriceAddAds'))
+        .text = (int.parse(value) * int.parse('$_meterPriceAddAds'))
             .toString();
     }
     _totalSpaceAddAds = value;
     notifyListeners();
   }
 
-  void setOnSavedSpaceAddAds(String value) {
+  void setOnSavedSpaceAddAds(String? value) {
     _totalSpaceAddAds = value;
-    _spaceControllerAddAds..text = '$value';
+    _spaceControllerAddAds.text = '$value';
     notifyListeners();
   }
 
   void setOnChangedMeterPriceAddAds(String value) {
     if (_totalSpaceAddAds != null) {
       _priceControllerAddAds
-        ..text =
-        (int.parse(value) * int.parse(_totalSpaceAddAds)).toString();
+        .text =
+        (int.parse(value) * int.parse(_totalSpaceAddAds!)).toString();
     }
     _meterPriceAddAds = int.parse(value);
     notifyListeners();
@@ -555,45 +542,57 @@ class AddAdProvider extends ChangeNotifier{
 
   void setOnSavedMeterPriceAddAds(String value) {
     _meterPriceAddAds = int.parse(value);
-    _meterPriceControllerAddAds..text = '$value';
+    _meterPriceControllerAddAds.text = '$value';
     notifyListeners();
   }
 
   void setOnSavedTotalPriceAddAds(String value) {
     _totalPricAddAds = value;
-    _priceControllerAddAds..text = value;
+    _priceControllerAddAds.text = value;
     notifyListeners();
   }
 
   void setOnSavedDetailsAddAds(String value) {
     _detailsAqarAddAds = value;
-    _descControllerAddAds..text = value;
+    _descControllerAddAds.text = value;
     notifyListeners();
   }
 
   Future getImagesAddAds(BuildContext context) async {
     _imagesListAddAds = [];
 
-    // await picker.AssetPicker.pickAssets(context).then((List<picker.AssetEntity> assets) {
-    //
-    // });
-    await MultiImagePicker.pickImages(
-      maxImages: 30,
-      enableCamera: true,
-      materialOptions: MaterialOptions(
-        actionBarColor: '#00cccc',
-        actionBarTitle: 'تداول العقاري',
-        allViewTitle: 'كل الصور',
-        useDetailsView: true,
-        selectCircleStrokeColor: '#00cccc',
-      ),
-    ).then((value) async{
-      for (var x = 0; x < value.length; x++) {
-        var image = await FlutterAbsolutePath.getAbsolutePath(value[x].identifier);
-        _imagesListAddAds.add(File(image));
+    await picker.AssetPicker.pickAssets(
+        context,
+      maxAssets: 30,
+      textDelegate: picker.ArabicTextDelegate()
+    ).then((List<picker.AssetEntity>? assets) {
+      if(assets != null) {
+        assets.forEach((element) {
+          element.file.then((value) {
+            print(value!.path);
+            _imagesListAddAds.add(value);
+            notifyListeners();
+          });
+      });
       }
-      notifyListeners();
     });
+    // await MultiImagePicker.pickImages(
+    //   maxImages: 30,
+    //   enableCamera: true,
+    //   materialOptions: MaterialOptions(
+    //     actionBarColor: '#00cccc',
+    //     actionBarTitle: 'تداول العقاري',
+    //     allViewTitle: 'كل الصور',
+    //     useDetailsView: true,
+    //     selectCircleStrokeColor: '#00cccc',
+    //   ),
+    // ).then((value) async{
+    //   for (var x = 0; x < value.length; x++) {
+    //     // var image = await FlutterAbsolutePath.getAbsolutePath(value[x].identifier);
+    //     // _imagesListAddAds.add(File(image));
+    //   }
+    //   notifyListeners();
+    // });
 
     // await Navigator.pushReplacement(
     //   context,
@@ -619,14 +618,14 @@ class AddAdProvider extends ChangeNotifier{
     _categoryAddAds.clear();
     await Api().getCategoryFunc().then((value) {
       _CategoryDataAddAds = value;
-      _CategoryDataAddAds.forEach((element) {
+      _CategoryDataAddAds!.forEach((element) {
         _categoryAddAds.add(CategoryModel.fromJson(element));
       });
       notifyListeners();
     });
   }
 
-  void updateCategoryDetailsAddAds(int id, String category) {
+  void updateCategoryDetailsAddAds(int id, String? category) {
     _id_category_finalAddAds = id;
     _category_finalAddAds = category;
     notifyListeners();
@@ -643,34 +642,34 @@ class AddAdProvider extends ChangeNotifier{
       // _video = null;
       //_videoUpdate = null;
       //_videoControllerUpdate.pause();
-      _videoControllerAddAds.pause();
+      _videoControllerAddAds!.pause();
       //videoControllerAdsPage.pause();
     }
     //notifyListeners();
   }
 
   Future getCameraVideo(BuildContext context) async {
-    var pickedVideo55 = await _pickerAddAdsVid.getVideo(
+    var pickedVideo55 = await (_pickerAddAdsVid.pickVideo(
       source: ImageSource.camera,
       maxDuration: Duration(seconds: 60),
 
-    );
+    ) as FutureOr<PickedFile>);
     _videoAddAds = File(pickedVideo55.path);
-    _videoControllerAddAds = VideoPlayerController.file(_videoAddAds);
-    await _videoControllerAddAds.initialize().then((value) {notifyListeners();});
+    _videoControllerAddAds = VideoPlayerController.file(_videoAddAds!);
+    await _videoControllerAddAds!.initialize().then((value) {notifyListeners();});
     _chewieControllerAddAds = ChewieController(
-      videoPlayerController: _videoControllerAddAds,
+      videoPlayerController: _videoControllerAddAds!,
       autoPlay: true,
       looping: true,
     );
   }
 
   Future getGalleryVideo(BuildContext context) async {
-    var _result = await FilePicker.platform.pickFiles(
+    var _result = await (FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['mp4', 'avi'],
       allowCompression: true,
-    );
+    ) as FutureOr<FilePickerResult>);
     var _file = _result.files.first;
     var _pickedVideo = File(_file.path);
 
@@ -681,7 +680,7 @@ class AddAdProvider extends ChangeNotifier{
         context: context,
         builder: (context) => AlertDialog(
           title: Text(
-            AppLocalizations.of(context).bigFile,
+            AppLocalizations.of(context)!.bigFile,
             style: CustomTextStyle(
               fontSize: 20,
               color: const Color(0xff00cccc),
@@ -689,7 +688,7 @@ class AddAdProvider extends ChangeNotifier{
             textAlign: TextAlign.right,
           ),
           content: Text(
-            AppLocalizations.of(context).bigFileHint,
+            AppLocalizations.of(context)!.bigFileHint,
             style: CustomTextStyle(
               fontSize: 17,
               color: const Color(0xff000000),
@@ -702,7 +701,7 @@ class AddAdProvider extends ChangeNotifier{
               child: GestureDetector(
                 onTap: () => Navigator.of(context).pop(),
                 child: Text(
-                  AppLocalizations.of(context).accept,
+                  AppLocalizations.of(context)!.accept,
                   style: CustomTextStyle(
 
                     fontSize: 17,
@@ -719,10 +718,10 @@ class AddAdProvider extends ChangeNotifier{
     else {
       _videoAddAds = null;
       _videoAddAds = File(_pickedVideo.path);
-      _videoControllerAddAds = VideoPlayerController.file(_videoAddAds);
-      await _videoControllerAddAds.initialize().then((value) {notifyListeners();});
+      _videoControllerAddAds = VideoPlayerController.file(_videoAddAds!);
+      await _videoControllerAddAds!.initialize().then((value) {notifyListeners();});
       _chewieControllerAddAds = ChewieController(
-        videoPlayerController: _videoControllerAddAds,
+        videoPlayerController: _videoControllerAddAds!,
         autoPlay: true,
         looping: true,
       );
@@ -731,7 +730,7 @@ class AddAdProvider extends ChangeNotifier{
 
   Future<void> addNewAd(
       BuildContext context,
-      String detailsAqar,
+      String? detailsAqar,
       String isFootballCourt,
       String isVolleyballCourt,
       String isAmusementPark,
@@ -763,19 +762,19 @@ class AddAdProvider extends ChangeNotifier{
       String selectedTypeAqar,
       String selectedFamily,
       String interfaceSelected,
-      String totalSpace,
-      String totalPrice,
+      String? totalSpace,
+      String? totalPrice,
       String selectedPlan,
       String id_category,
       String ads_cordinates_lat,
       String ads_cordinates_lng,
-      String selectedAdderRelation,
-      String selectedMarketerRelation,
-      String phone,
-      String ads_city,
-      String ads_neighborhood,
-      String ads_road,
-      File video,
+      String? selectedAdderRelation,
+      String? selectedMarketerRelation,
+      String? phone,
+      String? ads_city,
+      String? ads_neighborhood,
+      String? ads_road,
+      File? video,
       List<File> imagesList,
       ) async {
     await Api().addNewAdsFunc(
@@ -841,23 +840,22 @@ class AddAdProvider extends ChangeNotifier{
 
 
 
-  int get currentStageAddAds => _currentStageAddAds;
-  bool get AcceptedAddAds => _AcceptedAddAds;
+  bool? get AcceptedAddAds => _AcceptedAddAds;
   Set<Marker> get markersAddAds => _markersAddAds;
-  String get ads_cityAddAds => _ads_cityAddAds;
-  String get ads_neighborhoodAddAds => _ads_neighborhoodAddAds;
-  String get ads_roadAddAds => _ads_roadAddAds;
-  LatLng get ads_cordinatesAddAds => _ads_cordinatesAddAds;
-  double get ads_cordinates_latAddAds => _ads_cordinates_latAddAds;
-  double get ads_cordinates_lngAddAds => _ads_cordinates_lngAddAds;
-  LatLng get customCameraPositionAddAds => _customCameraPositionAddAds;
+  String? get ads_cityAddAds => _ads_cityAddAds;
+  String? get ads_neighborhoodAddAds => _ads_neighborhoodAddAds;
+  String? get ads_roadAddAds => _ads_roadAddAds;
+  LatLng? get ads_cordinatesAddAds => _ads_cordinatesAddAds;
+  double? get ads_cordinates_latAddAds => _ads_cordinates_latAddAds;
+  double? get ads_cordinates_lngAddAds => _ads_cordinates_lngAddAds;
+  LatLng? get customCameraPositionAddAds => _customCameraPositionAddAds;
   TextEditingController get priceControllerAddAds => _priceControllerAddAds;
   TextEditingController get spaceControllerAddAds => _spaceControllerAddAds;
   TextEditingController get meterPriceControllerAddAds =>
       _meterPriceControllerAddAds;
   TextEditingController get descControllerAddAds => _descControllerAddAds;
-  int get meterPriceAddAds => _meterPriceAddAds;
-  String get interfaceSelectedAddAds => _interfaceSelectedAddAds;
+  int? get meterPriceAddAds => _meterPriceAddAds;
+  String? get interfaceSelectedAddAds => _interfaceSelectedAddAds;
   bool get isFurnishedAddAds => _isFurnishedAddAds;
   bool get isKitchenAddAds => _isKitchenAddAds;
   bool get isAppendixAddAds => _isAppendixAddAds;
@@ -886,9 +884,9 @@ class AddAdProvider extends ChangeNotifier{
   double get TreesAddAds => _TreesAddAds;
   double get FloorAddAds => _FloorAddAds;
   double get StreetWidthAddAds => _StreetWidthAddAds;
-  String get totalPricAddAds => _totalPricAddAds;
-  String get totalSpaceAddAds => _totalSpaceAddAds;
-  String get detailsAqarAddAds => _detailsAqarAddAds;
+  String? get totalPricAddAds => _totalPricAddAds;
+  String? get totalSpaceAddAds => _totalSpaceAddAds;
+  String? get detailsAqarAddAds => _detailsAqarAddAds;
   List<bool> get planAddAds => _planAddAds;
   int get selectedPlanAddAds => _selectedPlanAddAds;
   List<bool> get familyAddAds => _familyAddAds;
@@ -899,13 +897,13 @@ class AddAdProvider extends ChangeNotifier{
   int get currentControllerPageAddAds => _currentControllerPageAddAds;
   PageController get controllerAddAds => _controllerAddAds;
   List<CategoryModel> get categoryAddAds => _categoryAddAds;
-  int get id_category_finalAddAds => _id_category_finalAddAds;
-  String get category_finalAddAds => _category_finalAddAds;
-  VideoPlayerController get videoControllerAddAds => _videoControllerAddAds;
-  ChewieController get chewieControllerAddAds => _chewieControllerAddAds;
-  File get videoAddAds => _videoAddAds;
+  int? get id_category_finalAddAds => _id_category_finalAddAds;
+  String? get category_finalAddAds => _category_finalAddAds;
+  VideoPlayerController? get videoControllerAddAds => _videoControllerAddAds;
+  ChewieController? get chewieControllerAddAds => _chewieControllerAddAds;
+  File? get videoAddAds => _videoAddAds;
   Location get location => _location;
-  LatLng get initialCameraPosition => _initialCameraPosition;
-  double get zoom => _zoom;
+  LatLng? get initialCameraPosition => _initialCameraPosition;
+  double? get zoom => _zoom;
   bool get isSending => _isSending;
 }

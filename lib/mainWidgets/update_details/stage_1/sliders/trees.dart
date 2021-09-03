@@ -5,7 +5,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
 
 class Trees extends StatelessWidget {
-  const Trees({Key key}) : super(key: key);
+  const Trees({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class Trees extends StatelessWidget {
               MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context).trees,
+                  AppLocalizations.of(context)!.trees,
                   style: CustomTextStyle(
                     fontSize: 15,
                     color: const Color(0xff000000),
@@ -28,7 +28,7 @@ class Trees extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 Text(
-                  updateDetails.TreesUpdate.floor()
+                  updateDetails.TreesUpdate!.floor()
                       .toString(),
                   style: CustomTextStyle(
 
@@ -42,11 +42,11 @@ class Trees extends StatelessWidget {
           ),
           Slider(
             activeColor: const Color(0xff04B404),
-            value: updateDetails.TreesUpdate,
+            value: updateDetails.TreesUpdate!,
             min: 0,
             max: 9999,
             divisions: 9999,
-            label: updateDetails.TreesUpdate.floor()
+            label: updateDetails.TreesUpdate!.floor()
                 .toString(),
             onChanged: (double value) {
               updateDetails.setTreesUpdate(value);

@@ -7,7 +7,7 @@ import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 
 class UpdateInfoMemType extends StatelessWidget {
-  const UpdateInfoMemType(this._updateMyInfoKey,{Key key}) : super(key: key);
+  const UpdateInfoMemType(this._updateMyInfoKey,{Key? key}) : super(key: key);
   final GlobalKey<FormState> _updateMyInfoKey;
 
   @override
@@ -16,7 +16,7 @@ class UpdateInfoMemType extends StatelessWidget {
     var mediaQuery = MediaQuery.of(context);
     return Consumer<MyAccountProvider>(builder: (context, userMutual, child) {
       if(!userMutual.membershipType.contains(true)){
-        userMutual.updateMembershipType(int.tryParse(userMutual.users.id_mem), false);
+        userMutual.updateMembershipType(int.tryParse(userMutual.users!.id_mem!), false);
       }
 
       return Column(
@@ -33,11 +33,21 @@ class UpdateInfoMemType extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: ToggleButtons(
+                    onPressed: (int index) {
+                      userMutual.updateMembershipType(index, true);
+                    },
+                    isSelected: userMutual.membershipType,
+                    color: Color(0xff1f2835),
+                    selectedColor: Color(0xffffffff),
+                    fillColor: Color(0xff1f2835),
+                    borderWidth: 1,
+                    borderColor: Color(0xff1f2835),
+                    selectedBorderColor: Color(0xff1f2835),
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Text(
-                          AppLocalizations.of(context).company,
+                          AppLocalizations.of(context)!.company,
                           style: CustomTextStyle(
                             fontSize: 15,
                           ).getTextStyle(),
@@ -48,7 +58,7 @@ class UpdateInfoMemType extends StatelessWidget {
                         padding: const EdgeInsets.all(5.0),
                         child: Text(
                           AppLocalizations
-                              .of(context)
+                              .of(context)!
                               .marketer,
                           style: CustomTextStyle(
                             fontSize: 15,
@@ -60,7 +70,7 @@ class UpdateInfoMemType extends StatelessWidget {
                         padding: const EdgeInsets.all(5.0),
                         child: Text(
                           AppLocalizations
-                              .of(context)
+                              .of(context)!
                               .owner,
                           style: CustomTextStyle(
                             fontSize: 15,
@@ -72,7 +82,7 @@ class UpdateInfoMemType extends StatelessWidget {
                         padding: const EdgeInsets.all(5.0),
                         child: Text(
                           AppLocalizations
-                              .of(context)
+                              .of(context)!
                               .reSeeker,
                           style: CustomTextStyle(
 
@@ -85,7 +95,7 @@ class UpdateInfoMemType extends StatelessWidget {
                         padding: const EdgeInsets.all(5.0),
                         child: Text(
                           AppLocalizations
-                              .of(context)
+                              .of(context)!
                               .officeType,
                           style: CustomTextStyle(
                             fontSize: 15,
@@ -94,16 +104,6 @@ class UpdateInfoMemType extends StatelessWidget {
                         ),
                       ),
                     ],
-                    onPressed: (int index) {
-                      userMutual.updateMembershipType(index, true);
-                    },
-                    isSelected: userMutual.membershipType,
-                    color: Color(0xff1f2835),
-                    selectedColor: Color(0xffffffff),
-                    fillColor: Color(0xff1f2835),
-                    borderWidth: 1,
-                    borderColor: Color(0xff1f2835),
-                    selectedBorderColor: Color(0xff1f2835),
                   ),
                 ),
               ],
@@ -111,13 +111,13 @@ class UpdateInfoMemType extends StatelessWidget {
           ),
           if (userMutual.selectedMembership == 1)
             UpdateInfoTextField(
-              labelText: AppLocalizations.of(context).companyName,
+              labelText: AppLocalizations.of(context)!.companyName,
               fieldType: FieldType.companyName,
               icon: Icons.business,
             ),
           if (userMutual.selectedMembership == 5)
             UpdateInfoTextField(
-              labelText: AppLocalizations.of(context).officeTypeName,
+              labelText: AppLocalizations.of(context)!.officeTypeName,
               fieldType: FieldType.officeTypeName,
               icon: Icons.text_snippet_rounded,
             ),
@@ -126,10 +126,10 @@ class UpdateInfoMemType extends StatelessWidget {
                 0, 30, 0, 30),
             child: TextButton(
               onPressed: () async {
-                if (!_updateMyInfoKey.currentState.validate()) {
+                if (!_updateMyInfoKey.currentState!.validate()) {
                   return;
                 }
-                _updateMyInfoKey.currentState.save();
+                _updateMyInfoKey.currentState!.save();
                 await userMutual
                     .updateMyProfile(
                     context,
@@ -154,7 +154,7 @@ class UpdateInfoMemType extends StatelessWidget {
                 child: Center(
                   child: Text(
                     AppLocalizations
-                        .of(context)
+                        .of(context)!
                         .save,
                     style: CustomTextStyle(
 

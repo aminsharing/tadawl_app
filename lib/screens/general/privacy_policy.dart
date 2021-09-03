@@ -7,7 +7,7 @@ import 'package:tadawl_app/provider/general_provider.dart';
 
 class PrivacyPolicy extends StatelessWidget {
   PrivacyPolicy({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -32,7 +32,7 @@ class PrivacyPolicy extends StatelessWidget {
             ),
           ),
           title: Text(
-            AppLocalizations.of(context).privacyPolicy,
+            AppLocalizations.of(context)!.privacyPolicy,
             style: CustomTextStyle(
 
               fontSize: 20,
@@ -90,7 +90,7 @@ class PrivacyPolicy extends StatelessWidget {
                           headerBuilder: (BuildContext context, bool isExpanded) {
                             return ListTile(
                               title: Text(
-                                item.headerValue,
+                                item.headerValue!,
                                 style: CustomTextStyle(
 
                                   fontSize: 15,
@@ -101,7 +101,7 @@ class PrivacyPolicy extends StatelessWidget {
                           },
                           body: ListTile(
                             title: Text(
-                              item.expandedValue,
+                              item.expandedValue!,
                               style: CustomTextStyle(
 
                                 fontSize: 15,

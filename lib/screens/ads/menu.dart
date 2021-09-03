@@ -17,7 +17,7 @@ import 'package:tadawl_app/services/ad_page_helper.dart';
 
 class Menu extends StatelessWidget {
   Menu({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -54,7 +54,7 @@ class Menu extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
                 child: Text(
-                  AppLocalizations.of(context).latestDate,
+                  AppLocalizations.of(context)!.latestDate,
                   style: CustomTextStyle(
                     fontSize: 14,
                     color: Colors.white,
@@ -65,7 +65,7 @@ class Menu extends StatelessWidget {
             ),
             leading: TextButton(
               onPressed: () {
-                _scaffoldKey.currentState.openEndDrawer();
+                _scaffoldKey.currentState!.openEndDrawer();
               },
               child: Icon(
                 Icons.search_rounded,
@@ -90,7 +90,7 @@ class Menu extends StatelessWidget {
                 // menu.setFilterSearchDrawer(null);
                 // menu.setMenuFilter(null);
                 // menu.setMenuMainFilterAds(1);
-                await Provider.of<SearchDrawerProvider>(context, listen: false).getMenuList(context);
+                Provider.of<SearchDrawerProvider>(context, listen: false).getMenuList(context);
               },
               child: Directionality(
                 textDirection: locale.locale.toString() != 'en_US'
@@ -154,7 +154,7 @@ class Menu extends StatelessWidget {
                   Center(
                     child: Text(
                       AppLocalizations
-                          .of(context)
+                          .of(context)!
                           .noAdsAvailableNear,
                       style: CustomTextStyle(
                           fontSize: 15,

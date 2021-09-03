@@ -7,7 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RealEstateEmptyingService extends StatelessWidget {
   RealEstateEmptyingService({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -31,7 +31,7 @@ class RealEstateEmptyingService extends StatelessWidget {
           ),
         ),
         title: Text(
-          AppLocalizations.of(context).realEstateEmptying,
+          AppLocalizations.of(context)!.realEstateEmptying,
           style: CustomTextStyle(
 
             fontSize: 20,
@@ -53,7 +53,7 @@ class RealEstateEmptyingService extends StatelessWidget {
                 children: <Widget>[
                   Flexible(
                     child: Text(
-                      AppLocalizations.of(context).reDesc,
+                      AppLocalizations.of(context)!.reDesc,
                       style: CustomTextStyle(
 
                         fontSize: 15,
@@ -71,7 +71,7 @@ class RealEstateEmptyingService extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    AppLocalizations.of(context).watsappUs,
+                    AppLocalizations.of(context)!.watsappUs,
                     style: CustomTextStyle(
 
                       fontSize: 15,
@@ -123,7 +123,7 @@ class RealEstateEmptyingService extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.center,
                     child: Text(
-                      AppLocalizations.of(context).contactUs,
+                      AppLocalizations.of(context)!.contactUs,
                       style: CustomTextStyle(
 
                         fontSize: 20,

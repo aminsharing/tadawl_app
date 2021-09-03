@@ -22,12 +22,12 @@ class Discussion extends StatelessWidget {
   Discussion(
       this.phone_user,
       {
-    Key key,
-        @required this.username,
+    Key? key,
+        required this.username,
 
   }) : super(key: key);
-  final String phone_user;
-  final String username;
+  final String? phone_user;
+  final String? username;
 
 
   final GlobalKey<FormState> _messageKey = GlobalKey<FormState>();
@@ -106,25 +106,24 @@ class Discussion extends StatelessWidget {
                   width: mediaQuery.size.width,
                   height: mediaQuery.size.height * 0.745,
                   child: StreamBuilder<List<ConvModel>>(
-                    stream: mainChat.streamChatController.stream,
+                    stream: mainChat.streamChatController.stream as Stream<List<ConvModel>>?,
                     builder: (BuildContext context, AsyncSnapshot<List<ConvModel>> snapshot) {
                       if (snapshot.hasData) {
                         // ignore: omit_local_variable_types
-                        List<ConvModel> msgs = snapshot.data.reversed.toList();
+                        List<ConvModel> msgs = snapshot.data!.reversed.toList();
                         return ListView.builder(
                           controller: mainChat.scrollChatController,
                           reverse: true,
                           itemCount: msgs.length,
-                          // ignore: missing_return
                           itemBuilder: (context, i){
                             if(msgs[i].state_conv_sender != '0') {
                               // ignore: omit_local_variable_types
                               bool text = false;
                               if(i < msgs.length -1){
                                 // ignore: omit_local_variable_types
-                                String firstNum = msgs[i].timeAdded.split(' ').first.split('-').last;
+                                String firstNum = msgs[i].timeAdded!.split(' ').first.split('-').last;
                                 // ignore: omit_local_variable_types
-                                String secondNum = msgs[i+1].timeAdded.split(' ').first.split('-').last;
+                                String secondNum = msgs[i+1].timeAdded!.split(' ').first.split('-').last;
                                 if(firstNum != secondNum) {
                                   text = true;
                                 }
@@ -142,15 +141,15 @@ class Discussion extends StatelessWidget {
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                                           child: Text(
-                                            DateFormat('yyyy-MM-dd').format(DateTime.now()) == DateFormat('yyyy-MM-dd').format(DateTime.parse(msgs[i].timeAdded))
+                                            DateFormat('yyyy-MM-dd').format(DateTime.now()) == DateFormat('yyyy-MM-dd').format(DateTime.parse(msgs[i].timeAdded!))
                                                 ?
-                                            AppLocalizations.of(context).today
+                                            AppLocalizations.of(context)!.today
                                                 :
-                                            DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 1))) == DateFormat('yyyy-MM-dd').format(DateTime.parse(msgs[i].timeAdded))
+                                            DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 1))) == DateFormat('yyyy-MM-dd').format(DateTime.parse(msgs[i].timeAdded!))
                                                 ?
-                                            AppLocalizations.of(context).yesterday
+                                            AppLocalizations.of(context)!.yesterday
                                                 :
-                                            "${DateFormat('yyyy-MM-dd').format(DateTime.parse(msgs[i].timeAdded),)}",
+                                            "${DateFormat('yyyy-MM-dd').format(DateTime.parse(msgs[i].timeAdded!),)}",
                                             textAlign: TextAlign.center,
                                             style: CustomTextStyle(
                                               fontSize: 13,
@@ -168,7 +167,7 @@ class Discussion extends StatelessWidget {
                                       child: Stack(
                                         children: [
                                           Icon(
-                                            msgs[i].isLocal
+                                            msgs[i].isLocal!
                                                 ?
                                             Icons.check_box_outline_blank_rounded
                                                 :
@@ -190,6 +189,8 @@ class Discussion extends StatelessWidget {
                                   MsgReceiveTime(locale.phone, msgs: msgs[i]),
                                 ],
                               );
+                            }else{
+                              return SizedBox();
                             }
                           },
                         );
@@ -266,14 +267,14 @@ class Discussion extends StatelessWidget {
                                         if (mainChat.messageController.text.isEmpty) {
                                           return;
                                         }
-                                        _messageKey.currentState.save();
+                                        _messageKey.currentState!.save();
                                         mainChat.sendMess(
                                             context,
                                             [],
                                             null,
                                             mainChat.messageController.text,
-                                            phone_user,
-                                            locale.phone,
+                                            phone_user!,
+                                            locale.phone!,
                                             MessType.TEXT,
                                             null
                                         );
@@ -290,8 +291,8 @@ class Discussion extends StatelessWidget {
                                       keyboardType: TextInputType.multiline,
                                       minLines: 1,
                                       maxLines: 30,
-                                      onSaved: (String value) {
-                                        mainChat.setMessageController(value);
+                                      onSaved: (String? value) {
+                                        mainChat.setMessageController(value!);
                                       },
                                       onChanged: (value){
                                         if(mainChat.messageController.text.isEmpty){
@@ -322,8 +323,8 @@ class Discussion extends StatelessWidget {
                                               [],
                                               null,
                                               mainChat.messageController.text,
-                                              phone_user,
-                                              locale.phone,
+                                              phone_user!,
+                                              locale.phone!,
                                               MessType.TEXT,
                                               null
                                           );

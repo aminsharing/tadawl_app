@@ -9,14 +9,14 @@ import 'package:rxdart/rxdart.dart';
 
 class VoicePlayer extends StatefulWidget {
   VoicePlayer({
-    Key key,
+    Key? key,
     this.voice,
     this.duration,
     this.isLocal,
   }) : super(key: key);
-  final String voice;
-  final int duration;
-  final bool isLocal;
+  final String? voice;
+  final int? duration;
+  final bool? isLocal;
 
 
   @override
@@ -84,11 +84,11 @@ class _VoicePlayerState extends State<VoicePlayer> {
   }
 
   Stream<PositionData> get _positionDataStream =>
-      Rx.combineLatest2<Duration, Duration, PositionData>(
+      Rx.combineLatest2<Duration, Duration?, PositionData>(
           _player.positionStream,
           _player.durationStream,
               (position, duration) => PositionData(
-              position ?? Duration.zero, duration ?? Duration.zero));
+              position, duration ?? Duration.zero));
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +107,7 @@ class _VoicePlayerState extends State<VoicePlayer> {
                 // ignore: omit_local_variable_types
                 Duration _remaining = Duration.zero;
                 if(snapshot.hasData){
-                  _remaining = snapshot.data.duration - snapshot.data.position;
+                  _remaining = snapshot.data!.duration - snapshot.data!.position;
                 }
                 return _player.playing
                     ?
@@ -121,7 +121,7 @@ class _VoicePlayerState extends State<VoicePlayer> {
                     ?
                 Text('')
                     :
-                Text(RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$').firstMatch('${Duration(seconds: widget.duration)}')?.group(1) ?? '');
+                Text(RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$').firstMatch('${Duration(seconds: widget.duration!)}')?.group(1) ?? '');
               }
             ),
             _isLoading

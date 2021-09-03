@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +11,7 @@ import 'package:tadawl_app/screens/ads/main_page.dart';
 
 
 class CategoryScreen extends StatelessWidget {
-  CategoryScreen({Key key}) : super(key: key);
+  CategoryScreen({Key? key}) : super(key: key);
 
   final AddAdProvider addAdProvider = AddAdProvider();
 
@@ -81,7 +83,7 @@ class CategoryScreen extends StatelessWidget {
                   ),
                 ],
               ),
-        ) ??
+        ) as FutureOr<bool>? ??
             false;
       }
 
@@ -99,7 +101,7 @@ class CategoryScreen extends StatelessWidget {
                   widthFactor: 2.5,
                   child: Text(
                     AppLocalizations
-                        .of(context)
+                        .of(context)!
                         .chooseCategory,
                     style: CustomTextStyle(
                       fontWeight: FontWeight.w400,
@@ -135,9 +137,8 @@ class CategoryScreen extends StatelessWidget {
                           return TextButton(
                             onPressed: () {
                               addAds.updateCategoryDetailsAddAds(
-                                  int.parse(addAds.categoryAddAds[i].id_category),
+                                  int.parse(addAds.categoryAddAds[i].id_category!),
                                   addAds.categoryAddAds[i].name);
-                              addAds.setCurrentStageAddAds(2);
                             },
                             child: Container(
                               width: mediaQuery.size.width,
@@ -157,8 +158,8 @@ class CategoryScreen extends StatelessWidget {
                                   children: [
                                     Text(
                                       _lang != 'en_US'
-                                          ? addAds.categoryAddAds[i].name
-                                          : addAds.categoryAddAds[i].en_name,
+                                          ? addAds.categoryAddAds[i].name!
+                                          : addAds.categoryAddAds[i].en_name!,
                                       style: CustomTextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 15,
@@ -181,9 +182,8 @@ class CategoryScreen extends StatelessWidget {
                           return TextButton(
                             onPressed: () {
                               addAds.updateCategoryDetailsAddAds(
-                                  int.parse(addAds.categoryAddAds[i].id_category),
+                                  int.parse(addAds.categoryAddAds[i].id_category!),
                                   addAds.categoryAddAds[i].name);
-                              // addAds.setCurrentStageAddAds(2);
                               Navigator.push(context, MaterialPageRoute(builder: (context) => AdvertisingFeesScreen(addAdProvider),));
                             },
                             child: Container(
@@ -204,8 +204,8 @@ class CategoryScreen extends StatelessWidget {
                                   children: [
                                     Text(
                                       _lang != 'en_US'
-                                          ? addAds.categoryAddAds[i].name
-                                          : addAds.categoryAddAds[i].en_name,
+                                          ? addAds.categoryAddAds[i].name!
+                                          : addAds.categoryAddAds[i].en_name!,
                                       style: CustomTextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 15,

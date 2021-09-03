@@ -7,7 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ConstructionContracting extends StatelessWidget {
   ConstructionContracting({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   void launchWhatsApp() async {
@@ -40,7 +40,7 @@ class ConstructionContracting extends StatelessWidget {
           ),
         ),
         title: Text(
-          AppLocalizations.of(context).contractConstruction,
+          AppLocalizations.of(context)!.contractConstruction,
           style: CustomTextStyle(
 
             fontSize: 20,
@@ -62,7 +62,7 @@ class ConstructionContracting extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: Text(
-                      AppLocalizations.of(context).hotelDesc,
+                      AppLocalizations.of(context)!.hotelDesc,
                       style: CustomTextStyle(
 
                         fontSize: 15,
@@ -98,7 +98,7 @@ class ConstructionContracting extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.center,
                           child: Text(
-                            AppLocalizations.of(context).contactUs,
+                            AppLocalizations.of(context)!.contactUs,
                             style: CustomTextStyle(
 
                               fontSize: 20,

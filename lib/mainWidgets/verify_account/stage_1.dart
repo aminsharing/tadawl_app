@@ -10,8 +10,8 @@ import 'package:tadawl_app/mainWidgets/verify_account/stage_2.dart';
 import 'package:tadawl_app/provider/user_provider/change_pass_provider.dart';
 
 class Stage1 extends StatelessWidget {
-  Stage1(this.currentPhone, {Key key, @required this.changePassProvider}) : super(key: key);
-  final String currentPhone;
+  Stage1(this.currentPhone, {Key? key, required this.changePassProvider}) : super(key: key);
+  final String? currentPhone;
   final GlobalKey<FormState> _formVerAccountKey = GlobalKey<FormState>();
   final ChangePassProvider changePassProvider;
 
@@ -23,7 +23,7 @@ class Stage1 extends StatelessWidget {
         backgroundColor: const Color(0xff00cccc),
         centerTitle: true,
         title: Text(
-          AppLocalizations.of(context)
+          AppLocalizations.of(context)!
               .verAccount,
           style: CustomTextStyle(
             fontSize: 20,
@@ -48,19 +48,19 @@ class Stage1 extends StatelessWidget {
                     child: TextFormField(
                       decoration: InputDecoration(
                           labelText:
-                          AppLocalizations.of(context).enterVR),
+                          AppLocalizations.of(context)!.enterVR),
                       style: CustomTextStyle(
                         fontSize: 15,
                         color: const Color(0xff989696),
                       ).getTextStyle(),
                       keyboardType: TextInputType.number,
-                      validator: (String value) {
-                        if (value.isEmpty) {
-                          return AppLocalizations.of(context).reqVR;
+                      validator: (String? value) {
+                        if (value!.isEmpty) {
+                          return AppLocalizations.of(context)!.reqVR;
                         }
                         return null;
                       },
-                      onSaved: (String value) {
+                      onSaved: (String? value) {
                         Provider.of<ChangePassProvider>(context, listen: false).setVerCode(value);
                       },
                     ),
@@ -78,12 +78,12 @@ class Stage1 extends StatelessWidget {
             ),
             TextButton(
               onPressed: () async {
-                if (!_formVerAccountKey.currentState.validate()) {
+                if (!_formVerAccountKey.currentState!.validate()) {
                   return;
                 }
-                _formVerAccountKey.currentState.save();
+                _formVerAccountKey.currentState!.save();
                 var url = 'https://www.tadawl-store.com/API/api_app/login/verifyAccount.php';
-                var response = await http.post(url, body: {
+                var response = await http.post(Uri.parse(url), body: {
                   'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
                   'phone': currentPhone,
                   'verCode': Provider.of<ChangePassProvider>(context, listen: false).verificationCode,
@@ -141,7 +141,7 @@ class Stage1 extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      AppLocalizations.of(context).verAccount,
+                      AppLocalizations.of(context)!.verAccount,
                       style: CustomTextStyle(
 
                         fontSize: 20,

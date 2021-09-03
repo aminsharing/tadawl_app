@@ -19,7 +19,7 @@ class SpecialOffersProvider extends ChangeNotifier{
   }
 
   final List<AdsModel> _AdsSpecial = [];
-  List _AdsSpecialData = [];
+  List? _AdsSpecialData = [];
   bool _wait = false;
 
 
@@ -64,9 +64,9 @@ class SpecialOffersProvider extends ChangeNotifier{
       _AdsSpecial.clear();
       final locale = Provider.of<LocaleProvider>(context, listen: false);
       locale.initialCameraPosition = locale.initialCameraPosition?? CameraPosition(target: cities.first.position, zoom: cities.first.zoom);
-      Api().getadsFunc(locale.initialCameraPosition.target, getRadius(locale.initialCameraPosition.zoom)).then((value) {
+      Api().getadsFunc(locale.initialCameraPosition!.target, getRadius(locale.initialCameraPosition!.zoom)).then((value) {
         _AdsSpecialData = value;
-        _AdsSpecialData.forEach((element) {
+        _AdsSpecialData!.forEach((element) {
           if (element['id_special'] == '1') {
             _AdsSpecial.add(AdsModel.ads(element));
           }

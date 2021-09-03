@@ -6,7 +6,7 @@ import 'package:tadawl_app/provider/general_provider.dart';
 
 class TermsOfUse extends StatelessWidget {
   TermsOfUse({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -31,7 +31,7 @@ class TermsOfUse extends StatelessWidget {
             ),
           ),
           title: Text(
-            AppLocalizations.of(context).usageTerms,
+            AppLocalizations.of(context)!.usageTerms,
             style: CustomTextStyle(
 
               fontSize: 20,
@@ -90,7 +90,7 @@ class TermsOfUse extends StatelessWidget {
                           headerBuilder: (BuildContext context, bool isExpanded) {
                             return ListTile(
                               title: Text(
-                                item.headerValue,
+                                item.headerValue!,
                                 style: CustomTextStyle(
                                   fontSize: 15,
                                   color: const Color(0xff00cccc),
@@ -100,7 +100,7 @@ class TermsOfUse extends StatelessWidget {
                           },
                           body: ListTile(
                             title: Text(
-                              item.expandedValue,
+                              item.expandedValue!,
                               style: CustomTextStyle(
 
                                 fontSize: 15,

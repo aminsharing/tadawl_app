@@ -6,7 +6,7 @@ import 'package:tadawl_app/provider/ads_provider/search_ads_provider.dart';
 
 class SearchAds extends StatefulWidget {
   SearchAds({
-    Key key,
+    Key? key,
   }) : super(key: key);
   @override
   _SearchAdsState createState() => _SearchAdsState();
@@ -38,7 +38,7 @@ class _SearchAdsState extends State<SearchAds> {
             ),
           ),
           title: Text(
-            AppLocalizations.of(context).speedSearch,
+            AppLocalizations.of(context)!.speedSearch,
             style: CustomTextStyle(
 
               fontSize: 20,
@@ -60,7 +60,7 @@ class _SearchAdsState extends State<SearchAds> {
                     children: [
                       Expanded(
                         child: Text(
-                          AppLocalizations.of(context).enterIDAdsOrPhone,
+                          AppLocalizations.of(context)!.enterIDAdsOrPhone,
                           style: CustomTextStyle(
 
                             fontSize: 15,
@@ -84,20 +84,20 @@ class _SearchAdsState extends State<SearchAds> {
                               width: mediaQuery.size.width * 0.6,
                               child: TextFormField(
                                 decoration: InputDecoration(
-                                    labelText: AppLocalizations.of(context).enterHere),
+                                    labelText: AppLocalizations.of(context)!.enterHere),
                                 style: CustomTextStyle(
 
                                   fontSize: 13,
                                   color: const Color(0xff989696),
                                 ).getTextStyle(),
                                 keyboardType: TextInputType.number,
-                                validator: (String value) {
-                                  if (value.isEmpty) {
-                                    return AppLocalizations.of(context).notFound;
+                                validator: (String? value) {
+                                  if (value!.isEmpty) {
+                                    return AppLocalizations.of(context)!.notFound;
                                   }
                                   return null;
                                 },
-                                onSaved: (String value) {
+                                onSaved: (String? value) {
                                   searchFast.setSearchKey(value);
                                 },
                               ),
@@ -123,10 +123,10 @@ class _SearchAdsState extends State<SearchAds> {
                         padding: const EdgeInsets.fromLTRB(0, 50, 0, 30),
                         child: TextButton(
                           onPressed: () {
-                            if (!_searchAdsKey.currentState.validate()) {
+                            if (!_searchAdsKey.currentState!.validate()) {
                               return;
                             }
-                            _searchAdsKey.currentState.save();
+                            _searchAdsKey.currentState!.save();
                             searchFast.searchKeyInfo(context, searchFast.search);
                           },
                           child: Container(
@@ -142,7 +142,7 @@ class _SearchAdsState extends State<SearchAds> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  AppLocalizations.of(context).search,
+                                  AppLocalizations.of(context)!.search,
                                   style: CustomTextStyle(
                                     fontSize: 20,
                                     color: const Color(0xff3f9d28),

@@ -7,7 +7,7 @@ import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 
 
 class AdsPriceScreen extends StatelessWidget {
-  AdsPriceScreen(this.addAdProvider,{Key key}) : super(key: key);
+  AdsPriceScreen(this.addAdProvider,{Key? key}) : super(key: key);
   final AddAdProvider addAdProvider;
 
   final GlobalKey<FormState> _addAdsKey = GlobalKey<FormState>();
@@ -23,7 +23,7 @@ class AdsPriceScreen extends StatelessWidget {
             widthFactor: 1.3,
             child: Text(
               AppLocalizations
-                  .of(context)
+                  .of(context)!
                   .addAdsDetails,
               style: CustomTextStyle(
 
@@ -60,7 +60,7 @@ class AdsPriceScreen extends StatelessWidget {
                         children: [
                           Text(
                             AppLocalizations
-                                .of(context)
+                                .of(context)!
                                 .space,
                             style: CustomTextStyle(
 
@@ -75,11 +75,10 @@ class AdsPriceScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                       child: TextFormField(
-                        controller: addAds.spaceControllerAddAds ??
-                            TextEditingController(text: ''),
+                        controller: addAds.spaceControllerAddAds,
                         decoration: InputDecoration(
                           labelText: AppLocalizations
-                              .of(context)
+                              .of(context)!
                               .space,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
@@ -95,10 +94,10 @@ class AdsPriceScreen extends StatelessWidget {
                         keyboardType: TextInputType.number,
                         minLines: 1,
                         maxLines: 1,
-                        validator: (String value) {
-                          if (value.isEmpty) {
+                        validator: (String? value) {
+                          if (value!.isEmpty) {
                             return AppLocalizations
-                                .of(context)
+                                .of(context)!
                                 .reqSpace;
                           }
                           return null;
@@ -106,7 +105,7 @@ class AdsPriceScreen extends StatelessWidget {
                         onChanged: (String value) {
                           addAds.setOnChangedSpaceAddAds(value);
                         },
-                        onSaved: (String value) {
+                        onSaved: (String? value) {
                           addAds.setOnSavedSpaceAddAds(value);
                         },
                       ),
@@ -119,7 +118,7 @@ class AdsPriceScreen extends StatelessWidget {
                         children: [
                           Text(
                             AppLocalizations
-                                .of(context)
+                                .of(context)!
                                 .meterPrice,
                             style: CustomTextStyle(
 
@@ -135,7 +134,7 @@ class AdsPriceScreen extends StatelessWidget {
                               addAds.meterPriceControllerAddAds,
                               decoration: InputDecoration(
                                 labelText: AppLocalizations
-                                    .of(context)
+                                    .of(context)!
                                     .meterPrice,
                                 fillColor: Colors.white,
                                 border: OutlineInputBorder(
@@ -157,7 +156,7 @@ class AdsPriceScreen extends StatelessWidget {
                                     .setOnChangedMeterPriceAddAds(value);
                               },
                               onSaved: (value) {
-                                addAds.setOnSavedMeterPriceAddAds(value);
+                                addAds.setOnSavedMeterPriceAddAds(value!);
                               },
                             ),
                           ),
@@ -171,7 +170,7 @@ class AdsPriceScreen extends StatelessWidget {
                       children: [
                         Text(
                           AppLocalizations
-                              .of(context)
+                              .of(context)!
                               .totalPrice,
                           style: CustomTextStyle(
 
@@ -185,12 +184,11 @@ class AdsPriceScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: TextFormField(
-                      controller: addAds.priceControllerAddAds ??
-                          TextEditingController(text: ''),
+                      controller: addAds.priceControllerAddAds,
                       decoration: InputDecoration(
                         labelText:
                         AppLocalizations
-                            .of(context)
+                            .of(context)!
                             .totalPrice,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
@@ -206,16 +204,16 @@ class AdsPriceScreen extends StatelessWidget {
                       keyboardType: TextInputType.number,
                       minLines: 1,
                       maxLines: 1,
-                      validator: (String value) {
-                        if (value.isEmpty) {
+                      validator: (String? value) {
+                        if (value!.isEmpty) {
                           return AppLocalizations
-                              .of(context)
+                              .of(context)!
                               .reqTotalPrice;
                         }
                         return null;
                       },
-                      onSaved: (String value) {
-                        addAds.setOnSavedTotalPriceAddAds(value);
+                      onSaved: (String? value) {
+                        addAds.setOnSavedTotalPriceAddAds(value!);
                       },
                     ),
                   ),
@@ -226,7 +224,7 @@ class AdsPriceScreen extends StatelessWidget {
                       children: [
                         Text(
                           AppLocalizations
-                              .of(context)
+                              .of(context)!
                               .aqarDesc,
                           style: CustomTextStyle(
 
@@ -240,9 +238,9 @@ class AdsPriceScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: TextFormField(
-                      controller: addAds.descControllerAddAds ?? TextEditingController(text: ''),
+                      controller: addAds.descControllerAddAds,
                       decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context).writeAdditionalDetailsHere,
+                        labelText: AppLocalizations.of(context)!.writeAdditionalDetailsHere,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(0.0),
@@ -256,25 +254,25 @@ class AdsPriceScreen extends StatelessWidget {
                       keyboardType: TextInputType.multiline,
                       minLines: 5,
                       maxLines: 15,
-                      validator: (String value) {
-                        if (value.isEmpty) {
+                      validator: (String? value) {
+                        if (value!.isEmpty) {
                           return AppLocalizations
-                              .of(context)
+                              .of(context)!
                               .reqDesc;
                         }
                         return null;
                       },
-                      onSaved: (String value) {
-                        addAds.setOnSavedDetailsAddAds(value);
+                      onSaved: (String? value) {
+                        addAds.setOnSavedDetailsAddAds(value!);
                       },
                     ),
                   ),
                   TextButton(
                     onPressed: () {
-                      if (!_addAdsKey.currentState.validate()) {
+                      if (!_addAdsKey.currentState!.validate()) {
                         return;
                       }
-                      _addAdsKey.currentState.save();
+                      _addAdsKey.currentState!.save();
                       // addAds.setCurrentStageAddAds(7);
                       Navigator.push(context, MaterialPageRoute(builder: (context) =>
                       ChangeNotifierProvider<AddAdProvider>.value(
@@ -297,7 +295,7 @@ class AdsPriceScreen extends StatelessWidget {
                         child: Center(
                           child: Text(
                             AppLocalizations
-                                .of(context)
+                                .of(context)!
                                 .continuee,
                             style: CustomTextStyle(
 

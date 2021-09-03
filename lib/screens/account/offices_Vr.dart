@@ -5,7 +5,7 @@ import 'package:tadawl_app/provider/user_provider/offices_vr_provider.dart';
 
 class OfficesVR extends StatelessWidget {
   OfficesVR({
-    Key key,
+    Key? key,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

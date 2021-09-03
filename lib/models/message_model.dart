@@ -1,10 +1,10 @@
 class MessageModel{
-  String phoneUserSender;
-  String comment;
-  String msgType;
-  String timeAdded;
-  String voice;
-  String images;
+  String? phoneUserSender;
+  String? comment;
+  String? msgType;
+  String? timeAdded;
+  String? voice;
+  String? images;
 
   // ignore: sort_constructors_first
   MessageModel({

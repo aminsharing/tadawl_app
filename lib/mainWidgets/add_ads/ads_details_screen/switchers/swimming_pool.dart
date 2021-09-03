@@ -7,7 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class SwimmingPool extends StatelessWidget {
-  const SwimmingPool({Key key}) : super(key: key);
+  const SwimmingPool({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class SwimmingPool extends StatelessWidget {
         MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context).swimmingPool,
+            AppLocalizations.of(context)!.swimmingPool,
             style: CustomTextStyle(
 
               fontSize: 15,

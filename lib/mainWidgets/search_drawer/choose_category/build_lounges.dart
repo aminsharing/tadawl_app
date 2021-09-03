@@ -5,7 +5,7 @@ import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 
 class BuildLounges extends StatelessWidget {
-  const BuildLounges({Key key}) : super(key: key);
+  const BuildLounges({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class BuildLounges extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              AppLocalizations.of(context).lounges,
+              AppLocalizations.of(context)!.lounges,
               style: CustomTextStyle(
 
                 fontSize: 10,
@@ -33,6 +33,16 @@ class BuildLounges extends StatelessWidget {
           children: [
             Consumer<SearchDrawerProvider>(builder: (context, searchDrawer, child) {
               return ToggleButtons(
+                onPressed: (int index) {
+                  searchDrawer.setLoungesSearchDrawer(index);
+                },
+                isSelected: searchDrawer.loungesSearchDrawer,
+                color: const Color(0xff00cccc),
+                selectedColor: const Color(0xffffffff),
+                fillColor: const Color(0xff00cccc),
+                borderColor: const Color(0xff00cccc),
+                selectedBorderColor: const Color(0xff00cccc),
+                borderWidth: 1,
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -70,7 +80,7 @@ class BuildLounges extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: Text(
-                      AppLocalizations.of(context).all,
+                      AppLocalizations.of(context)!.all,
                       style: CustomTextStyle(
 
                         fontSize: 10,
@@ -79,16 +89,6 @@ class BuildLounges extends StatelessWidget {
                     ),
                   ),
                 ],
-                onPressed: (int index) {
-                  searchDrawer.setLoungesSearchDrawer(index);
-                },
-                isSelected: searchDrawer.loungesSearchDrawer,
-                color: const Color(0xff00cccc),
-                selectedColor: const Color(0xffffffff),
-                fillColor: const Color(0xff00cccc),
-                borderColor: const Color(0xff00cccc),
-                selectedBorderColor: const Color(0xff00cccc),
-                borderWidth: 1,
               );
             }),
           ],

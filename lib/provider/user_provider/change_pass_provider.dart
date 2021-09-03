@@ -5,9 +5,9 @@ class ChangePassProvider extends ChangeNotifier{
   ChangePassProvider(){
     print('init ChangePassProvider');
   }
-  String _newPass, _reNewPass;
-  int _current_stage;
-  String _verificationCode;
+  String? _newPass, _reNewPass;
+  int? _current_stage;
+  String? _verificationCode;
 
   @override
   void dispose() {
@@ -15,24 +15,24 @@ class ChangePassProvider extends ChangeNotifier{
     super.dispose();
   }
 
-  Future<void> saveSession(String phone) async {
+  Future<void> saveSession(String? phone) async {
     var p = await SharedPreferences.getInstance();
     await p.setString('token', phone.toString());
     // ignore: deprecated_member_use
     await p.commit();
   }
 
-  void setReNewPass(String reNewPass) {
+  void setReNewPass(String? reNewPass) {
     _reNewPass = reNewPass;
     notifyListeners();
   }
 
-  void setNewPass(String newPass) {
+  void setNewPass(String? newPass) {
     _newPass = newPass;
     notifyListeners();
   }
 
-  void setVerCode(String verCode) {
+  void setVerCode(String? verCode) {
     _verificationCode = verCode;
     notifyListeners();
   }
@@ -42,8 +42,8 @@ class ChangePassProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  String get newPass => _newPass;
-  String get reNewPass => _reNewPass;
-  int get current_stage => _current_stage;
-  String get verificationCode => _verificationCode;
+  String? get newPass => _newPass;
+  String? get reNewPass => _reNewPass;
+  int? get current_stage => _current_stage;
+  String? get verificationCode => _verificationCode;
 }

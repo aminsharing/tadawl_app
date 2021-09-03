@@ -14,7 +14,7 @@ import 'package:tadawl_app/screens/general/regions.dart';
 
 class BottomNavigationBarApp extends StatelessWidget {
   BottomNavigationBarApp({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -52,7 +52,7 @@ class BottomNavigationBarApp extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      AppLocalizations.of(context).myAccount,
+                      AppLocalizations.of(context)!.myAccount,
                       style: CustomTextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 12,
@@ -101,7 +101,7 @@ class BottomNavigationBarApp extends StatelessWidget {
                     ),
                     Text(
                       AppLocalizations
-                          .of(context)
+                          .of(context)!
                           .myLocation,
                       style: CustomTextStyle(
                         fontWeight: FontWeight.w400,
@@ -144,7 +144,7 @@ class BottomNavigationBarApp extends StatelessWidget {
                     ),
                     Text(
                       AppLocalizations
-                          .of(context)
+                          .of(context)!
                           .regions,
                       style: CustomTextStyle(
                         fontWeight: FontWeight.w400,
@@ -189,7 +189,7 @@ class BottomNavigationBarApp extends StatelessWidget {
                     Flexible(
                       child: Text(
                         AppLocalizations
-                            .of(context)
+                            .of(context)!
                             .realEstateOffices,
                         style: CustomTextStyle(
                           fontWeight: FontWeight.w400,
@@ -278,7 +278,7 @@ class BottomNavigationBarApp extends StatelessWidget {
                     Flexible(
                       child: Text(
                         AppLocalizations
-                            .of(context)
+                            .of(context)!
                             .messages,
                         style: CustomTextStyle(
                           fontWeight: FontWeight.w400,
@@ -370,7 +370,7 @@ class BottomNavigationBarApp extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      AppLocalizations.of(context).menu,
+                      AppLocalizations.of(context)!.menu,
                       style: CustomTextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 12,

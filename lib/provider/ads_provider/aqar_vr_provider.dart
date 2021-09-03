@@ -16,15 +16,15 @@ class AqarVRProvider extends ChangeNotifier{
     super.dispose();
   }
 
-  File _imageAqarVR;
-  int _buttonClickedAqarVR;
+  File? _imageAqarVR;
+  int? _buttonClickedAqarVR;
   final _picker3 = ImagePicker();
   final List<bool> _list_id_type = List.generate(3, (_) => false);
-  String _identity_number, _saq_number, _identity_type;
+  String? _identity_number, _saq_number, _identity_type;
 
 
   Future<void> getImageAqarVR() async {
-    final _pickedFile3 = await _picker3.getImage(
+    final _pickedFile3 = await _picker3.pickImage(
       source: ImageSource.gallery,
     );
     if (_pickedFile3 != null) {
@@ -33,17 +33,17 @@ class AqarVRProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setButtonClickedAqarVR(int buttonClickedAqarVR) {
+  void setButtonClickedAqarVR(int? buttonClickedAqarVR) {
     _buttonClickedAqarVR = buttonClickedAqarVR;
     notifyListeners();
   }
 
-  void setIdentityNumber(String id) {
+  void setIdentityNumber(String? id) {
     _identity_number = id;
     notifyListeners();
   }
 
-  void setSaqNumber(String saqNumber) {
+  void setSaqNumber(String? saqNumber) {
     _saq_number = saqNumber;
     notifyListeners();
   }
@@ -64,14 +64,14 @@ class AqarVRProvider extends ChangeNotifier{
 
   Future sendInfoAqarVR(
       BuildContext context,
-      String identity_number,
-      String saq_number,
-      String identity_type,
-      String id_description,
-      File image) async {
+      String? identity_number,
+      String? saq_number,
+      String? identity_type,
+      String? id_description,
+      File? image) async {
     Future.delayed(Duration(milliseconds: 0), () {
-      Api().sendInfoAqarVRFunc(identity_number, saq_number,
-          identity_type, id_description, image);
+      Api().sendInfoAqarVRFunc(identity_number!, saq_number!,
+          identity_type!, id_description!, image!);
     });
 
     Provider.of<AdPageProvider>(context, listen: false)
@@ -88,10 +88,10 @@ class AqarVRProvider extends ChangeNotifier{
   }
 
 
-  File get imageAqarVR => _imageAqarVR;
-  int get buttonClickedAqarVR => _buttonClickedAqarVR;
-  String get identity_number => _identity_number;
-  String get saq_number => _saq_number;
-  String get identity_type => _identity_type;
+  File? get imageAqarVR => _imageAqarVR;
+  int? get buttonClickedAqarVR => _buttonClickedAqarVR;
+  String? get identity_number => _identity_number;
+  String? get saq_number => _saq_number;
+  String? get identity_type => _identity_type;
   List<bool> get list_id_type => _list_id_type;
 }

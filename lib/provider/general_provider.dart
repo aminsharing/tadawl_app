@@ -9,8 +9,8 @@ import 'package:tadawl_app/provider/locale_provider.dart';
 
 class Item {
   Item({this.expandedValue, this.headerValue, this.isExpanded = false});
-  String expandedValue;
-  String headerValue;
+  String? expandedValue;
+  String? headerValue;
   bool isExpanded;
 }
 
@@ -134,7 +134,7 @@ class GeneralProvider extends ChangeNotifier {
     super.dispose();
   }
 
-  String _name, _mobile, _title, _details;
+  String? _name, _mobile, _title, _details;
 
   final List<Item> _data = generatedItems();
 
@@ -153,7 +153,7 @@ class GeneralProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> sendForm(BuildContext context, String name, String mobile, String title, String details) async {
+  Future<void> sendForm(BuildContext context, String? name, String? mobile, String? title, String? details) async {
     var url = 'https://tadawl-store.com/API/api_app/contactUs/contactForm.php';
     var data = {
       'name': name,
@@ -161,7 +161,7 @@ class GeneralProvider extends ChangeNotifier {
       'title': title,
       'details': details,
     };
-    var res = await http.post(url, body: data);
+    var res = await http.post(Uri.parse(url), body: data);
     if (jsonDecode(res.body) == 'true') {
       await Fluttertoast.showToast(
           msg: 'تم إرسال النموذج بنجاح، سيتم التواصل معك بأقرب فرصة.',
@@ -201,9 +201,9 @@ class GeneralProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String get name => _name;
-  String get mobile => _mobile;
-  String get title => _title;
-  String get details => _details;
+  String? get name => _name;
+  String? get mobile => _mobile;
+  String? get title => _title;
+  String? get details => _details;
   List<Item> get data => _data;
 }

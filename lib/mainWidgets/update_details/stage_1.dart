@@ -41,13 +41,13 @@ import 'stage_1/switchers/yard.dart';
 
 class Stage1 extends StatelessWidget {
   const Stage1(this._id_description, {
-    Key key,
-    @required this.updateDetailsProvider,
-    @required this.ads,
+    Key? key,
+    required this.updateDetailsProvider,
+    required this.ads,
   }) : super(key: key);
-  final String _id_description;
+  final String? _id_description;
   final UpdateDetailsProvider updateDetailsProvider;
-  final List<AdsModel> ads;
+  final List<AdsModel?> ads;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class Stage1 extends StatelessWidget {
         backgroundColor: const Color(0xff1f2835),
         leadingWidth: 70,
         title: Text(
-          AppLocalizations.of(context)
+          AppLocalizations.of(context)!
               .updateDetails,
           style: CustomTextStyle(
 
@@ -91,7 +91,7 @@ class Stage1 extends StatelessWidget {
               if (updateDetails.id_category_finalUpdate != null){
                 return Column(
                   children: [
-                    ...getPage()[updateDetails.id_category_finalUpdate]
+                    ...getPage()[updateDetails.id_category_finalUpdate!] as Iterable<Widget>
                   ],
                 );
               }else{
@@ -127,7 +127,7 @@ class Stage1 extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      AppLocalizations.of(context).continuee,
+                      AppLocalizations.of(context)!.continuee,
                       style: CustomTextStyle(
 
                         fontSize: 15,

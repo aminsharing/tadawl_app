@@ -5,7 +5,7 @@ import 'package:tadawl_app/provider/ads_provider/adv_fee_provider.dart';
 import 'package:tadawl_app/screens/ads/payment_of_fees.dart';
 
 class UpgradeAdScreen extends StatefulWidget {
-  const UpgradeAdScreen({Key key}) : super(key: key);
+  const UpgradeAdScreen({Key? key}) : super(key: key);
 
   @override
   _UpgradeAdScreenState createState() => _UpgradeAdScreenState();
@@ -68,9 +68,9 @@ class _UpgradeAdScreenState extends State<UpgradeAdScreen> {
             text: 'الحصول على 150 مشاهدة',
             value: 50,
             currentValue: _currentValue,
-            onChanged: (int value) {
+            onChanged: (int? value) {
               setState(() {
-                _currentValue = value;
+                _currentValue = value!;
               });
             },
           ),
@@ -78,9 +78,9 @@ class _UpgradeAdScreenState extends State<UpgradeAdScreen> {
             text: 'الحصول على 300 مشاهدة',
             value: 100,
             currentValue: _currentValue,
-            onChanged: (int value) {
+            onChanged: (int? value) {
               setState(() {
-                _currentValue = value;
+                _currentValue = value!;
               });
             },
           ),
@@ -88,9 +88,9 @@ class _UpgradeAdScreenState extends State<UpgradeAdScreen> {
             text: 'الحصول على 600 مشاهدة',
             value: 170,
             currentValue: _currentValue,
-            onChanged: (int value) {
+            onChanged: (int? value) {
               setState(() {
-                _currentValue = value;
+                _currentValue = value!;
               });
             },
           ),
@@ -98,9 +98,9 @@ class _UpgradeAdScreenState extends State<UpgradeAdScreen> {
             text: 'الحصول على 1000 مشاهدة',
             value: 250,
             currentValue: _currentValue,
-            onChanged: (int value) {
+            onChanged: (int? value) {
               setState(() {
-                _currentValue = value;
+                _currentValue = value!;
               });
             },
           ),
@@ -166,16 +166,16 @@ class _UpgradeAdScreenState extends State<UpgradeAdScreen> {
 }
 class CustomRadio extends StatelessWidget {
   CustomRadio({
-    Key key,
-    @required this.text,
-    @required this.value,
-    @required this.currentValue,
-    @required this.onChanged,
+    Key? key,
+    required this.text,
+    required this.value,
+    required this.currentValue,
+    required this.onChanged,
   }) : super(key: key);
   final String text;
   final int value;
   final int currentValue;
-  final Function(int) onChanged;
+  final Function(int?) onChanged;
 
   @override
   Widget build(BuildContext context) {

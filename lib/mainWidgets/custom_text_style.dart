@@ -6,9 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextStyle {
   CustomTextStyle({this.fontSize, this.color, this.fontWeight});
-  final double fontSize;
-  final Color color;
-  final FontWeight fontWeight;
+  final double? fontSize;
+  final Color? color;
+  final FontWeight? fontWeight;
 
 
   TextStyle getTextStyle() {

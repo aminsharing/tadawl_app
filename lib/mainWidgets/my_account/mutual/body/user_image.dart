@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class UserImage extends StatelessWidget {
-  const UserImage({Key key, this.imageName}) : super(key: key);
-  final String imageName;
+  const UserImage({Key? key, this.imageName}) : super(key: key);
+  final String? imageName;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class UserImage extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         image: DecorationImage(
-            image: imageName.isEmpty ? AssetImage('assets/images/avatar.png') : CachedNetworkImageProvider('https://tadawl-store.com/API/assets/images/avatar/$imageName'),
+            image: (imageName!.isEmpty ? AssetImage('assets/images/avatar.png') : CachedNetworkImageProvider('https://tadawl-store.com/API/assets/images/avatar/$imageName')) as ImageProvider<Object>,
             onError: (obj, stack) => AssetImage('assets/images/avatar.png'),
             fit: BoxFit.contain),
       ),

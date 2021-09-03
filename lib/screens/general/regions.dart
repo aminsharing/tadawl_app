@@ -10,7 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Regions extends StatelessWidget {
   Regions({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
 
@@ -23,7 +23,7 @@ class Regions extends StatelessWidget {
         context: context,
         builder: (context) => AlertDialog(
           title: Text(
-            AppLocalizations.of(context).closeApp,
+            AppLocalizations.of(context)!.closeApp,
             style: CustomTextStyle(
               fontSize: 20,
               color: const Color(0xff00cccc),
@@ -31,7 +31,7 @@ class Regions extends StatelessWidget {
             textAlign: TextAlign.right,
           ),
           content: Text(
-            AppLocalizations.of(context).areYouSureCloseApp,
+            AppLocalizations.of(context)!.areYouSureCloseApp,
             style: CustomTextStyle(
               fontSize: 17,
               color: const Color(0xff000000),
@@ -44,7 +44,7 @@ class Regions extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
                 child: Text(
-                  AppLocalizations.of(context).yes,
+                  AppLocalizations.of(context)!.yes,
                   style: CustomTextStyle(
                     fontSize: 17,
                     color: const Color(0xff000000),
@@ -58,7 +58,7 @@ class Regions extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
                 child: Text(
-                  AppLocalizations.of(context).no,
+                  AppLocalizations.of(context)!.no,
                   style: CustomTextStyle(
                     fontSize: 17,
                     color: const Color(0xff000000),
@@ -69,7 +69,7 @@ class Regions extends StatelessWidget {
             ),
           ],
         ),
-      ) ?? false;
+      ).then((value) => value as bool);
     }
     var mediaQuery = MediaQuery.of(context);
     return WillPopScope(

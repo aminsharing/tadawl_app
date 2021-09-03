@@ -7,7 +7,7 @@ import 'build_verse.dart';
 import 'build_wells.dart';
 
 class SelectedCategory6 extends StatelessWidget {
-  const SelectedCategory6({Key key}) : super(key: key);
+  const SelectedCategory6({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

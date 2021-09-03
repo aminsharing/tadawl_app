@@ -24,13 +24,13 @@ class AdvFeeProvider extends ChangeNotifier{
   }
 
   final List<bool> _isSelected1 = List.generate(3, (_) => false);
-  int _selectedNav1;
+  int? _selectedNav1;
   final List<bool> _isSelected2 = List.generate(3, (_) => false);
-  int _selectedNav2;
+  int? _selectedNav2;
   final List<bool> _isSelected3 = List.generate(2, (_) => false);
-  int _selectedNav3;
+  int? _selectedNav3;
   final List<bool> _isSelected4 = List.generate(1, (_) => false);
-  int _selectedNav4;
+  int? _selectedNav4;
 
   static const platform = MethodChannel('Hyperpay.demo.fultter/channel');
 
@@ -306,8 +306,8 @@ class AdvFeeProvider extends ChangeNotifier{
   List<bool> get isSelected2 => _isSelected2;
   List<bool> get isSelected3 => _isSelected3;
   List<bool> get isSelected4 => _isSelected4;
-  int get selectedNav1 => _selectedNav1;
-  int get selectedNav2 => _selectedNav2;
-  int get selectedNav3 => _selectedNav3;
-  int get selectedNav4 => _selectedNav4;
+  int? get selectedNav1 => _selectedNav1;
+  int? get selectedNav2 => _selectedNav2;
+  int? get selectedNav3 => _selectedNav3;
+  int? get selectedNav4 => _selectedNav4;
 }

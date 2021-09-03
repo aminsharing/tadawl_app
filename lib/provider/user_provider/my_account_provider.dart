@@ -19,7 +19,7 @@ import 'package:tadawl_app/screens/account/login.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyAccountProvider extends ChangeNotifier{
-  MyAccountProvider(String _phone){
+  MyAccountProvider(String? _phone){
     print('init MyAccountProvider');
     initStateSelected();
     if(_phone != null){
@@ -45,7 +45,7 @@ class MyAccountProvider extends ChangeNotifier{
   int _expendedListCount = 3;
   bool esBool = false;
   bool _busy = false;
-  int _number;
+  int? _number;
 
   void clearExpendedListCount(){
     _expendedListCount = 3;
@@ -63,7 +63,7 @@ class MyAccountProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<bool> updateAds(BuildContext context, String id_ads) async {
+  Future<bool> updateAds(BuildContext context, String? id_ads) async {
     return Future.delayed(Duration(milliseconds: 0), () {
       return Api().updateAdsFunc(id_ads).then((value) {
         _busy = false;
@@ -97,27 +97,27 @@ class MyAccountProvider extends ChangeNotifier{
 
 
   ///
-  int _called;
+  int? _called;
   final List<UserEstimateModel> _estimates = [];
-  List _EstimateData = [];
-  String _rating, _commentRating;
+  List? _EstimateData = [];
+  String? _rating, _commentRating;
   final List<AdsModel> _userAds = [];
-  List _UserAdsData = [];
-  String _userPhone;
-  OfficeModel _offices;
-  UserModel _users;
-  UserEstimateModel _sumEstimates;
-  UserModel _avatars;
-  String _userName, _companyName, _email, _personalProfile, _officeNameUser;
+  List? _UserAdsData = [];
+  String? _userPhone;
+  OfficeModel? _offices;
+  UserModel? _users;
+  UserEstimateModel? _sumEstimates;
+  UserModel? _avatars;
+  String? _userName, _companyName, _email, _personalProfile, _officeNameUser;
   final List<bool> _membershipType = List.generate(5, (_) => false);
-  int _selectedMembership;
+  int? _selectedMembership;
   bool _wait = false;
 
-  File _imageUpdateProfile;
+  File? _imageUpdateProfile;
   final _picker2 = ImagePicker();
 
   Future<void> getImageUpdateProfile() async {
-    final _pickedFile2 = await _picker2.getImage(
+    final _pickedFile2 = await _picker2.pickImage(
       source: ImageSource.gallery,
     );
     if (_pickedFile2 != null) {
@@ -126,7 +126,7 @@ class MyAccountProvider extends ChangeNotifier{
     }
   }
 
-  File get imageUpdateProfile => _imageUpdateProfile;
+  File? get imageUpdateProfile => _imageUpdateProfile;
 
 
 
@@ -137,7 +137,7 @@ class MyAccountProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void callNumber(BuildContext context, String phoneEstimated) async {
+  void callNumber(BuildContext context, String? phoneEstimated) async {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     if (_estimates.isNotEmpty) {
       for (var i = 0; i < countEstimates(); i++) {
@@ -157,7 +157,7 @@ class MyAccountProvider extends ChangeNotifier{
       var number = '+${locale.phone}';
       try{
         await FlutterPhoneDirectCaller.callNumber(number).then((value) {
-          if(value){
+          if(value!){
             Future.delayed(Duration(seconds: 5), (){
               showRatingDialog(context, phoneEstimated);
             });
@@ -170,7 +170,7 @@ class MyAccountProvider extends ChangeNotifier{
       var number = '+$phoneEstimated';
       try{
         await FlutterPhoneDirectCaller.callNumber(number).then((value) {
-          if(value){
+          if(value!){
             Future.delayed(Duration(seconds: 5), (){
               showRatingDialog(context, phoneEstimated);
             });
@@ -182,12 +182,12 @@ class MyAccountProvider extends ChangeNotifier{
     }
   }
 
-  void showRatingDialog(BuildContext context, String phoneEstimated) {
+  void showRatingDialog(BuildContext context, String? phoneEstimated) {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     final _dialog = RatingDialog(
-      title: AppLocalizations.of(context).ratingDialog,
-      commentHint: AppLocalizations.of(context).ratingCommentHint,
-      message: AppLocalizations.of(context).ratingHint,
+      title: AppLocalizations.of(context)!.ratingDialog,
+      commentHint: AppLocalizations.of(context)!.ratingCommentHint,
+      message: AppLocalizations.of(context)!.ratingHint,
       image: Container(
         width: 100.0,
         height: 100.0,
@@ -199,7 +199,7 @@ class MyAccountProvider extends ChangeNotifier{
           ),
         ),
       ),
-      submitButton: AppLocalizations.of(context).send,
+      submitButton: AppLocalizations.of(context)!.send,
       onSubmitted: (response) {
         if(locale.phone != null){
           _rating = response.rating.toString();
@@ -243,28 +243,26 @@ class MyAccountProvider extends ChangeNotifier{
 
   Future<void> getUsersList( String Phone) async{
     Future.delayed(Duration(milliseconds: 0), () async{
-      if(Phone != null) {
-        await Api().getUserInfoFunc(Phone).then((value) {
-          _users = UserModel.users(value);
-          if (_users != null) {
-            setUsername(_users.username);
-            setCompanyName(_users.company_name);
-            setOfficeNameUser(_users.office_name);
-            setEmail(_users.email);
-            setPersonalProfile(_users.about);
-            notifyListeners();
-          }
-        });
-      }
+      await Api().getUserInfoFunc(Phone).then((value) {
+        _users = UserModel.users(value);
+        if (_users != null) {
+          setUsername(_users!.username);
+          setCompanyName(_users!.company_name);
+          setOfficeNameUser(_users!.office_name);
+          setEmail(_users!.email);
+          setPersonalProfile(_users!.about);
+          notifyListeners();
+        }
+      });
     });
   }
 
-  Future<void> getEstimatesInfo(String _Phone) async{
+  Future<void> getEstimatesInfo(String? _Phone) async{
     Future.delayed(Duration(milliseconds: 0), () async{
       if (_estimates.isEmpty) {
         await Api().getEstimates(_Phone).then((value) {
           _EstimateData = value;
-          _EstimateData.forEach((element) {
+          _EstimateData!.forEach((element) {
             _estimates.add(UserEstimateModel.estimates(element));
           });
           // notifyListeners();
@@ -275,7 +273,7 @@ class MyAccountProvider extends ChangeNotifier{
         await Api().getEstimates(_Phone).then((value) {
           _EstimateData = value;
           _estimates.clear();
-          _EstimateData.forEach((element) {
+          _EstimateData!.forEach((element) {
             _estimates.add(UserEstimateModel.estimates(element));
           });
           notifyListeners();
@@ -286,7 +284,7 @@ class MyAccountProvider extends ChangeNotifier{
     //notifyListeners();
   }
 
-  Future<void> getSumEstimatesInfo(String _Phone) async{
+  Future<void> getSumEstimatesInfo(String? _Phone) async{
     Future.delayed(Duration(milliseconds: 0), () async{
       await Api().getSumEstimates(_Phone).then((value) {
         _sumEstimates = UserEstimateModel.sumEstimates(value);
@@ -296,7 +294,7 @@ class MyAccountProvider extends ChangeNotifier{
     //notifyListeners();
   }
 
-  Future<void> getAvatarList( String PhoneOther) async{
+  Future<void> getAvatarList( String? PhoneOther) async{
     Future.delayed(Duration(milliseconds: 0), () async{
       await Api().getUserInfoFunc(PhoneOther).then((value) {
         _avatars = UserModel.users(value);
@@ -305,12 +303,12 @@ class MyAccountProvider extends ChangeNotifier{
     });
   }
 
-  Future<void> getUserAdsList( String Phone) async{
+  Future<void> getUserAdsList( String? Phone) async{
     Future.delayed(Duration(milliseconds: 0), () async{
       if (_userAds.isEmpty) {
         await Api().getUserAdsFunc(Phone).then((value) {
           _UserAdsData = value;
-          _UserAdsData.forEach((element) {
+          _UserAdsData!.forEach((element) {
             _userAds.add(AdsModel.ads(element));
           });
           // notifyListeners();
@@ -319,7 +317,7 @@ class MyAccountProvider extends ChangeNotifier{
         await Api().getUserAdsFunc(Phone).then((value) {
           _UserAdsData = value;
           _userAds.clear();
-          _UserAdsData.forEach((element) {
+          _UserAdsData!.forEach((element) {
             _userAds.add(AdsModel.ads(element));
           });
           // notifyListeners();
@@ -329,7 +327,7 @@ class MyAccountProvider extends ChangeNotifier{
     });
   }
 
-  Future<void> checkOfficeInfo( String Phone) async {
+  Future<void> checkOfficeInfo( String? Phone) async {
     Future.delayed(Duration(milliseconds: 0), () async{
       await Api().getOfficeCheckFunc(Phone).then((value) {
         if(value != null){
@@ -339,7 +337,7 @@ class MyAccountProvider extends ChangeNotifier{
     });
   }
 
-  void setUserPhone(String userPhone) {
+  void setUserPhone(String? userPhone) {
     _userPhone = userPhone;
     // notifyListeners();
   }
@@ -362,34 +360,34 @@ class MyAccountProvider extends ChangeNotifier{
     }
   }
 
-  void setUsername(String userName) {
+  void setUsername(String? userName) {
     _userName = userName;
     //notifyListeners();
   }
 
-  void setCompanyName(String company_name) {
+  void setCompanyName(String? company_name) {
     _companyName = company_name;
     //notifyListeners();
   }
 
-  void setOfficeNameUser(String office_name) {
+  void setOfficeNameUser(String? office_name) {
     _officeNameUser = office_name;
     //notifyListeners();
   }
 
-  void setEmail(String email) {
+  void setEmail(String? email) {
     _email = email;
     //notifyListeners();
   }
 
-  void setPersonalProfile(String personalProfile) {
+  void setPersonalProfile(String? personalProfile) {
     _personalProfile = personalProfile;
   }
 
   void setInitMembershipType(){
     for (var buttonIndex2 = 0; buttonIndex2 < _membershipType.length; buttonIndex2++) {
-      if(_users.id_mem != null){
-        if(int.tryParse(_users.id_mem) - 1 == buttonIndex2){
+      if(_users!.id_mem != null){
+        if(int.tryParse(_users!.id_mem!)! - 1 == buttonIndex2){
           _membershipType[buttonIndex2] = true;
           _selectedMembership = buttonIndex2 + 1;
         }else{
@@ -399,7 +397,7 @@ class MyAccountProvider extends ChangeNotifier{
     }
   }
 
-  void updateMembershipType(int index, bool update) {
+  void updateMembershipType(int? index, bool update) {
     for (var buttonIndex2 = 0; buttonIndex2 < _membershipType.length; buttonIndex2++) {
 
       if (buttonIndex2 == index) {
@@ -466,14 +464,14 @@ class MyAccountProvider extends ChangeNotifier{
 
   Future updateMyProfile(
       BuildContext context,
-      int selectedMembership,
-      String userName,
-      String company_name,
-      String office_name,
-      String email,
-      String personalProfile,
-      String phone,
-      File image) async {
+      int? selectedMembership,
+      String? userName,
+      String? company_name,
+      String? office_name,
+      String? email,
+      String? personalProfile,
+      String? phone,
+      File? image) async {
     Future.delayed(Duration(milliseconds: 0), () {
       Api().updateMyProfileFunc(
           selectedMembership,
@@ -482,7 +480,7 @@ class MyAccountProvider extends ChangeNotifier{
           office_name,
           email,
           personalProfile,
-          phone,
+          phone!,
           image);
     });
     await getAvatarList(phone);
@@ -507,29 +505,29 @@ class MyAccountProvider extends ChangeNotifier{
   }
 
 
-  int get called => _called;
-  String get rating => _rating;
-  String get commentRating => _commentRating;
+  int? get called => _called;
+  String? get rating => _rating;
+  String? get commentRating => _commentRating;
   List<UserEstimateModel> get estimates => _estimates;
-  UserEstimateModel get sumEstimates => _sumEstimates;
-  UserModel get avatars => _avatars;
+  UserEstimateModel? get sumEstimates => _sumEstimates;
+  UserModel? get avatars => _avatars;
   List<AdsModel> get userAds => _userAds;
-  OfficeModel get offices => _offices;
-  String get userPhone => _userPhone;
-  UserModel get users => _users;
-  String get userName => _userName;
-  String get company_name => _companyName;
-  String get email => _email;
-  String get personalProfile => _personalProfile;
-  String get officeNameUser => _officeNameUser;
+  OfficeModel? get offices => _offices;
+  String? get userPhone => _userPhone;
+  UserModel? get users => _users;
+  String? get userName => _userName;
+  String? get company_name => _companyName;
+  String? get email => _email;
+  String? get personalProfile => _personalProfile;
+  String? get officeNameUser => _officeNameUser;
   List<bool> get membershipType => _membershipType;
-  int get selectedMembership => _selectedMembership;
+  int? get selectedMembership => _selectedMembership;
   bool get wait => _wait;
   ///
 
 
   bool get busy => _busy;
-  int get number => _number;
+  int? get number => _number;
   List<bool> get isSelected => _isSelected;
   int get selectedNav => _selectedNav;
   int get expendedListCount => _expendedListCount;

@@ -6,7 +6,7 @@ import 'package:tadawl_app/provider/ads_provider/update_details_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Cellar extends StatelessWidget {
-  const Cellar({Key key}) : super(key: key);
+  const Cellar({Key? key}) : super(key: key);
 
 
   @override
@@ -19,7 +19,7 @@ class Cellar extends StatelessWidget {
         MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppLocalizations.of(context).cellar,
+            AppLocalizations.of(context)!.cellar,
             style: CustomTextStyle(
 
               fontSize: 15,
@@ -34,7 +34,7 @@ class Cellar extends StatelessWidget {
               height: 20.0,
               valueFontSize: 15.0,
               toggleSize: 15.0,
-              value: updateDetails.isCellarUpdate,
+              value: updateDetails.isCellarUpdate!,
               borderRadius: 15.0,
               padding: 2.0,
               showOnOff: false,

@@ -7,7 +7,7 @@ import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
 class AdTimesAndUpdateWidget extends StatelessWidget {
-  AdTimesAndUpdateWidget({Key key}) : super(key: key);
+  AdTimesAndUpdateWidget({Key? key}) : super(key: key);
 
 
   @override
@@ -61,7 +61,7 @@ class AdTimesAndUpdateWidget extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                   child: Text(
-                    AppLocalizations.of(context).lastUpdate,
+                    AppLocalizations.of(context)!.lastUpdate,
                     style: CustomTextStyle(
                       fontSize: 15,
                       color: const Color(0xff989696),
@@ -72,7 +72,7 @@ class AdTimesAndUpdateWidget extends StatelessWidget {
                 Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                     child: Text(
-                      Jiffy(DateTime.parse(adsPage.adsPage.timeUpdated ?? '')
+                      Jiffy(DateTime.parse(adsPage.adsPage!.timeUpdated ?? '')
                           .add(Duration(hours: 3)))
                           .fromNow(),
                       style: CustomTextStyle(

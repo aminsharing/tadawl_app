@@ -6,8 +6,8 @@ import 'package:tadawl_app/provider/locale_provider.dart';
 
 class AdBFTable extends StatelessWidget {
   const AdBFTable({
-    Key key,
-    @required this.adsBF,
+    Key? key,
+    required this.adsBF,
   }) : super(key: key);
   final List<BFModel> adsBF;
 

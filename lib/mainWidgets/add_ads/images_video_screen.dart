@@ -12,7 +12,7 @@ import 'package:tadawl_app/provider/locale_provider.dart';
 
 
 class ImagesVideoScreen extends StatelessWidget {
-  const ImagesVideoScreen(this.addAdProvider,{Key key}) : super(key: key);
+  const ImagesVideoScreen(this.addAdProvider,{Key? key}) : super(key: key);
   final AddAdProvider addAdProvider;
 
   @override
@@ -29,7 +29,7 @@ class ImagesVideoScreen extends StatelessWidget {
           widthFactor: 4.5,
           child: Text(
             AppLocalizations
-                .of(context)
+                .of(context)!
                 .images,
             style: CustomTextStyle(
 
@@ -59,7 +59,7 @@ class ImagesVideoScreen extends StatelessWidget {
                 AlertDialog(
                   title: Text(
                     AppLocalizations
-                        .of(context)
+                        .of(context)!
                         .addVed,
                     style: CustomTextStyle(
 
@@ -70,7 +70,7 @@ class ImagesVideoScreen extends StatelessWidget {
                   ),
                   content: Text(
                     AppLocalizations
-                        .of(context)
+                        .of(context)!
                         .vidHint,
                     style: CustomTextStyle(
 
@@ -89,7 +89,7 @@ class ImagesVideoScreen extends StatelessWidget {
                         },
                         child: Text(
                           AppLocalizations
-                              .of(context)
+                              .of(context)!
                               .fromCamera,
                           style: CustomTextStyle(
 
@@ -109,7 +109,7 @@ class ImagesVideoScreen extends StatelessWidget {
                         },
                         child: Text(
                           AppLocalizations
-                              .of(context)
+                              .of(context)!
                               .fromGallery,
                           style: CustomTextStyle(
 
@@ -122,8 +122,7 @@ class ImagesVideoScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-          ) ??
-              false;
+          ).then((value) => value as bool);
         }
         return SingleChildScrollView(
           child: Column(
@@ -147,7 +146,7 @@ class ImagesVideoScreen extends StatelessWidget {
                               children: [
                                 PinchZoomImage(
                                   image: Image.file(
-                                    addAds.imagesListAddAds[position] ?? '',
+                                    addAds.imagesListAddAds[position],
                                     width: mediaQuery.size.width,
                                     height: mediaQuery.size.height * 0.4,
                                     fit: BoxFit.cover,
@@ -230,7 +229,7 @@ class ImagesVideoScreen extends StatelessWidget {
                                         Text(
                                           AppLocalizations
                                               .of(
-                                              context)
+                                              context)!
                                               .addImages,
                                           style: CustomTextStyle(
                                               fontSize: 10,
@@ -310,6 +309,9 @@ class ImagesVideoScreen extends StatelessWidget {
                 child: Container(
                   child: Center(
                     child: InkWell(
+                      onTap: () {
+                        addAds.getImagesAddAds(context);
+                      },
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(
                             0, 15, 0, 15),
@@ -330,7 +332,7 @@ class ImagesVideoScreen extends StatelessWidget {
                             children: <Widget>[
                               Text(
                                 AppLocalizations
-                                    .of(context)
+                                    .of(context)!
                                     .uplaodImages,
                                 style: CustomTextStyle(
                                   fontSize: 15,
@@ -352,9 +354,6 @@ class ImagesVideoScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      onTap: () {
-                        addAds.getImagesAddAds(context);
-                      },
                     ),
                   ),
                 ),
@@ -364,7 +363,7 @@ class ImagesVideoScreen extends StatelessWidget {
                   width: mediaQuery.size.width * 0.9,
                   height: 500,
                   child: AspectRatio(
-                    aspectRatio: addAds.chewieControllerAddAds
+                    aspectRatio: addAds.chewieControllerAddAds!
                         .videoPlayerController.value.aspectRatio,
                     child: Stack(
                       children: [
@@ -376,13 +375,13 @@ class ImagesVideoScreen extends StatelessWidget {
                                     .chewieControllerAddAds !=
                                     null &&
                                     addAds
-                                        .chewieControllerAddAds
+                                        .chewieControllerAddAds!
                                         .videoPlayerController
                                         .value
-                                        .initialized
+                                        .isInitialized
                                     ? Chewie(
                                   controller: addAds
-                                      .chewieControllerAddAds,
+                                      .chewieControllerAddAds!,
                                 )
                                     : Container(),
                               ),
@@ -393,14 +392,14 @@ class ImagesVideoScreen extends StatelessWidget {
                           padding: const EdgeInsets.fromLTRB(
                               5, 20, 250, 5),
                           child: TextButton(
+                            onPressed: () {
+                              addAds.removeVideoAddAds();
+                            },
                             child: Icon(
                               Icons.delete_forever_rounded,
                               color: Color(0xffff0000),
                               size: 40,
                             ),
-                            onPressed: () {
-                              addAds.removeVideoAddAds();
-                            },
                           ),
                         ),
                         Padding(
@@ -442,7 +441,7 @@ class ImagesVideoScreen extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         AppLocalizations
-                            .of(context)
+                            .of(context)!
                             .addVed,
                         style: CustomTextStyle(
 
@@ -482,7 +481,7 @@ class ImagesVideoScreen extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         AppLocalizations
-                            .of(context)
+                            .of(context)!
                             .addVed,
                         style: CustomTextStyle(
                           fontSize: 15,
@@ -542,7 +541,7 @@ class ImagesVideoScreen extends StatelessWidget {
                     child: Center(
                       child: Text(
                         AppLocalizations
-                            .of(context)
+                            .of(context)!
                             .continuee,
                         style: CustomTextStyle(
 
@@ -563,7 +562,7 @@ class ImagesVideoScreen extends StatelessWidget {
                     Expanded(
                       child: Text(
                         AppLocalizations
-                            .of(context)
+                            .of(context)!
                             .rule32,
                         style: CustomTextStyle(
 

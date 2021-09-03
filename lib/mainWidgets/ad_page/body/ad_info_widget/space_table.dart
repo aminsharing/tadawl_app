@@ -5,26 +5,26 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SpaceTable extends StatelessWidget {
   const SpaceTable({
-    Key key,
-    @required this.adsPage,
+    Key? key,
+    required this.adsPage,
   }) : super(key: key);
-  final AdsModel adsPage;
+  final AdsModel? adsPage;
 
 
 
   @override
   Widget build(BuildContext context) {
     final interfaces = <String>[
-      AppLocalizations.of(context).north,
-      AppLocalizations.of(context).east,
-      AppLocalizations.of(context).west,
-      AppLocalizations.of(context).south,
-      AppLocalizations.of(context).northeast,
-      AppLocalizations.of(context).southeast,
-      AppLocalizations.of(context).southwest,
-      AppLocalizations.of(context).northwest,
-      AppLocalizations.of(context).threeRoads,
-      AppLocalizations.of(context).fourRoads,
+      AppLocalizations.of(context)!.north,
+      AppLocalizations.of(context)!.east,
+      AppLocalizations.of(context)!.west,
+      AppLocalizations.of(context)!.south,
+      AppLocalizations.of(context)!.northeast,
+      AppLocalizations.of(context)!.southeast,
+      AppLocalizations.of(context)!.southwest,
+      AppLocalizations.of(context)!.northwest,
+      AppLocalizations.of(context)!.threeRoads,
+      AppLocalizations.of(context)!.fourRoads,
     ];
 
     return Table(
@@ -34,9 +34,9 @@ class SpaceTable extends StatelessWidget {
       TableCellVerticalAlignment.middle,
       defaultColumnWidth: FractionColumnWidth(0.5),
       children: [
-        if ((adsPage.idTypeAqar??'0') != '0' &&
-            (adsPage.idTypeAqar??'-1') != '-1' &&
-            (adsPage.idTypeAqar??'null') != 'null')
+        if ((adsPage!.idTypeAqar??'0') != '0' &&
+            (adsPage!.idTypeAqar??'-1') != '-1' &&
+            (adsPage!.idTypeAqar??'null') != 'null')
           TableRow(
             decoration: BoxDecoration(
               color: Color(0xfff2f2f2),
@@ -46,7 +46,7 @@ class SpaceTable extends StatelessWidget {
                 padding:
                 const EdgeInsets.fromLTRB(5, 5, 5, 5),
                 child: Text(
-                  AppLocalizations.of(context).aqarType,
+                  AppLocalizations.of(context)!.aqarType,
                   style: CustomTextStyle(
                     fontSize: 15,
                     color: const Color(0xff989696),
@@ -65,12 +65,12 @@ class SpaceTable extends StatelessWidget {
                       padding:
                       const EdgeInsets.fromLTRB(0, 5, 5, 5),
                       child: Text(
-                        adsPage.idTypeAqar == '1'?
-                        AppLocalizations.of(context).commHousing:
-                        adsPage.idTypeAqar == '2'?
-                        AppLocalizations.of(context).commercial:
-                        adsPage.idTypeAqar == '3'?
-                        AppLocalizations.of(context).housing:'',
+                        adsPage!.idTypeAqar == '1'?
+                        AppLocalizations.of(context)!.commHousing:
+                        adsPage!.idTypeAqar == '2'?
+                        AppLocalizations.of(context)!.commercial:
+                        adsPage!.idTypeAqar == '3'?
+                        AppLocalizations.of(context)!.housing:'',
                         style: CustomTextStyle(
                           fontSize: 15,
                           color:
@@ -85,10 +85,10 @@ class SpaceTable extends StatelessWidget {
             ],
           ),
         if (
-            adsPage.idInterface != '12' &&
-            adsPage.idInterface != '0' &&
-            adsPage.idInterface != '1' &&
-            adsPage.idInterface != 'null')
+            adsPage!.idInterface != '12' &&
+            adsPage!.idInterface != '0' &&
+            adsPage!.idInterface != '1' &&
+            adsPage!.idInterface != 'null')
           TableRow(
             decoration: BoxDecoration(
               color: Color(0xffffffff),
@@ -98,7 +98,7 @@ class SpaceTable extends StatelessWidget {
                 padding:
                 const EdgeInsets.fromLTRB(5, 5, 5, 5),
                 child: Text(
-                  AppLocalizations.of(context).interface,
+                  AppLocalizations.of(context)!.interface,
                   style: CustomTextStyle(
                     fontSize: 15,
                     color: const Color(0xff989696),
@@ -116,7 +116,7 @@ class SpaceTable extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 5, 5, 5),
                       child: Text(
-                        interfaces[int.tryParse(adsPage.idInterface)-2],
+                        interfaces[int.tryParse(adsPage!.idInterface!)!-2],
                         style: CustomTextStyle(
                           fontSize: 15,
                           color: const Color(0xff989696),
@@ -129,7 +129,7 @@ class SpaceTable extends StatelessWidget {
               ),
             ],
           ),
-        if (adsPage.space != 'null')
+        if (adsPage!.space != 'null')
           TableRow(
             decoration: BoxDecoration(
               color: Color(0xfff2f2f2),
@@ -139,7 +139,7 @@ class SpaceTable extends StatelessWidget {
                 padding:
                 const EdgeInsets.fromLTRB(5, 0, 5, 0),
                 child: Text(
-                  AppLocalizations.of(context).space,
+                  AppLocalizations.of(context)!.space,
                   style: CustomTextStyle(
                     fontSize: 15,
                     color: const Color(0xff989696),
@@ -155,7 +155,7 @@ class SpaceTable extends StatelessWidget {
                   MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      adsPage.space ?? '',
+                      adsPage!.space ?? '',
                       style: CustomTextStyle(
                         fontSize: 15,
                         color: const Color(0xff989696),
@@ -165,7 +165,7 @@ class SpaceTable extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
                       child: Text(
-                        AppLocalizations.of(context).m2,
+                        AppLocalizations.of(context)!.m2,
                         style: CustomTextStyle(
                           fontSize: 15,
                           color: const Color(0xff989696),
