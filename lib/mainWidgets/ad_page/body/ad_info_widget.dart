@@ -256,7 +256,7 @@ class AdInfoWidget extends StatelessWidget {
           //       child: TextButton(
           //         onPressed: () {
           //           adsPage.stopVideoAdsPage();
-          //           return showDialog(
+          //           return showDialog<bool>(
           //             context: context,
           //             builder: (context) => AlertDialog(
           //               title: Text(

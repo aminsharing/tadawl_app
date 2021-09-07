@@ -1,11 +1,18 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 
-class UserRegisteredDate extends StatelessWidget {
-  const UserRegisteredDate({Key? key, required this.timeRegistered}) : super(key: key);
-  final String? timeRegistered;
+class UserPhone extends StatelessWidget {
+  const UserPhone({
+    Key? key,
+    required this.userPhone,
+    required this.isMine,
+  }) : super(key: key);
+  final String? userPhone;
+  final bool isMine;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +24,7 @@ class UserRegisteredDate extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: Text(
-              AppLocalizations.of(context)!.registered,
+              AppLocalizations.of(context)!.phone,
               style: CustomTextStyle(
                 fontSize: 15,
                 color: const Color(0xff989696),
@@ -28,13 +35,13 @@ class UserRegisteredDate extends StatelessWidget {
         ),
         Expanded(
           flex: 2,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+          child: InkWell(
+            onTap: isMine ? null : () => _call(userPhone??''),
             child: Text(
-              DateFormat('yyyy-MM-dd').format(DateTime.parse(timeRegistered!)),
+              (userPhone??'').replaceAll('966', '0'),
               style: CustomTextStyle(
                 fontSize: 15,
-                color: const Color(0xff989696),
+                color: isMine ? const Color(0xff989696) : Colors.blue,
               ).getTextStyle(),
               textAlign: TextAlign.center,
             ),
@@ -43,4 +50,16 @@ class UserRegisteredDate extends StatelessWidget {
       ],
     );
   }
+
+  void _call(String phone) async{
+    var number = '+$phone';
+    if(number.isNotEmpty){
+      try{
+        await FlutterPhoneDirectCaller.callNumber(number);
+      }catch(e){
+        await Fluttertoast.showToast(msg: 'هنالك خطأ $e');
+      }
+    }
+  }
+
 }

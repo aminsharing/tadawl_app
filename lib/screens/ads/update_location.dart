@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/update_location_provider.dart';
 import 'package:tadawl_app/services/ad_page_helper.dart';
 
@@ -49,7 +50,7 @@ class UpdateLocation extends StatelessWidget {
           await Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) =>
-                AdPageHelper(ads: ads, index: index,)
+                AdPageHelper(ads: ads, index: index, selectedScreen: SelectedScreen.menu,)
             ),
           );
           return false;
@@ -74,7 +75,7 @@ class UpdateLocation extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) =>
-                        AdPageHelper(ads: ads, index: index,)
+                        AdPageHelper(ads: ads, index: index, selectedScreen: SelectedScreen.menu,)
                     ),
                   );
                 },
@@ -145,12 +146,8 @@ class UpdateLocation extends StatelessWidget {
                         mapType: MapType.normal,
                         initialCameraPosition: CameraPosition(
                             target: LatLng(
-                                double.parse(
-                                    lat ?? updateLoc.ads_cordinates_lat as String
-                                ),
-                                double.parse(
-                                    lng ?? updateLoc.ads_cordinates_lng as String
-                                ),
+                                double.parse(lat ?? '${updateLoc.ads_cordinates_lat}'),
+                                double.parse(lng ?? '${updateLoc.ads_cordinates_lng}'),
                             ),
                             zoom: 13),
                         onMapCreated: _onMapCreated,

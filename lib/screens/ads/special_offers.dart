@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/ad_button.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/special_offers_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/services/ad_page_helper.dart';
@@ -74,19 +75,13 @@ class SpecialOffers extends StatelessWidget {
                       itemBuilder: (context, i){
                         return AdButton(
                           onPressed: () {
-                            //specialAds.setIdWaitState(i);
                             specialAds.setWaitState(true);
-                            // Provider.of<MutualProvider>(context, listen: false)
-                            //     .getAllAdsPageInfo(context,
-                            //     specialAds.adsSpecial[i].idDescription);
-                            // Provider.of<MutualProvider>(context, listen: false)
-                            //     .getSimilarAdsList(context, specialAds.adsSpecial[i].idCategory, specialAds.adsSpecial[i].idDescription);
                             Future.delayed(Duration(seconds: 0), () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        AdPageHelper(ads: specialAds.adsSpecial, index: i,)
+                                        AdPageHelper(ads: specialAds.adsSpecial, index: i, selectedScreen: SelectedScreen.adSpecial,)
 
                                 ),
                               );

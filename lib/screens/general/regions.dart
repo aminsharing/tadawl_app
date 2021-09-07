@@ -19,7 +19,7 @@ class Regions extends StatelessWidget {
   Widget build(BuildContext context) {
 
     Future<bool> _onBackPressed() {
-      return showDialog(
+      return showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
           title: Text(
@@ -69,7 +69,7 @@ class Regions extends StatelessWidget {
             ),
           ],
         ),
-      ).then((value) => value as bool);
+      ).then((value) => value??false);
     }
     var mediaQuery = MediaQuery.of(context);
     return WillPopScope(

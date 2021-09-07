@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/mainWidgets/voice_player.dart';
 import 'package:tadawl_app/models/ConvModel.dart';
 import 'package:tadawl_app/models/message_model.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
+import 'package:tadawl_app/screens/ads/ad_page.dart';
 
 class MsgBody extends StatelessWidget {
   const MsgBody(
@@ -50,12 +53,37 @@ class MsgBody extends StatelessWidget {
                 ?
             VoicePlayer(voice: msgs.voice, isLocal: msgs.isLocal, duration: msgs.duration,)
                 :
-            Text(
-              msgs.comment??'',
-              textAlign: msgs.phone_user_sender != _phone ? TextAlign.left : TextAlign.right, /// right
-              style: CustomTextStyle(
-                  fontSize: 12,
-                  color: Colors.black).getTextStyle(),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  msgs.comment!.split('*').length > 2
+                      ?
+                  msgs.comment!.replaceAll('*${msgs.comment!.split('*')[1]}*', '')
+                      :
+                  msgs.comment??'',
+                  textAlign: msgs.phone_user_sender != _phone ? TextAlign.left : TextAlign.right, /// right
+                  style: CustomTextStyle(
+                      fontSize: 12,
+                      color: Colors.black).getTextStyle(),
+                ),
+                if(msgs.comment!.split('*').length > 2)
+                  TextButton(
+                    onPressed: (){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChangeNotifierProvider<AdPageProvider>(
+                              create: (_) => AdPageProvider(context, msgs.comment!.split('*')[1], null),
+                              child: AdPage(ads: [], selectedScreen: SelectedScreen.menu, index: 0),
+                            ),
+                          ),
+                      );
+                    },
+                    child: Text(msgs.comment!.split('*')[1]),
+                  ),
+              ],
             ),
           ),
         ),

@@ -133,10 +133,12 @@ class AdPageProvider extends ChangeNotifier{
       );
     }
     else if (choice == 'حذف الإعلان' || choice == 'Delete Ad') {
-      final _phone = Provider.of<LocaleProvider>(context, listen: false).phone;
+      final _locale = Provider.of<LocaleProvider>(context, listen: false);
+      final _phone = _locale.phone;
       onDeletePressed(context, idDescription).then((value) async{
         Navigator.pop(context);
         if(selectedScreen == SelectedScreen.menu){
+          _locale.setCurrentPage(4);
           await Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -151,6 +153,7 @@ class AdPageProvider extends ChangeNotifier{
               )
           );
         }else if (selectedScreen == SelectedScreen.mainPage){
+          _locale.setCurrentPage(0);
           await Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -224,14 +227,8 @@ class AdPageProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> updateAdsAdsPage(BuildContext context, String? id_ads) async {
-    Future.delayed(Duration(milliseconds: 0), () async{
-      _busyAdsPage = true;
-      await Api().updateAdsFunc(id_ads).then((value) {
-        _busyAdsPage = false;
-        notifyListeners();
-      });
-    });
+  Future<bool> updateAdsAdsPage(BuildContext context, String? id_ads) async {
+    return await Api().updateAdsFunc(id_ads);
   }
 
   void setVideoAdsPage(String? video) {
@@ -270,11 +267,11 @@ class AdPageProvider extends ChangeNotifier{
     _is_favAdsPage = null;
   }
 
-  Future<bool> onDeletePressed(BuildContext context, String? idDescription) {
+  Future<bool?> onDeletePressed(BuildContext context, String? idDescription) {
     if(_videoControllerAdsPage != null) {
       _videoControllerAdsPage!.pause();
     }
-    return showDialog(
+    return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
@@ -328,7 +325,7 @@ class AdPageProvider extends ChangeNotifier{
           SizedBox(width: 100),
         ],
       ),
-    ).then((value) => value as bool);
+    );
   }
 
   void changeAdsFavState(BuildContext context, int fav, String? idDescription) async {
@@ -649,6 +646,10 @@ class AdPageProvider extends ChangeNotifier{
   ChewieController? get chewieControllerAdsPage => _chewieControllerAdsPage;
   Future<void>? get initializeFutureVideoPlyerAdsPage => _initializeFutureVideoPlyerAdsPage;
   bool get busyAdsPage => _busyAdsPage;
+  set busyAdsPage(bool val) {
+    _busyAdsPage = val;
+    notifyListeners();
+  }
   bool get waitAdsPage => _waitAdsPage;
   int get currentControllerPageAdsPage => _currentControllerPageAdsPage;
   PageController get controllerAdsPage => _controllerAdsPage;
@@ -660,7 +661,6 @@ class AdPageProvider extends ChangeNotifier{
 
 
 }
-// TODO burada kaldik
 enum SelectedScreen{
   menu,
   myAds,

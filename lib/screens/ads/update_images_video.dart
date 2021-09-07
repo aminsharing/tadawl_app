@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/mainWidgets/open_images.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/update_img_vid_provider.dart';
 import 'package:tadawl_app/services/ad_page_helper.dart';
 import 'package:video_player/video_player.dart';
@@ -47,7 +48,7 @@ class UpdateImgVed extends StatelessWidget {
           await Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) =>
-                AdPageHelper(ads: ads, index: index,)
+                AdPageHelper(ads: ads, index: index, selectedScreen: SelectedScreen.menu,)
 
             ),
           );
@@ -73,7 +74,7 @@ class UpdateImgVed extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) =>
-                        AdPageHelper(ads: ads, index: index,)
+                        AdPageHelper(ads: ads, index: index, selectedScreen: SelectedScreen.menu,)
 
                     ),
                   );

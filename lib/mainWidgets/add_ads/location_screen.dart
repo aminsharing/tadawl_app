@@ -27,8 +27,8 @@ class LocationScreen extends StatelessWidget {
       Provider.of<AddAdProvider>(context, listen: false).mapController = controller;
     }
 
-     Future<bool> _onLocationContinue(String? ads_neighborhoodAddAds) {
-        return showDialog(
+     Future<bool?> _onLocationContinue(String? ads_neighborhoodAddAds) {
+        return showDialog<bool>(
           context: context,
           builder: (context) =>
               AlertDialog(
@@ -97,7 +97,7 @@ class LocationScreen extends StatelessWidget {
                   ),
                 ],
               ),
-        ).then((value) => value as bool);
+        );
       }
 
       return Scaffold(

@@ -10,12 +10,12 @@ class DrawerButton extends StatelessWidget {
   }) : super(key: key);
   final IconData icon;
   final String text;
-  final Function onPressed;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: onPressed as void Function()?,
+      onPressed: onPressed,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10.0),
         child: Container(

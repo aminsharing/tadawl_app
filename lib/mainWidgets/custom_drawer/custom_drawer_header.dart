@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
+
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
@@ -97,10 +97,8 @@ class CustomDrawerHeader extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  PageTransition(
-                      type: PageTransitionType.bottomToTop,
-                      duration: Duration(milliseconds: 10),
-                      child: Login()
+                  MaterialPageRoute(
+                                  builder: (context) => Login()
                   ),
                 );
               },
@@ -108,7 +106,7 @@ class CustomDrawerHeader extends StatelessWidget {
                 AppLocalizations.of(context)!.login,
                 style: CustomTextStyle(
                   fontSize: 20,
-                  color: const Color(0xff00cccc),
+                  color: const Color(0xff1f2835),
                 ).getTextStyle(),
                 textAlign: TextAlign.center,
               ),
@@ -116,17 +114,15 @@ class CustomDrawerHeader extends StatelessWidget {
             IconButton(
               icon: Icon(
                 Icons.meeting_room,
-                color: Color(0xff00cccc),
+                color: Color(0xff1f2835),
                 size: 35,
               ),
               onPressed: () {
                 Navigator.push(
                   context,
                   // MaterialPageRoute(builder: (context) => Login()),
-                  PageTransition(
-                      type: PageTransitionType.bottomToTop,
-                      duration: Duration(milliseconds: 10),
-                      child: Login()
+                  MaterialPageRoute(
+                                  builder: (context) => Login()
                   ),
                 );
               },

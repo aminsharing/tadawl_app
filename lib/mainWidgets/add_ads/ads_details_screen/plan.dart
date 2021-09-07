@@ -29,41 +29,47 @@ class Plan extends StatelessWidget {
               const Color(0xff04B404),
               borderWidth: 1,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      37, 0, 37, 0),
-                  child: Text(
-                    AppLocalizations.of(context)!.daily,
-                    style: CustomTextStyle(
+                SizedBox(
+                  width: (MediaQuery.of(context).size.width * .33) - (41/3),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: Text(
+                      AppLocalizations.of(context)!.daily,
+                      style: CustomTextStyle(
 
-                      fontSize: 13,
-                    ).getTextStyle(),
-                    textAlign: TextAlign.center,
+                        fontSize: 13,
+                      ).getTextStyle(),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      37, 0, 37, 0),
-                  child: Text(
-                    AppLocalizations.of(context)!
-                        .monthly,
-                    style: CustomTextStyle(
+                SizedBox(
+                  width: (MediaQuery.of(context).size.width * .33) - (41/3),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: Text(
+                      AppLocalizations.of(context)!
+                          .monthly,
+                      style: CustomTextStyle(
 
-                      fontSize: 13,
-                    ).getTextStyle(),
-                    textAlign: TextAlign.center,
+                        fontSize: 13,
+                      ).getTextStyle(),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      37, 0, 37, 0),
-                  child: Text(
-                    AppLocalizations.of(context)!.annual,
-                    style: CustomTextStyle(
+                SizedBox(
+                  width: (MediaQuery.of(context).size.width * .33) - (41/3),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: Text(
+                      AppLocalizations.of(context)!.annual,
+                      style: CustomTextStyle(
 
-                      fontSize: 13,
-                    ).getTextStyle(),
-                    textAlign: TextAlign.center,
+                        fontSize: 13,
+                      ).getTextStyle(),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
               ],

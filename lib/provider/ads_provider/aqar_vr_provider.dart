@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
@@ -14,6 +16,7 @@ class AqarVRProvider extends ChangeNotifier{
   void dispose() {
     print('dispose AqarVRProvider');
     super.dispose();
+    deleteDir();
   }
 
   File? _imageAqarVR;
@@ -23,12 +26,33 @@ class AqarVRProvider extends ChangeNotifier{
   String? _identity_number, _saq_number, _identity_type;
 
 
+  Future<void> deleteDir() async{
+    // ignore: omit_local_variable_types
+    Directory temp = await getTemporaryDirectory();
+    // ignore: omit_local_variable_types
+    Directory tempPath = Directory(temp.path + '/adsCache');
+    if(tempPath.existsSync()){
+      tempPath.deleteSync(recursive: true);
+    }
+  }
+
   Future<void> getImageAqarVR() async {
     final _pickedFile3 = await _picker3.pickImage(
       source: ImageSource.gallery,
     );
     if (_pickedFile3 != null) {
-      _imageAqarVR = File(_pickedFile3.path);
+      var temp = await getTemporaryDirectory();
+      var newDir = Directory(temp.path + '/adsCache');
+      if(!await newDir.exists()){
+        await newDir.create(recursive: true);
+      }
+      // ignore: omit_local_variable_types
+      File? _compressedImage = await FlutterImageCompress.compressAndGetFile(
+        _pickedFile3.path,
+        '${newDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpeg',
+        format: CompressFormat.jpeg,
+      );
+      _imageAqarVR = _compressedImage;
     } else {}
     notifyListeners();
   }

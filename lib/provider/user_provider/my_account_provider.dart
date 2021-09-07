@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,6 +40,7 @@ class MyAccountProvider extends ChangeNotifier{
     print('dispose MyAccountProvider');
     clearExpendedListCount();
     clearUpdatingInformation();
+    deleteDir();
     super.dispose();
   }
   final List<bool> _isSelected = List.generate(2, (_) => false);
@@ -116,12 +119,33 @@ class MyAccountProvider extends ChangeNotifier{
   File? _imageUpdateProfile;
   final _picker2 = ImagePicker();
 
+  Future<void> deleteDir() async{
+    // ignore: omit_local_variable_types
+    Directory temp = await getTemporaryDirectory();
+    // ignore: omit_local_variable_types
+    Directory tempPath = Directory(temp.path + '/adsCache');
+    if(tempPath.existsSync()){
+      tempPath.deleteSync(recursive: true);
+    }
+  }
+
   Future<void> getImageUpdateProfile() async {
     final _pickedFile2 = await _picker2.pickImage(
       source: ImageSource.gallery,
     );
     if (_pickedFile2 != null) {
-      _imageUpdateProfile = File(_pickedFile2.path);
+      var temp = await getTemporaryDirectory();
+      var newDir = Directory(temp.path + '/adsCache');
+      if(!await newDir.exists()){
+        await newDir.create(recursive: true);
+      }
+      // ignore: omit_local_variable_types
+      File? _compressedImage = await FlutterImageCompress.compressAndGetFile(
+        _pickedFile2.path,
+        '${newDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpeg',
+        format: CompressFormat.jpeg,
+      );
+      _imageUpdateProfile = _compressedImage;
       notifyListeners();
     }
   }
@@ -303,26 +327,13 @@ class MyAccountProvider extends ChangeNotifier{
     });
   }
 
-  Future<void> getUserAdsList( String? Phone) async{
-    Future.delayed(Duration(milliseconds: 0), () async{
-      if (_userAds.isEmpty) {
-        await Api().getUserAdsFunc(Phone).then((value) {
-          _UserAdsData = value;
-          _UserAdsData!.forEach((element) {
-            _userAds.add(AdsModel.ads(element));
-          });
-          // notifyListeners();
-        });
-      } else {
-        await Api().getUserAdsFunc(Phone).then((value) {
-          _UserAdsData = value;
-          _userAds.clear();
-          _UserAdsData!.forEach((element) {
-            _userAds.add(AdsModel.ads(element));
-          });
-          // notifyListeners();
-        });
-      }
+  Future<void> getUserAdsList(String? Phone) async{
+    await Api().getUserAdsFunc(Phone).then((value) {
+      _UserAdsData = value;
+      _userAds.clear();
+      _UserAdsData!.forEach((element) {
+        _userAds.add(AdsModel.ads(element));
+      });
       notifyListeners();
     });
   }

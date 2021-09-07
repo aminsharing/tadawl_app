@@ -41,7 +41,7 @@ class UpdateDetails extends StatelessWidget {
         await Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) =>
-              AdPageHelper(ads: ads, index: index,)
+              AdPageHelper(ads: ads, index: index, selectedScreen: SelectedScreen.menu,)
           ),
         );
         return false;

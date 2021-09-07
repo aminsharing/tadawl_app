@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chewie/chewie.dart';
@@ -52,8 +53,8 @@ class ImagesVideoScreen extends StatelessWidget {
         ),
       ),
       body: Consumer<AddAdProvider>(builder: (context, addAds, child) {
-        Future<bool> _onVidPressed() {
-          return showDialog(
+        Future<bool?>? _onVidPressed() {
+          return showDialog<bool>(
             context: context,
             builder: (context) =>
                 AlertDialog(
@@ -122,7 +123,7 @@ class ImagesVideoScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-          ).then((value) => value as bool);
+          );
         }
         return SingleChildScrollView(
           child: Column(

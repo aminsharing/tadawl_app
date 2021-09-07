@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
+
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/ad_button.dart';
 import 'package:tadawl_app/mainWidgets/bottom_navigation_bar.dart';
@@ -9,6 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/mainWidgets/search_drawer.dart';
 import 'package:tadawl_app/mainWidgets/search_on_map.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/menu_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
@@ -125,17 +126,12 @@ class Menu extends StatelessWidget {
                           ads_road: menu.menuAds[i].ads_road,
                           video: menu.menuAds[i].video,
                           onPressed: () {
-                            // menu.getIsFav(context);
                             menu.clearExpendedMenuListCount();
-                            // Provider.of<MutualProvider>(context, listen: false).getAllAdsPageInfo(context, menu.menuAds[i].idDescription);
-                            // Provider.of<MutualProvider>(context, listen: false).getSimilarAdsList(context, menu.menuAds[i].idCategory, menu.menuAds[i].idDescription);
                             Future.delayed(Duration(seconds: 0), () {
                               Navigator.push(
                                 context,
-                                PageTransition(
-                                    type: PageTransitionType.bottomToTop,
-                                    duration: Duration(milliseconds: 10),
-                                    child: AdPageHelper(ads: menu.menuAds, index: i,),
+                                MaterialPageRoute(
+                                  builder: (context) => AdPageHelper(ads: menu.menuAds, index: i, selectedScreen: SelectedScreen.menu,),
                                 ),
                               );
                             });

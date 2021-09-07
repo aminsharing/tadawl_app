@@ -20,8 +20,9 @@ class AdButton extends StatelessWidget {
     this.timeUpdated,
     this.updateBtn = false,
     this.updateBtnPressed,
+    this.isUpdating = false,
   }) : super(key: key);
-  final Function onPressed;
+  final VoidCallback? onPressed;
   final String? ads_image;
   final String? title;
   final String? idSpecial;
@@ -33,13 +34,14 @@ class AdButton extends StatelessWidget {
   final String? video;
   final String? timeUpdated;
   final bool updateBtn;
-  final Function? updateBtnPressed;
+  final bool isUpdating;
+  final VoidCallback? updateBtnPressed;
 
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
     return TextButton(
-      onPressed: onPressed as void Function()?,
+      onPressed: onPressed,
       child: Container(
         width: mediaQuery.size.width,
         height: mediaQuery.size.width*.34,
@@ -88,7 +90,7 @@ class AdButton extends StatelessWidget {
                     DateTime.now().difference(DateTime.parse(timeUpdated!)).inMinutes - 180 > 60
                         ?
                     TextButton(
-                      onPressed: updateBtnPressed as void Function()?,
+                      onPressed: updateBtnPressed,
                       child: Container(
                         width: mediaQuery.size.width *
                             0.15,
@@ -103,7 +105,23 @@ class AdButton extends StatelessWidget {
                                   0xff3f9d28)),
                         ),
                         child: Center(
-                          child: Text(
+                          child: isUpdating
+                              ?
+                          Padding(
+                            padding: const EdgeInsets.all(1.0),
+                            child: Container(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                backgroundColor: Color(0xff04B404),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    Color(0xff1f2835)
+                                ),
+                              ),
+                            ),
+                          )
+                              :
+                          Text(
                             AppLocalizations.of(
                                 context)!
                                 .updateAds,

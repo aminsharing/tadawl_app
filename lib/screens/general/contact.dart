@@ -63,8 +63,8 @@ class Contact extends StatelessWidget {
                     onSaved: (String? value) {
                       contact.setName(value??'');
                     },
-                    validator: (String value) {
-                      if (value.isEmpty) {
+                    validator: (String? value) {
+                      if ((value??'').isEmpty) {
                         return AppLocalizations.of(context)!.reqName;
                       }
                       return null;
@@ -76,10 +76,10 @@ class Contact extends StatelessWidget {
                   onSaved: (String? value) {
                     contact.filterPhone(value??'');
                   },
-                  validator: (String value) {
-                    if (value.isEmpty) {
+                  validator: (String? value) {
+                    if ((value??'').isEmpty) {
                       return AppLocalizations.of(context)!.reqMob;
-                    } else if (!regExpPhone.hasMatch(value)) {
+                    } else if (!regExpPhone.hasMatch((value??''))) {
                       return AppLocalizations.of(context)!.reqSaudiMob;
                     }
                     return null;
@@ -91,8 +91,8 @@ class Contact extends StatelessWidget {
                   onSaved: (String? value) {
                     contact.setTitle(value??'');
                   },
-                  validator: (String value) {
-                    if (value.isEmpty) {
+                  validator: (String? value) {
+                    if ((value??'').isEmpty) {
                       return AppLocalizations.of(context)!.reqTitle;
                     }
                     return null;
@@ -104,8 +104,8 @@ class Contact extends StatelessWidget {
                   onSaved: (String? value) {
                     contact.setDetails(value??'');
                   },
-                  validator: (String value) {
-                    if (value.isEmpty) {
+                  validator: (String? value) {
+                    if ((value??'').isEmpty) {
                       return AppLocalizations.of(context)!.reqMess;
                     }
                     return null;
@@ -353,8 +353,8 @@ class ContactTextField extends StatelessWidget {
   }) : super(key: key);
   final String text;
   final TextInputType keyboardType;
-  final Function(String) validator;
-  final Function(String?) onSaved;
+  final FormFieldValidator<String>? validator;
+  final FormFieldSetter<String>? onSaved;
 
   @override
   Widget build(BuildContext context) {
@@ -393,7 +393,7 @@ class ContactTextField extends StatelessWidget {
             keyboardType: keyboardType,
             minLines: text == AppLocalizations.of(context)!.message ? 4 : 1,
             maxLines: text == AppLocalizations.of(context)!.message ? 4 : 1,
-            validator: validator as String? Function(String?)?,
+            validator: validator,
             onSaved: onSaved,
           ),
         ),

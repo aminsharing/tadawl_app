@@ -29,28 +29,32 @@ class FamilyORSingle extends StatelessWidget {
               const Color(0xff04B404),
               borderWidth: 1,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      66, 0, 66, 0),
-                  child: Text(
-                    AppLocalizations.of(context)!.single,
-                    style: CustomTextStyle(
+                SizedBox(
+                  width: (MediaQuery.of(context).size.width * .5) - (43/2),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: Text(
+                      AppLocalizations.of(context)!.single,
+                      style: CustomTextStyle(
 
-                      fontSize: 13,
-                    ).getTextStyle(),
-                    textAlign: TextAlign.center,
+                        fontSize: 13,
+                      ).getTextStyle(),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      66, 0, 66, 0),
-                  child: Text(
-                    AppLocalizations.of(context)!.family,
-                    style: CustomTextStyle(
+                SizedBox(
+                  width: (MediaQuery.of(context).size.width * .5) - (43/2),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: Text(
+                      AppLocalizations.of(context)!.family,
+                      style: CustomTextStyle(
 
-                      fontSize: 13,
-                    ).getTextStyle(),
-                    textAlign: TextAlign.center,
+                        fontSize: 13,
+                      ).getTextStyle(),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
               ],

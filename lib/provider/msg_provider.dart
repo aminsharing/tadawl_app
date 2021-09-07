@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 // import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
@@ -40,6 +41,8 @@ class MsgProvider extends ChangeNotifier{
     print('dispose MsgProvider');
     deleteDir();
     _streamChatController.close();
+    _scrollChatController.dispose();
+    _messageController.dispose();
     if(_timer != null) {
       _timer!.cancel();
     }
@@ -47,7 +50,7 @@ class MsgProvider extends ChangeNotifier{
   }
 
   final FocusNode myFocusNode = FocusNode();
-  final String? customMsg;
+  late final String? customMsg;
   String? _recAvatarUserName = 'Username';
   final StreamController<List<ConvModel>> _streamChatController = StreamController<List<ConvModel>>.broadcast();
   final ScrollController _scrollChatController = ScrollController();
@@ -58,8 +61,6 @@ class MsgProvider extends ChangeNotifier{
   List<File> _imagesListUpdate = [];
   IconData? _recordIcon;
   Timer? _timer;
-  int _recordLengthMin = 0;
-  int _recordLengthSec = 0;
   int _recordDuration = 0;
   String? _randomName;
   bool _isTyping = false;
@@ -73,7 +74,7 @@ class MsgProvider extends ChangeNotifier{
     if(_phone != null) {
       _conv.clear();
       // ignore: omit_local_variable_types
-      List<dynamic> value = await (Api().getDiscListFunc(_phone) as FutureOr<List<dynamic>>);
+      List<dynamic> value = await Api().getDiscListFunc(_phone);
       value.forEach((element) {
         _conv.add(ConvModel.fromJson(element));
       });
@@ -113,15 +114,20 @@ class MsgProvider extends ChangeNotifier{
     Directory temp = await getTemporaryDirectory();
     // ignore: omit_local_variable_types
     Directory tempPath = Directory(temp.path + '/voiceChat');
+    // ignore: omit_local_variable_types
+    Directory tempPath2 = Directory(temp.path + '/adsCache');
     if(tempPath.existsSync()){
       tempPath.deleteSync(recursive: true);
+    }
+    if(tempPath2.existsSync()){
+      tempPath2.deleteSync(recursive: true);
     }
   }
 
   Future<void> getCommentUser(String? phone_user, String? _phone) async {
     if (_comment.isEmpty) {
       // ignore: omit_local_variable_types
-      List<dynamic> value = await (Api().getComments(_phone, phone_user) as FutureOr<List<dynamic>>);
+      List<dynamic> value = await Api().getComments(_phone, phone_user);
       value.forEach((element) {
         _comment.add(ConvModel.fromJson(element));
       });
@@ -129,7 +135,7 @@ class MsgProvider extends ChangeNotifier{
     }
     else {
       // ignore: omit_local_variable_types
-      List<dynamic> value = await (Api().getComments(_phone, phone_user) as FutureOr<List<dynamic>>);
+      List<dynamic> value = await Api().getComments(_phone, phone_user);
       _comment.clear();
       value.forEach((element) {
         _comment.add(ConvModel.fromJson(element));
@@ -146,8 +152,8 @@ class MsgProvider extends ChangeNotifier{
       String phone_user,
       String _phone,
       String msgType,
-      int? msgDuration,
-      {bool isAuto = true}) async {
+      int? msgDuration,) async {
+    setIsTyping(false);
     print('msgDurationn: $msgDuration');
     _messageController.clear();
     _streamChatController.add([..._comment, ConvModel(
@@ -177,25 +183,12 @@ class MsgProvider extends ChangeNotifier{
           });
         });
       });
-      // notifyListeners();
-      if(msgType == MessType.TEXT){
-        myFocusNode.requestFocus();
-      }
     });
-
-
-    if(isAuto) {
-      setIsTyping(false);
-      // FocusScope.of(context).requestFocus(FocusNode());
-      Future.delayed(const Duration(seconds: 2), () {
-        _scrollChatController.animateTo(0,
-            duration: Duration(seconds: 2), curve: Curves.easeIn);
-      });
+    if(msgType == MessType.TEXT){
+      myFocusNode.requestFocus();
+      notifyListeners();
     }
-    Future.delayed(const Duration(seconds: 2), () {
-      // notifyListeners();
-    });
-
+    await _scrollChatController.animateTo(0, duration: Duration(seconds: 2), curve: Curves.easeIn);
   }
 
   void setMessageController(String message) {
@@ -262,8 +255,6 @@ class MsgProvider extends ChangeNotifier{
             fontSize: 15.0);
       }
     });
-
-
   }
 
   void stopRecorder(bool delete, String? phone_user, String? _phone, BuildContext context) async{
@@ -278,7 +269,7 @@ class MsgProvider extends ChangeNotifier{
     }
     else{
       await _recorder.stop().then((value) async{
-        if(_recordLengthSec <= 1){
+        if(_recordDuration <= 1){
           _isRecording = false;
           _recordIcon = Icons.mic;
           deleteFile('$randomName');
@@ -333,12 +324,7 @@ class MsgProvider extends ChangeNotifier{
 
   void startTimer(){
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if(recordLengthSec >= 59){
-        _recordLengthMin++;
-        _recordLengthSec = -1;
-      }
-      _recordLengthSec++;
-      _recordDuration = recordLengthSec + (_recordLengthMin*60);
+      _recordDuration++;
       notifyListeners();
     });
 
@@ -348,8 +334,7 @@ class MsgProvider extends ChangeNotifier{
     if(timer != null){
       timer!.cancel();
       _timer = null;
-      _recordLengthSec = 0;
-      _recordLengthMin = 0;
+      _recordDuration = 0;
     }
   }
 
@@ -365,45 +350,40 @@ class MsgProvider extends ChangeNotifier{
         context,
         maxAssets: 10,
         textDelegate: picker.ArabicTextDelegate()
-    ).then((List<picker.AssetEntity>? assets) {
+    ).then((List<picker.AssetEntity>? assets) async{
       if(assets != null) {
+        var temp = await getTemporaryDirectory();
+        var newDir = Directory(temp.path + '/adsCache');
+        if(!await newDir.exists()){
+          await newDir.create(recursive: true);
+        }
         assets.forEach((element) {
-          element.file.then((value) {
-            print(value!.path);
-            _imagesListUpdate.add(value);
+          element.file.then((value) async{
+            // ignore: omit_local_variable_types
+            File? _compressedImage = await FlutterImageCompress.compressAndGetFile(
+              value!.path,
+              '${newDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpeg',
+              format: CompressFormat.jpeg,
+            );
+            if(_compressedImage != null) {
+              _imagesListUpdate.add(_compressedImage);
+            }
             notifyListeners();
           });
         });
+        await sendMess(
+            context,
+            _imagesListUpdate,
+            null,
+            null,
+            phone_user,
+            _phone,
+            MessType.IMAGE,
+            null
+        ).then((value) {
+          notifyListeners();
+        });
       }
-    });
-
-    // var resultList = await MultiImagePicker.pickImages(
-    //   maxImages: 10,
-    //   enableCamera: true,
-    //   materialOptions: MaterialOptions(
-    //     actionBarColor: '#00cccc',
-    //     actionBarTitle: 'تداول العقاري',
-    //     allViewTitle: 'كل الصور',
-    //     useDetailsView: true,
-    //     selectCircleStrokeColor: '#00cccc',
-    //   ),
-    // );
-    // for (var x = 0; x < resultList.length; x++) {
-    //   // var image =
-    //   // await FlutterAbsolutePath.getAbsolutePath(resultList[x].identifier);
-    //   // _imagesListUpdate.add(File(image));
-    // }
-    await sendMess(
-        context,
-        _imagesListUpdate,
-        null,
-        null,
-        phone_user,
-        _phone,
-        MessType.IMAGE,
-        null
-    ).then((value) {
-      notifyListeners();
     });
   }
 
@@ -412,7 +392,7 @@ class MsgProvider extends ChangeNotifier{
   }
 
   String? get recAvatarUserName => _recAvatarUserName;
-  StreamController get streamChatController => _streamChatController;
+  StreamController<List<ConvModel>> get streamChatController => _streamChatController;
   ScrollController get scrollChatController => _scrollChatController;
   TextEditingController get messageController => _messageController;
   bool get atBottom => _atBottom;
@@ -420,8 +400,7 @@ class MsgProvider extends ChangeNotifier{
   List<File> get imagesListUpdate => _imagesListUpdate;
   IconData? get recordIcon => _recordIcon;
   Timer? get timer => _timer;
-  int get recordLengthMin => _recordLengthMin;
-  int get recordLengthSec => _recordLengthSec;
+  int get recordDuration => _recordDuration;
   String? get randomName => _randomName;
   bool get isTyping => _isTyping;
   bool get isRecording => _isRecording;

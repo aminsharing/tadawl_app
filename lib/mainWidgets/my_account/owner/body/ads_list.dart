@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/ad_button.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 import 'package:tadawl_app/services/ad_page_helper.dart';
@@ -100,15 +101,12 @@ class AdsList extends StatelessWidget {
                         itemBuilder: (context, i){
                           return AdButton(
                             onPressed: () {
-                              // mutualProv.getAllAdsPageInfo(
-                              //     context, avatar.userAds[i].idDescription);
-                              // mutualProv.getSimilarAdsList(context, avatar.userAds[i].idCategory, avatar.userAds[i].idDescription);
                               Future.delayed(Duration(seconds: 0), () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                            AdPageHelper(ads: avatar.userAds, index: i,)
+                                            AdPageHelper(ads: avatar.userAds, index: i, selectedScreen: SelectedScreen.myAds,)
                                           ),
                                 );
                               });
@@ -123,10 +121,12 @@ class AdsList extends StatelessWidget {
                             ads_road: avatar.userAds[i].ads_road,
                             video: avatar.userAds[i].video,
                             timeUpdated: avatar.userAds[i].timeUpdated,
+                            isUpdating: avatar.userAds[i].isUpdating,
                             updateBtn: true,
                             updateBtnPressed: (){
                               avatar.setNumber(i);
-                              // Provider.of<FavouriteProvider>(context, listen: false).update();
+                              avatar.userAds[i].isUpdating = true;
+                              avatar.update();
                               avatar.updateAds(context, avatar.userAds[i].idDescription).then((value) {
                                 if(value){
                                   Fluttertoast.showToast(
@@ -138,8 +138,9 @@ class AdsList extends StatelessWidget {
                                       textColor: Colors.white,
                                       fontSize: 15.0);
                                   avatar.getUserAdsList(locale.phone);
-                                  // Provider.of<FavouriteProvider>(context, listen: false).update();
                                 }
+                                avatar.userAds[i].isUpdating = false;
+                                avatar.update();
                               });
                             },
                           );

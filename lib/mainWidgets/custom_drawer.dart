@@ -1,6 +1,6 @@
 import 'package:flutter/painting.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
+
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_drawer/custom_drawer_header.dart';
 import 'package:tadawl_app/mainWidgets/custom_drawer/drawer_button.dart';
@@ -44,8 +44,6 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
 
     var mediaQuery = MediaQuery.of(context);
     var locale = Provider.of<LocaleProvider>(context, listen: false);
@@ -179,16 +177,15 @@ class CustomDrawer extends StatelessWidget {
                             if(locale.phone != null){
                               Navigator.pushReplacement(
                                 context,
-                                PageTransition(type: PageTransitionType.bottomToTop,
-                                  duration: Duration(milliseconds: 10),
-                                  child: AddAds()),
+                                MaterialPageRoute(
+                                  builder: (context) => AddAds(),
+                                ),
                               );
                             }else{
                               Navigator.push(
                                 context,
-                                PageTransition(type: PageTransitionType.bottomToTop,
-                                  duration: Duration(milliseconds: 10),
-                                  child: Login(),),
+                                MaterialPageRoute(
+                                  builder: (context) => Login(),),
                               );
                             }
 
@@ -200,9 +197,8 @@ class CustomDrawer extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            PageTransition(type: PageTransitionType.bottomToTop,
-                                duration: Duration(milliseconds: 10),
-                                child: locale.phone != null ?
+                            MaterialPageRoute(
+                                  builder: (context) => locale.phone != null ?
                                 ChangeNotifierProvider<MyAccountProvider>(
                                   create: (_) => MyAccountProvider(locale.phone),
                                   child: MyAds(),
@@ -225,17 +221,15 @@ class CustomDrawer extends StatelessWidget {
                               locale.setCurrentPage(3);
                               Navigator.pushReplacement(
                                 context,
-                                PageTransition(type: PageTransitionType.bottomToTop,
-                                  duration: Duration(milliseconds: 10),
-                                  child: DiscussionList(),
+                                MaterialPageRoute(
+                                  builder: (context) => DiscussionList(),
                                 ),
                               );
                             }else{
                               Navigator.push(
                                 context,
-                                PageTransition(type: PageTransitionType.bottomToTop,
-                                  duration: Duration(milliseconds: 10),
-                                  child: Login(),
+                                MaterialPageRoute(
+                                  builder: (context) => Login(),
                                 ),
                               );
                             }
@@ -248,9 +242,8 @@ class CustomDrawer extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            PageTransition(type: PageTransitionType.bottomToTop,
-                                duration: Duration(milliseconds: 10),
-                                child: locale.phone != null
+                            MaterialPageRoute(
+                                  builder: (context) => locale.phone != null
                                     ?
                                 ChangeNotifierProvider<FavouriteProvider>(
                                   create: (_) => FavouriteProvider(locale.phone),
@@ -272,9 +265,8 @@ class CustomDrawer extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            PageTransition(type: PageTransitionType.bottomToTop,
-                                duration: Duration(milliseconds: 10),
-                                child: RealEstateEmptyingService(),),
+                            MaterialPageRoute(
+                                  builder: (context) => RealEstateEmptyingService(),),
                           );
                         },
                       ),
@@ -284,9 +276,8 @@ class CustomDrawer extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            PageTransition(type: PageTransitionType.bottomToTop,
-                                duration: Duration(milliseconds: 10),
-                                child: LeaseContracts(),),
+                            MaterialPageRoute(
+                                  builder: (context) => LeaseContracts(),),
                           );
                         },
                       ),
@@ -301,9 +292,8 @@ class CustomDrawer extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            PageTransition(type: PageTransitionType.bottomToTop,
-                                duration: Duration(milliseconds: 10),
-                                child: ExclusiveMarketing(),),
+                            MaterialPageRoute(
+                                  builder: (context) => ExclusiveMarketing(),),
                           );
                         },
                       ),
@@ -313,9 +303,8 @@ class CustomDrawer extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            PageTransition(type: PageTransitionType.bottomToTop,
-                                duration: Duration(milliseconds: 10),
-                                child: ConstructionContracting(),),
+                            MaterialPageRoute(
+                                  builder: (context) => ConstructionContracting(),),
                           );
                         },
                       ),
@@ -330,9 +319,8 @@ class CustomDrawer extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            PageTransition(type: PageTransitionType.bottomToTop,
-                                duration: Duration(milliseconds: 10),
-                                child: ChangeNotifierProvider<SpecialOffersProvider>(
+                            MaterialPageRoute(
+                                  builder: (context) => ChangeNotifierProvider<SpecialOffersProvider>(
                                   create: (_) => SpecialOffersProvider(context),
                                   child: SpecialOffers(),
                                 ),),
@@ -345,9 +333,8 @@ class CustomDrawer extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            PageTransition(type: PageTransitionType.bottomToTop,
-                                duration: Duration(milliseconds: 10),
-                                child: ChangeNotifierProvider<TodayAdsProvider>(
+                            MaterialPageRoute(
+                                  builder: (context) => ChangeNotifierProvider<TodayAdsProvider>(
                                   create: (_) => TodayAdsProvider(context),
                                   child: TodayAds(),
                                 ),),
@@ -365,9 +352,8 @@ class CustomDrawer extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            PageTransition(type: PageTransitionType.bottomToTop,
-                                duration: Duration(milliseconds: 10),
-                                child: AdvertisingFee(),),
+                            MaterialPageRoute(
+                                  builder: (context) => AdvertisingFee(),),
                           );
                         },
                       ),
@@ -377,9 +363,8 @@ class CustomDrawer extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            PageTransition(type: PageTransitionType.bottomToTop,
-                                duration: Duration(milliseconds: 10),
-                                child: locale.phone != null
+                            MaterialPageRoute(
+                                  builder: (context) => locale.phone != null
                                     ?
                                 ChangeNotifierProvider<RequestProvider>(
                                   create: (_) => RequestProvider(),
@@ -402,9 +387,8 @@ class CustomDrawer extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            PageTransition(type: PageTransitionType.bottomToTop,
-                                duration: Duration(milliseconds: 10),
-                                child: CouponRequest(),),
+                            MaterialPageRoute(
+                                  builder: (context) => CouponRequest(),),
                           );
                         },
                       ),
@@ -415,9 +399,8 @@ class CustomDrawer extends StatelessWidget {
                             locale.setCurrentPage(2);
                             Navigator.push(
                               context,
-                              PageTransition(type: PageTransitionType.bottomToTop,
-                                  duration: Duration(milliseconds: 10),
-                                  child: RealEstateOffices()),
+                              MaterialPageRoute(
+                                  builder: (context) => RealEstateOffices()),
                             );
                           },
                       ),

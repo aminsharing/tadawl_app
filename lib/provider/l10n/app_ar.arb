@@ -103,7 +103,7 @@
        "registered": "انضم",
        "lastSeen": "آخر ظهور",
        "sendMess": "إرسال رسالة",
-       "aboutMe": "معلومات عني",
+       "aboutMe": "السيرة الذاتية",
        "certifiedOffice": "مكتب موثق",
        "certifiedOfficeAwait": "تم إرسال طلب توثيق بانتظار موافقة الإدارة",
        "member": "عضو",
@@ -387,5 +387,6 @@
        "contactUsDet": "للمساعدة والدعم يمكنكم التواصل معنا عبر وسائل الدعم الموجودة في الأسفل",
        "today": "اليوم",
        "yesterday": "أمس",
-       "trySearching": "جرب البحث..."
+       "trySearching": "جرب البحث...",
+       "phone": "الجوال"
 }

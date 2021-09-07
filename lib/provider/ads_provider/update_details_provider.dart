@@ -28,7 +28,6 @@ class UpdateDetailsProvider extends ChangeNotifier{
   final List<bool> _typeAqarUpdate = List.generate(3, (_) => false);
   final List<bool> _familyUpdate = List.generate(2, (_) => false);
   final List<bool> _planUpdate = List.generate(3, (_) => false);
-  int? _currentStageUpdateDetails;
   final List<CategoryModel> _categoryUpdate = [];
   String? _category_finalUpdate;
   List? _CategoryDataUpdate = [];
@@ -223,11 +222,6 @@ class UpdateDetailsProvider extends ChangeNotifier{
   void updateCategoryDetails(int id, String? category) {
     _id_category_finalUpdate = id;
     _category_finalUpdate = category;
-    notifyListeners();
-  }
-
-  void setCurrentStageUpdateDetails(int current) {
-    _currentStageUpdateDetails = current;
     notifyListeners();
   }
 
@@ -581,7 +575,6 @@ class UpdateDetailsProvider extends ChangeNotifier{
 
 
   List<bool> get typeAqarUpdate => _typeAqarUpdate;
-  int? get currentStageUpdateDetails => _currentStageUpdateDetails;
   List<CategoryModel> get categoryUpdate => _categoryUpdate;
   int? get id_category_finalUpdate => _id_category_finalUpdate;
   String? get interfaceSelectedUpdate => _interfaceSelectedUpdate;

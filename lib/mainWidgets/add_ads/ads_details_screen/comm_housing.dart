@@ -30,43 +30,51 @@ class CommHousing extends StatelessWidget {
               const Color(0xff04B404),
               borderWidth: 1,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      10, 0, 10, 0),
-                  child: Text(
-                    AppLocalizations.of(context)!
-                        .commHousing,
-                    style: CustomTextStyle(
+                SizedBox(
+                  width: (MediaQuery.of(context).size.width * .33) - (41/3),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: Text(
+                      AppLocalizations.of(context)!
+                          .commHousing,
+                      style: CustomTextStyle(
 
-                      fontSize: 10,
-                    ).getTextStyle(),
-                    textAlign: TextAlign.center,
+                        fontSize: 10,
+                      ).getTextStyle(),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      10, 0, 10, 0),
-                  child: Text(
-                    AppLocalizations.of(context)!
-                        .commercial,
-                    style: CustomTextStyle(
+                SizedBox(
+                  width: (MediaQuery.of(context).size.width * .33) - (41/3),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                        10, 0, 10, 0),
+                    child: Text(
+                      AppLocalizations.of(context)!
+                          .commercial,
+                      style: CustomTextStyle(
 
-                      fontSize: 10,
-                    ).getTextStyle(),
-                    textAlign: TextAlign.center,
+                        fontSize: 10,
+                      ).getTextStyle(),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      10, 0, 10, 0),
-                  child: Text(
-                    AppLocalizations.of(context)!
-                        .housing,
-                    style: CustomTextStyle(
+                SizedBox(
+                  width: (MediaQuery.of(context).size.width * .33) - (41/3),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                        10, 0, 10, 0),
+                    child: Text(
+                      AppLocalizations.of(context)!
+                          .housing,
+                      style: CustomTextStyle(
 
-                      fontSize: 10,
-                    ).getTextStyle(),
-                    textAlign: TextAlign.center,
+                        fontSize: 10,
+                      ).getTextStyle(),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
               ],

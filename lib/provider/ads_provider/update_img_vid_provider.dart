@@ -3,12 +3,16 @@ import 'dart:io';
 
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart' as picker;
 import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/services/ad_page_helper.dart';
 import 'package:video_player/video_player.dart';
+
+import 'ad_page_provider.dart';
 
 class UpdateImgVedProvider extends ChangeNotifier{
   UpdateImgVedProvider(String video){
@@ -17,7 +21,11 @@ class UpdateImgVedProvider extends ChangeNotifier{
     }
   }
 
-
+  @override
+  void dispose() {
+    deleteDir();
+    super.dispose();
+  }
 
   final PageController _controllerImgVedUpdate = PageController();
   int _currentControllerPageImgVedUpdate = 0;
@@ -54,6 +62,16 @@ class UpdateImgVedProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  Future<void> deleteDir() async{
+    // ignore: omit_local_variable_types
+    Directory temp = await getTemporaryDirectory();
+    // ignore: omit_local_variable_types
+    Directory tempPath = Directory(temp.path + '/adsCache');
+    if(tempPath.existsSync()){
+      tempPath.deleteSync(recursive: true);
+    }
+  }
+
   Future getImagesUpdate(BuildContext context) async {
     _imagesListUpdate = [];
 
@@ -61,12 +79,24 @@ class UpdateImgVedProvider extends ChangeNotifier{
         context,
         maxAssets: 10,
         textDelegate: picker.ArabicTextDelegate()
-    ).then((List<picker.AssetEntity>? assets) {
+    ).then((List<picker.AssetEntity>? assets) async{
       if(assets != null) {
+        var temp = await getTemporaryDirectory();
+        var newDir = Directory(temp.path + '/adsCache');
+        if(!await newDir.exists()){
+          await newDir.create(recursive: true);
+        }
         assets.forEach((element) {
-          element.file.then((value) {
-            print(value!.path);
-            _imagesListUpdate.add(value);
+          element.file.then((value) async{
+            // ignore: omit_local_variable_types
+            File? _compressedImage = await FlutterImageCompress.compressAndGetFile(
+              value!.path,
+              '${newDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpeg',
+              format: CompressFormat.jpeg,
+            );
+            if(_compressedImage != null) {
+              _imagesListUpdate.add(_compressedImage);
+            }
             notifyListeners();
           });
         });
@@ -146,7 +176,7 @@ class UpdateImgVedProvider extends ChangeNotifier{
     await Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) =>
-          AdPageHelper(ads: ads, index: index,)
+          AdPageHelper(ads: ads, index: index, selectedScreen: SelectedScreen.menu,)
       ),
     );
     notifyListeners();

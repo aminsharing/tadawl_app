@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/mainWidgets/ad_button.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/user_provider/favourite_provider.dart';
 import 'package:tadawl_app/services/ad_page_helper.dart';
@@ -82,18 +83,11 @@ class Favourite extends StatelessWidget {
                     if (adsFav.userAdsFav[i].isFav == '1') {
                       return AdButton(
                           onPressed: () {
-                            // Provider.of<MutualProvider>(context, listen: false)
-                            //     .getAllAdsPageInfo(context, adsFav.userAdsFav[i].idDescription);
-                            // Provider.of<MutualProvider>(context, listen: false)
-                            //     .getSimilarAdsList(context, adsFav.userAdsFav[i].idCategory, adsFav.userAdsFav[i].idDescription);
-
                             Future.delayed(Duration(seconds: 0), () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) =>
-                                    AdPageHelper(ads: adsFav.userAdsFav, index: i,)
-
-
+                                    AdPageHelper(ads: adsFav.userAdsFav, index: i, selectedScreen: SelectedScreen.favorite,)
                                 ),
                               );
                             });

@@ -550,7 +550,7 @@ void directSupport(BuildContext context) async {
         MaterialPageRoute(
             builder: (context) =>
                 ChangeNotifierProvider<MsgProvider>(
-                  create: (context) => MsgProvider(context, locale.phone, customMsg: 'الدعم الفني',),
+                  create: (context) => MsgProvider(context, locale.phone, customMsg: 'أود التواصل معكم للمساعدة',),
                   child: Discussion(
                     '966552525000',
                     username: 'تطبيق تداول العقاري',

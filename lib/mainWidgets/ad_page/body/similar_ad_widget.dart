@@ -55,31 +55,12 @@ class SimilarAdWidget extends StatelessWidget {
                   return AdButton(
                       onPressed: () {
                         adsPage.stopVideoAdsPage();
-                        // adsPage.getAdsPageList(context,
-                        //     adsPage.adsSimilar[i].idDescription);
-                        // adsPage.getImagesAdsPageList(context,
-                        //     adsPage.adsSimilar[i].idDescription);
-                        // adsPage.getUserAdsPageInfo(context,
-                        //     adsPage.adsSimilar[i].idDescription);
-                        // adsPage.getAdsVRInfo(context,
-                        //     adsPage.adsSimilar[i].idDescription);
-                        // adsPage.getBFAdsPageList(context,
-                        //     adsPage.adsSimilar[i].idDescription);
-                        // adsPage.getQFAdsPageList(context,
-                        //     adsPage.adsSimilar[i].idDescription);
-                        // adsPage.getViewsChartInfo(context,
-                        //     adsPage.adsSimilar[i].idDescription);
-                        // adsPage.getNavigationAdsPageList(context);
-                        // adsPage.setIdDescription(
-                        //     adsPage.adsSimilar[i].idDescription);
-                        // adsPage.getSimilarAdsList(context, adsPage.adsSimilar[i].idCategory, adsPage.adsSimilar[i].idDescription);
                         Future.delayed(Duration(seconds: 0), () {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    AdPageHelper(ads:adsPage.adsSimilar, index: i,)
-
+                                    AdPageHelper(ads:adsPage.adsSimilar, index: i, selectedScreen: SelectedScreen.menu,)
                             ),
                           );
                         });

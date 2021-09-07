@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:page_transition/page_transition.dart';
+
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/bottom_navigation_bar.dart';
 import 'package:tadawl_app/mainWidgets/custom_drawer.dart';
@@ -22,7 +22,7 @@ class RealEstateOffices extends StatelessWidget {
   Widget build(BuildContext context) {
 
     Future<bool> _onBackPressed() {
-      return showDialog(
+      return showDialog<bool>(
         context: context,
         builder: (context) =>
             AlertDialog(
@@ -85,7 +85,7 @@ class RealEstateOffices extends StatelessWidget {
                 ),
               ],
             ),
-      ).then((value) => value as bool);
+      ).then((value) => value??false);
     }
 
     var mediaQuery = MediaQuery.of(context);
@@ -122,16 +122,14 @@ class RealEstateOffices extends StatelessWidget {
                     onTap: () {
                       if (provider.phone != null) {
                         Navigator.push(context,
-                          PageTransition(type: PageTransitionType.bottomToTop,
-                              duration: Duration(milliseconds: 10),
-                              child: OfficesVR()),
+                          MaterialPageRoute(
+                                  builder: (context) => OfficesVR()),
                         );
                       }
                       else {
                         Navigator.push(context,
-                          PageTransition(type: PageTransitionType.bottomToTop,
-                              duration: Duration(milliseconds: 10),
-                              child: Login()),
+                          MaterialPageRoute(
+                                  builder: (context) => Login()),
                         );
                       }
                     },

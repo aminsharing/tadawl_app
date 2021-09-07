@@ -145,7 +145,7 @@ class AqarVR extends StatelessWidget {
                                                   ?
                                               const AssetImage('assets/images/img4.png')
                                                   :
-                                              FileImage(aqarVR.imageAqarVR!)) as ImageProvider<Object>,
+                                              FileImage(aqarVR.imageAqarVR!)) as ImageProvider,
                                               fit: BoxFit.cover,
                                             ),
                                           ),

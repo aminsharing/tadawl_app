@@ -47,8 +47,8 @@ class AdsDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
 
-    Future<bool> _onInterfaceCheck() {
-      return showDialog(
+    Future<bool?> _onInterfaceCheck() {
+      return showDialog<bool>(
         context: context,
         builder: (context) =>
             AlertDialog(
@@ -83,7 +83,7 @@ class AdsDetailsScreen extends StatelessWidget {
                 ),
               ],
             ),
-      ).then((value) => value as bool);
+      );
     }
 
     return Scaffold(
@@ -124,7 +124,7 @@ class AdsDetailsScreen extends StatelessWidget {
               if (addAds.id_category_finalAddAds != null)
                 Column(
                   children: [
-                    ...getPage()[addAds.id_category_finalAddAds!] as Iterable<Widget>
+                    ...getPage()[addAds.id_category_finalAddAds!]!
                   ],
                 ),
               TextButton(
@@ -150,7 +150,6 @@ class AdsDetailsScreen extends StatelessWidget {
                           addAds.interfaceSelectedAddAds == '0')) {
                     _onInterfaceCheck();
                   } else {
-                    // addAds.setCurrentStageAddAds(6);
                     Navigator.push(context, MaterialPageRoute(builder: (context) =>
                     ChangeNotifierProvider<AddAdProvider>.value(
                       value: addAdProvider,

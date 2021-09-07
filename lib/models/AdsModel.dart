@@ -32,6 +32,7 @@ class AdsModel {
   String? state_aqar;
   String? vr_id_description;
   bool? isClicked;
+  bool isUpdating = false;
   // ignore: sort_constructors_first
   AdsModel(
       {this.idDescription,
@@ -67,6 +68,7 @@ class AdsModel {
       this.state_aqar,
       this.vr_id_description,
       this.isClicked,
+      this.isUpdating = false,
       // this.entry,
       // this.key
       });

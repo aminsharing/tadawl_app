@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/RegionModel.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/main_page_provider.dart';
 import 'package:tadawl_app/provider/ads_provider/search_drawer_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
@@ -139,7 +140,7 @@ class MapWidget extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                AdPageHelper(ads: mainPage.ads, index: mainPage.SelectedAdsIndex,)
+                                                AdPageHelper(ads: mainPage.ads, index: mainPage.SelectedAdsIndex, selectedScreen: SelectedScreen.mainPage,)
                                         ),
                                       );
                                     });

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
+
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 
 class NavButton extends StatelessWidget {
@@ -17,10 +17,8 @@ class NavButton extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          PageTransition(
-              type: PageTransitionType.bottomToTop,
-              duration: Duration(milliseconds: 10),
-              child: page),
+          MaterialPageRoute(
+              builder: (context) => page),
         );
       },
       child: Text(

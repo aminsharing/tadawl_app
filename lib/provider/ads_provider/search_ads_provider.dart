@@ -93,7 +93,7 @@ class SearchAdsProvider extends ChangeNotifier{
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) =>
-                      AdPageHelper(ads: [Provider.of<AdPageProvider>(context, listen: false).adsPage], index: 0,)
+                      AdPageHelper(ads: [Provider.of<AdPageProvider>(context, listen: false).adsPage], index: 0, selectedScreen: SelectedScreen.menu,)
 
                   ),
                 );

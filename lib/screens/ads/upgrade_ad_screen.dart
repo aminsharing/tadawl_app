@@ -175,7 +175,7 @@ class CustomRadio extends StatelessWidget {
   final String text;
   final int value;
   final int currentValue;
-  final Function(int?) onChanged;
+  final ValueChanged<int?>? onChanged;
 
   @override
   Widget build(BuildContext context) {

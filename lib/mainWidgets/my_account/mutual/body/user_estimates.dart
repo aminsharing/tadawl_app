@@ -31,13 +31,10 @@ class UserEstimates extends StatelessWidget {
             ));
       },
       child: Row(
-        mainAxisAlignment:
-        MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Padding(
-            padding:
-            const EdgeInsets.fromLTRB(
-                0, 0, 15, 0),
+            padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
             child: Text(
               estimates.isNotEmpty
                   ?
@@ -53,9 +50,7 @@ class UserEstimates extends StatelessWidget {
             ),
           ),
           Padding(
-            padding:
-            const EdgeInsets.fromLTRB(
-                0, 0, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: RatingBar(
               rating:
               sumEstimates != null

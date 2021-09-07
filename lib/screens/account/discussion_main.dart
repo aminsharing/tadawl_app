@@ -10,6 +10,8 @@ import 'package:tadawl_app/models/message_model.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/provider/msg_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
+import 'package:tadawl_app/screens/account/my_account.dart';
 
 class Constants {
   static const String banMessaging = 'حظر المراسلة';
@@ -59,13 +61,28 @@ class Discussion extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
-          title: Text(
-            username ?? 'Username',
-            style: CustomTextStyle(
-              fontSize: 15,
-              color: const Color(0xffffffff),
-            ).getTextStyle(),
-            textAlign: TextAlign.center,
+          title: TextButton(
+            onPressed: () {
+              final myAccountProvider = MyAccountProvider(phone_user);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ChangeNotifierProvider<MyAccountProvider>(
+                          create: (_) => myAccountProvider,
+                          child: MyAccount(myAccountProvider: myAccountProvider, phone: locale.phone),
+                        ),
+                  ),
+              );
+            },
+            child: Text(
+              username ?? 'Username',
+              style: CustomTextStyle(
+                fontSize: 15,
+                color: const Color(0xffffffff),
+              ).getTextStyle(),
+              textAlign: TextAlign.center,
+            ),
           ),
           centerTitle: true,
           actions: [
@@ -106,7 +123,7 @@ class Discussion extends StatelessWidget {
                   width: mediaQuery.size.width,
                   height: mediaQuery.size.height * 0.745,
                   child: StreamBuilder<List<ConvModel>>(
-                    stream: mainChat.streamChatController.stream as Stream<List<ConvModel>>?,
+                    stream: mainChat.streamChatController.stream,
                     builder: (BuildContext context, AsyncSnapshot<List<ConvModel>> snapshot) {
                       if (snapshot.hasData) {
                         // ignore: omit_local_variable_types
@@ -158,7 +175,7 @@ class Discussion extends StatelessWidget {
                                           ),
                                         )
                                     ),
-                                  MsgBody(locale.phone, msgs: msgs[i]),
+                                  MsgBody(locale.phone, msgs: msgs[i],),
                                   if(msgs[i].phone_user_sender == locale.phone)
                                     Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -234,11 +251,7 @@ class Discussion extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         SizedBox(),
-                                        mainChat.recordLengthSec < 10 ?
-                                        mainChat.recordLengthMin < 10 ?
-                                        Text('0${mainChat.recordLengthMin}:0${mainChat.recordLengthSec}') :
-                                        Text('${mainChat.recordLengthMin}:0${mainChat.recordLengthSec}') :
-                                        Text('0${mainChat.recordLengthMin}:${mainChat.recordLengthSec}'),
+                                        Text(RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$').firstMatch('${Duration(seconds: mainChat.recordDuration)}')?.group(1) ?? ''),
                                         SizedBox(),
                                         SizedBox(),
                                         SizedBox(),
@@ -267,7 +280,7 @@ class Discussion extends StatelessWidget {
                                         if (mainChat.messageController.text.isEmpty) {
                                           return;
                                         }
-                                        _messageKey.currentState!.save();
+                                        // _messageKey.currentState!.save();
                                         mainChat.sendMess(
                                             context,
                                             [],
@@ -292,7 +305,7 @@ class Discussion extends StatelessWidget {
                                       minLines: 1,
                                       maxLines: 30,
                                       onSaved: (String? value) {
-                                        mainChat.setMessageController(value!);
+                                        // mainChat.setMessageController(value!);
                                       },
                                       onChanged: (value){
                                         if(mainChat.messageController.text.isEmpty){

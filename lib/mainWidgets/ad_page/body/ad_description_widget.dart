@@ -34,27 +34,37 @@ class AdDescriptionWidget extends StatelessWidget {
                   if( adsPage.adsUser!.phone == locale.phone)
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      child: adsPage.busyAdsPage
-                          ?
-                      CircularProgressIndicator()
-                          :
-                      TextButton(
+                      child: TextButton(
                         onPressed: () {
-                          if(DateTime.now().difference(DateTime.parse(adsPage.adsPage!.timeUpdated!)).inMinutes - 180 > 60){
-                            adsPage.stopVideoAdsPage();
-                            adsPage.updateAdsAdsPage(context, adsPage.adsPage!.idDescription).then((value) {
-                              adsPage.getAllAdsPageInfo(context, adsPage.adsPage!.idDescription);
-                            });
-                          }
-                          else{
-                            Fluttertoast.showToast(
-                                msg:
-                                'ستتمكن من التحديث بعد ${24-(DateTime.now().difference(DateTime.parse(adsPage.adsPage!.timeUpdated!)).inMinutes - 180)} دقيقة',
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                                textColor: Colors.white,
-                                fontSize: 15.0);
+                          if(!adsPage.busyAdsPage){
+                            adsPage.busyAdsPage = true;
+                            if(DateTime.now().difference(DateTime.parse(adsPage.adsPage!.timeUpdated!)).inMinutes - 180 > 60){
+                              adsPage.stopVideoAdsPage();
+                              adsPage.updateAdsAdsPage(context, adsPage.adsPage!.idDescription).then((value) {
+                                if(value){
+                                  Fluttertoast.showToast(
+                                      msg:
+                                      'تم التحديث بنجاح',
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      textColor: Colors.white,
+                                      fontSize: 15.0);
+                                  adsPage.getAllAdsPageInfo(context, adsPage.adsPage!.idDescription);
+                                  adsPage.busyAdsPage = false;
+                                }
+                              });
+                            }
+                            else{
+                              Fluttertoast.showToast(
+                                  msg:
+                                  'ستتمكن من التحديث بعد ${60-(DateTime.now().difference(DateTime.parse(adsPage.adsPage!.timeUpdated!)).inMinutes - 180)} دقيقة',
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 1,
+                                  textColor: Colors.white,
+                                  fontSize: 15.0);
+                            }
                           }
                         },
                         child: Container(
@@ -72,7 +82,23 @@ class AdDescriptionWidget extends StatelessWidget {
                             ),
                           ),
                           child: Center(
-                            child: Text(
+                            child: adsPage.busyAdsPage
+                                ?
+                            Padding(
+                              padding: const EdgeInsets.all(1.0),
+                              child: Container(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  backgroundColor: Color(0xff04B404),
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Color(0xff1f2835)
+                                  ),
+                                ),
+                              ),
+                            )
+                                :
+                            Text(
                               AppLocalizations.of(context)!.updateAds,
                               style: CustomTextStyle(
                                 fontSize: 15,

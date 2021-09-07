@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/ad_button.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
+import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 import 'package:tadawl_app/services/ad_page_helper.dart';
 
@@ -25,18 +26,12 @@ class TodayAdsCard extends StatelessWidget {
       TextDirection.rtl,
       child: AdButton(
           onPressed: () {
-            // Provider.of<MutualProvider>(context, listen: false)
-            //     .getAllAdsPageInfo(context, todayAds[index].idDescription);
-            // Provider.of<MutualProvider>(context, listen: false)
-            //     .getSimilarAdsList(
-            //     context, todayAds[index].idCategory, todayAds[index].idDescription);
             Future.delayed(Duration(seconds: 0), () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        AdPageHelper(ads: todayAds, index: index,)
-
+                        AdPageHelper(ads: todayAds, index: index, selectedScreen: SelectedScreen.todayAds,)
                 ),
               );
             });

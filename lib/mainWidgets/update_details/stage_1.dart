@@ -91,7 +91,7 @@ class Stage1 extends StatelessWidget {
               if (updateDetails.id_category_finalUpdate != null){
                 return Column(
                   children: [
-                    ...getPage()[updateDetails.id_category_finalUpdate!] as Iterable<Widget>
+                    ...getPage()[updateDetails.id_category_finalUpdate!]!
                   ],
                 );
               }else{

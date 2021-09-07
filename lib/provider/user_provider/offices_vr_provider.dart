@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/models/RegionModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
@@ -21,6 +23,7 @@ class OfficesVRProvider extends ChangeNotifier{
   void dispose(){
     print('dispose OfficesVRProvider');
     super.dispose();
+    deleteDir();
   }
 
   int _currentStageOfficeVR = 0;
@@ -60,13 +63,34 @@ class OfficesVRProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  Future<void> deleteDir() async{
+    // ignore: omit_local_variable_types
+    Directory temp = await getTemporaryDirectory();
+    // ignore: omit_local_variable_types
+    Directory tempPath = Directory(temp.path + '/adsCache');
+    if(tempPath.existsSync()){
+      tempPath.deleteSync(recursive: true);
+    }
+  }
+
   Future<void> getImageOfficesVR() async {
     final _pickedFile = await _picker.pickImage(
       source: ImageSource.gallery,
       imageQuality: 50,
     );
     if (_pickedFile != null) {
-      _imageOfficeVR = File(_pickedFile.path);
+      var temp = await getTemporaryDirectory();
+      var newDir = Directory(temp.path + '/adsCache');
+      if(!await newDir.exists()){
+        await newDir.create(recursive: true);
+      }
+      // ignore: omit_local_variable_types
+      File? _compressedImage = await FlutterImageCompress.compressAndGetFile(
+        _pickedFile.path,
+        '${newDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpeg',
+        format: CompressFormat.jpeg,
+      );
+      _imageOfficeVR = _compressedImage;
       notifyListeners();
     } else {}
   }

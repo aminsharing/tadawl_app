@@ -73,8 +73,8 @@ class Stage0 extends StatelessWidget {
                   onSaved: (value){
                     officesVR.setOfficeName(value??'');
                   },
-                  validator: (String value) {
-                    if (value.isEmpty) {
+                  validator: (String? value) {
+                    if ((value??'').isEmpty) {
                       officesVR.setButtonClicked(null);
                       return translate.reqRealEstateOfficesName;
                     }
@@ -102,11 +102,11 @@ class Stage0 extends StatelessWidget {
                 child: BuildOfficeTextField(
                   keyboardType: TextInputType.number,
                   labelText: translate.enterSejel10,
-                  validator: (String value) {
-                    if (value.isEmpty) {
+                  validator: (String? value) {
+                    if ((value??'').isEmpty) {
                       officesVR.setButtonClicked(null);
                       return translate.reqSejel;
-                    } else if (value.length < 10) {
+                    } else if ((value??'').length < 10) {
                       officesVR.setButtonClicked(null);
                       return translate.reqLess10Sejel;
                     }
@@ -157,7 +157,7 @@ class Stage0 extends StatelessWidget {
                                     ?
                                 const AssetImage('assets/images/img4.png')
                                     :
-                                FileImage(officesVROn.imageOfficeVR!)) as ImageProvider<Object>,
+                                FileImage(officesVROn.imageOfficeVR!)) as ImageProvider,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -237,8 +237,8 @@ class BuildOfficeTextField extends StatelessWidget {
     required this.keyboardType,
   }) : super(key: key);
   final String labelText;
-  final Function(String) validator;
-  final Function(String?) onSaved;
+  final FormFieldValidator<String>? validator;
+  final FormFieldSetter<String>? onSaved;
   final TextInputType keyboardType;
 
   @override
@@ -250,7 +250,7 @@ class BuildOfficeTextField extends StatelessWidget {
         color: const Color(0xffababab),
       ).getTextStyle(),
       keyboardType: keyboardType,
-      validator: validator as String? Function(String?)?,
+      validator: validator,
       onSaved: onSaved,
     );
   }

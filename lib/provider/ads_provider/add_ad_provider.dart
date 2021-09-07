@@ -9,6 +9,7 @@ import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
@@ -20,6 +21,7 @@ import 'package:tadawl_app/screens/general/home.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart' as picker;
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class AddAdProvider extends ChangeNotifier{
 
@@ -35,11 +37,21 @@ class AddAdProvider extends ChangeNotifier{
   void dispose() {
     print('dispose AddAdProvider');
     super.dispose();
+    deleteDir();
     _priceControllerAddAds.dispose();
     _spaceControllerAddAds.dispose();
     _meterPriceControllerAddAds.dispose();
     _descControllerAddAds.dispose();
     _controllerAddAds.dispose();
+    if(mapController != null){
+      mapController!.dispose();
+    }
+    if(_videoControllerAddAds != null){
+      _videoControllerAddAds!.dispose();
+    }
+    if(_chewieControllerAddAds != null){
+      _chewieControllerAddAds!.dispose();
+    }
   }
 
   VideoPlayerController? _videoControllerAddAds;
@@ -114,62 +126,6 @@ class AddAdProvider extends ChangeNotifier{
   GoogleMapController? mapController;
   bool _isSending = false;
 
-
-  void clearChacheAddAds() {
-    _detailsAqarAddAds = null;
-    _isFootballCourtAddAds = false;
-    _isVolleyballCourtAddAds= false;
-    _isAmusementParkAddAds= false;
-    _isFamilyPartitionAddAds= false;
-    _isVerseAddAds= false;
-    _isCellarAddAds= false;
-    _isYardAddAds= false;
-    _isMaidRoomAddAds= false;
-    _isSwimmingPoolAddAds= false;
-    _isDriverRoomAddAds= false;
-    _isDuplexAddAds= false;
-    _isHallStaircaseAddAds= false;
-    _isConditionerAddAds= false;
-    _isElevatorAddAds= false;
-    _isCarEntranceAddAds= false;
-    _isAppendixAddAds= false;
-    _isKitchenAddAds= false;
-    _isFurnishedAddAds= false;
-    _StreetWidthAddAds = 0;
-    _FloorAddAds= 0;
-    _TreesAddAds= 0;
-    _WellsAddAds= 0;
-    _StoresAddAds= 0;
-    _ApartmentsAddAds= 0;
-    _AgeOfRealEstateAddAds= 0;
-    _RoomsAddAds= 0;
-    _ToiletsAddAds= 0;
-    _LoungesAddAds= 0;
-    _selectedTypeAqarAddAds= -1;
-    _selectedFamilyAddAds= -1;
-    _totalSpaceAddAds= null;
-    _totalPricAddAds= null;
-    _selectedPlanAddAds= -1;
-    _id_category_finalAddAds= 0;
-    _ads_cordinates_latAddAds= 0;
-    _ads_cordinates_lngAddAds= 0;
-    _ads_cityAddAds= null;
-    _ads_neighborhoodAddAds= null;
-    _ads_roadAddAds= null;
-    _videoAddAds= null;
-    _imagesListAddAds.clear();
-    _priceControllerAddAds.dispose();
-    _spaceControllerAddAds.dispose();
-    _meterPriceControllerAddAds.dispose();
-    _meterPriceAddAds = null;
-    _descControllerAddAds.dispose();
-    _controllerAddAds.dispose();
-    _interfaceSelectedAddAds = '0';
-    _typeAqarAddAds[0] = false;
-    _typeAqarAddAds[1] = false;
-    _typeAqarAddAds[2] = false;
-  }
-
   void animateToLocation(LatLng position, double zoom) async{
     await mapController!.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
@@ -209,8 +165,6 @@ class AddAdProvider extends ChangeNotifier{
     _AcceptedAddAds = state;
     notifyListeners();
   }
-
-
 
   Future<void> getLocPer() async{
     _permissionGranted = await _location.hasPermission().then((value) async{
@@ -287,8 +241,6 @@ class AddAdProvider extends ChangeNotifier{
       // notifyListeners();
     }
   }
-
-
 
   void handleCameraMoveAddAds(CameraPosition position) async {
     if (_markersAddAds.isEmpty) {
@@ -558,24 +510,50 @@ class AddAdProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  Future<void> deleteDir() async{
+    // ignore: omit_local_variable_types
+    Directory temp = await getTemporaryDirectory();
+    // ignore: omit_local_variable_types
+    Directory tempPath = Directory(temp.path + '/adsCache');
+    if(tempPath.existsSync()){
+      tempPath.deleteSync(recursive: true);
+    }
+  }
+
   Future getImagesAddAds(BuildContext context) async {
     _imagesListAddAds = [];
 
     await picker.AssetPicker.pickAssets(
         context,
       maxAssets: 30,
+      filterOptions: picker.FilterOptionGroup(
+        imageOption: picker.FilterOption(),
+      ),
       textDelegate: picker.ArabicTextDelegate()
-    ).then((List<picker.AssetEntity>? assets) {
+    ).then((List<picker.AssetEntity>? assets) async{
       if(assets != null) {
+        var temp = await getTemporaryDirectory();
+        var newDir = Directory(temp.path + '/adsCache');
+        if(!await newDir.exists()){
+          await newDir.create(recursive: true);
+        }
         assets.forEach((element) {
-          element.file.then((value) {
-            print(value!.path);
-            _imagesListAddAds.add(value);
+          element.file.then((value) async{
+            // ignore: omit_local_variable_types
+            File? _compressedImage = await FlutterImageCompress.compressAndGetFile(
+              value!.path,
+              '${newDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpeg',
+              format: CompressFormat.jpeg,
+            );
+            if(_compressedImage != null) {
+              _imagesListAddAds.add(_compressedImage);
+            }
             notifyListeners();
           });
       });
       }
     });
+    /// aaa
     // await MultiImagePicker.pickImages(
     //   maxImages: 30,
     //   enableCamera: true,
@@ -621,6 +599,15 @@ class AddAdProvider extends ChangeNotifier{
       _CategoryDataAddAds!.forEach((element) {
         _categoryAddAds.add(CategoryModel.fromJson(element));
       });
+      _categoryAddAds.sort((a, b) {
+        if(a.id_category == '1'){
+          return -1;
+        }else if(b.id_category == '14'){
+          return 1;
+        }else{
+          return -1;
+        }
+      });
       notifyListeners();
     });
   }
@@ -649,75 +636,12 @@ class AddAdProvider extends ChangeNotifier{
   }
 
   Future getCameraVideo(BuildContext context) async {
-    var pickedVideo55 = await (_pickerAddAdsVid.pickVideo(
+    var pickedVideo55 = await _pickerAddAdsVid.pickVideo(
       source: ImageSource.camera,
       maxDuration: Duration(seconds: 60),
-
-    ) as FutureOr<PickedFile>);
-    _videoAddAds = File(pickedVideo55.path);
-    _videoControllerAddAds = VideoPlayerController.file(_videoAddAds!);
-    await _videoControllerAddAds!.initialize().then((value) {notifyListeners();});
-    _chewieControllerAddAds = ChewieController(
-      videoPlayerController: _videoControllerAddAds!,
-      autoPlay: true,
-      looping: true,
     );
-  }
-
-  Future getGalleryVideo(BuildContext context) async {
-    var _result = await (FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['mp4', 'avi'],
-      allowCompression: true,
-    ) as FutureOr<FilePickerResult>);
-    var _file = _result.files.first;
-    var _pickedVideo = File(_file.path);
-
-    var sizeInBytes = _pickedVideo.lengthSync();
-    var sizeInMb = sizeInBytes / (1024 * 1024);
-    if (sizeInMb > 30) {
-      return showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text(
-            AppLocalizations.of(context)!.bigFile,
-            style: CustomTextStyle(
-              fontSize: 20,
-              color: const Color(0xff00cccc),
-            ).getTextStyle(),
-            textAlign: TextAlign.right,
-          ),
-          content: Text(
-            AppLocalizations.of(context)!.bigFileHint,
-            style: CustomTextStyle(
-              fontSize: 17,
-              color: const Color(0xff000000),
-            ).getTextStyle(),
-            textAlign: TextAlign.right,
-          ),
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
-              child: GestureDetector(
-                onTap: () => Navigator.of(context).pop(),
-                child: Text(
-                  AppLocalizations.of(context)!.accept,
-                  style: CustomTextStyle(
-
-                    fontSize: 17,
-                    color: const Color(0xff00cccc),
-                  ).getTextStyle(),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-    else {
-      _videoAddAds = null;
-      _videoAddAds = File(_pickedVideo.path);
+    if(pickedVideo55 != null){
+      _videoAddAds = File(pickedVideo55.path);
       _videoControllerAddAds = VideoPlayerController.file(_videoAddAds!);
       await _videoControllerAddAds!.initialize().then((value) {notifyListeners();});
       _chewieControllerAddAds = ChewieController(
@@ -725,6 +649,72 @@ class AddAdProvider extends ChangeNotifier{
         autoPlay: true,
         looping: true,
       );
+    }
+  }
+
+  Future getGalleryVideo(BuildContext context) async {
+    var _result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['mp4', 'avi'],
+      allowCompression: true,
+    );
+    if(_result != null) {
+      var _file = _result.files.first;
+      var _pickedVideo = File(_file.path);
+
+      var sizeInBytes = _pickedVideo.lengthSync();
+      var sizeInMb = sizeInBytes / (1024 * 1024);
+      if (sizeInMb > 30) {
+        return showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(
+              AppLocalizations.of(context)!.bigFile,
+              style: CustomTextStyle(
+                fontSize: 20,
+                color: const Color(0xff00cccc),
+              ).getTextStyle(),
+              textAlign: TextAlign.right,
+            ),
+            content: Text(
+              AppLocalizations.of(context)!.bigFileHint,
+              style: CustomTextStyle(
+                fontSize: 17,
+                color: const Color(0xff000000),
+              ).getTextStyle(),
+              textAlign: TextAlign.right,
+            ),
+            actions: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Text(
+                    AppLocalizations.of(context)!.accept,
+                    style: CustomTextStyle(
+                      fontSize: 17,
+                      color: const Color(0xff00cccc),
+                    ).getTextStyle(),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      } else {
+        _videoAddAds = null;
+        _videoAddAds = File(_pickedVideo.path);
+        _videoControllerAddAds = VideoPlayerController.file(_videoAddAds!);
+        await _videoControllerAddAds!.initialize().then((value) {
+          notifyListeners();
+        });
+        _chewieControllerAddAds = ChewieController(
+          videoPlayerController: _videoControllerAddAds!,
+          autoPlay: true,
+          looping: true,
+        );
+      }
     }
   }
 
@@ -777,7 +767,7 @@ class AddAdProvider extends ChangeNotifier{
       File? video,
       List<File> imagesList,
       ) async {
-    await Api().addNewAdsFunc(
+    return Api().addNewAdsFunc(
       detailsAqar,
       isFootballCourt,
       isVolleyballCourt,

@@ -10,9 +10,11 @@ class AdPageHelper extends StatelessWidget {
     Key? key,
     required this.ads,
     required this.index,
+    required this.selectedScreen,
   }) : super(key: key);
   final List<AdsModel?> ads;
   final int? index;
+  final SelectedScreen selectedScreen;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class AdPageHelper extends StatelessWidget {
           itemBuilder: (context, i){
             return ChangeNotifierProvider<AdPageProvider>(
               create: (_) => AdPageProvider(context, ads[i]!.idDescription, ads[i]!.idCategory),
-              child: AdPage(ads: ads, selectedScreen: SelectedScreen.menu, index: i),
+              child: AdPage(ads: ads, selectedScreen: selectedScreen, index: i),
             );
           },
         );

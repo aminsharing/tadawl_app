@@ -11,7 +11,7 @@ class ConvBtn extends StatelessWidget {
     required this.phone,
     required this.onPressed,
   }) : super(key: key);
-  final Function onPressed;
+  final GestureTapCallback? onPressed;
   final ConvModel conv;
   final String? phone;
 
@@ -19,7 +19,7 @@ class ConvBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     return InkWell(
-      onTap: onPressed as void Function()?,
+      onTap: onPressed,
       child: Container(
         // margin: EdgeInsets.only(right: 10, bottom: 5, top: 5, left: 10),
         padding: EdgeInsets.only(top: 0, left: 13, right: 0, bottom: 13),
@@ -48,7 +48,7 @@ class ConvBtn extends StatelessWidget {
                                 ?
                             CachedNetworkImageProvider('https://tadawl-store.com/API/assets/images/avatar/${conv.image ?? 'avatar.jpg'}')
                                 :
-                            AssetImage('assets/images/avatar.png')) as ImageProvider<Object>,
+                            AssetImage('assets/images/avatar.png')) as ImageProvider,
                             fit: BoxFit.fill),
                       ),
                     ),

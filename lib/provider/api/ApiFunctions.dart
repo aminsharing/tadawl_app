@@ -863,7 +863,7 @@ class Api {
     }
   }
 
-  Future<dynamic> addNewAdsFunc(
+  Future addNewAdsFunc(
     String? detailsAqar,
     String isFootballCourt,
     String isVolleyballCourt,
@@ -965,8 +965,7 @@ class Api {
     }
 
     for (var i = 0; i < imagesList.length; i++) {
-      await http.MultipartFile.fromPath('image[]', imagesList[i].path)
-          .then((value) {
+      await http.MultipartFile.fromPath('image[]', imagesList[i].path).then((value) {
         request.files.add(value);
       });
     }

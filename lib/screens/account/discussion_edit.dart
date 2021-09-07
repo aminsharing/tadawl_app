@@ -184,7 +184,7 @@ class DiscussionEdit extends StatelessWidget {
                                       ?
                                   CachedNetworkImageProvider('https://tadawl-store.com/API/assets/images/avatar/${convEdit.conv[i].image}')
                                       :
-                                  AssetImage('assets/images/avatar.png')) as ImageProvider<Object>,
+                                  AssetImage('assets/images/avatar.png')) as ImageProvider,
                                   fit: BoxFit.fill),
                             ),
                           ),

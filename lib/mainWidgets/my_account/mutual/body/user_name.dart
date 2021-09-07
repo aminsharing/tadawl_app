@@ -8,11 +8,9 @@ class UserName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
-          15, 0, 15, 0),
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
       child: Text(
-        username ??
-            'UserName',
+        username ?? 'UserName',
         style: CustomTextStyle(
 
           fontSize: 15,

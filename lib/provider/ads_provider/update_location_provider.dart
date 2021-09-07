@@ -7,6 +7,8 @@ import 'package:tadawl_app/models/RegionModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/services/ad_page_helper.dart';
 
+import 'ad_page_provider.dart';
+
 class UpdateLocationProvider extends ChangeNotifier{
   UpdateLocationProvider(){
     print('init UpdateLocationProvider');
@@ -152,7 +154,7 @@ class UpdateLocationProvider extends ChangeNotifier{
     await Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) =>
-          AdPageHelper(ads: ads, index: index,)
+          AdPageHelper(ads: ads, index: index, selectedScreen: SelectedScreen.menu,)
       ),
     );
   }
