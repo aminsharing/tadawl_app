@@ -11,9 +11,10 @@ import 'package:tadawl_app/screens/ads/main_page.dart';
 
 
 class CategoryScreen extends StatelessWidget {
-  CategoryScreen({Key? key, required this.addAdProvider}) : super(key: key);
+  CategoryScreen({Key? key, required this.addAdProvider, required this.firstContext}) : super(key: key);
 
   final AddAdProvider addAdProvider;
+  final BuildContext firstContext;
 
   @override
   Widget build(BuildContext context) {
@@ -46,12 +47,14 @@ class CategoryScreen extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       Navigator.of(ctxt).pop(true);
+                      Navigator.pop(firstContext);
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => MainPage()
                           )
                       );
+                      // Navigator.pop(context);
                     },
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
@@ -116,74 +119,76 @@ class CategoryScreen extends StatelessWidget {
             onPressed: _onBackPressed,
           ),
         ),
-        body: Consumer<AddAdProvider>(builder: (context, addAds, child) {
-          return addAds.categoryAddAds.isNotEmpty
-              ?
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              width: mediaQuery.size.width,
-              height: mediaQuery.size.height,
-              child: ListView.builder(
-                itemCount: addAds.categoryAddAds.length,
-                physics: ClampingScrollPhysics(),
-                itemBuilder: (context, i){
-                  return TextButton(
-                    onPressed: () {
-                      addAds.updateCategoryDetailsAddAds(
-                          int.parse(addAds.categoryAddAds[i].id_category!),
-                          addAds.categoryAddAds[i].name);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                            ChangeNotifierProvider<AddAdProvider>.value(
-                              value: addAdProvider,
-                              child: AdvertisingFeesScreen(addAdProvider),
+        body: ChangeNotifierProvider<AddAdProvider>.value(
+          value: addAdProvider,
+          builder: (context, _){
+            return Consumer<AddAdProvider>(builder: (context, addAds, child) {
+              return addAds.categoryAddAds.isNotEmpty
+                  ?
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  width: mediaQuery.size.width,
+                  height: mediaQuery.size.height,
+                  child: ListView.builder(
+                    itemCount: addAds.categoryAddAds.length,
+                    physics: ClampingScrollPhysics(),
+                    itemBuilder: (context, i){
+                      return TextButton(
+                        onPressed: () {
+                          addAds.updateCategoryDetailsAddAds(
+                              int.parse(addAds.categoryAddAds[i].id_category!),
+                              addAds.categoryAddAds[i].name);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    AdvertisingFeesScreen(addAdProvider),
+                              )
+                          );
+                        },
+                        child: Container(
+                          width: mediaQuery.size.width,
+                          height: 70,
+                          decoration: BoxDecoration(
+                            color: '${addAds.id_category_finalAddAds}' == addAds.categoryAddAds[i].id_category ? Color(0xff04B404) : Colors.grey[200],
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  _lang != 'en_US'
+                                      ? addAds.categoryAddAds[i].name!
+                                      : addAds.categoryAddAds[i].en_name!,
+                                  style: CustomTextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 15,
+                                    color: '${addAds.id_category_finalAddAds}' == addAds.categoryAddAds[i].id_category ? Colors.white : Color(0xff04B404),
+                                  ).getTextStyle(),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: '${addAds.id_category_finalAddAds}' == addAds.categoryAddAds[i].id_category ? Colors.grey[200] : Color(0xff04B404),
+                                  size: 30,
+                                ),
+                              ],
                             ),
-                          )
+                          ),
+                        ),
                       );
                     },
-                    child: Container(
-                      width: mediaQuery.size.width,
-                      height: 70,
-                      decoration: BoxDecoration(
-                        color: '${addAds.id_category_finalAddAds}' == addAds.categoryAddAds[i].id_category ? Color(0xff04B404) : Colors.grey[200],
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              _lang != 'en_US'
-                                  ? addAds.categoryAddAds[i].name!
-                                  : addAds.categoryAddAds[i].en_name!,
-                              style: CustomTextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 15,
-                                color: '${addAds.id_category_finalAddAds}' == addAds.categoryAddAds[i].id_category ? Colors.white : Color(0xff04B404),
-                              ).getTextStyle(),
-                              textAlign: TextAlign.center,
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              color: '${addAds.id_category_finalAddAds}' == addAds.categoryAddAds[i].id_category ? Colors.grey[200] : Color(0xff04B404),
-                              size: 30,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          )
-              :
-          Container();
-        }),
+                  ),
+                ),
+              )
+                  :
+              Container();
+            });
+          },
+        ),
       ),
     );
   }

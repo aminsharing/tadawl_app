@@ -32,7 +32,8 @@ class AdsList extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(50, 5, 50, 5),
                     child: Text(
-                      AppLocalizations.of(context)!.ads,
+                      AppLocalizations.of(context)!.ads +
+                          (avatar.userAds.isNotEmpty ? '(${avatar.userAds.length})' : ''),
                       style: CustomTextStyle(
                         fontSize: 15,
                         color: const Color(0xff00cccc),

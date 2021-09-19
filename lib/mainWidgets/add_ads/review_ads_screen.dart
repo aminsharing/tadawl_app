@@ -21,40 +21,40 @@ class ReviewAdsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = Provider.of<LocaleProvider>(context, listen: false);
     var mediaQuery = MediaQuery.of(context);
-      return ChangeNotifierProvider<AddAdProvider>.value(
-        value: addAdProvider,
-        builder: (context, _){
-          return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              backgroundColor: const Color(0xff1f2835),
-              title: Center(
-                widthFactor: 2.0,
-                child: Text(
-                  AppLocalizations
-                      .of(context)!
-                      .adReview,
-                  style: CustomTextStyle(
-                    fontSize: 20,
-                    color: const Color(0xffffffff),
-                  ).getTextStyle(),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              leadingWidth: 70.0,
-              leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: Color(0xffffffff),
-                  size: 40,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
+      return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: const Color(0xff1f2835),
+          title: Center(
+            widthFactor: 2.0,
+            child: Text(
+              AppLocalizations
+                  .of(context)!
+                  .adReview,
+              style: CustomTextStyle(
+                fontSize: 20,
+                color: const Color(0xffffffff),
+              ).getTextStyle(),
+              textAlign: TextAlign.center,
             ),
-            body: SingleChildScrollView(
-              child: Consumer<AddAdProvider>(builder: (context, addAds, child) {
+          ),
+          leadingWidth: 70.0,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Color(0xffffffff),
+              size: 40,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: ChangeNotifierProvider<AddAdProvider>.value(
+            value: addAdProvider,
+            builder: (context, _){
+              return Consumer<AddAdProvider>(builder: (context, addAds, child) {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
@@ -1785,54 +1785,54 @@ class ReviewAdsScreen extends StatelessWidget {
                           if(!addAds.isSending) {
                             addAds.isSending = true;
                             addAds.addNewAd(
-                            context,
-                            addAds.detailsAqarAddAds,
-                            addAds.isFootballCourtAddAds.toString(),
-                            addAds.isVolleyballCourtAddAds.toString(),
-                            addAds.isAmusementParkAddAds.toString(),
-                            addAds.isFamilyPartitionAddAds.toString(),
-                            addAds.isVerseAddAds.toString(),
-                            addAds.isCellarAddAds.toString(),
-                            addAds.isYardAddAds.toString(),
-                            addAds.isMaidRoomAddAds.toString(),
-                            addAds.isSwimmingPoolAddAds.toString(),
-                            addAds.isDriverRoomAddAds.toString(),
-                            addAds.isDuplexAddAds.toString(),
-                            addAds.isHallStaircaseAddAds.toString(),
-                            addAds.isConditionerAddAds.toString(),
-                            addAds.isElevatorAddAds.toString(),
-                            addAds.isCarEntranceAddAds.toString(),
-                            addAds.isAppendixAddAds.toString(),
-                            addAds.isKitchenAddAds.toString(),
-                            addAds.isFurnishedAddAds.toString(),
-                            addAds.StreetWidthAddAds.toString(),
-                            addAds.FloorAddAds.toString(),
-                            addAds.TreesAddAds.toString(),
-                            addAds.WellsAddAds.toString(),
-                            addAds.StoresAddAds.toString(),
-                            addAds.ApartmentsAddAds.toString(),
-                            addAds.AgeOfRealEstateAddAds.toString(),
-                            addAds.RoomsAddAds.toString(),
-                            addAds.ToiletsAddAds.toString(),
-                            addAds.LoungesAddAds.toString(),
-                            addAds.selectedTypeAqarAddAds.toString(),
-                            addAds.selectedFamilyAddAds.toString(),
-                            addAds.interfaceSelectedAddAds!,
-                            addAds.totalSpaceAddAds,
-                            addAds.totalPricAddAds,
-                            addAds.selectedPlanAddAds.toString(),
-                            addAds.id_category_finalAddAds.toString(),
-                            addAds.ads_cordinates_latAddAds.toString(),
-                            addAds.ads_cordinates_lngAddAds.toString(),
-                            null,
-                            null,
-                            locale.phone,
-                            addAds.ads_cityAddAds,
-                            addAds.ads_neighborhoodAddAds,
-                            addAds.ads_roadAddAds,
-                            addAds.videoAddAds,
-                            addAds.imagesListAddAds,
-                          );
+                              context,
+                              addAds.detailsAqarAddAds,
+                              addAds.isFootballCourtAddAds.toString(),
+                              addAds.isVolleyballCourtAddAds.toString(),
+                              addAds.isAmusementParkAddAds.toString(),
+                              addAds.isFamilyPartitionAddAds.toString(),
+                              addAds.isVerseAddAds.toString(),
+                              addAds.isCellarAddAds.toString(),
+                              addAds.isYardAddAds.toString(),
+                              addAds.isMaidRoomAddAds.toString(),
+                              addAds.isSwimmingPoolAddAds.toString(),
+                              addAds.isDriverRoomAddAds.toString(),
+                              addAds.isDuplexAddAds.toString(),
+                              addAds.isHallStaircaseAddAds.toString(),
+                              addAds.isConditionerAddAds.toString(),
+                              addAds.isElevatorAddAds.toString(),
+                              addAds.isCarEntranceAddAds.toString(),
+                              addAds.isAppendixAddAds.toString(),
+                              addAds.isKitchenAddAds.toString(),
+                              addAds.isFurnishedAddAds.toString(),
+                              addAds.StreetWidthAddAds.toString(),
+                              addAds.FloorAddAds.toString(),
+                              addAds.TreesAddAds.toString(),
+                              addAds.WellsAddAds.toString(),
+                              addAds.StoresAddAds.toString(),
+                              addAds.ApartmentsAddAds.toString(),
+                              addAds.AgeOfRealEstateAddAds.toString(),
+                              addAds.RoomsAddAds.toString(),
+                              addAds.ToiletsAddAds.toString(),
+                              addAds.LoungesAddAds.toString(),
+                              addAds.selectedTypeAqarAddAds.toString(),
+                              addAds.selectedFamilyAddAds.toString(),
+                              addAds.interfaceSelectedAddAds!,
+                              addAds.totalSpaceAddAds,
+                              addAds.totalPricAddAds,
+                              addAds.selectedPlanAddAds.toString(),
+                              addAds.id_category_finalAddAds.toString(),
+                              addAds.ads_cordinates_latAddAds.toString(),
+                              addAds.ads_cordinates_lngAddAds.toString(),
+                              null,
+                              null,
+                              locale.phone,
+                              addAds.ads_cityAddAds,
+                              addAds.ads_neighborhoodAddAds,
+                              addAds.ads_roadAddAds,
+                              addAds.videoAddAds,
+                              addAds.imagesListAddAds,
+                            );
                           }
                         },
                         child: Padding(
@@ -1908,10 +1908,10 @@ class ReviewAdsScreen extends StatelessWidget {
                       ),
                   ],
                 );
-              }),
-            ),
-          );
-        },
+              });
+            },
+          ),
+        ),
       );
   }
 }

@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:tadawl_app/mainWidgets/ad_button.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/RegionModel.dart';
 import 'package:tadawl_app/provider/ads_provider/ad_page_provider.dart';
@@ -51,25 +52,7 @@ class MapWidget extends StatelessWidget {
                         }
                       }
                     },
-                    child:
-                    // (_region_position?? locale.savedPosition ?? locale.initialCameraPosition) == null
-                    //     ?
-                    // Padding(
-                    //   padding: const EdgeInsets.all(50.0),
-                    //   child: Center(
-                    //     child: Container(
-                    //       width: 20,
-                    //       height: 20,
-                    //       child: CircularProgressIndicator(
-                    //         backgroundColor: Color(0xff00cccc),
-                    //         valueColor: AlwaysStoppedAnimation<Color>(
-                    //             Color(0xff1f2835)),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // )
-                    //     :
-                    Directionality(
+                    child: Directionality(
                       textDirection: TextDirection.ltr,
                       child: GoogleMap(
                         onTap: (d) {
@@ -119,18 +102,6 @@ class MapWidget extends StatelessWidget {
                           children: <Widget>[
                             InkWell(
                               onTap: () {
-                                // Provider.of<MutualProvider>(context, listen: false)
-                                //     .getAllAdsPageInfo(
-                                //     context,
-                                //     mainPage.SelectedAdsModelMainPage.idDescription);
-                                // Provider.of<MutualProvider>(
-                                //     context, listen: false)
-                                //     .getSimilarAdsList(context,
-                                //     mainPage.SelectedAdsModelMainPage
-                                //         .idCategory,
-                                //     mainPage.SelectedAdsModelMainPage
-                                //         .idDescription);
-
                                 if (mainPage.showDiaogSearchDrawer) {
                                   mainPage.setShowDiogFalse();
                                 }
@@ -151,18 +122,14 @@ class MapWidget extends StatelessWidget {
                                     BorderRadius.circular(10),
                                     color: Colors.white),
                                 height: 150,
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width *
-                                    0.8,
+                                width: MediaQuery.of(context).size.width * 0.8,
                                 padding: EdgeInsets.all(10),
                                 child: Row(
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Flexible(
-                                      flex: 5,
+                                      flex: 3,
                                       child: Stack(children: [
                                         CachedNetworkImage(
                                           placeholder: (context, url) => Center(
@@ -203,30 +170,22 @@ class MapWidget extends StatelessWidget {
                                     Flexible(
                                       flex: 3,
                                       child: Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment
-                                            .spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: <Widget>[
                                           Text(
-                                            mainPage.SelectedAdsModelMainPage!
-                                                .title ??
-                                                '',
+                                            mainPage.SelectedAdsModelMainPage!.title ?? '',
                                             style: CustomTextStyle(
-
                                               fontSize: 16,
                                               color: Colors.black,
                                             ).getTextStyle(),
                                           ),
                                           Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                mainPage
-                                                    .SelectedAdsModelMainPage!
-                                                    .price
-                                                    .toString(),
+                                                mainPage.SelectedAdsModelMainPage!.price.toString(),
                                                 style:
                                                 CustomTextStyle(
-
                                                   fontSize: 16,
                                                   color:
                                                   Color(0xff00cccc),
@@ -249,9 +208,7 @@ class MapWidget extends StatelessWidget {
                                             ],
                                           ),
                                           Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment
-                                                .center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Text(
                                                 mainPage

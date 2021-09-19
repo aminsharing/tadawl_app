@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
+import 'package:tadawl_app/screens/general/home.dart';
 
 class Api {
   final String _token = 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@';
@@ -241,8 +245,8 @@ class Api {
        String? id_description) async {
     var url = '$BaseURL/ads/views_chart.php';
     var response = await http.post(Uri.parse(url), body: {
+      'auth_key': _token,
       'id_description': id_description,
-      'auth_key': _token
     });
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -488,11 +492,20 @@ class Api {
     }
   }
 
-  Future<dynamic> getUserInfoFunc( String? Phone) async {
+  Future<dynamic> getUserInfoFunc(String? Phone) async {
     var url = '$BaseURL/login/account_info.php';
     var response = await http.post(Uri.parse(url), body: {
+      'auth_key': _token,
       'phone': Phone,
-      'auth_key': _token
+    });
+    return jsonDecode(response.body);
+  }
+
+  Future<dynamic> getAdsPer(String? Phone) async {
+    var url = '$BaseURL/user/get_ads_per.php';
+    var response = await http.post(Uri.parse(url), body: {
+      'auth_key': _token,
+      'phone': Phone,
     });
     return jsonDecode(response.body);
   }
@@ -864,6 +877,7 @@ class Api {
   }
 
   Future addNewAdsFunc(
+    BuildContext context,
     String? detailsAqar,
     String isFootballCourt,
     String isVolleyballCourt,
@@ -911,7 +925,9 @@ class Api {
     File? video,
     List<File> imagesList,
   ) async {
-    var uri = Uri.parse('$BaseURL/ads/add_new_ads.php');
+    Provider.of<AddAdProvider>(context, listen: false).isSending = true;
+    var uri = Uri.parse('https://www.tadawl-store.com/api/add');
+    // var uri = Uri.parse('$BaseURL/ads/add_new_ads.php');
     var request = http.MultipartRequest('POST', uri);
     request.fields['auth_key'] = _token;
     request.fields['detailsAqar'] = detailsAqar.toString();
@@ -971,14 +987,34 @@ class Api {
     }
     var response = await request.send();
     if (response.statusCode == 200) {
+      response.stream.transform(utf8.decoder).listen((value) {
+        print("response valuee: $value}");
+      });
       await Fluttertoast.showToast(
           msg: 'تم نشر الإعلان بنجاح.', toastLength: Toast.LENGTH_SHORT);
+
+      await Future.microtask(() async{
+        Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
+        Navigator.of(context).popUntil((r) => r.isFirst);
+        await Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Home()));
+        Provider.of<AddAdProvider>(context, listen: false).isSending = false;
+      });
+
+      return response;
     }
     else {
-      await Fluttertoast.showToast(
-          msg: 'Error', toastLength: Toast.LENGTH_SHORT);
+      Provider.of<AddAdProvider>(context, listen: false).isSending = false;
+      // await Fluttertoast.showToast(
+      //     msg: 'Error', toastLength: Toast.LENGTH_SHORT);
+      response.stream.transform(utf8.decoder).listen((value) async{
+        await Fluttertoast.showToast(
+            msg: 'Error2: $value', toastLength: Toast.LENGTH_LONG);
+        print("response valuee2: $value}");
+      });
     }
   }
+
+  ///$description->id
 
   // Future sendMessFunc( String content, String phone, String phone_user) async {
   //   var url = '$BaseURL/conversations/send_mes.php';
@@ -1073,6 +1109,8 @@ class Api {
       String? email,
       String? personalProfile,
       String phone,
+      String? deletedImage,
+      String? currentImage,
       File? image
       ) async {
     final uri =
@@ -1087,6 +1125,8 @@ class Api {
     request.fields['email'] = email ?? '';
     request.fields['about'] = personalProfile ?? '';
     request.fields['phone'] = phone;
+    request.fields['deletedImage'] = deletedImage.toString();
+    request.fields['currentImage'] = currentImage.toString();
     if (image != null) {
       var pic = await http.MultipartFile.fromPath('image', image.path);
       request.files.add(pic);
@@ -1101,7 +1141,8 @@ class Api {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 15.0);
-    } else {
+    }
+    else {
       await Fluttertoast.showToast(
           msg: 'هناك خطاء راجع الإدارة',
           toastLength: Toast.LENGTH_SHORT,
@@ -1155,23 +1196,25 @@ class Api {
 
   Future<void> sendTransfer(
       
-      String phone,
-      String fullName,
-      String reason,
-      String refrencedNumber,
-      String radioValue1,
-      File imageInvoice
+      String? phone,
+      String? fullName,
+      String? reason,
+      String? refrencedNumber,
+      String? radioValue1,
+      File? imageInvoice
       ) async {
     final uri = Uri.parse('$BaseURL/bankTransfer/transfer_form.php');
     var request = http.MultipartRequest('POST', uri);
     request.fields['auth_key'] = _token;
-    request.fields['phone'] = phone;
-    request.fields['full_name'] = fullName;
-    request.fields['reason'] = reason;
-    request.fields['ref_number'] = refrencedNumber;
-    request.fields['id_payment_type'] = radioValue1;
-    var pic = await http.MultipartFile.fromPath('img_invoice', imageInvoice.path);
-    request.files.add(pic);
+    request.fields['phone'] = phone.toString();
+    request.fields['full_name'] = fullName??'';
+    request.fields['reason'] = reason??'';
+    request.fields['ref_number'] = refrencedNumber??'';
+    request.fields['id_payment_type'] = radioValue1??'';
+    if(imageInvoice != null){
+      var pic = await http.MultipartFile.fromPath('img_invoice', imageInvoice.path);
+      request.files.add(pic);
+    }
     var response = await request.send();
     if (response.statusCode == 200) {
       await Fluttertoast.showToast(

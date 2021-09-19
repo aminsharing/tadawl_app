@@ -18,7 +18,7 @@ class AddAds extends StatelessWidget {
     var mediaQuery = MediaQuery.of(context);
     return WillPopScope(
       onWillPop: () async{
-        await Navigator.pushReplacement(
+       await Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (context) => MainPage()
@@ -57,67 +57,67 @@ class AddAds extends StatelessWidget {
             },
           ),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Flexible(
-                    child: Text(
-                      AppLocalizations.of(context)!.rule26,
-                      style: CustomTextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                        color: Colors.black,
-                      ).getTextStyle(),
+        body: ChangeNotifierProvider<AddAdProvider>(
+          create: (_) => addAdProvider,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Flexible(
+                      child: Text(
+                        AppLocalizations.of(context)!.rule26,
+                        style: CustomTextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15,
+                          color: Colors.black,
+                        ).getTextStyle(),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) =>
-                        ChangeNotifierProvider<AddAdProvider>(
-                          create: (_) => addAdProvider,
-                          child: CategoryScreen(addAdProvider: addAdProvider,),
-                        ),
-                    )
-                );
-              },
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 30, 0, 30),
-                child: Container(
-                  width: mediaQuery.size.width * 0.6,
-                  height: 40.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.0),
-                    color: const Color(0xffffffff),
-                    border: Border.all(
-                        width: 1.0, color: const Color(0xff3f9d28)),
-                  ),
-                  child: Center(
-                    child: Text(
-                      AppLocalizations
-                          .of(context)!
-                          .accept,
-                      style: CustomTextStyle(
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>
+                          CategoryScreen(addAdProvider: addAdProvider, firstContext: context),
+                      )
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 30, 0, 30),
+                  child: Container(
+                    width: mediaQuery.size.width * 0.6,
+                    height: 40.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5.0),
+                      color: const Color(0xffffffff),
+                      border: Border.all(
+                          width: 1.0, color: const Color(0xff3f9d28)),
+                    ),
+                    child: Center(
+                      child: Text(
+                        AppLocalizations
+                            .of(context)!
+                            .accept,
+                        style: CustomTextStyle(
 
-                        fontSize: 15,
-                        color: const Color(0xff3f9d28),
-                      ).getTextStyle(),
-                      textAlign: TextAlign.center,
+                          fontSize: 15,
+                          color: const Color(0xff3f9d28),
+                        ).getTextStyle(),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -1,7 +1,11 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/AdsModel.dart';
@@ -31,6 +35,7 @@ import 'package:tadawl_app/models/BFModel.dart';
 import 'package:tadawl_app/models/QFModel.dart';
 import 'package:tadawl_app/models/UserModel.dart';
 import 'package:tadawl_app/models/views_series.dart';
+import 'package:http/http.dart' as http;
 
 class AdPageProvider extends ChangeNotifier{
   AdPageProvider(BuildContext context, String? idDescription, String? idCategory){
@@ -53,6 +58,12 @@ class AdPageProvider extends ChangeNotifier{
   final Set<Marker> _markersUpdateLoc = {};
   final ScrollController _scrollController = ScrollController();
   int _expendedListCount = 4;
+  bool _isSharing = false;
+  bool get isSharing => _isSharing;
+  set isSharing(bool val){
+    _isSharing = val;
+    notifyListeners();
+  }
 
 
   @override
@@ -624,6 +635,23 @@ class AdPageProvider extends ChangeNotifier{
     _AdsUser = null;
   }
 
+  Future<File> downloadImageForShare(String imageUrl) async{
+
+    var rng = Random();
+
+    // ignore: omit_local_variable_types
+    String tempPath = (await getTemporaryDirectory()).path + '/';
+
+    // ignore: omit_local_variable_types
+    File file = File('$tempPath'+ (rng.nextInt(100)).toString() +'.jpg');
+    // ignore: omit_local_variable_types
+    http.Response response = await http.get(Uri.parse(imageUrl));
+
+    await file.writeAsBytes(response.bodyBytes);
+
+    print(file);
+    return file;
+  }
 
 
   String get qrData => _qrData;

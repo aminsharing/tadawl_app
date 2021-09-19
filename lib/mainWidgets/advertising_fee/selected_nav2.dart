@@ -20,7 +20,7 @@ class SelectedNav2 extends StatelessWidget {
         children: [
           FeeCard(
               selectedNav: [],
-              price: '250',
+              price: '400',
               type: 'العقد التجاري',
               cardType: CardType.small,
               title: AppLocalizations
@@ -28,8 +28,9 @@ class SelectedNav2 extends StatelessWidget {
                   .commercialContract,
             advFeeProvider: advFeeProvider,
           ),
-          FeeCard(selectedNav: [],
-              price: '200',
+          FeeCard(
+            selectedNav: [],
+              price: '250',
               type: 'العقد السكني',
               cardType: CardType.small,
               title: AppLocalizations

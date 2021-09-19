@@ -17,6 +17,7 @@ class LocaleProvider extends ChangeNotifier {
     print('init LocaleProvider');
     getSession().then((value) {
       if(value != null){
+        getAdsPer();
         getUnreadMsgs(value);
         Api().setLastSeenFunc(value);
       }
@@ -36,6 +37,7 @@ class LocaleProvider extends ChangeNotifier {
   set mapControllerMainPAge(GoogleMapController val) => _mapControllerMainPAge = val;
   int _currentPage = 0;
   int? _unreadMsgs = 0;
+  AdsPerModel? _adsPerModel;
   bool? _serviceEnabled;
   PermissionStatus? _permissionGranted;
   final Location _location = Location();
@@ -60,6 +62,14 @@ class LocaleProvider extends ChangeNotifier {
     if(_phone != null) {
       await Api().getUnreadMessagesFunc(_phone).then((value) {
         _unreadMsgs = value;
+      });
+    }
+  }
+
+  Future<void> getAdsPer() async{
+    if(_phone != null) {
+      await Api().getAdsPer(_phone).then((value) {
+        _adsPerModel = AdsPerModel.fromJson(value);
       });
     }
   }
@@ -165,6 +175,30 @@ class LocaleProvider extends ChangeNotifier {
   int get currentPage => _currentPage;
   int? get unreadMsgs => _unreadMsgs;
   Location get location => _location;
+  AdsPerModel? get adsPerModel => _adsPerModel;
   // double get zoom => _zoom;
   // CameraPosition get savedPosition => _savedPosition;
+}
+
+
+class AdsPerModel{
+  int? adsCount;
+  int? deletedAds;
+
+  // ignore: sort_constructors_first
+  AdsPerModel({this.adsCount, this.deletedAds});
+
+  // ignore: sort_constructors_first
+  AdsPerModel.fromJson(Map<String, dynamic> json){
+    adsCount = int.tryParse(json['ads_count']);
+    deletedAds = int.tryParse(json['deleted_ads']);
+  }
+
+  Map<String, dynamic> toJson(){
+    return {
+      'ads_count' : adsCount,
+      'deleted_ads' : deletedAds
+    };
+  }
+
 }

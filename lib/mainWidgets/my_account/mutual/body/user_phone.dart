@@ -52,7 +52,7 @@ class UserPhone extends StatelessWidget {
   }
 
   void _call(String phone) async{
-    var number = '+$phone';
+    var number = '${phone.replaceAll('966', '0')}';
     if(number.isNotEmpty){
       try{
         await FlutterPhoneDirectCaller.callNumber(number);

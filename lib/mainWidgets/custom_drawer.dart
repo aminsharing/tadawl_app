@@ -1,5 +1,6 @@
 import 'package:flutter/painting.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_drawer/custom_drawer_header.dart';
@@ -175,12 +176,39 @@ class CustomDrawer extends StatelessWidget {
                           text: AppLocalizations.of(context)!.addAds,
                         onPressed: () {
                             if(locale.phone != null){
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AddAds(),
-                                ),
-                              );
+                              int _allowAds = 10;
+                              // TODO(f1): change cardID to memberships types of user
+                              // switch (locale.adsPerModel!.cardID){
+                              //   case 0:
+                              //     _allowAds = 50;
+                              //     break;
+                              //   case 1:
+                              //     _allowAds = 150;
+                              //     break;
+                              //   case 2:
+                              //     _allowAds = 250;
+                              //     break;
+                              //   default:
+                              //     _allowAds = 10;
+                              //     break;
+                              // }
+                              locale.getAdsPer().then((value) {
+                                if(locale.adsPerModel!.adsCount! >= _allowAds){
+                                  Fluttertoast.showToast(msg: 'لإضافة المزيد من الإعلانات يرجى ترقية عضويتك');
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AdvertisingFee(),),
+                                  );
+                                }else{
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AddAds(),
+                                    ),
+                                  );
+                                }
+                              });
                             }else{
                               Navigator.push(
                                 context,
@@ -191,6 +219,7 @@ class CustomDrawer extends StatelessWidget {
 
                         },
                       ),
+
                       DrawerButton(
                           icon: Icons.library_books_rounded,
                           text: AppLocalizations.of(context)!.myAds,

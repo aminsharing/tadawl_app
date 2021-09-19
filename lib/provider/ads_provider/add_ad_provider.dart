@@ -10,17 +10,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/CategoryModel.dart';
 import 'package:tadawl_app/models/RegionModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
-import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:tadawl_app/screens/general/home.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wechat_assets_picker/wechat_assets_picker.dart' as picker;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class AddAdProvider extends ChangeNotifier{
@@ -36,7 +32,6 @@ class AddAdProvider extends ChangeNotifier{
   @override
   void dispose() {
     print('dispose AddAdProvider');
-    super.dispose();
     deleteDir();
     _priceControllerAddAds.dispose();
     _spaceControllerAddAds.dispose();
@@ -52,6 +47,7 @@ class AddAdProvider extends ChangeNotifier{
     if(_chewieControllerAddAds != null){
       _chewieControllerAddAds!.dispose();
     }
+    super.dispose();
   }
 
   VideoPlayerController? _videoControllerAddAds;
@@ -125,6 +121,7 @@ class AddAdProvider extends ChangeNotifier{
   PermissionStatus? _permissionGranted;
   GoogleMapController? mapController;
   bool _isSending = false;
+  late CameraPosition _currentPosition;
 
   void animateToLocation(LatLng position, double zoom) async{
     await mapController!.animateCamera(CameraUpdate.newCameraPosition(
@@ -243,29 +240,29 @@ class AddAdProvider extends ChangeNotifier{
   }
 
   void handleCameraMoveAddAds(CameraPosition position) async {
+    _currentPosition = position;
+    // notifyListeners();
+  }
+
+  void updatePosition() async{
     if (_markersAddAds.isEmpty) {
       _markersAddAds.add(Marker(
-        markerId: MarkerId(position.target.toString()),
-        position: position.target,
+        markerId: MarkerId(_currentPosition.target.toString()),
+        position: _currentPosition.target,
       ));
     } else {
       _markersAddAds.clear();
       _markersAddAds.add(Marker(
-        markerId: MarkerId(position.target.toString()),
-        position: position.target,
+        markerId: MarkerId(_currentPosition.target.toString()),
+        position: _currentPosition.target,
       ));
     }
-    _ads_cordinatesAddAds = position.target;
-    _ads_cordinates_latAddAds = position.target.latitude;
-    _ads_cordinates_lngAddAds = position.target.longitude;
+    _ads_cordinatesAddAds = _currentPosition.target;
+    _ads_cordinates_latAddAds = _currentPosition.target.latitude;
+    _ads_cordinates_lngAddAds = _currentPosition.target.longitude;
     _customCameraPositionAddAds = LatLng(_ads_cordinates_latAddAds!, _ads_cordinates_lngAddAds!);
     // ignore: omit_local_variable_types
     List<geocoding.Placemark> addresses = await geocoding.placemarkFromCoordinates(_customCameraPositionAddAds!.latitude, _customCameraPositionAddAds!.longitude, localeIdentifier: 'ar');
-    // var addresses = await Geocoder.google(
-    //     'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
-    //     language: 'ar')
-    //     .findAddressesFromCoordinates(
-    //     Coordinates(_ads_cordinates_latAddAds, _ads_cordinates_lngAddAds));
     if (addresses.isNotEmpty) {
       _ads_cityAddAds = '${addresses.first.locality.toString()}';
       _ads_neighborhoodAddAds = '${addresses.first.subLocality.toString()}';
@@ -523,36 +520,60 @@ class AddAdProvider extends ChangeNotifier{
   Future getImagesAddAds(BuildContext context) async {
     _imagesListAddAds = [];
 
-    await picker.AssetPicker.pickAssets(
-        context,
-      maxAssets: 30,
-      filterOptions: picker.FilterOptionGroup(
-        imageOption: picker.FilterOption(),
-      ),
-      textDelegate: picker.ArabicTextDelegate()
-    ).then((List<picker.AssetEntity>? assets) async{
-      if(assets != null) {
+    await _pickerAddAdsVid.pickMultiImage().then((value) async{
+      if((value??[]).isNotEmpty) {
         var temp = await getTemporaryDirectory();
         var newDir = Directory(temp.path + '/adsCache');
         if(!await newDir.exists()){
           await newDir.create(recursive: true);
         }
-        assets.forEach((element) {
-          element.file.then((value) async{
-            // ignore: omit_local_variable_types
-            File? _compressedImage = await FlutterImageCompress.compressAndGetFile(
-              value!.path,
-              '${newDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpeg',
-              format: CompressFormat.jpeg,
-            );
-            if(_compressedImage != null) {
-              _imagesListAddAds.add(_compressedImage);
-            }
-            notifyListeners();
-          });
-      });
+        // ignore: omit_local_variable_types
+        for (int i = 0; i < value!.length; i++){
+          // ignore: omit_local_variable_types
+          File? _compressedImage = await FlutterImageCompress.compressAndGetFile(
+            value[i].path,
+            '${newDir.path}/${DateTime.now().millisecondsSinceEpoch}-$i.jpeg',
+            format: CompressFormat.jpeg,
+          );
+          if(_compressedImage != null) {
+            _imagesListAddAds.add(_compressedImage);
+          }
+          notifyListeners();
+        }
       }
     });
+
+    /// bbb
+    // await picker.AssetPicker.pickAssets(
+    //     context,
+    //   maxAssets: 30,
+    //   filterOptions: picker.FilterOptionGroup(
+    //     imageOption: picker.FilterOption(),
+    //   ),
+    //   textDelegate: picker.ArabicTextDelegate()
+    // ).then((List<picker.AssetEntity>? assets) async{
+    //   if(assets != null) {
+    //     var temp = await getTemporaryDirectory();
+    //     var newDir = Directory(temp.path + '/adsCache');
+    //     if(!await newDir.exists()){
+    //       await newDir.create(recursive: true);
+    //     }
+    //     assets.forEach((element) {
+    //       element.file.then((value) async{
+    //         // ignore: omit_local_variable_types
+    //         File? _compressedImage = await FlutterImageCompress.compressAndGetFile(
+    //           value!.path,
+    //           '${newDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpeg',
+    //           format: CompressFormat.jpeg,
+    //         );
+    //         if(_compressedImage != null) {
+    //           _imagesListAddAds.add(_compressedImage);
+    //         }
+    //         notifyListeners();
+    //       });
+    //   });
+    //   }
+    // });
     /// aaa
     // await MultiImagePicker.pickImages(
     //   maxImages: 30,
@@ -768,6 +789,7 @@ class AddAdProvider extends ChangeNotifier{
       List<File> imagesList,
       ) async {
     return Api().addNewAdsFunc(
+      context,
       detailsAqar,
       isFootballCourt,
       isVolleyballCourt,
@@ -814,19 +836,8 @@ class AddAdProvider extends ChangeNotifier{
       ads_road,
       video,
       imagesList,
-    ).then((value) async{
-      isSending = true;
-      Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
-      Future.delayed(Duration(seconds: 1), () async{
-        await Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => Home()),
-                (route) => false
-        );
-      });
-    });
+    );
   }
-
 
 
 

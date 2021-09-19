@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:tadawl_app/mainWidgets/ad_page/body/ad_info_widget/ad_bf_table.dart';
@@ -66,12 +67,21 @@ class AdInfoWidget extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    adsPage.stopVideoAdsPage();
-                    Share.share('${adsPage.qrData}');
+                    if(!adsPage.isSharing){
+                      Fluttertoast.showToast(msg: 'جار تحضير الإعلان للمشاركة...');
+                      adsPage.isSharing = true;
+                      adsPage.stopVideoAdsPage();
+                      adsPage.downloadImageForShare('https://tadawl-store.com/API/assets/images/ads/${adsPage.adsPageImages.first.ads_image}').then((value) {
+                        Share.shareFiles([value.path], text: '${adsPage.qrData}').then((value) {
+                          adsPage.isSharing = false;
+                        });
+                      });
+                    }
+                    // Share.share('${adsPage.qrData}');
                   },
                   child: Icon(
                     Icons.share,
-                    color: Colors.grey,
+                    color: adsPage.isSharing ? Colors.grey.shade300 : Colors.grey,
                     size: 40,
                   ),
                 ),

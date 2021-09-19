@@ -31,7 +31,7 @@
         <activity
             android:showWhenLocked="true"
             android:turnScreenOn="true"
-            android:name=".MainActivity"
+            android:name="com.example.tadawl_app.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

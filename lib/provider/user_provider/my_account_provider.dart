@@ -49,6 +49,13 @@ class MyAccountProvider extends ChangeNotifier{
   bool esBool = false;
   bool _busy = false;
   int? _number;
+  bool _isSending = false;
+
+
+  set isSending(bool val){
+    _isSending = val;
+    notifyListeners();
+  }
 
   void clearExpendedListCount(){
     _expendedListCount = 3;
@@ -112,6 +119,7 @@ class MyAccountProvider extends ChangeNotifier{
   UserEstimateModel? _sumEstimates;
   UserModel? _avatars;
   String? _userName, _companyName, _email, _personalProfile, _officeNameUser;
+  String? deleteImage;
   final List<bool> _membershipType = List.generate(5, (_) => false);
   int? _selectedMembership;
   bool _wait = false;
@@ -178,7 +186,7 @@ class MyAccountProvider extends ChangeNotifier{
       // showRatingDialog(context, phoneEstimated);
     }
     if (phoneEstimated == locale.phone) {
-      var number = '+${locale.phone}';
+      var number = '${locale.phone!.replaceAll('966', '0')}';
       try{
         await FlutterPhoneDirectCaller.callNumber(number).then((value) {
           if(value!){
@@ -191,7 +199,7 @@ class MyAccountProvider extends ChangeNotifier{
         await Fluttertoast.showToast(msg: 'هنالك خطأ $e');
       }
     } else {
-      var number = '+$phoneEstimated';
+      var number = '${phoneEstimated!.replaceAll('966', '0')}';
       try{
         await FlutterPhoneDirectCaller.callNumber(number).then((value) {
           if(value!){
@@ -265,7 +273,7 @@ class MyAccountProvider extends ChangeNotifier{
     }
   }
 
-  Future<void> getUsersList( String Phone) async{
+  Future<void> getUsersList(String Phone) async{
     Future.delayed(Duration(milliseconds: 0), () async{
       await Api().getUserInfoFunc(Phone).then((value) {
         _users = UserModel.users(value);
@@ -482,6 +490,8 @@ class MyAccountProvider extends ChangeNotifier{
       String? email,
       String? personalProfile,
       String? phone,
+      String? deletedImage,
+      String? currentImage,
       File? image) async {
     Future.delayed(Duration(milliseconds: 0), () {
       Api().updateMyProfileFunc(
@@ -492,7 +502,9 @@ class MyAccountProvider extends ChangeNotifier{
           email,
           personalProfile,
           phone!,
-          image);
+          deletedImage,
+          currentImage,
+          image).then((value) => isSending = false);
     });
     await getAvatarList(phone);
     await getUserAdsList(phone);
@@ -538,6 +550,7 @@ class MyAccountProvider extends ChangeNotifier{
 
 
   bool get busy => _busy;
+  bool get isSending => _isSending;
   int? get number => _number;
   List<bool> get isSelected => _isSelected;
   int get selectedNav => _selectedNav;

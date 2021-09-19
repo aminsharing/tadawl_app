@@ -48,269 +48,272 @@ class AdsPriceScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Form(
             key: _addAdsKey,
-            child: Consumer<AddAdProvider>(builder: (context, addAds, child) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  if (addAds.id_category_finalAddAds != 14)
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            AppLocalizations
-                                .of(context)!
-                                .space,
-                            style: CustomTextStyle(
+            child: ChangeNotifierProvider<AddAdProvider>.value(
+              value: addAdProvider,
+              builder: (context, _){
+                return Consumer<AddAdProvider>(builder: (context, addAds, child) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      if (addAds.id_category_finalAddAds != 14)
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                AppLocalizations
+                                    .of(context)!
+                                    .space,
+                                style: CustomTextStyle(
 
-                              fontSize: 15,
-                              color: const Color(0xff000000),
-                            ).getTextStyle(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  if (addAds.id_category_finalAddAds != 14)
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      child: TextFormField(
-                        controller: addAds.spaceControllerAddAds,
-                        decoration: InputDecoration(
-                          labelText: AppLocalizations
-                              .of(context)!
-                              .space,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(0.0),
-                            borderSide: BorderSide(),
+                                  fontSize: 15,
+                                  color: const Color(0xff000000),
+                                ).getTextStyle(),
+                              ),
+                            ],
                           ),
                         ),
-                        style: CustomTextStyle(
-
-                          fontSize: 15,
-                          color: const Color(0xff989696),
-                        ).getTextStyle(),
-                        keyboardType: TextInputType.number,
-                        minLines: 1,
-                        maxLines: 1,
-                        validator: (String? value) {
-                          if (value!.isEmpty) {
-                            return AppLocalizations
-                                .of(context)!
-                                .reqSpace;
-                          }
-                          return null;
-                        },
-                        onChanged: (String value) {
-                          addAds.setOnChangedSpaceAddAds(value);
-                        },
-                        onSaved: (String? value) {
-                          addAds.setOnSavedSpaceAddAds(value);
-                        },
-                      ),
-                    ),
-                  if (addAds.id_category_finalAddAds == 2)
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            AppLocalizations
-                                .of(context)!
-                                .meterPrice,
+                      if (addAds.id_category_finalAddAds != 14)
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                          child: TextFormField(
+                            controller: addAds.spaceControllerAddAds,
+                            decoration: InputDecoration(
+                              labelText: AppLocalizations
+                                  .of(context)!
+                                  .space,
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(0.0),
+                                borderSide: BorderSide(),
+                              ),
+                            ),
                             style: CustomTextStyle(
 
                               fontSize: 15,
-                              color: const Color(0xff000000),
+                              color: const Color(0xff989696),
                             ).getTextStyle(),
+                            keyboardType: TextInputType.number,
+                            minLines: 1,
+                            maxLines: 1,
+                            validator: (String? value) {
+                              if (value!.isEmpty) {
+                                return AppLocalizations
+                                    .of(context)!
+                                    .reqSpace;
+                              }
+                              return null;
+                            },
+                            onChanged: (String value) {
+                              addAds.setOnChangedSpaceAddAds(value);
+                            },
+                            onSaved: (String? value) {
+                              addAds.setOnSavedSpaceAddAds(value);
+                            },
                           ),
-                          SizedBox(
-                            width: mediaQuery.size.width * 0.6,
-                            height: 50,
-                            child: TextFormField(
-                              controller:
-                              addAds.meterPriceControllerAddAds,
-                              decoration: InputDecoration(
-                                labelText: AppLocalizations
+                        ),
+                      if (addAds.id_category_finalAddAds == 2)
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                AppLocalizations
                                     .of(context)!
                                     .meterPrice,
-                                fillColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(0.0),
-                                  borderSide: BorderSide(),
+                                style: CustomTextStyle(
+
+                                  fontSize: 15,
+                                  color: const Color(0xff000000),
+                                ).getTextStyle(),
+                              ),
+                              SizedBox(
+                                width: mediaQuery.size.width * 0.6,
+                                height: 50,
+                                child: TextFormField(
+                                  controller:
+                                  addAds.meterPriceControllerAddAds,
+                                  decoration: InputDecoration(
+                                    labelText: AppLocalizations
+                                        .of(context)!
+                                        .meterPrice,
+                                    fillColor: Colors.white,
+                                    border: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(0.0),
+                                      borderSide: BorderSide(),
+                                    ),
+                                  ),
+                                  style: CustomTextStyle(
+
+                                    fontSize: 15,
+                                    color: const Color(0xff989696),
+                                  ).getTextStyle(),
+                                  keyboardType: TextInputType.number,
+                                  minLines: 1,
+                                  maxLines: 1,
+                                  onChanged: (value) {
+                                    addAds
+                                        .setOnChangedMeterPriceAddAds(value);
+                                  },
+                                  onSaved: (value) {
+                                    addAds.setOnSavedMeterPriceAddAds(value!);
+                                  },
                                 ),
                               ),
+                            ],
+                          ),
+                        ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations
+                                  .of(context)!
+                                  .totalPrice,
                               style: CustomTextStyle(
 
                                 fontSize: 15,
-                                color: const Color(0xff989696),
+                                color: const Color(0xff000000),
                               ).getTextStyle(),
-                              keyboardType: TextInputType.number,
-                              minLines: 1,
-                              maxLines: 1,
-                              onChanged: (value) {
-                                addAds
-                                    .setOnChangedMeterPriceAddAds(value);
-                              },
-                              onSaved: (value) {
-                                addAds.setOnSavedMeterPriceAddAds(value!);
-                              },
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppLocalizations
-                              .of(context)!
-                              .totalPrice,
-                          style: CustomTextStyle(
-
-                            fontSize: 15,
-                            color: const Color(0xff000000),
-                          ).getTextStyle(),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    child: TextFormField(
-                      controller: addAds.priceControllerAddAds,
-                      decoration: InputDecoration(
-                        labelText:
-                        AppLocalizations
-                            .of(context)!
-                            .totalPrice,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(0.0),
-                          borderSide: BorderSide(),
+                          ],
                         ),
                       ),
-                      style: CustomTextStyle(
-
-                        fontSize: 15,
-                        color: const Color(0xff989696),
-                      ).getTextStyle(),
-                      keyboardType: TextInputType.number,
-                      minLines: 1,
-                      maxLines: 1,
-                      validator: (String? value) {
-                        if (value!.isEmpty) {
-                          return AppLocalizations
-                              .of(context)!
-                              .reqTotalPrice;
-                        }
-                        return null;
-                      },
-                      onSaved: (String? value) {
-                        addAds.setOnSavedTotalPriceAddAds(value!);
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppLocalizations
-                              .of(context)!
-                              .aqarDesc,
-                          style: CustomTextStyle(
-
-                            fontSize: 15,
-                            color: const Color(0xff000000),
-                          ).getTextStyle(),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    child: TextFormField(
-                      controller: addAds.descControllerAddAds,
-                      decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)!.writeAdditionalDetailsHere,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(0.0),
-                          borderSide: BorderSide(),
-                        ),
-                      ),
-                      style: CustomTextStyle(
-                        fontSize: 15,
-                        color: const Color(0xff989696),
-                      ).getTextStyle(),
-                      keyboardType: TextInputType.multiline,
-                      minLines: 5,
-                      maxLines: 15,
-                      validator: (String? value) {
-                        if (value!.isEmpty) {
-                          return AppLocalizations
-                              .of(context)!
-                              .reqDesc;
-                        }
-                        return null;
-                      },
-                      onSaved: (String? value) {
-                        addAds.setOnSavedDetailsAddAds(value!);
-                      },
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      if (!_addAdsKey.currentState!.validate()) {
-                        return;
-                      }
-                      _addAdsKey.currentState!.save();
-                      // addAds.setCurrentStageAddAds(7);
-                      Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                      ChangeNotifierProvider<AddAdProvider>.value(
-                        value: addAdProvider,
-                        child: ReviewAdsScreen(addAdProvider),
-                      )
-                          ));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 15, 0, 30),
-                      child: Container(
-                        width: mediaQuery.size.width * 0.6,
-                        height: 40.0,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5.0),
-                          color: const Color(0xffffffff),
-                          border: Border.all(
-                              width: 1.0, color: const Color(0xff3f9d28)),
-                        ),
-                        child: Center(
-                          child: Text(
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        child: TextFormField(
+                          controller: addAds.priceControllerAddAds,
+                          decoration: InputDecoration(
+                            labelText:
                             AppLocalizations
                                 .of(context)!
-                                .continuee,
-                            style: CustomTextStyle(
+                                .totalPrice,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(0.0),
+                              borderSide: BorderSide(),
+                            ),
+                          ),
+                          style: CustomTextStyle(
 
-                              fontSize: 15,
-                              color: const Color(0xff3f9d28),
-                            ).getTextStyle(),
-                            textAlign: TextAlign.center,
+                            fontSize: 15,
+                            color: const Color(0xff989696),
+                          ).getTextStyle(),
+                          keyboardType: TextInputType.number,
+                          minLines: 1,
+                          maxLines: 1,
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
+                              return AppLocalizations
+                                  .of(context)!
+                                  .reqTotalPrice;
+                            }
+                            return null;
+                          },
+                          onSaved: (String? value) {
+                            addAds.setOnSavedTotalPriceAddAds(value!);
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations
+                                  .of(context)!
+                                  .aqarDesc,
+                              style: CustomTextStyle(
+
+                                fontSize: 15,
+                                color: const Color(0xff000000),
+                              ).getTextStyle(),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        child: TextFormField(
+                          controller: addAds.descControllerAddAds,
+                          decoration: InputDecoration(
+                            labelText: AppLocalizations.of(context)!.writeAdditionalDetailsHere,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(0.0),
+                              borderSide: BorderSide(),
+                            ),
+                          ),
+                          style: CustomTextStyle(
+                            fontSize: 15,
+                            color: const Color(0xff989696),
+                          ).getTextStyle(),
+                          keyboardType: TextInputType.multiline,
+                          minLines: 5,
+                          maxLines: 15,
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
+                              return AppLocalizations
+                                  .of(context)!
+                                  .reqDesc;
+                            }
+                            return null;
+                          },
+                          onSaved: (String? value) {
+                            addAds.setOnSavedDetailsAddAds(value!);
+                          },
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          if (!_addAdsKey.currentState!.validate()) {
+                            return;
+                          }
+                          _addAdsKey.currentState!.save();
+                          // addAds.setCurrentStageAddAds(7);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                              ReviewAdsScreen(addAdProvider),
+                          ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 15, 0, 30),
+                          child: Container(
+                            width: mediaQuery.size.width * 0.6,
+                            height: 40.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.0),
+                              color: const Color(0xffffffff),
+                              border: Border.all(
+                                  width: 1.0, color: const Color(0xff3f9d28)),
+                            ),
+                            child: Center(
+                              child: Text(
+                                AppLocalizations
+                                    .of(context)!
+                                    .continuee,
+                                style: CustomTextStyle(
+
+                                  fontSize: 15,
+                                  color: const Color(0xff3f9d28),
+                                ).getTextStyle(),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                ],
-              );
-            }),
+                    ],
+                  );
+                });
+              },
+            ),
           ),
         ),
       );

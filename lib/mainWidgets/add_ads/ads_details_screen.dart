@@ -117,77 +117,79 @@ class AdsDetailsScreen extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child: Consumer<AddAdProvider>(builder: (context, addAds, child) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              if (addAds.id_category_finalAddAds != null)
-                Column(
-                  children: [
-                    ...getPage()[addAds.id_category_finalAddAds!]!
-                  ],
-                ),
-              TextButton(
-                onPressed: () {
-                  if (
-                  (addAds.id_category_finalAddAds == 1 ||
-                      addAds.id_category_finalAddAds == 2 ||
-                      addAds.id_category_finalAddAds == 3 ||
-                      addAds.id_category_finalAddAds == 4 ||
-                      addAds.id_category_finalAddAds == 5 ||
-                      addAds.id_category_finalAddAds == 7 ||
-                      addAds.id_category_finalAddAds == 8 ||
-                      addAds.id_category_finalAddAds == 9 ||
-                      addAds.id_category_finalAddAds == 10 ||
-                      addAds.id_category_finalAddAds == 11 ||
-                      addAds.id_category_finalAddAds == 15 ||
-                      addAds.id_category_finalAddAds == 16 ||
-                      addAds.id_category_finalAddAds == 18 ||
-                      addAds.id_category_finalAddAds == 19 ||
-                      addAds.id_category_finalAddAds == 21)
-                      &&
-                      (addAds.interfaceSelectedAddAds == null ||
-                          addAds.interfaceSelectedAddAds == '0')) {
-                    _onInterfaceCheck();
-                  } else {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                    ChangeNotifierProvider<AddAdProvider>.value(
-                      value: addAdProvider,
-                      child: AdsPriceScreen(addAdProvider),
-                    )
-                    ));
-                  }
-                },
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 15, 0, 30),
-                  child: Container(
-                    width: mediaQuery.size.width * 0.6,
-                    height: 40.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.0),
-                      color: const Color(0xffffffff),
-                      border: Border.all(
-                          width: 1.0, color: const Color(0xff3f9d28)),
+        child: ChangeNotifierProvider<AddAdProvider>.value(
+          value: addAdProvider,
+          builder: (context, _){
+            return Consumer<AddAdProvider>(builder: (context, addAds, child) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  if (addAds.id_category_finalAddAds != null)
+                    Column(
+                      children: [
+                        ...getPage()[addAds.id_category_finalAddAds!]!
+                      ],
                     ),
-                    child: Center(
-                      child: Text(
-                        AppLocalizations
-                            .of(context)!
-                            .continuee,
-                        style: CustomTextStyle(
+                  TextButton(
+                    onPressed: () {
+                      if (
+                      (addAds.id_category_finalAddAds == 1 ||
+                          addAds.id_category_finalAddAds == 2 ||
+                          addAds.id_category_finalAddAds == 3 ||
+                          addAds.id_category_finalAddAds == 4 ||
+                          addAds.id_category_finalAddAds == 5 ||
+                          addAds.id_category_finalAddAds == 7 ||
+                          addAds.id_category_finalAddAds == 8 ||
+                          addAds.id_category_finalAddAds == 9 ||
+                          addAds.id_category_finalAddAds == 10 ||
+                          addAds.id_category_finalAddAds == 11 ||
+                          addAds.id_category_finalAddAds == 15 ||
+                          addAds.id_category_finalAddAds == 16 ||
+                          addAds.id_category_finalAddAds == 18 ||
+                          addAds.id_category_finalAddAds == 19 ||
+                          addAds.id_category_finalAddAds == 21)
+                          &&
+                          (addAds.interfaceSelectedAddAds == null ||
+                              addAds.interfaceSelectedAddAds == '0')) {
+                        _onInterfaceCheck();
+                      } else {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                            AdsPriceScreen(addAdProvider),
+                        ));
+                      }
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 15, 0, 30),
+                      child: Container(
+                        width: mediaQuery.size.width * 0.6,
+                        height: 40.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: const Color(0xffffffff),
+                          border: Border.all(
+                              width: 1.0, color: const Color(0xff3f9d28)),
+                        ),
+                        child: Center(
+                          child: Text(
+                            AppLocalizations
+                                .of(context)!
+                                .continuee,
+                            style: CustomTextStyle(
 
-                          fontSize: 15,
-                          color: const Color(0xff3f9d28),
-                        ).getTextStyle(),
-                        textAlign: TextAlign.center,
+                              fontSize: 15,
+                              color: const Color(0xff3f9d28),
+                            ).getTextStyle(),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-            ],
-          );
-        }),
+                ],
+              );
+            });
+          },
+        ),
       ),
     );
   }
