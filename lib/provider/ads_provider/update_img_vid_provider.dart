@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:wechat_assets_picker/wechat_assets_picker.dart' as picker;
 import 'package:tadawl_app/models/AdsModel.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/services/ad_page_helper.dart';
@@ -75,31 +74,27 @@ class UpdateImgVedProvider extends ChangeNotifier{
   Future getImagesUpdate(BuildContext context) async {
     _imagesListUpdate = [];
 
-    await picker.AssetPicker.pickAssets(
-        context,
-        maxAssets: 10,
-        textDelegate: picker.ArabicTextDelegate()
-    ).then((List<picker.AssetEntity>? assets) async{
-      if(assets != null) {
+    await ImagePicker().pickMultiImage().then((assets) async{
+      if((assets??[]).isNotEmpty) {
         var temp = await getTemporaryDirectory();
         var newDir = Directory(temp.path + '/adsCache');
         if(!await newDir.exists()){
           await newDir.create(recursive: true);
         }
-        assets.forEach((element) {
-          element.file.then((value) async{
-            // ignore: omit_local_variable_types
-            File? _compressedImage = await FlutterImageCompress.compressAndGetFile(
-              value!.path,
-              '${newDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpeg',
-              format: CompressFormat.jpeg,
-            );
-            if(_compressedImage != null) {
-              _imagesListUpdate.add(_compressedImage);
-            }
-            notifyListeners();
-          });
-        });
+
+        // ignore: omit_local_variable_types
+        for (int i = 0; i < assets!.length; i++){
+          // ignore: omit_local_variable_types
+          File? _compressedImage = await FlutterImageCompress.compressAndGetFile(
+            assets[i].path,
+            '${newDir.path}/${DateTime.now().millisecondsSinceEpoch}-$i.jpeg',
+            format: CompressFormat.jpeg,
+          );
+          if(_compressedImage != null) {
+            _imagesListUpdate.add(_compressedImage);
+          }
+          notifyListeners();
+        }
       }
     });
 

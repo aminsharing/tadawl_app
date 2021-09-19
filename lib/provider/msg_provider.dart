@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 // import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,6 @@ import 'package:tadawl_app/models/ConvModel.dart';
 import 'package:tadawl_app/models/message_model.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
-import 'package:wechat_assets_picker/wechat_assets_picker.dart' as picker;
 
 class MsgProvider extends ChangeNotifier{
 
@@ -346,31 +346,27 @@ class MsgProvider extends ChangeNotifier{
   Future sendImages(String phone_user, String _phone, BuildContext context) async {
     _imagesListUpdate = [];
 
-    await picker.AssetPicker.pickAssets(
-        context,
-        maxAssets: 10,
-        textDelegate: picker.ArabicTextDelegate()
-    ).then((List<picker.AssetEntity>? assets) async{
-      if(assets != null) {
+    await ImagePicker().pickMultiImage().then((assets) async{
+      if((assets??[]).isNotEmpty) {
         var temp = await getTemporaryDirectory();
         var newDir = Directory(temp.path + '/adsCache');
         if(!await newDir.exists()){
           await newDir.create(recursive: true);
         }
-        assets.forEach((element) {
-          element.file.then((value) async{
-            // ignore: omit_local_variable_types
-            File? _compressedImage = await FlutterImageCompress.compressAndGetFile(
-              value!.path,
-              '${newDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpeg',
-              format: CompressFormat.jpeg,
-            );
-            if(_compressedImage != null) {
-              _imagesListUpdate.add(_compressedImage);
-            }
-            notifyListeners();
-          });
-        });
+
+        // ignore: omit_local_variable_types
+        for (int i = 0; i < assets!.length; i++){
+          // ignore: omit_local_variable_types
+          File? _compressedImage = await FlutterImageCompress.compressAndGetFile(
+            assets[i].path,
+            '${newDir.path}/${DateTime.now().millisecondsSinceEpoch}-$i.jpeg',
+            format: CompressFormat.jpeg,
+          );
+          if(_compressedImage != null) {
+            _imagesListUpdate.add(_compressedImage);
+          }
+          notifyListeners();
+        }
         await sendMess(
             context,
             _imagesListUpdate,

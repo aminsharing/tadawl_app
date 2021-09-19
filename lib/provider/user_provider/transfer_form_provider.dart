@@ -5,6 +5,7 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/screens/general/home.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
@@ -113,6 +114,14 @@ class TransferFormProvider extends ChangeNotifier{
       String? refrencedNumber,
       String radioValue1,
       File? imageInvoice) async {
+    await Api().sendTransfer(
+        phone,
+        fullName,
+        reason,
+        refrencedNumber,
+        radioValue1,
+        imageInvoice
+    );
     Future.delayed(Duration(seconds: 0), () {
       Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(0);
       Navigator.pushAndRemoveUntil(

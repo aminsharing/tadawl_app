@@ -80,7 +80,7 @@ class About extends StatelessWidget {
             // _showRatingDialog();
           }
           if (userMutual.userPhone == locale.phone) {
-            var number = '+${locale.phone}';
+            var number = '${locale.phone!.replaceAll('966', '0')}';
             await FlutterPhoneDirectCaller.callNumber(number).then((value) {
               if(value!){
                 Future.delayed(Duration(seconds: 5), (){
@@ -89,7 +89,7 @@ class About extends StatelessWidget {
               }
             });
           } else {
-            var number = '+${userMutual.userPhone}';
+            var number = '${userMutual.userPhone!.replaceAll('966', '0')}';
             await FlutterPhoneDirectCaller.callNumber(number).then((value) {
               if(value!){
                 Future.delayed(Duration(seconds: 5), (){
@@ -126,13 +126,21 @@ class About extends StatelessWidget {
                             width: 1),
                         color: const Color(0xffffffff),
                       ),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Icon(
-                          Icons.phone_enabled,
-                          color: Color(0xff3f9d28),
-                          size: 40,
-                        ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Icon(
+                            Icons.phone_enabled,
+                            color: Color(0xff3f9d28),
+                            size: 40,
+                          ),
+                          Text(
+                            'إتصال',
+                            style: CustomTextStyle(
+                                color: Color(0xff3f9d28)
+                            ).getTextStyle(),
+                          ),
+                        ],
                       ),
                     ),
                   ),

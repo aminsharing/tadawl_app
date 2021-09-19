@@ -15,108 +15,92 @@ class UpdateMyInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-          return WillPopScope(
-            onWillPop: () async{
-              // Provider.of<UserMutualProvider>(context, listen: false).clearUpdatingInformation();
-              return true;
-            },
-            child: Scaffold(
-              appBar: AppBar(
-                centerTitle: true,
-                toolbarHeight: 80.0,
-                leadingWidth: 100,
-                leading: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.arrow_back_ios,
-                      color: Color(0xffffffff),
-                      size: 40,
-                    ),
-                    onPressed: () {
-                      // userMutual.getAvatarList(context, userMutual.phone);
-                      // userMutual.getUserAdsList(context, userMutual.phone);
-                      // userMutual.getEstimatesInfo(context, userMutual.phone);
-                      // userMutual.getSumEstimatesInfo(context, userMutual.phone);
-                      // userMutual.checkOfficeInfo(context, userMutual.phone);
-                      // userMutual.getSession();
-                      // Provider.of<UserMutualProvider>(context, listen: false).clearUpdatingInformation();
-                      Future.delayed(Duration(seconds: 1), () {
-                        Navigator.pop(context);
-                      });
-                    },
+          return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              toolbarHeight: 80.0,
+              leadingWidth: 100,
+              leading: Padding(
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: Color(0xffffffff),
+                    size: 40,
                   ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                 ),
-                title: Text(
-                  AppLocalizations
-                      .of(context)!
-                      .updateMyInfo,
-                  style: CustomTextStyle(
-
-                    fontSize: 20,
-                    color: const Color(0xffffffff),
-                  ).getTextStyle(),
-                  textAlign: TextAlign.center,
-                ),
-                backgroundColor: Color(0xff1f2835),
               ),
-              backgroundColor: Color(0xffffffff),
-              body: Form(
-                key: _updateMyInfoKey,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          FocusScope.of(context).unfocus();
-                        },
-                        child: Column(
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                UpdateInfoImage(),
-                                UpdateInfoTextField(
-                                  labelText: AppLocalizations.of(context)!.name,
-                                  fieldType: FieldType.username,
-                                  icon: Icons.person,
+              title: Text(
+                AppLocalizations
+                    .of(context)!
+                    .updateMyInfo,
+                style: CustomTextStyle(
+
+                  fontSize: 20,
+                  color: const Color(0xffffffff),
+                ).getTextStyle(),
+                textAlign: TextAlign.center,
+              ),
+              backgroundColor: Color(0xff1f2835),
+            ),
+            backgroundColor: Color(0xffffffff),
+            body: Form(
+              key: _updateMyInfoKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        FocusScope.of(context).unfocus();
+                      },
+                      child: Column(
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              UpdateInfoImage(),
+                              UpdateInfoTextField(
+                                labelText: AppLocalizations.of(context)!.name,
+                                fieldType: FieldType.username,
+                                icon: Icons.person,
+                              ),
+                              UpdateInfoTextField(
+                                labelText: AppLocalizations.of(context)!.email,
+                                fieldType: FieldType.email,
+                                icon: Icons.email_outlined,
+                              ),
+                              UpdateInfoTextField(
+                                labelText: AppLocalizations.of(context)!.aboutMe,
+                                fieldType: FieldType.about,
+                                icon: Icons.message_rounded,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      AppLocalizations.of(context)!.memType,
+                                      style: CustomTextStyle(
+                                        fontSize: 15,
+                                        color: Color(0xff989696),
+                                      ).getTextStyle(),
+                                      textAlign: TextAlign.right,
+                                    ),
+                                  ],
                                 ),
-                                UpdateInfoTextField(
-                                  labelText: AppLocalizations.of(context)!.email,
-                                  fieldType: FieldType.email,
-                                  icon: Icons.email_outlined,
-                                ),
-                                UpdateInfoTextField(
-                                  labelText: AppLocalizations.of(context)!.aboutMe,
-                                  fieldType: FieldType.about,
-                                  icon: Icons.message_rounded,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      20, 15, 20, 0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        AppLocalizations.of(context)!.memType,
-                                        style: CustomTextStyle(
-                                          fontSize: 15,
-                                          color: Color(0xff989696),
-                                        ).getTextStyle(),
-                                        textAlign: TextAlign.right,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                UpdateInfoMemType(_updateMyInfoKey)
-                              ],
-                            ),
-                          ],
-                        ),
+                              ),
+                              UpdateInfoMemType(_updateMyInfoKey)
+                            ],
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),

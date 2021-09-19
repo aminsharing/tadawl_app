@@ -260,10 +260,7 @@ class AdvertisingFeesScreen extends StatelessWidget {
                 // _addAdsKey.currentState.save();
                 // addAds.setCurrentStageAddAds(3);
                 Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                ChangeNotifierProvider<AddAdProvider>.value(
-                  value: addAdProvider,
-                  child: ImagesVideoScreen(addAdProvider),
-                )
+                    ImagesVideoScreen(addAdProvider),
                 )
                 );
               },

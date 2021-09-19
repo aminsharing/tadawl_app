@@ -1,14 +1,10 @@
-// import 'dart:convert';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 
-// String _checkoutid = '';
-// String _resultText = '';
-// String _MadaRegexV = '4(0(0861|1757|7(197|395)|9201)|1(0685|7633|9593)|2(281(7|8|9)|8(331|67(1|2|3)))|3(1361|2328|4107|9954)|4(0(533|647|795)|5564|6(393|404|672))|5(5(036|708)|7865|8456)|6(2220|854(0|1|2|3))|8(301(0|1|2)|4783|609(4|5|6)|931(7|8|9))|93428)';
-// String _MadaRegexM = '5(0(4300|8160)|13213|2(1076|4(130|514)|9(415|741))|3(0906|1095|2013|5(825|989)|6023|7767|9931)|4(3(085|357)|9760)|5(4180|7606|8848)|8(5265|8(8(4(5|6|7|8|9)|5(0|1))|98(2|3))|9(005|206)))|6(0(4906|5141)|36120)|9682(0(1|2|3|4|5|6|7|8|9)|1(0|1))';
-// String _MadaHash = '';
+
 
 class AdvFeeProvider extends ChangeNotifier{
 
@@ -21,6 +17,12 @@ class AdvFeeProvider extends ChangeNotifier{
   void dispose() {
     print('dispose AdvFeeProvider');
     super.dispose();
+    _cardNumberText.dispose();
+    _cardHolderText.dispose();
+    _expiryMonthText.dispose();
+    _expiryYearText.dispose();
+    _CVVText.dispose();
+    _STCPAYText.dispose();
   }
 
   final List<bool> _isSelected1 = List.generate(3, (_) => false);
@@ -34,20 +36,27 @@ class AdvFeeProvider extends ChangeNotifier{
 
   static const platform = MethodChannel('Hyperpay.demo.fultter/channel');
 
-  // final _cardNumberText = TextEditingController();
-  // final _cardHolderText = TextEditingController();
-  // final _expiryMonthText = TextEditingController();
-  // final _expiryYearText = TextEditingController();
-  // final _CVVText = TextEditingController();
-  // final _STCPAYText = TextEditingController();
+  final _cardNumberText = TextEditingController();
+  TextEditingController get cardNumberText => _cardNumberText;
+  final _cardHolderText = TextEditingController();
+  TextEditingController get cardHolderText => _cardHolderText;
+  final _expiryMonthText = TextEditingController();
+  TextEditingController get expiryMonthText => _expiryMonthText;
+  final _expiryYearText = TextEditingController();
+  TextEditingController get expiryYearText => _expiryYearText;
+  final _CVVText = TextEditingController();
+  TextEditingController get CVVText => _CVVText;
+  final _STCPAYText = TextEditingController();
+  TextEditingController get STCPAYText => _STCPAYText;
 
-  // String _text = '';
+  String _checkoutid = '';
+  PaymentStatus? _resultText;
+  final String _MadaRegexV = '4(0(0861|1757|7(197|395)|9201)|1(0685|7633|9593)|2(281(7|8|9)|8(331|67(1|2|3)))|3(1361|2328|4107|9954)|4(0(533|647|795)|5564|6(393|404|672))|5(5(036|708)|7865|8456)|6(2220|854(0|1|2|3))|8(301(0|1|2)|4783|609(4|5|6)|931(7|8|9))|93428)';
+  final String _MadaRegexM = '5(0(4300|8160)|13213|2(1076|4(130|514)|9(415|741))|3(0906|1095|2013|5(825|989)|6023|7767|9931)|4(3(085|357)|9760)|5(4180|7606|8848)|8(5265|8(8(4(5|6|7|8|9)|5(0|1))|98(2|3))|9(005|206)))|6(0(4906|5141)|36120)|9682(0(1|2|3|4|5|6|7|8|9)|1(0|1))';
 
-  String type = '';
+  String type = 'credit';
 
-  // _payment_formState(String type) {
-  //   this.type = type;
-  // }
+  String amount = '';
 
 
   void updateSelected1(int index) {
@@ -122,133 +131,115 @@ class AdvFeeProvider extends ChangeNotifier{
     _selectedNav4 = 0;
   }
 
-  // Future<void> _pay(BuildContext context) async {
-  //
-  //   if (_cardNumberText.text.isNotEmpty ||
-  //       _cardHolderText.text.isNotEmpty ||
-  //       _expiryMonthText.text.isNotEmpty ||
-  //       _expiryYearText.text.isNotEmpty ||
-  //       _CVVText.text.isNotEmpty) {
-  //     _checkoutid = await _requestCheckoutId();
-  //
-  //     String transactionStatus;
-  //     try {
-  //       final result =
-  //       await platform.invokeMethod('gethyperpayresponse', {
-  //         'type': 'CustomUI',
-  //         'checkoutid': _checkoutid,
-  //         'mode': 'TEST',
-  //         'brand': type,
-  //         'card_number': _cardNumberText.text,
-  //         'holder_name': _cardHolderText.text,
-  //         'month': _expiryMonthText.text,
-  //         'year': _expiryYearText.text,
-  //         'cvv': _CVVText.text,
-  //         'MadaRegexV': _MadaRegexV,
-  //         'MadaRegexM': _MadaRegexM,
-  //         'STCPAY': 'disabled'
-  //       });
-  //       transactionStatus = '$result';
-  //     } on PlatformException catch (e) {
-  //       transactionStatus = '${e.message}';
-  //     }
-  //
-  //     if (transactionStatus != null ||
-  //         transactionStatus == 'success' ||
-  //         transactionStatus == 'SYNC') {
-  //       await getPaymentStatus();
-  //     } else {
-  //       _resultText = transactionStatus;
-  //       notifyListeners();
-  //     }
-  //   } else {
-  //     _showDialog(context);
-  //   }
-  // }
-  //
-  // Future<void> _APPLEpay() async {
-  //
-  //   _checkoutid = await _requestCheckoutId();
-  //
-  //   String transactionStatus;
-  //   try {
-  //     final result =
-  //     await platform.invokeMethod('gethyperpayresponse', {
-  //       'type': 'CustomUI',
-  //       'checkoutid': _checkoutid,
-  //       'mode': 'TEST',
-  //       'brand': 'APPLEPAY',
-  //       'card_number': _cardNumberText.text,
-  //       'holder_name': _cardHolderText.text,
-  //       'month': _expiryMonthText.text,
-  //       'year': _expiryYearText.text,
-  //       'cvv': _CVVText.text,
-  //       'MadaRegexV': _MadaRegexV,
-  //       'MadaRegexM': _MadaRegexM,
-  //       'STCPAY': 'disabled',
-  //       'Amount': 1.00 // ex : 100.00 , 102.25 , 102.20
-  //     });
-  //     transactionStatus = '$result';
-  //   } on PlatformException catch (e) {
-  //     transactionStatus = '${e.message}';
-  //   }
-  //
-  //   if (transactionStatus != null ||
-  //       transactionStatus == 'success' ||
-  //       transactionStatus == 'SYNC') {
-  //     await getPaymentStatus();
-  //   } else {
-  //     _resultText = transactionStatus;
-  //     notifyListeners();
-  //   }
-  //
-  // }
-  //
-  // Future<void> _STCPAYpay(BuildContext context) async {
-  //   if (_STCPAYText.text.isNotEmpty) {
-  //     _checkoutid = await _requestCheckoutId();
-  //     print(_checkoutid);
-  //
-  //     var transactionStatus = '';
-  //     try {
-  //       final result =
-  //       await platform.invokeMethod('gethyperpayresponse', {
-  //         'type': 'CustomUI',
-  //         'checkoutid': _checkoutid,
-  //         'mode': 'TEST',
-  //         'card_number': _cardNumberText.text,
-  //         'holder_name': _cardHolderText.text,
-  //         'month': _expiryMonthText.text,
-  //         'year': _expiryYearText.text,
-  //         'cvv': _CVVText.text,
-  //         'STCPAY': 'enabled'
-  //       });
-  //       transactionStatus = '$result';
-  //     } on PlatformException catch (e) {
-  //       transactionStatus = '${e.message}';
-  //     }
-  //
-  //     if (transactionStatus != null ||
-  //         transactionStatus == 'success' ||
-  //         transactionStatus == 'SYNC') {
-  //       print(transactionStatus);
-  //       await getPaymentStatus();
-  //     } else {
-  //       _resultText = transactionStatus;
-  //       notifyListeners();
-  //     }
-  //   } else {
-  //     _showDialog(context);
-  //   }
-  // }
+  void checkMadaCard(String cardNumber){
+    // ignore: omit_local_variable_types
+    String bin = cardNumber.substring(0,6);
+    // ignore: omit_local_variable_types
+    RegExp regExpV = RegExp(_MadaRegexV);
+    // ignore: omit_local_variable_types
+    RegExp regExpM = RegExp(_MadaRegexM);
+
+    if(regExpV.hasMatch(bin) || regExpM.hasMatch(bin)){
+      type = 'mada';
+    }
+  }
+
+  Future<void> pay(BuildContext context) async {
+
+    if (_cardNumberText.text.isNotEmpty &&
+        _cardHolderText.text.isNotEmpty &&
+        _expiryMonthText.text.isNotEmpty &&
+        _expiryYearText.text.isNotEmpty &&
+        _CVVText.text.isNotEmpty) {
+      checkMadaCard(_cardNumberText.text);
+      _checkoutid = (await _requestCheckoutId())??'';
+
+      String transactionStatus;
+      try {
+        final result =
+        await platform.invokeMethod('gethyperpayresponse', {
+          'type': 'CustomUI',
+          'checkoutid': _checkoutid,
+          'mode': 'TEST',
+          'brand': type,
+          'card_number': _cardNumberText.text,
+          'holder_name': _cardHolderText.text,
+          'month': _expiryMonthText.text,
+          'year': _expiryYearText.text,
+          'cvv': _CVVText.text,
+          'MadaRegexV': _MadaRegexV,
+          'MadaRegexM': _MadaRegexM,
+          'STCPAY': 'disabled'
+        });
+        transactionStatus = '$result';
+        print("transactionStatusss: $transactionStatus");
+      } on PlatformException catch (e) {
+        transactionStatus = '${e.message}';
+      }
+      if (transactionStatus.isNotEmpty ||
+          transactionStatus == 'success' ||
+          transactionStatus == 'SYNC') {
+        await getPaymentStatus();
+      } else {
+        _resultText = PaymentStatus('001', transactionStatus);
+        notifyListeners();
+      }
+    } else {
+      await Fluttertoast.showToast(msg: 'جميع الحقول مطلوبة');
+    }
+  }
+
+  Future<void> getPaymentStatus() async {
+    var status;
+    // ignore: omit_local_variable_types
+    String myUrl = 'http://dev.hyperpay.com/hyperpay-demo/getpaymentstatus.php?id=$_checkoutid';
+    final response = await http.post(
+      Uri.parse(myUrl),
+      headers: {'Accept': 'application/json'},
+    );
+    status = response.body.contains('error');
+
+    print(status);
+
+    var data = json.decode(response.body);
+
+    print("payment_status: ${data["result"].toString()}");
+
+    _resultText = PaymentStatus.fromJson(data['result']);
+    notifyListeners();
+  }
+
+  Future<String?> _requestCheckoutId() async {
+    var status;
+    // ignore: omit_local_variable_types
+    String myUrl = 'http://dev.hyperpay.com/hyperpay-demo/getcheckoutid.php';
+
+    final response = await http.post(
+      Uri.parse(myUrl),
+      headers: {'Accept': 'application/json'},
+    );
+    status = response.body.contains('error');
+
+    var data = json.decode(response.body);
+
+    if (status) {
+      print('data : ${data["error"]}');
+    } else {
+      return data['id'];
+    }
+  }
 
   // Future<void> getPaymentStatus() async {
   //   var status;
   //   // ignore: omit_local_variable_types
-  //   String myUrl = 'http://dev.hyperpay.com/hyperpay-demo/getpaymentstatus.php?id=$_checkoutid';
+  //   String myUrl = 'https://www.tadawl-store.com/API/api_app/payment/payment_status.php';
   //   final response = await http.post(
-  //     myUrl,
+  //     Uri.parse(myUrl),
   //     headers: {'Accept': 'application/json'},
+  //     body: {
+  //       'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
+  //       'id': _checkoutid
+  //     }
   //   );
   //   status = response.body.contains('error');
   //
@@ -258,15 +249,19 @@ class AdvFeeProvider extends ChangeNotifier{
   //
   //   _resultText = data['result'].toString();
   // }
-
-  // Future<String> _requestCheckoutId() async {
+  //
+  // Future<String?> _requestCheckoutId() async {
   //   var status;
   //   // ignore: omit_local_variable_types
-  //   String myUrl = 'http://dev.hyperpay.com/hyperpay-demo/getcheckoutid.php';
+  //   String myUrl = 'https://www.tadawl-store.com/API/api_app/payment/prepare_checkout.php';
   //
   //   final response = await http.post(
-  //     myUrl,
+  //     Uri.parse(myUrl),
   //     headers: {'Accept': 'application/json'},
+  //     body: {
+  //       'auth_key': 'aSdFgHjKl12345678dfe34asAFS%^sfsdfcxjhASFCX90QwErT@',
+  //       'amount': amount
+  //     }
   //   );
   //   status = response.body.contains('error');
   //
@@ -279,28 +274,6 @@ class AdvFeeProvider extends ChangeNotifier{
   //   }
   // }
 
-  // void _showDialog(BuildContext context) {
-  //   // flutter defined function
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       // return object of type Dialog
-  //       return AlertDialog(
-  //         title: Text('Alert!'),
-  //         content: Text('Please fill all fields'),
-  //         actions: <Widget>[
-  //           // usually buttons at the bottom of the dialog
-  //           TextButton(
-  //             child: Text('Close'),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
 
   List<bool> get isSelected1 => _isSelected1;
   List<bool> get isSelected2 => _isSelected2;
@@ -310,4 +283,19 @@ class AdvFeeProvider extends ChangeNotifier{
   int? get selectedNav2 => _selectedNav2;
   int? get selectedNav3 => _selectedNav3;
   int? get selectedNav4 => _selectedNav4;
+  PaymentStatus? get resultText => _resultText;
+}
+
+
+class PaymentStatus{
+  String? code;
+  String? description;
+  // ignore: sort_constructors_first
+  PaymentStatus(this.code, this.description);
+  // ignore: sort_constructors_first
+  PaymentStatus.fromJson(Map<String, dynamic> json){
+    code = json['code'];
+    description = json['description'];
+  }
+
 }

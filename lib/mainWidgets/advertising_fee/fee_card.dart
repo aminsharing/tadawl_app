@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/provider/ads_provider/adv_fee_provider.dart';
+import 'package:tadawl_app/provider/locale_provider.dart';
+import 'package:tadawl_app/screens/account/login.dart';
 import 'package:tadawl_app/screens/ads/payment_of_fees.dart';
 
 enum CardType{
@@ -30,6 +32,7 @@ class FeeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
+    final _locale = Provider.of<LocaleProvider>(context, listen: false);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(5, 15, 5, 0),
@@ -139,11 +142,20 @@ class FeeCard extends StatelessWidget {
                         children: [
                           TextButton(
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                                  ChangeNotifierProvider<AdvFeeProvider>.value(
-                                      value: advFeeProvider,
-                                      child: PaymentOfFees(price: price, type: type))
-                              ));
+                              if(_locale.phone != null){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                ChangeNotifierProvider<AdvFeeProvider>.value(
+                                    value: advFeeProvider,
+                                    child: PaymentOfFees(price: price, type: type))
+                                ));
+                              }else{
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            Login()));
+                              }
+
                             },
                             child: Container(
                               width: cardType == CardType.big ? 140.0 : 100.0,

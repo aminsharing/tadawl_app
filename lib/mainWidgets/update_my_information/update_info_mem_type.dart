@@ -130,17 +130,22 @@ class UpdateInfoMemType extends StatelessWidget {
                   return;
                 }
                 _updateMyInfoKey.currentState!.save();
-                await userMutual
-                    .updateMyProfile(
-                    context,
-                    userMutual.selectedMembership,
-                    userMutual.userName,
-                    userMutual.company_name,
-                    userMutual.officeNameUser,
-                    userMutual.email,
-                    userMutual.personalProfile,
-                    locale.phone,
-                    userMutual.imageUpdateProfile);
+                if(!userMutual.isSending){
+                  userMutual.isSending = true;
+                  await userMutual
+                      .updateMyProfile(
+                      context,
+                      userMutual.selectedMembership,
+                      userMutual.userName,
+                      userMutual.company_name,
+                      userMutual.officeNameUser,
+                      userMutual.email,
+                      userMutual.personalProfile,
+                      locale.phone,
+                      userMutual.deleteImage,
+                      userMutual.users!.image,
+                      userMutual.imageUpdateProfile);
+                }
               },
               child: Container(
                 width: mediaQuery.size.width * 0.5,
@@ -152,12 +157,13 @@ class UpdateInfoMemType extends StatelessWidget {
                   color: Color(0xff3f9d28),
                 ),
                 child: Center(
-                  child: Text(
-                    AppLocalizations
-                        .of(context)!
-                        .save,
+                  child: userMutual.isSending
+                      ?
+                  LinearProgressIndicator()
+                      :
+                  Text(
+                    AppLocalizations.of(context)!.save,
                     style: CustomTextStyle(
-
                       fontSize: 15,
                       color: Color(0xffffffff),
                     ).getTextStyle(),

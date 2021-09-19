@@ -21,36 +21,36 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MultiProvider(
-        providers: [
-          ChangeNotifierProvider<LocaleProvider>(create: (_) => LocaleProvider()),
-          ChangeNotifierProvider<CacheMarkerModel>(create: (_) => CacheMarkerModel()),
-          ChangeNotifierProvider<NotificationProvider>(create: (_) => NotificationProvider()),
-          // ChangeNotifierProvider<MutualProvider>(create: (_) => MutualProvider()),
-        ],
-        builder: (context, child) {
-          // FirebaseCrashlytics.instance.crash();
-          final provider = Provider.of<LocaleProvider>(context);
-          return MaterialApp(
-            // ignore: missing_return
-            localeListResolutionCallback: (locales, supportedLocales) {
-              for (var i = 0; i < locales!.length; i++) {
-                if (provider.locale == null) {
-                  return Locale('ar', 'SA');
-                }
-              }
-            },
-            locale: provider.locale,
-            supportedLocales: L10n.all,
-            localizationsDelegates: [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
-            debugShowCheckedModeBanner: false,
-            title: 'Tadawl App',
-            home: Home(),
-          );
+    providers: [
+      ChangeNotifierProvider<LocaleProvider>(create: (_) => LocaleProvider()),
+      ChangeNotifierProvider<CacheMarkerModel>(create: (_) => CacheMarkerModel()),
+      ChangeNotifierProvider<NotificationProvider>(create: (_) => NotificationProvider()),
+      // ChangeNotifierProvider<MutualProvider>(create: (_) => MutualProvider()),
+    ],
+    builder: (context, child) {
+      // FirebaseCrashlytics.instance.crash();
+      final provider = Provider.of<LocaleProvider>(context);
+      return MaterialApp(
+        // ignore: missing_return
+        localeListResolutionCallback: (locales, supportedLocales) {
+          for (var i = 0; i < locales!.length; i++) {
+            if (provider.locale == null) {
+              return Locale('ar', 'SA');
+            }
+          }
         },
+        locale: provider.locale,
+        supportedLocales: L10n.all,
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        debugShowCheckedModeBanner: false,
+        title: 'Tadawl App',
+        home: Home(),
       );
+    },
+  );
 }

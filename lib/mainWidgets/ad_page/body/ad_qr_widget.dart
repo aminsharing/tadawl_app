@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share/share.dart';
@@ -34,7 +35,7 @@ class AdQRWidget extends StatelessWidget {
           InkWell(
             onTap: _launchQRLink,
             child: QrImage(
-              //plce where the QR Image will be shown
+              //place where the QR Image will be shown
               data: adsPage.qrData,
               //padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
               size: 150.0,
@@ -52,8 +53,18 @@ class AdQRWidget extends StatelessWidget {
                   flex: 5,
                   child: TextButton(
                     onPressed: () {
-                      adsPage.stopVideoAdsPage();
-                      Share.share('${adsPage.qrData}');
+                      if(!adsPage.isSharing){
+                        Fluttertoast.showToast(msg: 'جار تحضير الإعلان للمشاركة...');
+                        adsPage.isSharing = true;
+                        adsPage.stopVideoAdsPage();
+                        adsPage.downloadImageForShare('https://tadawl-store.com/API/assets/images/ads/${adsPage.adsPageImages.first.ads_image}').then((value) {
+                          Share.shareFiles([value.path], text: '${adsPage.qrData}').then((value) {
+                            adsPage.isSharing = false;
+                          });
+                        });
+                      }
+                      // adsPage.stopVideoAdsPage();
+                      // Share.share('${adsPage.qrData}');
                     },
 
                     child: Container(
@@ -62,7 +73,7 @@ class AdQRWidget extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(0.0),
                         border: Border.all(
-                            color: Colors.grey,
+                            color: adsPage.isSharing ? Colors.grey.shade300 : Colors.grey,
                             width: 1
                         ),
                         color: Color(0xffffffff),
@@ -85,12 +96,21 @@ class AdQRWidget extends StatelessWidget {
                   flex: 2,
                   child: TextButton(
                     onPressed: () {
-                      adsPage.stopVideoAdsPage();
-                      Share.share('${adsPage.qrData}');
+                      if(!adsPage.isSharing){
+                        Fluttertoast.showToast(msg: 'جار تحضير الإعلان للمشاركة...');
+                        adsPage.isSharing = true;
+                        adsPage.stopVideoAdsPage();
+                        adsPage.downloadImageForShare('https://tadawl-store.com/API/assets/images/ads/${adsPage.adsPageImages.first.ads_image}').then((value) {
+                          Share.shareFiles([value.path], text: '${adsPage.qrData}').then((value) {
+                            adsPage.isSharing = false;
+                          });
+                        });
+                      }
+                      // Share.share('${adsPage.qrData}');
                     },
                     child: Icon(
                       Icons.share,
-                      color: Colors.grey,
+                      color: adsPage.isSharing ? Colors.grey.shade300 : Colors.grey,
                       size: 40,
                     ),
                   ),

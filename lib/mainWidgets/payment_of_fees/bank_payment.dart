@@ -65,8 +65,8 @@ class BankPayment extends StatelessWidget {
                     boxShadow: [
                       BoxShadow(
                         color: payFee.selectedNav4 == 1
-                            ? Color(0xff00cccc)
-                            : Color(0xffa6a6a6),
+                            ? Color(0xff000000).withOpacity(0.5)
+                            : Color(0xffa6a6a6).withOpacity(0.3),
                         offset: const Offset(
                           2.0,
                           2.0,
@@ -83,7 +83,7 @@ class BankPayment extends StatelessWidget {
                     ],
                     image: DecorationImage(
                       image: const AssetImage(
-                          'assets/images/ahli.jpg'),
+                          'assets/images/ahli.png'),
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -100,8 +100,8 @@ class BankPayment extends StatelessWidget {
                     boxShadow: [
                       BoxShadow(
                         color: payFee.selectedNav4 == 2
-                            ? Color(0xff00cccc)
-                            : Color(0xffa6a6a6),
+                            ? Color(0xff000000).withOpacity(0.5)
+                            : Color(0xffa6a6a6).withOpacity(0.3),
                         offset: const Offset(
                           2.0,
                           2.0,
