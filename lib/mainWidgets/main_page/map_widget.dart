@@ -77,12 +77,13 @@ class MapWidget extends StatelessWidget {
                           if (cameraPosition.zoom <= 5) {
                             mainPage.zoomOutOfRange++;
                             if(mainPage.zoomOutOfRange == 1){
-                              Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(1);
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Regions()),
-                              );
+                              // Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(1);
+                              // Navigator.pushReplacement(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => Regions())
+                              //   ,
+                              // );
                             }
                           }
                         },

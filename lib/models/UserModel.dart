@@ -66,6 +66,7 @@ class UserModel {
 
   // ignore: sort_constructors_first
   UserModel.users(Map<String, dynamic> json) {
+
     image = json['image'];
     username = json['username'];
     timeRegistered = json['timeRegistered'];

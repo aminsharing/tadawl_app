@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/provider/ads_provider/add_ad_provider.dart';
 
-
 class StreetWidth extends StatelessWidget {
   const StreetWidth({Key? key}) : super(key: key);
 
@@ -14,26 +13,21 @@ class StreetWidth extends StatelessWidget {
       return Column(
         children: [
           Padding(
-            padding:
-            const EdgeInsets.fromLTRB(20, 15, 20, 0),
+            padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
             child: Row(
-              mainAxisAlignment:
-              MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   AppLocalizations.of(context)!.streetWidth,
                   style: CustomTextStyle(
-
                     fontSize: 15,
                     color: const Color(0xff000000),
                   ).getTextStyle(),
                   textAlign: TextAlign.center,
                 ),
                 Text(
-                  addAd.StreetWidthAddAds.floor()
-                      .toString(),
+                  addAd.StreetWidthAddAds.floor().toString(),
                   style: CustomTextStyle(
-
                     fontSize: 15,
                     color: const Color(0xff000000),
                   ).getTextStyle(),
@@ -46,9 +40,8 @@ class StreetWidth extends StatelessWidget {
             activeColor: const Color(0xff04B404),
             value: addAd.StreetWidthAddAds,
             min: 0,
-            max: 99,
+            max: 100,
             divisions: 198,
-
             label: addAd.StreetWidthAddAds.floor().toString(),
             onChanged: (double value) {
               addAd.setStreetWidthAddAds(value);

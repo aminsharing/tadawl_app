@@ -114,11 +114,11 @@ class MainPageProvider extends ChangeNotifier{
             }
             Future.delayed(Duration(seconds: 1), (){
               if(_allAds == 0){
-                Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(1);
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => Regions()),
-                );
+                //Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(1);
+                // Navigator.pushReplacement(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => Regions()),
+                // );
               }
             });
           }
@@ -480,16 +480,16 @@ class MainPageProvider extends ChangeNotifier{
         });
         Future.delayed(Duration(seconds: 5), (){
           if(_allAds == 0){
-            try{
-              Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(1);
-            }catch(e){
-              print('dispose error cause of multiple zoom gesture: $e');
-            }
-
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => Regions()),
-            );
+            // try{
+            //   Provider.of<LocaleProvider>(context, listen: false).setCurrentPage(1);
+            // }catch(e){
+            //   print('dispose error cause of multiple zoom gesture: $e');
+            // }
+            //
+            // Navigator.pushReplacement(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => Regions()),
+            // );
           }
         });
       }

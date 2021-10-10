@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -1133,9 +1134,10 @@ class Api {
     }
     var response = await request.send();
     if (response.statusCode == 200) {
+
       await Fluttertoast.showToast(
           msg: 'لقد تم تحديث معلومات المستخدم بنجاح',
-          toastLength: Toast.LENGTH_SHORT,
+          toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.green,
