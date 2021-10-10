@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
-// import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -16,20 +14,21 @@ import 'package:tadawl_app/models/message_model.dart';
 import 'package:tadawl_app/provider/api/ApiFunctions.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
 
-class MsgProvider extends ChangeNotifier{
-
-  MsgProvider(BuildContext context ,String? _phone, {this.customMsg}){
+class MsgProvider extends ChangeNotifier {
+  MsgProvider(BuildContext context, String? _phone, {this.customMsg}) {
     print('init MsgProvider');
-    if(customMsg != null){
+    if (customMsg != null) {
       _messageController.text = customMsg!;
       _isTyping = true;
     }
     getConvInfo(_phone).then((value) {
       getUnreadMsgs(_phone).then((value) {
-        Provider.of<LocaleProvider>(context, listen: false).getUnreadMsgs(_phone).then((value) {
+        Provider.of<LocaleProvider>(context, listen: false)
+            .getUnreadMsgs(_phone)
+            .then((value) {
           // Provider.of<LocaleProvider>(context, listen: false).update();
         });
-        Future.delayed(Duration(seconds: 1), (){
+        Future.delayed(Duration(seconds: 1), () {
           update();
         });
       });
@@ -43,7 +42,7 @@ class MsgProvider extends ChangeNotifier{
     _streamChatController.close();
     _scrollChatController.dispose();
     _messageController.dispose();
-    if(_timer != null) {
+    if (_timer != null) {
       _timer!.cancel();
     }
     super.dispose();
@@ -52,7 +51,8 @@ class MsgProvider extends ChangeNotifier{
   final FocusNode myFocusNode = FocusNode();
   late final String? customMsg;
   String? _recAvatarUserName = 'Username';
-  final StreamController<List<ConvModel>> _streamChatController = StreamController<List<ConvModel>>.broadcast();
+  final StreamController<List<ConvModel>> _streamChatController =
+      StreamController<List<ConvModel>>.broadcast();
   final ScrollController _scrollChatController = ScrollController();
   final TextEditingController _messageController = TextEditingController();
   bool _atBottom = false;
@@ -69,19 +69,18 @@ class MsgProvider extends ChangeNotifier{
   bool _noMsgs = true;
   final Record _recorder = Record();
 
-
   Future<void> getConvInfo(String? _phone) async {
-    if(_phone != null) {
+    if (_phone != null) {
       _conv.clear();
       // ignore: omit_local_variable_types
       List<dynamic> value = await Api().getDiscListFunc(_phone);
       value.forEach((element) {
         _conv.add(ConvModel.fromJson(element));
       });
-      Future.delayed(Duration(seconds: 3), () async{
-        if(_conv.isNotEmpty){
+      Future.delayed(Duration(seconds: 3), () async {
+        if (_conv.isNotEmpty) {
           _noMsgs = false;
-        }else{
+        } else {
           _noMsgs = true;
         }
       });
@@ -89,11 +88,13 @@ class MsgProvider extends ChangeNotifier{
     }
   }
 
-  Future<void> getUnreadMsgs(String? _phone) async{
-    if(_conv.isNotEmpty){
-      _conv.forEach((element) async{
-        if(_phone != element.phone_user_sender){
-          await Api().getUnreadMessagesByUserFunc(_phone, element.phone_user_sender).then((value) {
+  Future<void> getUnreadMsgs(String? _phone) async {
+    if (_conv.isNotEmpty) {
+      _conv.forEach((element) async {
+        if (_phone != element.phone_user_sender) {
+          await Api()
+              .getUnreadMessagesByUserFunc(_phone, element.phone_user_sender)
+              .then((value) {
             element.unreadMsgs = value.toString();
           });
         }
@@ -101,25 +102,25 @@ class MsgProvider extends ChangeNotifier{
     }
   }
 
-  Future<void> setReadMsgs(String? _phone, String? _other_phone) async{
-    if(_phone != null) {
+  Future<void> setReadMsgs(String? _phone, String? _other_phone) async {
+    if (_phone != null) {
       await Api().setReadMessagesFunc(_phone, _other_phone).then((value) {
         notifyListeners();
       });
     }
   }
 
-  Future<void> deleteDir() async{
+  Future<void> deleteDir() async {
     // ignore: omit_local_variable_types
     Directory temp = await getTemporaryDirectory();
     // ignore: omit_local_variable_types
     Directory tempPath = Directory(temp.path + '/voiceChat');
     // ignore: omit_local_variable_types
     Directory tempPath2 = Directory(temp.path + '/adsCache');
-    if(tempPath.existsSync()){
+    if (tempPath.existsSync()) {
       tempPath.deleteSync(recursive: true);
     }
-    if(tempPath2.existsSync()){
+    if (tempPath2.existsSync()) {
       tempPath2.deleteSync(recursive: true);
     }
   }
@@ -132,8 +133,7 @@ class MsgProvider extends ChangeNotifier{
         _comment.add(ConvModel.fromJson(element));
       });
       _streamChatController.add(_comment);
-    }
-    else {
+    } else {
       // ignore: omit_local_variable_types
       List<dynamic> value = await Api().getComments(_phone, phone_user);
       _comment.clear();
@@ -145,18 +145,21 @@ class MsgProvider extends ChangeNotifier{
   }
 
   Future<void> sendMess(
-      BuildContext context,
-      List<File> imagesList,
-      File? voiceMsg,
-      String? content,
-      String phone_user,
-      String _phone,
-      String msgType,
-      int? msgDuration,) async {
+    BuildContext context,
+    List<File> imagesList,
+    File? voiceMsg,
+    String? content,
+    String phone_user,
+    String _phone,
+    String msgType,
+    int? msgDuration,
+  ) async {
     setIsTyping(false);
     print('msgDurationn: $msgDuration');
     _messageController.clear();
-    _streamChatController.add([..._comment, ConvModel(
+    _streamChatController.add([
+      ..._comment,
+      ConvModel(
         id_conv: '',
         phone_user_recipient: phone_user,
         phone_user_sender: _phone,
@@ -174,21 +177,28 @@ class MsgProvider extends ChangeNotifier{
         msgType: msgType,
         duration: msgDuration,
         isLocal: true,
-    )]);
-    await Api().sendMessFunc(imagesList, voiceMsg, content, _phone, phone_user, msgType, msgDuration).then((value) {
+      )
+    ]);
+    await Api()
+        .sendMessFunc(imagesList, voiceMsg, content, _phone, phone_user,
+            msgType, msgDuration)
+        .then((value) {
       getCommentUser(phone_user, _phone).then((value) {
         getUnreadMsgs(_phone).then((value) {
-          Provider.of<LocaleProvider>(context, listen: false).getUnreadMsgs(_phone).then((value) {
+          Provider.of<LocaleProvider>(context, listen: false)
+              .getUnreadMsgs(_phone)
+              .then((value) {
             Provider.of<LocaleProvider>(context, listen: false).update();
           });
         });
       });
     });
-    if(msgType == MessType.TEXT){
+    if (msgType == MessType.TEXT) {
       myFocusNode.requestFocus();
       notifyListeners();
     }
-    await _scrollChatController.animateTo(0, duration: Duration(seconds: 2), curve: Curves.easeIn);
+    await _scrollChatController.animateTo(0,
+        duration: Duration(seconds: 2), curve: Curves.easeIn);
   }
 
   void setMessageController(String message) {
@@ -204,17 +214,18 @@ class MsgProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void initScrollDown(){
+  void initScrollDown() {
     // _atBottom = true;
     _scrollChatController.addListener(_scrollListener);
   }
 
   void _scrollListener() {
-    if (_scrollChatController.offset == 0.0 && !_scrollChatController.position.outOfRange) {
+    if (_scrollChatController.offset == 0.0 &&
+        !_scrollChatController.position.outOfRange) {
       _atBottom = false;
       notifyListeners();
-    }else{
-      if(!_atBottom){
+    } else {
+      if (!_atBottom) {
         _atBottom = true;
         notifyListeners();
       }
@@ -226,25 +237,26 @@ class MsgProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void startRecorder() async{
-
-    await Permission.speech.request().then((value) async{
-      if(value == PermissionStatus.granted){
+  void startRecorder() async {
+    await Permission.speech.request().then((value) async {
+      if (value == PermissionStatus.granted) {
         var temp = await getTemporaryDirectory();
         var newDir = Directory(temp.path + '/voiceChat');
-        if(!await newDir.exists()){
+        if (!await newDir.exists()) {
           await newDir.create(recursive: true);
         }
         _randomName = '${DateTime.now().millisecondsSinceEpoch}';
-        await _recorder.start(
+        await _recorder
+            .start(
           path: newDir.path + '/$randomName.m4a',
-          ).then((value) {
+        )
+            .then((value) {
           startTimer();
           _isRecording = true;
           _recordIcon = Icons.send_rounded;
           notifyListeners();
-          });
-      }else{
+        });
+      } else {
         await Fluttertoast.showToast(
             msg: 'يرجى اعطاء الإذن لتسجل الرسائل الصوتية',
             toastLength: Toast.LENGTH_SHORT,
@@ -257,19 +269,19 @@ class MsgProvider extends ChangeNotifier{
     });
   }
 
-  void stopRecorder(bool delete, String? phone_user, String? _phone, BuildContext context) async{
-    if(delete){
-      await _recorder.stop().then((value) async{
+  void stopRecorder(bool delete, String? phone_user, String? _phone,
+      BuildContext context) async {
+    if (delete) {
+      await _recorder.stop().then((value) async {
         _isRecording = false;
         _recordIcon = Icons.mic;
         deleteFile('$randomName');
         stopTimer();
         notifyListeners();
       });
-    }
-    else{
-      await _recorder.stop().then((value) async{
-        if(_recordDuration <= 1){
+    } else {
+      await _recorder.stop().then((value) async {
+        if (_recordDuration <= 1) {
           _isRecording = false;
           _recordIcon = Icons.mic;
           deleteFile('$randomName');
@@ -283,8 +295,7 @@ class MsgProvider extends ChangeNotifier{
               backgroundColor: Colors.green,
               textColor: Colors.white,
               fontSize: 15.0);
-        }
-        else{
+        } else {
           var temp = await getTemporaryDirectory();
           var newDir = Directory(temp.path + '/voiceChat');
           _voiceMsg = File(newDir.path + '/$randomName.m4a');
@@ -292,46 +303,44 @@ class MsgProvider extends ChangeNotifier{
           _recordIcon = Icons.mic;
           notifyListeners();
           await sendMess(
-              context,
-              [],
-              _voiceMsg,
-              null,
-              phone_user!,
-              _phone!,
-              MessType.VOICE,
+            context,
+            [],
+            _voiceMsg,
+            null,
+            phone_user!,
+            _phone!,
+            MessType.VOICE,
             _recordDuration,
           ).then((value) {
             _recordDuration = -1;
             stopTimer();
             notifyListeners();
           });
-
         }
       });
-      }
+    }
   }
 
-  void deleteFile(String path) async{
+  void deleteFile(String path) async {
     var temp = await getTemporaryDirectory();
-    try{
+    try {
       var file = File('${temp.path}/voiceChat/$path.aac');
       // File file = await File(path);
       await file.delete();
-    }catch(e){
+    } catch (e) {
       print('$e');
     }
   }
 
-  void startTimer(){
+  void startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       _recordDuration++;
       notifyListeners();
     });
-
   }
 
-  void stopTimer(){
-    if(timer != null){
+  void stopTimer() {
+    if (timer != null) {
       timer!.cancel();
       _timer = null;
       _recordDuration = 0;
@@ -343,40 +352,35 @@ class MsgProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future sendImages(String phone_user, String _phone, BuildContext context) async {
+  Future sendImages(
+      String phone_user, String _phone, BuildContext context) async {
     _imagesListUpdate = [];
 
-    await ImagePicker().pickMultiImage().then((assets) async{
-      if((assets??[]).isNotEmpty) {
+    await ImagePicker().pickMultiImage().then((assets) async {
+      if ((assets ?? []).isNotEmpty) {
         var temp = await getTemporaryDirectory();
         var newDir = Directory(temp.path + '/adsCache');
-        if(!await newDir.exists()){
+        if (!await newDir.exists()) {
           await newDir.create(recursive: true);
         }
 
         // ignore: omit_local_variable_types
-        for (int i = 0; i < assets!.length; i++){
+        for (int i = 0; i < assets!.length; i++) {
           // ignore: omit_local_variable_types
-          File? _compressedImage = await FlutterImageCompress.compressAndGetFile(
+          File? _compressedImage =
+              await FlutterImageCompress.compressAndGetFile(
             assets[i].path,
             '${newDir.path}/${DateTime.now().millisecondsSinceEpoch}-$i.jpeg',
             format: CompressFormat.jpeg,
           );
-          if(_compressedImage != null) {
+          if (_compressedImage != null) {
             _imagesListUpdate.add(_compressedImage);
           }
           notifyListeners();
         }
-        await sendMess(
-            context,
-            _imagesListUpdate,
-            null,
-            null,
-            phone_user,
-            _phone,
-            MessType.IMAGE,
-            null
-        ).then((value) {
+        await sendMess(context, _imagesListUpdate, null, null, phone_user,
+                _phone, MessType.IMAGE, null)
+            .then((value) {
           notifyListeners();
         });
       }
@@ -388,7 +392,8 @@ class MsgProvider extends ChangeNotifier{
   }
 
   String? get recAvatarUserName => _recAvatarUserName;
-  StreamController<List<ConvModel>> get streamChatController => _streamChatController;
+  StreamController<List<ConvModel>> get streamChatController =>
+      _streamChatController;
   ScrollController get scrollChatController => _scrollChatController;
   TextEditingController get messageController => _messageController;
   bool get atBottom => _atBottom;

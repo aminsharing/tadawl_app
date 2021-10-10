@@ -9,15 +9,13 @@ import 'package:tadawl_app/provider/locale_provider.dart';
 class AdTimesAndUpdateWidget extends StatelessWidget {
   AdTimesAndUpdateWidget({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<LocaleProvider>(context, listen: false);
     var _lang = provider.locale.toString();
     if (_lang != 'en_US') {
       Jiffy.locale('ar');
-    }
-    else if (_lang == 'en_US') {
+    } else if (_lang == 'en_US') {
       Jiffy.locale('en');
     }
     return Consumer<AdPageProvider>(builder: (context, adsPage, child) {
@@ -44,7 +42,7 @@ class AdTimesAndUpdateWidget extends StatelessWidget {
           //           child: Text(
           //             Jiffy(DateTime.parse(adsPage.adsPage.timeAdded ?? '').add(Duration(hours: 3)))
           //                 .fromNow(),
-          //             style: CustomTextStyle(
+          //          x   style: CustomTextStyle(
           //               fontSize: 15,
           //               color: const Color(0xff989696),
           //             ).getTextStyle(),
@@ -73,8 +71,8 @@ class AdTimesAndUpdateWidget extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                     child: Text(
                       Jiffy(DateTime.parse(adsPage.adsPage!.timeUpdated ?? '')
-                          .add(Duration(hours: 3)))
-                          .fromNow(),
+                              .add(Duration(hours: 3)))
+                          .fromNow().replaceAll("بعد", "قبل").replaceAll("after", "before"),
                       style: CustomTextStyle(
                         fontSize: 15,
                         color: const Color(0xff989696),

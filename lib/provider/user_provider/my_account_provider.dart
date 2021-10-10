@@ -276,6 +276,7 @@ class MyAccountProvider extends ChangeNotifier{
   Future<void> getUsersList(String Phone) async{
     Future.delayed(Duration(milliseconds: 0), () async{
       await Api().getUserInfoFunc(Phone).then((value) {
+
         _users = UserModel.users(value);
         if (_users != null) {
           setUsername(_users!.username);
@@ -322,6 +323,7 @@ class MyAccountProvider extends ChangeNotifier{
         _sumEstimates = UserEstimateModel.sumEstimates(value);
         notifyListeners();
       });
+      await Api().getUserAccountInfoFunc(_Phone!!);
     });
     //notifyListeners();
   }
@@ -401,6 +403,12 @@ class MyAccountProvider extends ChangeNotifier{
 
   void setPersonalProfile(String? personalProfile) {
     _personalProfile = personalProfile;
+  }
+
+
+
+  void setImageProfile(String? image) {
+    image = image;
   }
 
   void setInitMembershipType(){
@@ -527,6 +535,8 @@ class MyAccountProvider extends ChangeNotifier{
     });
   }
 
+
+  String image = "";
 
   int? get called => _called;
   String? get rating => _rating;

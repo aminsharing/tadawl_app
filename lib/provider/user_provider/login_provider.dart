@@ -11,6 +11,7 @@ class LoginProvider extends ChangeNotifier{
   }
 
   Future<void> saveSession(String? phone) async {
+
     var p = await SharedPreferences.getInstance();
     await p.setString('token', phone.toString());
     // ignore: deprecated_member_use

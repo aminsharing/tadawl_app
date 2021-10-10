@@ -79,6 +79,12 @@ class LocaleProvider extends ChangeNotifier {
     _phone = p.getString('token');
     return _phone;
   }
+  Future<String?> getImage() async {
+    var p = await SharedPreferences.getInstance();
+    _phone = p.getString('image');
+    return _phone;
+  }
+
 
   Future<void> saveCurrentLocation(LatLng position, double currentZoom) async {
     var p = await SharedPreferences.getInstance();

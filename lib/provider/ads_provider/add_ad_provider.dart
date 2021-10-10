@@ -19,9 +19,8 @@ import 'package:video_player/video_player.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 
-class AddAdProvider extends ChangeNotifier{
-
-  AddAdProvider(){
+class AddAdProvider extends ChangeNotifier {
+  AddAdProvider() {
     print('init AddAdProvider');
     getCategoryeInfoAddAds();
     // getLocPer().then((value) {
@@ -38,13 +37,13 @@ class AddAdProvider extends ChangeNotifier{
     _meterPriceControllerAddAds.dispose();
     _descControllerAddAds.dispose();
     _controllerAddAds.dispose();
-    if(mapController != null){
+    if (mapController != null) {
       mapController!.dispose();
     }
-    if(_videoControllerAddAds != null){
+    if (_videoControllerAddAds != null) {
       _videoControllerAddAds!.dispose();
     }
-    if(_chewieControllerAddAds != null){
+    if (_chewieControllerAddAds != null) {
       _chewieControllerAddAds!.dispose();
     }
     super.dispose();
@@ -69,7 +68,8 @@ class AddAdProvider extends ChangeNotifier{
   LatLng? _customCameraPositionAddAds;
   final TextEditingController _priceControllerAddAds = TextEditingController();
   final TextEditingController _spaceControllerAddAds = TextEditingController();
-  final TextEditingController _meterPriceControllerAddAds = TextEditingController();
+  final TextEditingController _meterPriceControllerAddAds =
+      TextEditingController();
   final TextEditingController _descControllerAddAds = TextEditingController();
   int? _meterPriceAddAds;
   String? _interfaceSelectedAddAds = '0';
@@ -123,13 +123,14 @@ class AddAdProvider extends ChangeNotifier{
   bool _isSending = false;
   late CameraPosition _currentPosition;
 
-  void animateToLocation(LatLng position, double zoom) async{
-    await mapController!.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(
-        target: LatLng(position.latitude, position.longitude),
-        zoom: zoom,
+  void animateToLocation(LatLng position, double zoom) async {
+    await mapController!.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(position.latitude, position.longitude),
+          zoom: zoom,
+        ),
       ),
-    ),
     );
   }
 
@@ -146,7 +147,7 @@ class AddAdProvider extends ChangeNotifier{
     await p.commit();
   }
 
-  set isSending(bool val){
+  set isSending(bool val) {
     _isSending = val;
     notifyListeners();
   }
@@ -163,12 +164,12 @@ class AddAdProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> getLocPer() async{
-    _permissionGranted = await _location.hasPermission().then((value) async{
-      if(value != PermissionStatus.granted){
+  Future<void> getLocPer() async {
+    _permissionGranted = await _location.hasPermission().then((value) async {
+      if (value != PermissionStatus.granted) {
         await _location.requestPermission();
-      }else{
-        await _location.requestService().then((value) async{
+      } else {
+        await _location.requestService().then((value) async {
           _serviceEnabled = await _location.serviceEnabled();
         });
       }
@@ -177,13 +178,16 @@ class AddAdProvider extends ChangeNotifier{
   }
 
   Future<void> getLoc() async {
-    if(_permissionGranted == PermissionStatus.granted){
-      if(_serviceEnabled?? false){
-        await _location.getLocation().then((LocationData location) async{
-          _initialCameraPosition = LatLng(location.latitude!, location.longitude!);
+    if (_permissionGranted == PermissionStatus.granted) {
+      if (_serviceEnabled ?? false) {
+        await _location.getLocation().then((LocationData location) async {
+          _initialCameraPosition =
+              LatLng(location.latitude!, location.longitude!);
           _zoom = 17;
           // ignore: omit_local_variable_types
-          List<geocoding.Placemark> addresses = await geocoding.placemarkFromCoordinates(location.latitude!, location.longitude!, localeIdentifier: 'ar');
+          List<geocoding.Placemark> addresses = await geocoding
+              .placemarkFromCoordinates(location.latitude!, location.longitude!,
+                  localeIdentifier: 'ar');
           // var addresses = await Geocoder.google(
           //     'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
           //     language: 'ar')
@@ -191,23 +195,26 @@ class AddAdProvider extends ChangeNotifier{
           //     Coordinates(location.latitude, location.longitude));
           if (addresses.isNotEmpty) {
             _ads_cityAddAds = '${addresses.first.locality.toString()}';
-            _ads_neighborhoodAddAds = '${addresses.first.subLocality.toString()}';
+            _ads_neighborhoodAddAds =
+                '${addresses.first.subLocality.toString()}';
             _ads_roadAddAds = '${addresses.first.thoroughfare.toString()}';
           }
           notifyListeners();
         });
-      }
-      else {
+      } else {
         _initialCameraPosition = cities.first.position;
         _zoom = cities.first.zoom;
         notifyListeners();
       }
-    }
-    else if(_permissionGranted == PermissionStatus.denied){
+    } else if (_permissionGranted == PermissionStatus.denied) {
       _initialCameraPosition = cities.first.position;
       _zoom = cities.first.zoom;
       // ignore: omit_local_variable_types
-      List<geocoding.Placemark> addresses = await geocoding.placemarkFromCoordinates(_initialCameraPosition!.latitude, _initialCameraPosition!.longitude, localeIdentifier: 'ar');
+      List<geocoding.Placemark> addresses =
+          await geocoding.placemarkFromCoordinates(
+              _initialCameraPosition!.latitude,
+              _initialCameraPosition!.longitude,
+              localeIdentifier: 'ar');
       // var addresses = await Geocoder.google(
       //     'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
       //     language: 'ar')
@@ -220,11 +227,15 @@ class AddAdProvider extends ChangeNotifier{
       }
       notifyListeners();
     }
-    if(_permissionGranted == PermissionStatus.deniedForever){
+    if (_permissionGranted == PermissionStatus.deniedForever) {
       _initialCameraPosition = cities.first.position;
       _zoom = cities.first.zoom;
       // ignore: omit_local_variable_types
-      List<geocoding.Placemark> addresses = await geocoding.placemarkFromCoordinates(_initialCameraPosition!.latitude, _initialCameraPosition!.longitude, localeIdentifier: 'ar');
+      List<geocoding.Placemark> addresses =
+          await geocoding.placemarkFromCoordinates(
+              _initialCameraPosition!.latitude,
+              _initialCameraPosition!.longitude,
+              localeIdentifier: 'ar');
       // var addresses = await Geocoder.google(
       //     'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
       //     language: 'ar')
@@ -244,7 +255,7 @@ class AddAdProvider extends ChangeNotifier{
     // notifyListeners();
   }
 
-  void updatePosition() async{
+  void updatePosition() async {
     if (_markersAddAds.isEmpty) {
       _markersAddAds.add(Marker(
         markerId: MarkerId(_currentPosition.target.toString()),
@@ -260,9 +271,14 @@ class AddAdProvider extends ChangeNotifier{
     _ads_cordinatesAddAds = _currentPosition.target;
     _ads_cordinates_latAddAds = _currentPosition.target.latitude;
     _ads_cordinates_lngAddAds = _currentPosition.target.longitude;
-    _customCameraPositionAddAds = LatLng(_ads_cordinates_latAddAds!, _ads_cordinates_lngAddAds!);
+    _customCameraPositionAddAds =
+        LatLng(_ads_cordinates_latAddAds!, _ads_cordinates_lngAddAds!);
     // ignore: omit_local_variable_types
-    List<geocoding.Placemark> addresses = await geocoding.placemarkFromCoordinates(_customCameraPositionAddAds!.latitude, _customCameraPositionAddAds!.longitude, localeIdentifier: 'ar');
+    List<geocoding.Placemark> addresses =
+        await geocoding.placemarkFromCoordinates(
+            _customCameraPositionAddAds!.latitude,
+            _customCameraPositionAddAds!.longitude,
+            localeIdentifier: 'ar');
     if (addresses.isNotEmpty) {
       _ads_cityAddAds = '${addresses.first.locality.toString()}';
       _ads_neighborhoodAddAds = '${addresses.first.subLocality.toString()}';
@@ -271,7 +287,7 @@ class AddAdProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void setAdsCordinatesAddAds(LatLng? val){
+  void setAdsCordinatesAddAds(LatLng? val) {
     _ads_cordinatesAddAds = val;
     notifyListeners();
   }
@@ -283,8 +299,8 @@ class AddAdProvider extends ChangeNotifier{
 
   void setTyprAqarAddAds(int index) {
     for (var buttonIndex33 = 0;
-    buttonIndex33 < _typeAqarAddAds.length;
-    buttonIndex33++) {
+        buttonIndex33 < _typeAqarAddAds.length;
+        buttonIndex33++) {
       if (buttonIndex33 == index) {
         _typeAqarAddAds[buttonIndex33] = true;
         _selectedTypeAqarAddAds = buttonIndex33;
@@ -297,8 +313,8 @@ class AddAdProvider extends ChangeNotifier{
 
   void setFamilyAddAds(int index) {
     for (var buttonIndex34 = 0;
-    buttonIndex34 < _familyAddAds.length;
-    buttonIndex34++) {
+        buttonIndex34 < _familyAddAds.length;
+        buttonIndex34++) {
       if (buttonIndex34 == index) {
         _familyAddAds[buttonIndex34] = true;
         _selectedFamilyAddAds = buttonIndex34;
@@ -311,8 +327,8 @@ class AddAdProvider extends ChangeNotifier{
 
   void setPlanAddAds(int index) {
     for (var buttonIndex35 = 0;
-    buttonIndex35 < _planAddAds.length;
-    buttonIndex35++) {
+        buttonIndex35 < _planAddAds.length;
+        buttonIndex35++) {
       if (buttonIndex35 == index) {
         _planAddAds[buttonIndex35] = true;
         _selectedPlanAddAds = buttonIndex35;
@@ -465,9 +481,8 @@ class AddAdProvider extends ChangeNotifier{
 
   void setOnChangedSpaceAddAds(String value) {
     if (_meterPriceAddAds != null) {
-      _priceControllerAddAds
-        .text = (int.parse(value) * int.parse('$_meterPriceAddAds'))
-            .toString();
+      _priceControllerAddAds.text =
+          (int.parse(value) * int.parse('$_meterPriceAddAds')).toString();
     }
     _totalSpaceAddAds = value;
     notifyListeners();
@@ -481,9 +496,8 @@ class AddAdProvider extends ChangeNotifier{
 
   void setOnChangedMeterPriceAddAds(String value) {
     if (_totalSpaceAddAds != null) {
-      _priceControllerAddAds
-        .text =
-        (int.parse(value) * int.parse(_totalSpaceAddAds!)).toString();
+      _priceControllerAddAds.text =
+          (int.parse(value) * int.parse(_totalSpaceAddAds!)).toString();
     }
     _meterPriceAddAds = int.parse(value);
     notifyListeners();
@@ -507,12 +521,12 @@ class AddAdProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> deleteDir() async{
+  Future<void> deleteDir() async {
     // ignore: omit_local_variable_types
     Directory temp = await getTemporaryDirectory();
     // ignore: omit_local_variable_types
     Directory tempPath = Directory(temp.path + '/adsCache');
-    if(tempPath.existsSync()){
+    if (tempPath.existsSync()) {
       tempPath.deleteSync(recursive: true);
     }
   }
@@ -520,22 +534,23 @@ class AddAdProvider extends ChangeNotifier{
   Future getImagesAddAds(BuildContext context) async {
     _imagesListAddAds = [];
 
-    await _pickerAddAdsVid.pickMultiImage().then((value) async{
-      if((value??[]).isNotEmpty) {
+    await _pickerAddAdsVid.pickMultiImage().then((value) async {
+      if ((value ?? []).isNotEmpty) {
         var temp = await getTemporaryDirectory();
         var newDir = Directory(temp.path + '/adsCache');
-        if(!await newDir.exists()){
+        if (!await newDir.exists()) {
           await newDir.create(recursive: true);
         }
         // ignore: omit_local_variable_types
-        for (int i = 0; i < value!.length; i++){
+        for (int i = 0; i < value!.length; i++) {
           // ignore: omit_local_variable_types
-          File? _compressedImage = await FlutterImageCompress.compressAndGetFile(
+          File? _compressedImage =
+              await FlutterImageCompress.compressAndGetFile(
             value[i].path,
             '${newDir.path}/${DateTime.now().millisecondsSinceEpoch}-$i.jpeg',
             format: CompressFormat.jpeg,
           );
-          if(_compressedImage != null) {
+          if (_compressedImage != null) {
             _imagesListAddAds.add(_compressedImage);
           }
           notifyListeners();
@@ -621,11 +636,11 @@ class AddAdProvider extends ChangeNotifier{
         _categoryAddAds.add(CategoryModel.fromJson(element));
       });
       _categoryAddAds.sort((a, b) {
-        if(a.id_category == '1'){
+        if (a.id_category == '1') {
           return -1;
-        }else if(b.id_category == '14'){
+        } else if (b.id_category == '14') {
           return 1;
-        }else{
+        } else {
           return -1;
         }
       });
@@ -645,7 +660,7 @@ class AddAdProvider extends ChangeNotifier{
   }
 
   void stopVideoAddAds() {
-    if(_videoControllerAddAds != null) {
+    if (_videoControllerAddAds != null) {
       //_videoAddAds = null;
       // _video = null;
       //_videoUpdate = null;
@@ -661,10 +676,12 @@ class AddAdProvider extends ChangeNotifier{
       source: ImageSource.camera,
       maxDuration: Duration(seconds: 60),
     );
-    if(pickedVideo55 != null){
+    if (pickedVideo55 != null) {
       _videoAddAds = File(pickedVideo55.path);
       _videoControllerAddAds = VideoPlayerController.file(_videoAddAds!);
-      await _videoControllerAddAds!.initialize().then((value) {notifyListeners();});
+      await _videoControllerAddAds!.initialize().then((value) {
+        notifyListeners();
+      });
       _chewieControllerAddAds = ChewieController(
         videoPlayerController: _videoControllerAddAds!,
         autoPlay: true,
@@ -679,9 +696,10 @@ class AddAdProvider extends ChangeNotifier{
       allowedExtensions: ['mp4', 'avi'],
       allowCompression: true,
     );
-    if(_result != null) {
+    if (_result != null) {
       var _file = _result.files.first;
-      var _pickedVideo = File(_file.path);
+      if (_file.path == null) return;
+      var _pickedVideo = File(_file.path ?? "");
 
       var sizeInBytes = _pickedVideo.lengthSync();
       var sizeInMb = sizeInBytes / (1024 * 1024);
@@ -740,54 +758,54 @@ class AddAdProvider extends ChangeNotifier{
   }
 
   Future<void> addNewAd(
-      BuildContext context,
-      String? detailsAqar,
-      String isFootballCourt,
-      String isVolleyballCourt,
-      String isAmusementPark,
-      String isFamilyPartition,
-      String isVerse,
-      String isCellar,
-      String isYard,
-      String isMaidRoom,
-      String isSwimmingPool,
-      String isDriverRoom,
-      String isDuplex,
-      String isHallStaircase,
-      String isConditioner,
-      String isElevator,
-      String isCarEntrance,
-      String isAppendix,
-      String isKitchen,
-      String isFurnished,
-      String StreetWidth,
-      String Floor,
-      String Trees,
-      String Wells,
-      String Stores,
-      String Apartments,
-      String AgeOfRealEstate,
-      String Rooms,
-      String Toilets,
-      String Lounges,
-      String selectedTypeAqar,
-      String selectedFamily,
-      String interfaceSelected,
-      String? totalSpace,
-      String? totalPrice,
-      String selectedPlan,
-      String id_category,
-      String ads_cordinates_lat,
-      String ads_cordinates_lng,
-      String? selectedAdderRelation,
-      String? selectedMarketerRelation,
-      String? phone,
-      String? ads_city,
-      String? ads_neighborhood,
-      String? ads_road,
-      File? video,
-      List<File> imagesList,
-      ) async {
+    BuildContext context,
+    String? detailsAqar,
+    String isFootballCourt,
+    String isVolleyballCourt,
+    String isAmusementPark,
+    String isFamilyPartition,
+    String isVerse,
+    String isCellar,
+    String isYard,
+    String isMaidRoom,
+    String isSwimmingPool,
+    String isDriverRoom,
+    String isDuplex,
+    String isHallStaircase,
+    String isConditioner,
+    String isElevator,
+    String isCarEntrance,
+    String isAppendix,
+    String isKitchen,
+    String isFurnished,
+    String StreetWidth,
+    String Floor,
+    String Trees,
+    String Wells,
+    String Stores,
+    String Apartments,
+    String AgeOfRealEstate,
+    String Rooms,
+    String Toilets,
+    String Lounges,
+    String selectedTypeAqar,
+    String selectedFamily,
+    String interfaceSelected,
+    String? totalSpace,
+    String? totalPrice,
+    String selectedPlan,
+    String id_category,
+    String ads_cordinates_lat,
+    String ads_cordinates_lng,
+    String? selectedAdderRelation,
+    String? selectedMarketerRelation,
+    String? phone,
+    String? ads_city,
+    String? ads_neighborhood,
+    String? ads_road,
+    File? video,
+    List<File> imagesList,
+  ) async {
     return Api().addNewAdsFunc(
       context,
       detailsAqar,
@@ -821,7 +839,7 @@ class AddAdProvider extends ChangeNotifier{
       Lounges,
       selectedTypeAqar,
       selectedFamily,
-      (int.parse(interfaceSelected)+1).toString(),
+      (int.parse(interfaceSelected) + 1).toString(),
       totalSpace,
       totalPrice,
       selectedPlan,
@@ -838,8 +856,6 @@ class AddAdProvider extends ChangeNotifier{
       imagesList,
     );
   }
-
-
 
   bool? get AcceptedAddAds => _AcceptedAddAds;
   Set<Marker> get markersAddAds => _markersAddAds;
