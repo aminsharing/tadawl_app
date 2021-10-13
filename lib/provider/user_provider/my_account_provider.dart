@@ -37,11 +37,11 @@ class MyAccountProvider extends ChangeNotifier{
 
   @override
   void dispose() {
-    print('dispose MyAccountProvider');
-    clearExpendedListCount();
-    clearUpdatingInformation();
-    deleteDir();
-    super.dispose();
+    // print('dispose MyAccountProvider');
+    // clearExpendedListCount();
+    // clearUpdatingInformation();
+    // deleteDir();
+    // super.dispose();
   }
   final List<bool> _isSelected = List.generate(2, (_) => false);
   int _selectedNav = 0;
@@ -323,7 +323,7 @@ class MyAccountProvider extends ChangeNotifier{
         _sumEstimates = UserEstimateModel.sumEstimates(value);
         notifyListeners();
       });
-      await Api().getUserAccountInfoFunc(_Phone!!);
+      await Api().getUserAccountInfoFunc(_Phone ?? '');
     });
     //notifyListeners();
   }

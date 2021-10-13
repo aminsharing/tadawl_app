@@ -9,6 +9,7 @@ import 'package:tadawl_app/mainWidgets/Gist.dart';
 import 'package:tadawl_app/mainWidgets/custom_text_style.dart';
 import 'package:tadawl_app/models/RegionModel.dart';
 import 'package:tadawl_app/screens/ads/main_page.dart';
+import 'package:tadawl_app/utils/constants.dart';
 import 'locale_provider.dart';
 
 class RegionProvider extends ChangeNotifier {
@@ -48,7 +49,7 @@ class RegionProvider extends ChangeNotifier {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 1.0, vertical: 1.0),
         decoration: BoxDecoration(
-          color: const Color(0xff00cccc),
+          color: markerBackground,
           shape: BoxShape.circle,
         ),
         child: Padding(
@@ -57,7 +58,7 @@ class RegionProvider extends ChangeNotifier {
             name,
             style: CustomTextStyle(
               fontSize: 13,
-              color: const Color(0xffffffff),
+              color: textColor,
             ).getTextStyle(),
             textAlign: TextAlign.center,
           ),

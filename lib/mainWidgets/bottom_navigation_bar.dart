@@ -117,8 +117,9 @@ class BottomNavigationBarApp extends StatelessWidget {
             Expanded(
               child: TextButton(
                 onPressed: () {
-                  if(local.currentPage != 1){
+                  if(local.currentPage != 1 || true){
                     local.setCurrentPage(1);
+                    /////////
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => Regions()),

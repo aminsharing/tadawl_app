@@ -16,6 +16,7 @@ dependencies:
   share: ^2.0.4
   url_launcher: ^6.0.10
   fluttertoast: ^8.0.8
+  dio: ^4.0.0
   image_picker: ^0.8.4
   whatsapp_unilink: ^2.0.0
   flutter_switch: ^0.3.2

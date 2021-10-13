@@ -12,6 +12,7 @@ import 'package:tadawl_app/screens/account/discussion_main.dart';
 import 'package:tadawl_app/screens/account/estimateUser.dart';
 import 'package:tadawl_app/screens/account/login.dart';
 import 'package:tadawl_app/screens/account/my_account.dart';
+import 'package:tadawl_app/utils/constants.dart';
 
 class AvatarWidget extends StatelessWidget {
   const AvatarWidget({
@@ -37,13 +38,15 @@ class AvatarWidget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    AppLocalizations.of(context)!.advertiserInformation,
-                    style: CustomTextStyle(
-                      fontSize: 20,
-                      color: const Color(0xff000000),
-                    ).getTextStyle(),
-                    textAlign: TextAlign.center,
+                  Container(
+                    child: Text(
+                      "${AppLocalizations.of(context)!.advertiserInformation}",
+                      style: CustomTextStyle(
+                        fontSize: 20,
+                        color: black,
+                      ).getTextStyle(),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ],
               ),
@@ -184,14 +187,19 @@ class AvatarWidget extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.fromLTRB(
                                           5, 0, 5, 0),
-                                      child: Text(
-                                        adsPage.adsUser!.username ??
-                                            'UserName',
-                                        style: CustomTextStyle(
-                                          fontSize: 15,
-                                          color: const Color(0xff00cccc),
-                                        ).getTextStyle(),
-                                        textAlign: TextAlign.center,
+                                      child: Container(
+                                        width: 120,
+                                        child: Text(
+                                          adsPage.adsUser!.username ??
+                                              'UserName',
+                                          maxLines: 10,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: CustomTextStyle(
+                                            fontSize: 15,
+                                            color: const Color(0xff00cccc),
+                                          ).getTextStyle(),
+                                          textAlign: TextAlign.center,
+                                        ),
                                       ),
                                     ),
                                     Icon(

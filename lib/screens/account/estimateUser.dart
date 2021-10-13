@@ -117,7 +117,6 @@ class Estimate extends StatelessWidget {
                       child: Text(
                         AppLocalizations.of(context)!.estimate + ' (0.0) ',
                         style: CustomTextStyle(
-
                           fontSize: 20,
                           color: const Color(0xff989696),
                         ).getTextStyle(),

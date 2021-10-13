@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -62,8 +63,7 @@ class Api {
     }
   }
 
-  Future<dynamic> getComments(
-       String? phone, String? other_phone) async {
+  Future<dynamic> getComments(String? phone, String? other_phone) async {
     var url = '$BaseURL/conversations/user_messages.php';
     var response = await http.post(Uri.parse(url), body: {
       'auth_key': _token,
@@ -76,9 +76,7 @@ class Api {
     return jsonx;
   }
 
-  Future<dynamic> getEstimates(
-    String? user_phone,
-  ) async {
+  Future<dynamic> getEstimates(String? user_phone,) async {
     var url = '$BaseURL/userEstimate/select_estimates.php';
     var response = await http.post(Uri.parse(url), body: {
       'phone': user_phone,
@@ -88,10 +86,7 @@ class Api {
     return jsonx;
   }
 
-  Future<dynamic> getSumEstimates(
-    
-    String? user_phone,
-  ) async {
+  Future<dynamic> getSumEstimates(String? user_phone,) async {
     var url = '$BaseURL/userEstimate/sum_rates.php';
     var response = await http.post(Uri.parse(url), body: {
       'phone': user_phone,
@@ -101,10 +96,7 @@ class Api {
     return jsonx;
   }
 
-  Future<dynamic> getCountEstimates(
-    
-    String user_phone,
-  ) async {
+  Future<dynamic> getCountEstimates(String user_phone,) async {
     var url = '$BaseURL/userEstimate/count_estimates.php';
     var response = await http.post(Uri.parse(url), body: {
       'phone': user_phone,
@@ -115,7 +107,6 @@ class Api {
   }
 
   Future<dynamic> sendEstimateFunc(
-    
     String? phone,
     String? user_phone,
     String? rating,
@@ -256,8 +247,8 @@ class Api {
     }
   }
 
-  Future<dynamic> getSimilarAdsFunc(
-       String id_category, String? id_ads) async {
+  Future<dynamic> getSimilarAdsFunc(String id_category, String? id_ads) async
+  {
     var url = '$BaseURL/ads/similar_ads.php';
     var response = await http.post(Uri.parse(url), body: {
       'id_category': id_category,
@@ -568,7 +559,6 @@ class Api {
   }
 
   Future<dynamic> updateLocationFunc(
-    
     String? id_description,
     String? ads_city,
     String? ads_neighborhood,
@@ -609,7 +599,6 @@ class Api {
   }
 
   Future<dynamic> updateImgVedFunc(
-    
     String id_description,
     List<File> imagesList,
     File? _video,
@@ -658,7 +647,6 @@ class Api {
 
 
   Future<dynamic> updateDetailsFunc(
-    
     String id_description,
     String? detailsAqar,
     String isFootballCourt,
@@ -1060,7 +1048,6 @@ class Api {
 
 
   Future sendOfficesVRInfo(
-      
       String phone,
       String CRNumber,
       String officeName,
@@ -1102,7 +1089,6 @@ class Api {
   }
 
   Future updateMyProfileFunc(
-      
       int? selectedMembership,
       String? userName,
       String? company_name,
@@ -1132,7 +1118,32 @@ class Api {
       var pic = await http.MultipartFile.fromPath('image', image.path);
       request.files.add(pic);
     }
-    var response = await request.send();
+
+    String? fileName = image?.path?.split('/')?.last;
+
+    FormData formData = FormData.fromMap({
+      "image": await MultipartFile.fromFile(image?.path ?? '', filename:'a${fileName}'),
+      'auth_key':_token,
+      'id_mem': (selectedMembership??-1).toString(),
+      'userName' :userName ?? '',
+      'company_name' :company_name??'',
+      'office_name' :office_name??'',
+      'email' :email??'',
+      'about' :personalProfile??'',
+      'phone' :phone,
+      'deletedImage' :null,
+      'currentImage' :null,
+    });
+
+    log('----=-=-=======-=-=-----');
+    log('${formData}');
+    log('${fileName ?? ''}');
+    log('${image?.path ?? ''}');
+
+    var response = await Dio().post('$BaseURL/login/uploadAvatar.php', data: formData);
+    // var response = await request.send();
+
+
     if (response.statusCode == 200) {
 
       await Fluttertoast.showToast(
@@ -1157,7 +1168,6 @@ class Api {
   }
 
   Future sendInfoAqarVRFunc(
-      
       String identity_number,
       String saq_number,
       String identity_type,
@@ -1197,7 +1207,6 @@ class Api {
   }
 
   Future<void> sendTransfer(
-      
       String? phone,
       String? fullName,
       String? reason,
