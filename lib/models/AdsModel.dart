@@ -4,8 +4,8 @@ class AdsModel {
   String? lng;
   String? ads_city;
   String? ads_neighborhood;
-  String? ads_road;
-  String? video;
+  String? ads_road ;
+  String?  video;
   String? space;
   String? price;
   String? description;
@@ -35,15 +35,15 @@ class AdsModel {
   bool isUpdating = false;
   // ignore: sort_constructors_first
   AdsModel(
-      {this.idDescription,
-      this.lat,
-      this.lng,
-      this.ads_city,
-      this.ads_neighborhood,
-      this.ads_road,
+      {this.idDescription = "idDescription",
+      this.lat ="0.0",
+      this.lng ="0.0",
+      this.ads_city = "ads_city",
+      this.ads_neighborhood = "ads_neighborhood",
+      this.ads_road = "ads_road",
       this.video,
-      this.space,
-      this.price,
+      this.space = "0",
+      this.price = "1",
       this.description,
       this.idTypeRes,
       this.idTypeAqar,
@@ -53,11 +53,11 @@ class AdsModel {
       this.idAdsImages,
       this.ads_image,
       this.idAds,
-      this.title,
+      this.title = "title",
       this.timeAdded,
       this.timeUpdated,
       this.views,
-      this.idSpecial,
+      this.idSpecial = "idSpecial",
       this.idCategory,
       this.idUser,
       this.idCity,

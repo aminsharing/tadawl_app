@@ -199,11 +199,25 @@ class AddAdProvider extends ChangeNotifier {
                 '${addresses.first.subLocality.toString()}';
             _ads_roadAddAds = '${addresses.first.thoroughfare.toString()}';
           }
+          animateToLocation(LatLng(location.latitude!, location.longitude!), 17);
           notifyListeners();
         });
       } else {
         _initialCameraPosition = cities.first.position;
         _zoom = cities.first.zoom;
+        // ignore: omit_local_variable_types
+        List<geocoding.Placemark> addresses = await geocoding.placemarkFromCoordinates(cities.first.position.latitude, cities.first.position.longitude, localeIdentifier: 'ar');
+        // var addresses = await Geocoder.google(
+        //     'AIzaSyAaY9NEnamyi3zfnKhAZXxjLml_5gf1G7g',
+        //     language: 'ar')
+        //     .findAddressesFromCoordinates(
+        //     Coordinates(location.latitude, location.longitude));
+        if (addresses.isNotEmpty) {
+          _ads_cityAddAds = '${addresses.first.locality.toString()}';
+          _ads_neighborhoodAddAds = '${addresses.first.subLocality.toString()}';
+          _ads_roadAddAds = '${addresses.first.thoroughfare.toString()}';
+        }
+        animateToLocation(cities.first.position, cities.first.zoom);
         notifyListeners();
       }
     } else if (_permissionGranted == PermissionStatus.denied) {
@@ -225,6 +239,7 @@ class AddAdProvider extends ChangeNotifier {
         _ads_neighborhoodAddAds = '${addresses.first.subLocality.toString()}';
         _ads_roadAddAds = '${addresses.first.thoroughfare.toString()}';
       }
+      animateToLocation(cities.first.position, cities.first.zoom);
       notifyListeners();
     }
     if (_permissionGranted == PermissionStatus.deniedForever) {
@@ -246,6 +261,7 @@ class AddAdProvider extends ChangeNotifier {
         _ads_neighborhoodAddAds = '${addresses.first.subLocality.toString()}';
         _ads_roadAddAds = '${addresses.first.thoroughfare.toString()}';
       }
+      animateToLocation(cities.first.position, cities.first.zoom);
       // notifyListeners();
     }
   }

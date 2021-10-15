@@ -9,6 +9,7 @@ import 'package:tadawl_app/mainWidgets/my_account/mutual/body/user_name.dart';
 import 'package:tadawl_app/mainWidgets/my_account/mutual/body/user_phone.dart';
 import 'package:tadawl_app/mainWidgets/my_account/mutual/body/user_registered_date.dart';
 import 'package:tadawl_app/provider/locale_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tadawl_app/provider/user_provider/my_account_provider.dart';
 
 class AvatarInfo extends StatelessWidget {
@@ -83,6 +84,7 @@ class AvatarInfo extends StatelessWidget {
                         ),
                       ),
                     ),
+                    Text('${AppLocalizations.of(context)!.user_rates}'),
                     UserEstimates(
                       estimates: userMutual.estimates,
                       sumEstimates: userMutual.sumEstimates,

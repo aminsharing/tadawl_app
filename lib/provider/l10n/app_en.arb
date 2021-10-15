@@ -388,5 +388,6 @@
     "today": "Today",
     "yesterday": "Yesterday",
     "trySearching": "Try searching...",
-    "phone": "Phone"
+    "phone": "Phone",
+    "user_rates" : "user rates"
 }

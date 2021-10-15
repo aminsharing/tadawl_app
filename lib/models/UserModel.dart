@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 class UserModel {
   String? id_user;
   String? username;
@@ -38,6 +40,7 @@ class UserModel {
   });
   // ignore: sort_constructors_first
   UserModel.fromJson(Map<String, dynamic> json) {
+    log('fromJson ------> ${json.toString()}');
     id_user = json['id'];
     username = json['username'];
     company_name = json['company_name'];
@@ -59,6 +62,7 @@ class UserModel {
 
   // ignore: sort_constructors_first
   UserModel.adsUser(Map<String, dynamic> json) {
+    log('adsUser ------> ${json.toString()}');
     username = json['username'];
     phone = json['phone'];
     image = json['image'];
@@ -66,7 +70,7 @@ class UserModel {
 
   // ignore: sort_constructors_first
   UserModel.users(Map<String, dynamic> json) {
-
+    log('users ------> ${json.toString()}');
     image = json['image'];
     username = json['username'];
     timeRegistered = json['timeRegistered'];

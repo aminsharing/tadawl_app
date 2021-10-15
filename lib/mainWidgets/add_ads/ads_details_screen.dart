@@ -205,7 +205,6 @@ class AdsDetailsScreen extends StatelessWidget {
         Rooms(),
         Apartments(),
         AgeOfRealEstate(),
-
         HallStaircase(),
         DriverRoom(),
         MaidRoom(),
@@ -230,11 +229,9 @@ class AdsDetailsScreen extends StatelessWidget {
         CommHousing(),
         StreetWidth(),
         Apartments(),
-
         Stores(),
         Rooms(),
-
-        Furnished(),
+        Furnished()
       ],
       4: [
         Interface(),
@@ -244,7 +241,6 @@ class AdsDetailsScreen extends StatelessWidget {
         Rooms(),
         Apartments(),
         AgeOfRealEstate(),
-
         DriverRoom(),
         MaidRoom(),
         Furnished(),
@@ -261,7 +257,6 @@ class AdsDetailsScreen extends StatelessWidget {
         StreetWidth(),
         Rooms(),
         AgeOfRealEstate(),
-
         SwimmingPool(),
         FootballCourt(),
         VolleyballCourt(),
@@ -272,7 +267,6 @@ class AdsDetailsScreen extends StatelessWidget {
       6: [
         Trees(),
         Wells(),
-
         Verse(),
       ],
       7: [
@@ -288,7 +282,6 @@ class AdsDetailsScreen extends StatelessWidget {
         Rooms(),
         Floor(),
         AgeOfRealEstate(),
-
         Furnished(),
         Kitchen(),
         Appendix(),
@@ -303,7 +296,6 @@ class AdsDetailsScreen extends StatelessWidget {
         Rooms(),
         Apartments(),
         AgeOfRealEstate(),
-
         HallStaircase(),
         DriverRoom(),
         MaidRoom(),
@@ -332,7 +324,6 @@ class AdsDetailsScreen extends StatelessWidget {
         AgeOfRealEstate(),
         Stores(),
         Rooms(),
-
         Furnished(),
       ],
       12: [
@@ -340,7 +331,6 @@ class AdsDetailsScreen extends StatelessWidget {
         Lounges(),
         Toilets(),
         Rooms(),
-
         SwimmingPool(),
         FootballCourt(),
         VolleyballCourt(),
@@ -355,13 +345,11 @@ class AdsDetailsScreen extends StatelessWidget {
       14: [
         FamilyORSingle(),
         Plan(),
-
         Lounges(),
         Toilets(),
         Rooms(),
         Floor(),
         AgeOfRealEstate(),
-
         Furnished(),
         Kitchen(),
         Appendix(),
@@ -376,7 +364,6 @@ class AdsDetailsScreen extends StatelessWidget {
         Rooms(),
         Floor(),
         AgeOfRealEstate(),
-
         Furnished(),
         CarEntrance(),
         Conditioner(),

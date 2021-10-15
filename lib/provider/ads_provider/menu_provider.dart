@@ -70,85 +70,6 @@ class MenuProvider extends ChangeNotifier{
     }
   }
 
-  // void getMenuList(BuildContext context) {
-  //   // ...... basic array & latest menu ads array ........
-  //   if (_menuFilter == null) {
-  //     Future.delayed(Duration(milliseconds: 0), () {
-  //       _MenuAds.clear();
-  //       Api().filterUpToDateAdsFunc().then((value) {
-  //         _MenuAdsData = value;
-  //         _MenuAdsData.forEach((element) {
-  //           _MenuAds.add(AdsModel.ads(element));
-  //         });
-  //         notifyListeners();
-  //       });
-  //     });
-  //   }
-  //   // ...... two weeks ago menu array ........
-  //   else if (_menuFilter == 2) {
-  //     Future.delayed(Duration(milliseconds: 0), () {
-  //       _MenuAds.clear();
-  //       Api().getFilterTwoWeeksAgoFunc().then((value) {
-  //         _MenuAdsData = value;
-  //         _MenuAdsData.forEach((element) {
-  //           _MenuAds.add(AdsModel.ads(element));
-  //         });
-  //         notifyListeners();
-  //       });
-  //     });
-  //   }
-  //   // ...... advanced menu search array ........
-  //   // else if (_menuFilter == 4) {
-  //   //   Future.delayed(Duration(milliseconds: 0), () {
-  //   //     _MenuAds.clear();
-  //   //     Api().getAdvancedSearchFunc(
-  //   //         _selectedCategory,
-  //   //         _minPriceSearchDrawer,
-  //   //         _maxPriceSearchDrawer,
-  //   //         _minSpaceSearchDrawer,
-  //   //         _maxSpaceSearchDrawer,
-  //   //         _selectedTypeAqarSearchDrawer,
-  //   //         _interfaceSelectedSearchDrawer,
-  //   //         _selectedPlanSearchDrawer,
-  //   //         _ageOfRealEstateSelectedSearchDrawer,
-  //   //         _selectedApartmentsSearchDrawer,
-  //   //         _floorSelectedSearchDrawer,
-  //   //         _selectedLoungesSearchDrawer,
-  //   //         _selectedRoomsSearchDrawer,
-  //   //         _storesSelectedSearchDrawer,
-  //   //         _streetWidthSelectedSearchDrawer,
-  //   //         _selectedToiletsSearchDrawer,
-  //   //         _treesSelectedSearchDrawer,
-  //   //         _wellsSelectedSearchDrawer,
-  //   //         _bool_feature1SearchDrawer.toString(),
-  //   //         _bool_feature2SearchDrawer.toString(),
-  //   //         _bool_feature3SearchDrawer.toString(),
-  //   //         _bool_feature4SearchDrawer.toString(),
-  //   //         _bool_feature5SearchDrawer.toString(),
-  //   //         _bool_feature6SearchDrawer.toString(),
-  //   //         _bool_feature7SearchDrawer.toString(),
-  //   //         _bool_feature8SearchDrawer.toString(),
-  //   //         _bool_feature9SearchDrawer.toString(),
-  //   //         _bool_feature10SearchDrawer.toString(),
-  //   //         _bool_feature11SearchDrawer.toString(),
-  //   //         _bool_feature12SearchDrawer.toString(),
-  //   //         _bool_feature13SearchDrawer.toString(),
-  //   //         _bool_feature14SearchDrawer.toString(),
-  //   //         _bool_feature15SearchDrawer.toString(),
-  //   //         _bool_feature16SearchDrawer.toString(),
-  //   //         _bool_feature17SearchDrawer.toString(),
-  //   //         _bool_feature18SearchDrawer.toString()
-  //   //     )
-  //   //         .then((value) {
-  //   //       _MenuAdsData = value;
-  //   //       _MenuAdsData.forEach((element) {
-  //   //         _MenuAds.add(AdsModel.ads(element));
-  //   //       });
-  //   //       notifyListeners();
-  //   //     });
-  //   //   });
-  //   // }
-  // }
 
   void getMenuAds(List<dynamic> _MenuAdsData){
     _MenuAds.clear();
@@ -165,9 +86,9 @@ class MenuProvider extends ChangeNotifier{
     _specialAds.forEach((element) {
       _MenuAds.remove(element);
     });
-    _MenuAds.sort((a, b) {
-      return a.timeUpdated!.compareTo(b.timeUpdated!);
-    });
+    // _MenuAds.sort((a, b) {
+    //   return a.timeUpdated!.compareTo(b.timeUpdated!);
+    // });
     _MenuAds = [..._specialAds, ..._MenuAds.reversed.toList()];
     if(_MenuAdsData.isEmpty){
       _noAdsInRegion = true;
